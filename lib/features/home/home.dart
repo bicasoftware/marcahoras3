@@ -11,7 +11,6 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.watch<HomeBloc>();
-    print(c.state.empregos.length);
 
     return Scaffold(
       appBar: AppBar(
