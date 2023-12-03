@@ -1,95 +1,103 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import '../../utils/utils.dart';
+import '../dtos.dart';
 
 @immutable
 class EmpregosDTO extends Equatable {
+  final int? id;
   final String? descricao;
-  final String? inicio;
+  final DateTime? admissao;
   final String? entrada;
   final String? saida;
-  final int? extra;
-  final int? extraFeriado;
+  final bool? bancoHoras;
+  final int? porcNormal;
+  final int? porcFeriado;
+  final bool? ativo;
   final int? cargaHoraria;
+  final List<HorasDto>? horas;
+  final List<SalariosDto>? salarios;
+
+  final DateTime? createAt;
+  final DateTime? updatedAt;
 
   const EmpregosDTO({
-    required this.descricao,
-    required this.inicio,
-    required this.entrada,
-    required this.saida,
-    required this.extra,
-    required this.extraFeriado,
-    required this.cargaHoraria,
+    this.id,
+    this.descricao,
+    this.admissao,
+    this.entrada,
+    this.saida,
+    this.bancoHoras,
+    this.porcNormal,
+    this.porcFeriado,
+    this.ativo,
+    this.cargaHoraria,
+    this.horas,
+    this.salarios,
+    this.createAt,
+    this.updatedAt,
   });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'descricao': descricao,
-      'inicio': inicio,
-      'entrada': entrada,
-      'saida': saida,
-      'extra': extra,
-      'extra_feriado': extraFeriado,
-      'carga_horaria': cargaHoraria,
-    };
-  }
-
-  factory EmpregosDTO.fromJson(Map<String, dynamic> json) {
-    return EmpregosDTO(
-      descricao: json['descricao'],
-      inicio: json['inicio'],
-      entrada: json['entrada'],
-      saida: json['saida'],
-      extra: json['extra'],
-      extraFeriado: json['extra_feriado'],
-      cargaHoraria: json['carga_horaria'],
-    );
-  }
-
-  EmpregosDTO copyWith({
-    String? descricao,
-    String? inicio,
-    String? entrada,
-    String? saida,
-    int? extra,
-    int? extraFeriado,
-    int? cargaHoraria,
-  }) {
-    return EmpregosDTO(
-      descricao: descricao ?? this.descricao,
-      inicio: inicio ?? this.inicio,
-      entrada: entrada ?? this.entrada,
-      saida: saida ?? this.saida,
-      extra: extra ?? this.extra,
-      extraFeriado: extraFeriado ?? this.extraFeriado,
-      cargaHoraria: cargaHoraria ?? this.cargaHoraria,
-    );
-  }
-
-  // TODO - mover isso pra uma extension
-  String toSQLTableString() {
-    return '''
-      CREATE TABLE IF NOT EXISTS empregos (
-        descricao TEXT,
-        inicio TEXT,
-        entrada TEXT,
-        saida TEXT,
-        extra INTEGER,
-        extra_feriado INTEGER,
-        carga_horaria INTEGER
-      );
-    ''';
-  }
 
   @override
   List<Object?> get props {
     return [
+      id,
       descricao,
-      inicio,
+      admissao,
       entrada,
       saida,
-      extra,
-      extraFeriado,
+      bancoHoras,
+      porcNormal,
+      porcFeriado,
+      ativo,
       cargaHoraria,
+      horas,
+      salarios,
+      createAt,
+      updatedAt,
     ];
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'descricao': descricao,
+      'admissao': admissao?.millisecondsSinceEpoch,
+      'entrada': entrada,
+      'saida': saida,
+      'banco_horas': bancoHoras,
+      'porc_normal': porcNormal,
+      'porc_feriado': porcFeriado,
+      'ativo': ativo,
+      'carga_horaria': cargaHoraria,
+    };
+  }
+
+  factory EmpregosDTO.fromJson(Map<String, dynamic> map) {
+    final emprego = EmpregosDTO(
+      id: map['id'],
+      descricao: map['descricao'],
+      admissao: parseDate(map['admissao']),
+      entrada: parseTime(map['entrada'])!.toTimeStr(),
+      saida: parseTime(map['saida'])!.toTimeStr(),
+      bancoHoras:
+          map['banco_horas'] != null ? map['banco_horas'] as bool : null,
+      porcNormal: map['porc_normal'],
+      porcFeriado: map['porc_feriado'],
+      ativo: map['ativo'] != null ? map['ativo'] as bool : null,
+      cargaHoraria: map['carga_horaria'],
+      createAt: parseDate(map['created_at'], withTime: true)!,
+      updatedAt: parseDate(map['updated_at'], withTime: true)!,
+      horas: map['horas'] != null ? HorasDto.fromJsonList(map['horas']) : [],
+      salarios: map['salarios'] != null
+          ? SalariosDto.fromJsonList(map['salarios'])
+          : [],
+    );
+
+    return emprego;
+  }
+
+  static List<EmpregosDTO> fromJsonList(JsonList data) {
+    return data.map((e) => EmpregosDTO.fromJson(e)).toList();
   }
 }

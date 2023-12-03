@@ -1,19 +1,39 @@
-import 'package:marcahoras3/data_layer/dtos/empregos_dto.dart';
-import 'package:marcahoras3/utils/date_utils.dart';
-import 'package:marcahoras3/utils/extensions/timeofdayutils.dart';
-
 import '../../domain_layer/models.dart';
+import '../../utils/utils.dart';
+import '../dtos.dart';
 
 extension EmpregoMapper on EmpregosDTO {
   Empregos toEmprego() {
+    assertAllNotNull([id, admissao, entrada, saida]);
     return Empregos(
-      descricao: descricao ?? '',
-      inicio: formatDate(inicio),
-      entrada: (entrada ?? '08:00').toTimeOfDay(),
-      saida: (saida ?? '16:00').toTimeOfDay(),
-      extra: extra ?? 0,
-      extraFeriado: extraFeriado ?? 0,
+      id: id!,
+      descricao: descricao!,
+      admissao: admissao!,
+      entrada: entrada!.toTimeOfDay(),
+      saida: saida!.toTimeOfDay(),
+      bancoHoras: bancoHoras ?? false,
+      porcFeriado: porcFeriado ?? 0,
+      porcNormal: porcNormal ?? 0,
       cargaHoraria: cargaHoraria ?? 220,
+      ativo: ativo ?? false,
+    );
+  }
+}
+
+extension EmpregoDtoMapper on Empregos {
+  EmpregosDTO toEmpregoDto() {
+    assertAllNotNull([admissao, entrada, saida]);
+    return EmpregosDTO(
+      id: id,
+      descricao: descricao,
+      admissao: admissao,
+      entrada: entrada.asString(),
+      saida: saida.asString(),
+      bancoHoras: bancoHoras,
+      porcFeriado: porcFeriado,
+      porcNormal: porcNormal,
+      cargaHoraria: cargaHoraria,
+      ativo: ativo,
     );
   }
 }

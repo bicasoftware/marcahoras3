@@ -19,7 +19,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body: StateListener(
         state: c.state,
-        onSuccess: (s) {
+        onSuccessView: (s) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -41,7 +41,7 @@ class MyHomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: c.load,
+                  onPressed: () async {},
                   child: const Text(
                     Strings.tentar,
                   ),
