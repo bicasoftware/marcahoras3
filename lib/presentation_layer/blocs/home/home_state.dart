@@ -1,15 +1,14 @@
-import 'package:marcahoras3/utils/bloc/state_status.dart';
-
+import 'dart:collection';
 import '../../../domain_layer/models.dart';
-import '../../../utils/bloc/base_state.dart';
+import '../../../utils/utils.dart';
 
 class HomeState extends BaseState {
-  final List<Empregos> empregos;
+  final UnmodifiableListView<Empregos> empregos;
 
-  const HomeState({
-    this.empregos = const [],
+  HomeState({
+    Iterable<Empregos> empregos = const [],
     required super.status,
-  });
+  }) : empregos = UnmodifiableListView(empregos);
 
   @override
   List<Object?> get props => [

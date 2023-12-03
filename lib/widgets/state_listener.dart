@@ -6,23 +6,27 @@ import '../utils/bloc/base_state.dart';
 
 class StateListener<T extends BaseState> extends StatelessWidget {
   final T state;
-  final Widget Function(T state) onSuccess;
+  final Widget Function(T state) onSuccessView;
+  final Widget? onLoadingView;
+  final Widget? onErrorView;
 
   const StateListener({
     required this.state,
-    required this.onSuccess,
+    required this.onSuccessView,
+    this.onLoadingView,
+    this.onErrorView,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     switch (state.status) {
-      case LoadingStatus _:
-        return const LoadingWidget();
-      case SuccessStatus _:
-        return onSuccess(state);
-      case ErrorStatus _:
-        return Text((state.status as ErrorStatus).errorMsg);
+      case StateSuccessStatus _:
+        return onSuccessView(state);
+      case StateLoadingStatus _:
+        return onLoadingView ?? const LoadingWidget();
+      case StateErrorStatus _:
+        return onErrorView ?? Text((state.status as StateErrorStatus).errorMsg);
     }
   }
 }

@@ -5,54 +5,72 @@ import 'package:flutter/foundation.dart';
 class Horas extends Equatable {
   final int id;
   final int empregoId;
-  final int tipoHora;
-  final bool bancoHoras;
   final DateTime data;
+  final String inicio;
+  final String termino;
+  final HorasType tipoHora;
+  final bool bancoHoras;
 
   const Horas({
     required this.id,
     required this.empregoId,
+    required this.data,
+    required this.inicio,
+    required this.termino,
     required this.tipoHora,
     required this.bancoHoras,
-    required this.data,
   });
 
   @override
-  List<Object?> get props => [id, empregoId, tipoHora, bancoHoras, data];
-
-  factory Horas.fromJson(Map<String, dynamic> json) {
-    return Horas(
-      id: json['id'] as int,
-      empregoId: json['emprego_id'] as int,
-      tipoHora: json['tipo_hora'] as int,
-      bancoHoras: json['banco_horas'] as bool,
-      data: DateTime.parse(json['data'] as String),
-    );
+  List<Object> get props {
+    return [
+      id,
+      empregoId,
+      data,
+      inicio,
+      termino,
+      tipoHora,
+      bancoHoras,
+    ];
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'emprego_id': empregoId,
-      'tipo_hora': tipoHora,
-      'banco_horas': bancoHoras,
-      'data': data.toIso8601String(),
-    };
-  }
+  @override
+  bool get stringify => true;
 
   Horas copyWith({
     int? id,
     int? empregoId,
-    int? tipoHora,
-    bool? bancoHoras,
     DateTime? data,
+    String? inicio,
+    String? termino,
+    HorasType? tipoHora,
+    bool? bancoHoras,
   }) {
     return Horas(
       id: id ?? this.id,
       empregoId: empregoId ?? this.empregoId,
+      data: data ?? this.data,
+      inicio: inicio ?? this.inicio,
+      termino: termino ?? this.termino,
       tipoHora: tipoHora ?? this.tipoHora,
       bancoHoras: bancoHoras ?? this.bancoHoras,
-      data: data ?? this.data,
     );
+  }
+}
+
+enum HorasType {
+  normal('n'),
+  feriado('f'),
+  unknown('u');
+
+  final String letter;
+
+  const HorasType(this.letter);
+
+  static fromLetter(String? letter) {
+    if (letter == null) return HorasType.unknown;
+
+    return values.firstWhere((HorasType it) => it.letter == letter,
+        orElse: () => HorasType.unknown);
   }
 }

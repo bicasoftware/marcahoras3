@@ -1,0 +1,30 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../utils/typedefs.dart';
+import '../dtos.dart';
+
+class EmpregosProvider {
+  final SupabaseClient _supa;
+  static const String _table = 'empregos';
+
+  EmpregosProvider(
+    SupabaseClient client,
+  ) : _supa = client;
+
+  Future<List<EmpregosDTO>> list() async {
+    final result = await _supa.from(_table).select<JsonList>(
+          '*, salarios(id, emprego_id, valor, vigencia, ativo), horas(id, emprego_id, inicio, termino, banco_horas, tipo_hora)',
+        );
+
+    return EmpregosDTO.fromJsonList(result).toList();
+  }
+
+  Future<EmpregosDTO> append(EmpregosDTO e) async {
+    final result = await _supa.from(_table).insert(e.toJson()).select();
+    return EmpregosDTO.fromJson(result);
+  }
+
+  Future<void> delete(int empregoId) async {
+    await _supa.from(_table).delete().match({'id': empregoId}).select();
+  }
+}

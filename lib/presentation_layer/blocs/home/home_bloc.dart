@@ -1,16 +1,26 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/utils/bloc/state_status.dart';
-import 'package:marcahoras3/utils/extensions.dart';
-
 import '../../../domain_layer/models.dart';
+import '../../../domain_layer/usecases.dart';
+import '../../../utils/bloc/state_status.dart';
+
 import 'home_state.dart';
 
 /// Class that holds presentation data to be shown in the first screen the app renders
 class HomeBloc extends Cubit<HomeState> {
-  HomeBloc()
-      : super(
+  final EmpregoDataLoadUseCase _loadAllUseCase;
+  final EmpregoInsertUseCase _insertUseCase;
+  final EmpregoDeleteUseCase _deleteUseCase;
+
+  HomeBloc(
+    EmpregoDataLoadUseCase loadUseCase,
+    EmpregoInsertUseCase insertUseCase,
+    EmpregoDeleteUseCase deleteUseCase,
+  )   : _loadAllUseCase = loadUseCase,
+        _insertUseCase = insertUseCase,
+        _deleteUseCase = deleteUseCase,
+        super(
           HomeState(
-            status: LoadingStatus(),
+            status: StateLoadingStatus(),
           ),
         );
 
@@ -18,37 +28,83 @@ class HomeBloc extends Cubit<HomeState> {
     try {
       emit(
         state.copyWith(
-          empregos: [],
-          status: LoadingStatus(),
+          status: StateLoadingStatus(),
         ),
       );
 
-      final empregos = await Future.delayed(
-        const Duration(seconds: 2),
-        () => [
-          for (int i = 0; i < 5; i++)
-            Empregos(
-              descricao: "Emprego $i",
-              inicio: DateTime.now(),
-              entrada: '08:00'.toTimeOfDay(),
-              saida: '16:00'.toTimeOfDay(),
-              extra: 50,
-              extraFeriado: 100,
-              cargaHoraria: 220,
-            ),
-        ],
-      );
+      final result = await _loadAllUseCase();
 
       emit(
         state.copyWith(
-          empregos: empregos,
-          status: SuccessStatus(state: state),
+          empregos: result,
+          status: StateSuccessStatus(state: state),
         ),
       );
     } on Exception catch (e) {
       emit(
         state.copyWith(
-          status: ErrorStatus(errorMsg: e.toString()),
+          status: StateErrorStatus(errorMsg: e.toString()),
+        ),
+      );
+    }
+  }
+
+  Future<void> addEmprego(Empregos emprego) async {
+    try {
+      emit(
+        state.copyWith(
+          status: StateLoadingStatus(),
+        ),
+      );
+
+      final newEmprego = await _insertUseCase(emprego);
+
+      emit(
+        state.copyWith(
+          empregos: [
+            ...state.empregos,
+            newEmprego,
+          ],
+          status: StateSuccessStatus(state: state),
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(
+            errorMsg: e.toString(),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> deleteEmprego(int empregoId) async {
+    try {
+      emit(
+        state.copyWith(
+          status: StateLoadingStatus(),
+        ),
+      );
+
+      await _deleteUseCase(empregoId);
+
+      final fixedEmpregos = [...state.empregos]..removeWhere(
+          (Empregos e) => e.id == empregoId,
+        );
+
+      emit(
+        state.copyWith(
+          empregos: fixedEmpregos,
+          status: StateSuccessStatus(state: state),
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(
+            errorMsg: e.toString(),
+          ),
         ),
       );
     }
