@@ -1,54 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/features/home/home_content.dart';
+import 'package:marcahoras3/presentation_layer/blocs/home/home_state.dart';
+import 'package:marcahoras3/widgets/bloc_watcher.dart';
 
 import '../../presentation_layer/blocs/home/home_bloc.dart';
 import '../../strings.dart';
-import '../../widgets/state_listener.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final c = context.watch<HomeBloc>();
+  State<MyHomePage> createState() => _MyHomePageState();
+}
 
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text(Strings.appName),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(16.0),
+            bottomRight: Radius.circular(16.0),
+          ),
+        ),
       ),
-      body: StateListener(
-        state: c.state,
-        onSuccessView: (s) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: ListView.separated(
-                  separatorBuilder: (_, i) => const Divider(),
-                  itemCount: c.state.empregos.length,
-                  itemBuilder: (_, i) => ListTile(
-                    leading: const CircleAvatar(
-                      foregroundColor: Colors.red,
-                      child: Icon(Icons.cases_outlined, color: Colors.black),
-                    ),
-                    title: Text(
-                      c.state.empregos[i].descricao,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () async {},
-                  child: const Text(
-                    Strings.tentar,
-                  ),
-                ),
-              )
-            ],
-          );
+      body: BlocWatcher<HomeBloc, HomeState>(
+        builder: (c, HomeState s) {
+          return const SingleChildScrollView(child: HomeContent());
         },
       ),
     );

@@ -37,7 +37,8 @@ class HomeBloc extends Cubit<HomeState> {
       emit(
         state.copyWith(
           empregos: result,
-          status: StateSuccessStatus(state: state),
+          selectedEmprego: result.first,
+          status: StateSuccessStatus(),
         ),
       );
     } on Exception catch (e) {
@@ -65,7 +66,7 @@ class HomeBloc extends Cubit<HomeState> {
             ...state.empregos,
             newEmprego,
           ],
-          status: StateSuccessStatus(state: state),
+          status: StateSuccessStatus(),
         ),
       );
     } on Exception catch (e) {
@@ -96,7 +97,7 @@ class HomeBloc extends Cubit<HomeState> {
       emit(
         state.copyWith(
           empregos: fixedEmpregos,
-          status: StateSuccessStatus(state: state),
+          status: StateSuccessStatus(),
         ),
       );
     } on Exception catch (e) {
@@ -108,5 +109,13 @@ class HomeBloc extends Cubit<HomeState> {
         ),
       );
     }
+  }
+
+  void setSelectedEmprego(Empregos emprego) {
+    emit(
+      state.copyWith(
+        selectedEmprego: emprego,
+      ),
+    );
   }
 }

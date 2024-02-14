@@ -59,13 +59,14 @@ class Horas extends Equatable {
 }
 
 enum HorasType {
-  normal('n'),
-  feriado('f'),
-  unknown('u');
+  normal('n', 0xFF4800FF),
+  feriado('f', 0xFFFF6600),
+  unknown('u', 0xFF8F8F8F);
 
   final String letter;
+  final int colorHex;
 
-  const HorasType(this.letter);
+  const HorasType(this.letter, this.colorHex);
 
   static fromLetter(String? letter) {
     if (letter == null) return HorasType.unknown;

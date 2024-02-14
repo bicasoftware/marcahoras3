@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:marcahoras3/opa/opa.dart';
+import 'package:marcahoras3/presentation_layer/resources/color_scheme.dart';
+import 'package:marcahoras3/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'bloc_loader.dart';
@@ -23,10 +25,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: Strings.appName,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        colorScheme: lightColorScheme,
+        appBarTheme: appBarColorScheme,
       ),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,

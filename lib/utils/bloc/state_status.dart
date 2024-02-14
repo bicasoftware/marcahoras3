@@ -2,10 +2,8 @@ import 'package:marcahoras3/utils/bloc/base_state.dart';
 
 sealed class StateStatus {}
 
-class StateSuccessStatus<T extends BaseState> extends StateStatus {
-  StateSuccessStatus({required this.state});
-
-  final T state;
+class StateSuccessStatus extends StateStatus {
+  StateSuccessStatus();
 }
 
 class StateErrorStatus<T extends BaseState> extends StateStatus {

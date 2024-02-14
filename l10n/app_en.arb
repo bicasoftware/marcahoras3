@@ -1,3 +1,12 @@
 {
-  "helloWorld": "Hello World!"
+  "@@locale": "en",
+  "helloWorld": "E ae parça",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "entradas": "Entradas",
+  "@entradas": {
+    "description": "entradas"
+  }
+  
 }

@@ -13,7 +13,7 @@ class EmpregosProvider {
 
   Future<List<EmpregosDTO>> list() async {
     final result = await _supa.from(_table).select<JsonList>(
-          '*, salarios(id, emprego_id, valor, vigencia, ativo), horas(id, emprego_id, inicio, termino, banco_horas, tipo_hora)',
+          '*, salarios(*), horas(*)',
         );
 
     return EmpregosDTO.fromJsonList(result).toList();
