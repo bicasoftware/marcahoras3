@@ -1,6 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../utils/typedefs.dart';
 import '../dtos.dart';
 
 class EmpregosProvider {
@@ -12,7 +11,7 @@ class EmpregosProvider {
   ) : _supa = client;
 
   Future<List<EmpregosDTO>> list() async {
-    final result = await _supa.from(_table).select<JsonList>(
+    final result = await _supa.from(_table).select(
           '*, salarios(*), horas(*)',
         );
 
@@ -21,7 +20,7 @@ class EmpregosProvider {
 
   Future<EmpregosDTO> append(EmpregosDTO e) async {
     final result = await _supa.from(_table).insert(e.toJson()).select();
-    return EmpregosDTO.fromJson(result);
+    return EmpregosDTO.fromJson(result.first);
   }
 
   Future<void> delete(int empregoId) async {

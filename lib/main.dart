@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:marcahoras3/features/empregos/empregos_screen.dart';
 import 'package:marcahoras3/opa/opa.dart';
 import 'package:marcahoras3/presentation_layer/resources/color_scheme.dart';
 import 'package:marcahoras3/strings.dart';
@@ -7,6 +8,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'bloc_loader.dart';
 import 'features/home/home.dart';
+import 'features/login/login_screen.dart';
+import 'features/splash/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,9 +45,13 @@ class MyApp extends StatelessWidget {
         Locale('pt'),
         Locale('es'),
       ],
-      home: const BlocLoader(
-        child: MyHomePage(),
-      ),
+      initialRoute: Routes.splash,
+      routes: <String, WidgetBuilder>{
+        Routes.splash: (_) => const SplashScreen(),
+        Routes.login: (_) => const LoginScreen(),
+        Routes.home: (_) => const BlocLoader(child: Home()),
+        Routes.empregos: (_) => const EmpregosScreen(),
+      },
     );
   }
 }

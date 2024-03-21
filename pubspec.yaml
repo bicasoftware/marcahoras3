@@ -13,14 +13,14 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
-  provider: ^6.0.5
+  cupertino_icons: ^1.0.6
+  provider: ^6.1.1
   flutter_secure_storage: 9.0.0
-  flutter_bloc: ^8.1.2
-  sqflite: ^2.2.8+4
-  intl: any
+  flutter_bloc: ^8.1.4
+  sqflite: ^2.3.2
+  intl: 0.18.1
   equatable: ^2.0.5
-  supabase_flutter: ^1.10.25
+  supabase_flutter: ^2.3.4
 
 dev_dependencies:
   flutter_test:

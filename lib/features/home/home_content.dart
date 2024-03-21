@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/features/home/last_list/horas_list.dart';
-import 'package:marcahoras3/features/home/widgets/emprego_card.dart';
 
 import '../../presentation_layer/blocs/home/home_bloc.dart';
 import '../../presentation_layer/blocs/home/home_state.dart';
 import '../../widgets/bloc_watcher.dart';
 import 'calendar/calendar_page.dart';
+import 'horas_list/horas_list.dart';
+import 'widgets/emprego_card.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({

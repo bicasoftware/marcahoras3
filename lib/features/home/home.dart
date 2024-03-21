@@ -6,14 +6,14 @@ import 'package:marcahoras3/widgets/bloc_watcher.dart';
 import '../../presentation_layer/blocs/home/home_bloc.dart';
 import '../../strings.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Home> createState() => _HomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage>
+class _HomeState extends State<Home>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
