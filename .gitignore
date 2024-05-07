@@ -105,3 +105,5 @@ coverage/
 !.vscode/settings.json
 
 /lib/opa/opa.dart
+*.realm.*
+*.g.*
