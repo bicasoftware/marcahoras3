@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:realm/realm.dart';
 
 part 'horas_realm.realm.dart';
@@ -10,5 +9,5 @@ class _HorasRealm {
   DateTime? data;
   String? inicio;
   String? termino;
-  String tipoHora = 'n';
+  String? tipoHora = 'n';
 }

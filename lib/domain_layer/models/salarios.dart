@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 
 @immutable
 class Salarios extends Equatable {
-  final int id;
-  final int empregoId;
+  final String id;
+  final String empregoId;
   final DateTime vigencia;
   final double valor;
   final bool ativo;
@@ -29,8 +29,8 @@ class Salarios extends Equatable {
   }
 
   Salarios copyWith({
-    int? id,
-    int? empregoId,
+    String? id,
+    String? empregoId,
     DateTime? vigencia,
     double? valor,
     bool? ativo,

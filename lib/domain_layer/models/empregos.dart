@@ -7,7 +7,7 @@ import '../models.dart';
 
 @immutable
 class Empregos extends Equatable {
-  final int id;
+  final String id;
   final String descricao;
   final DateTime admissao;
   final TimeOfDay entrada;
@@ -38,7 +38,7 @@ class Empregos extends Equatable {
         salarios = UnmodifiableListView(salarios);
 
   Empregos copyWith({
-    int? id,
+    String? id,
     String? descricao,
     DateTime? admissao,
     TimeOfDay? entrada,

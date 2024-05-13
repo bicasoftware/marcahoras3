@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/features/home/last_list/horas_list.dart';
+import 'package:marcahoras3/features/home/horas_list/horas_list.dart';
 import 'package:marcahoras3/features/home/widgets/emprego_card.dart';
 
 import '../../presentation_layer/blocs/home/home_bloc.dart';

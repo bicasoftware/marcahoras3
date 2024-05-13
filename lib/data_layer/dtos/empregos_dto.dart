@@ -5,7 +5,7 @@ import '../dtos.dart';
 
 @immutable
 class EmpregosDTO extends Equatable {
-  final int? id;
+  final String? id;
   final String? descricao;
   final DateTime? admissao;
   final String? entrada;

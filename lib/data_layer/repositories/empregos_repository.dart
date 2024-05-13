@@ -23,7 +23,7 @@ class EmpregoRepository implements EmpregosContract {
   }
 
   @override
-  Future<void> delete(int empregoId) async {
+  Future<void> delete(String empregoId) async {
     await _provider.delete(empregoId);
   }
 }

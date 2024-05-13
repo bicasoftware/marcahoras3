@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/realm/realm_connector.dart';
 
 import 'data_layer/providers.dart';
 import 'data_layer/respositories.dart';
@@ -16,10 +17,10 @@ class BlocLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final client = Supabase.instance.client;
+    final realm = RealmConnector().realm;
 
     final empregoRepo = EmpregoRepository(
-      EmpregosProvider(client),
+      EmpregosProvider(realm: realm),
     );
 
     return MultiBlocProvider(

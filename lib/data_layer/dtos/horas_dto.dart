@@ -3,8 +3,8 @@ import '../../utils/utils.dart';
 
 @immutable
 class HorasDto {
-  final int? id;
-  final int? empregoId;
+  final String? id;
+  final String? empregoId;
   final DateTime? data;
   final String? inicio;
   final String? termino;
@@ -39,8 +39,8 @@ class HorasDto {
 
   factory HorasDto.fromJson(JsonObj map) {
     return HorasDto(
-      id: map['id'] != null ? map['id'] as int : null,
-      empregoId: map['emprego_id'] != null ? map['emprego_id'] as int : null,
+      id: map['id'] != null ? map['id'] as String : "",
+      empregoId: map['emprego_id'] != null ? map['emprego_id'] as String : "",
       data: parseDate(map['data']),
       inicio: map['inicio'] != null ? map['inicio'] as String : null,
       termino: map['termino'] != null ? map['termino'] as String : null,

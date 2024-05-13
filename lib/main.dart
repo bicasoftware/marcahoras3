@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:marcahoras3/opa/opa.dart';
 import 'package:marcahoras3/presentation_layer/resources/color_scheme.dart';
 import 'package:marcahoras3/strings.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'bloc_loader.dart';
 import 'features/home/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Supabase.initialize(
-    url: OpaConstants.leHost,
-    anonKey: OpaConstants.leKey,
-  );
+  await FlutterConfig.loadEnvVariables();
 
   runApp(const MyApp());
 }

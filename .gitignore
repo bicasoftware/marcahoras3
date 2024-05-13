@@ -107,3 +107,5 @@ coverage/
 /lib/opa/opa.dart
 *.realm.*
 *.g.*
+.env
+.vscode/launch.json

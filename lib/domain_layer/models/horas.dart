@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 
 @immutable
 class Horas extends Equatable {
-  final int id;
-  final int empregoId;
+  final String id;
+  final String empregoId;
   final DateTime data;
   final String inicio;
   final String termino;
@@ -38,8 +38,8 @@ class Horas extends Equatable {
   bool get stringify => true;
 
   Horas copyWith({
-    int? id,
-    int? empregoId,
+    String? id,
+    String? empregoId,
     DateTime? data,
     String? inicio,
     String? termino,

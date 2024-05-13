@@ -1,30 +1,50 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:marcahoras3/data_layer/mappers/emprego_mapper.dart';
+import 'package:marcahoras3/data_layer/realm_models/empregos_realm.dart';
+import 'package:realm/realm.dart';
 
-import '../../utils/typedefs.dart';
 import '../dtos.dart';
 
 class EmpregosProvider {
-  final SupabaseClient _supa;
-  static const String _table = 'empregos';
+  final Realm _realm;
 
-  EmpregosProvider(
-    SupabaseClient client,
-  ) : _supa = client;
+  const EmpregosProvider({
+    required Realm realm,
+  }) : _realm = realm;
 
   Future<List<EmpregosDTO>> list() async {
-    final result = await _supa.from(_table).select<JsonList>(
-          '*, salarios(*), horas(*)',
-        );
+    final empregos = _realm.all<EmpregosRealm>();
+    if (empregos.isNotEmpty) {
+      return empregos.map((e) => e.toEmpregosDto()).toList();
+    }
 
-    return EmpregosDTO.fromJsonList(result).toList();
+    return [];
+
+    // TODO - aplicar WebClient e ler dados do server*
   }
 
   Future<EmpregosDTO> append(EmpregosDTO e) async {
-    final result = await _supa.from(_table).insert(e.toJson()).select();
-    return EmpregosDTO.fromJson(result);
+    final result = _realm.write<EmpregosRealm>(() {
+      return _realm.add(e.toRealmModel());
+    });
+
+    return result.toEmpregosDto();
+
+    // TODO - aplicar WebClient e ler dados do server
   }
 
-  Future<void> delete(int empregoId) async {
-    await _supa.from(_table).delete().match({'id': empregoId}).select();
+  Future<void> delete(String empregoId) async {
+    final emprego = _realm.find<EmpregosRealm>(empregoId);
+
+    if (emprego == null) {
+      throw Exception("Local ID not found");
+    }
+
+    try {
+      _realm.delete<EmpregosRealm>(emprego);
+    } catch (e) {
+      throw Exception("Failed to delete: $e");
+    }
+
+    // TODO - aplicar WebClient e deletar no server
   }
 }

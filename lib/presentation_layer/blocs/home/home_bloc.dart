@@ -80,7 +80,7 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
-  Future<void> deleteEmprego(int empregoId) async {
+  Future<void> deleteEmprego(String empregoId) async {
     try {
       emit(
         state.copyWith(
