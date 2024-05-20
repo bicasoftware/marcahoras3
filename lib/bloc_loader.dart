@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/domain_layer/usecases/vault/load_vault_data_usecase.dart';
 import 'package:marcahoras3/realm/realm_connector.dart';
 
 import 'data_layer/providers.dart';
@@ -36,6 +37,7 @@ class BlocLoader extends StatelessWidget {
             EmpregoDeleteUseCase(
               empregoRepo,
             ),
+            LoadVaultDataUseCase(),
           )..load(),
         ),
       ],

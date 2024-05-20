@@ -8,3 +8,5 @@ export './extensions/contexthelper.dart';
 export './extensions/timeofdayutils.dart';
 export './bloc/base_state.dart';
 export './bloc/state_status.dart';
+export './vault/vault.dart';
+export './vault/vault_manager.dart';

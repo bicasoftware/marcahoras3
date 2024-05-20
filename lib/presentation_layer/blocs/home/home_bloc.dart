@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/domain_layer/usecases/vault/load_vault_data_usecase.dart';
+import 'package:marcahoras3/utils/utils.dart';
+
 import '../../../domain_layer/models.dart';
 import '../../../domain_layer/usecases.dart';
-import '../../../utils/bloc/state_status.dart';
-
 import 'home_state.dart';
 
 /// Class that holds presentation data to be shown in the first screen the app renders
@@ -10,14 +11,17 @@ class HomeBloc extends Cubit<HomeState> {
   final EmpregoDataLoadUseCase _loadAllUseCase;
   final EmpregoInsertUseCase _insertUseCase;
   final EmpregoDeleteUseCase _deleteUseCase;
+  final LoadVaultDataUseCase _vaultUseCase;
 
   HomeBloc(
     EmpregoDataLoadUseCase loadUseCase,
     EmpregoInsertUseCase insertUseCase,
     EmpregoDeleteUseCase deleteUseCase,
+    LoadVaultDataUseCase vaultUseCase,
   )   : _loadAllUseCase = loadUseCase,
         _insertUseCase = insertUseCase,
         _deleteUseCase = deleteUseCase,
+        _vaultUseCase = vaultUseCase,
         super(
           HomeState(
             status: StateLoadingStatus(),
@@ -32,13 +36,15 @@ class HomeBloc extends Cubit<HomeState> {
         ),
       );
 
-      final result = await _loadAllUseCase();
+      final empregoData = await _loadAllUseCase();
+      final vaultData = await _vaultUseCase();
 
       emit(
         state.copyWith(
-          empregos: result,
-          selectedEmprego: result.first,
+          empregos: empregoData,
+          selectedEmprego: empregoData.isNotEmpty ? empregoData.first : null,
           status: StateSuccessStatus(),
+          vault: vaultData,
         ),
       );
     } on Exception catch (e) {

@@ -1,4 +1,4 @@
-import '../../data_layer/respositories.dart';
+import '../../../data_layer/respositories.dart';
 
 class EmpregoDeleteUseCase {
   final EmpregoRepository _repo;

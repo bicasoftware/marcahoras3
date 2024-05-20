@@ -1,5 +1,5 @@
-import '../../data_layer/respositories.dart';
-import '../models.dart';
+import '../../../data_layer/respositories.dart';
+import '../../models.dart';
 
 class EmpregoDataLoadUseCase {
   final EmpregoRepository _repo;
