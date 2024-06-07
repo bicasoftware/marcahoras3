@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:marcahoras3/features/home/home_content.dart';
 import 'package:marcahoras3/presentation_layer/blocs/home/home_state.dart';
+import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
 import 'package:marcahoras3/widgets/bloc_watcher.dart';
 
 import '../../presentation_layer/blocs/home/home_bloc.dart';
-import '../../strings.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -25,7 +25,7 @@ class _MyHomePageState extends State<MyHomePage>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text(Strings.appName),
+        title: Text(context.strings().appName),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(16.0),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../strings.dart';
+import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
 
 class TipoHoraSegment extends StatefulWidget {
   final String initialValue;
@@ -35,10 +34,11 @@ class _TipoHoraSegmentState extends State<TipoHoraSegment> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(Strings.tipoHora),
+        Text(strings.tipoHora),
         const SizedBox(
           height: 8,
         ),
@@ -56,11 +56,11 @@ class _TipoHoraSegmentState extends State<TipoHoraSegment> {
             segments: [
               ButtonSegment<String>(
                 value: types.first,
-                label: const Text(Strings.horaNormal),
+                label: Text(strings.horaNormal),
               ),
               ButtonSegment(
                 value: types.last,
-                label: const Text(Strings.horaFeriado),
+                label: Text(strings.horaFeriado),
               ),
             ],
             selected: value,

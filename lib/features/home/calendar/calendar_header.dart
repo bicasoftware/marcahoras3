@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/strings.dart';
+import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
 
 import '../../../widgets/card_container.dart';
 
@@ -11,8 +11,11 @@ class CalendarHeader extends StatelessWidget {
     return CardContainer(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
-        children:
-            Strings.weekDays.map((e) => _WeekDayItem(weekday: e)).toList(),
+        children: context
+            .strings()
+            .weekDays
+            .map((e) => _WeekDayItem(weekday: e))
+            .toList(),
       ),
     );
   }

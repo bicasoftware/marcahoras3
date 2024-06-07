@@ -13,6 +13,11 @@ class HomeBloc extends Cubit<HomeState> {
   final EmpregoDeleteUseCase _deleteUseCase;
   final LoadVaultDataUseCase _vaultUseCase;
 
+  // TODO - implementar usecases de register e login
+  // TODO - salvar token no secure storage
+  final RegisterUserUseCase _registerUserUseCase;
+  final LoginUserUseCase _loginUserUseCase;
+
   HomeBloc(
     EmpregoDataLoadUseCase loadUseCase,
     EmpregoInsertUseCase insertUseCase,
@@ -124,4 +129,8 @@ class HomeBloc extends Cubit<HomeState> {
       ),
     );
   }
+
+  Future<void> register(String email, String password) {}
+
+  Future<void> loginIn(String email, String password) {}
 }

@@ -2,38 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcahoras3/presentation_layer/blocs/home/home_bloc.dart';
 import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
+import 'package:marcahoras3/presentation_layer/validators/form_validator.dart';
+import 'package:marcahoras3/presentation_layer/validators/password_match_validator.dart';
 import 'package:marcahoras3/widgets/mr_text_input.dart';
 
-import '../../../presentation_layer/validators/form_validator.dart';
 import '../registration_container.dart';
 
-class LoginScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   final VoidCallback onRegistrationChange;
-
-  const LoginScreen({
+  const RegisterScreen({
     required this.onRegistrationChange,
     super.key,
   });
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final passwordConfirmController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    emailController.dispose();
     passwordController.dispose();
+    passwordConfirmController.dispose();
+    emailController.dispose();
+
     super.dispose();
   }
 
-  Future<void> _validateForm(HomeBloc bloc) async {
+  Future<void> _register(HomeBloc bloc) async {
     if (_formKey.currentState?.validate() == true) {
-      print("valido");
+      /// TODO - call homebloc
     }
   }
 
@@ -57,9 +61,9 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Form(
           key: _formKey,
           child: RegistrationContainer(
-            changeRegisterLabel: strings.naoTenhoCadastro,
+            changeRegisterLabel: strings.jaTenhoCadastro,
             onChangeRegisterPressed: widget.onRegistrationChange,
-            onContinuePressed: () => _validateForm(bloc),
+            onContinuePressed: () => _register(bloc),
             child: Column(
               children: [
                 MrTextInput(
@@ -76,10 +80,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   hint: strings.password,
                   validators: [
                     MinCharactersValidator.validate(
-                      passwordController.text,
+                      passwordConfirmController.text,
                       6,
                       strings,
                     ),
+                    PasswordMatchValidator.validate(
+                      passwordController.text,
+                      passwordConfirmController.text,
+                      strings,
+                    )
+                  ],
+                ),
+                MrTextInput(
+                  controller: passwordConfirmController,
+                  label: strings.typeConfirmPass,
+                  hint: strings.password,
+                  validators: [
+                    MinCharactersValidator.validate(
+                        passwordController.text, 6, strings),
+                    PasswordMatchValidator.validate(
+                      passwordController.text,
+                      passwordConfirmController.text,
+                      strings,
+                    )
                   ],
                 ),
               ],

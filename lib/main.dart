@@ -3,11 +3,10 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:marcahoras3/features/home/home.dart';
 import 'package:marcahoras3/presentation_layer/resources/color_scheme.dart';
-import 'package:marcahoras3/strings.dart';
+import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
 
 import 'bloc_loader.dart';
 import 'features/empregos/empregos_screen.dart';
-import 'features/registration/login/login_screen.dart';
 import 'features/registration/registration_view.dart';
 import 'routes.dart';
 
@@ -23,15 +22,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings();
     return BlocLoader(
       child: MaterialApp(
-        title: Strings.appName,
+        title: strings.appName,
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: lightColorScheme,
-          appBarTheme: appBarColorScheme,
-        ),
+        theme: mrAppTheme,
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -39,14 +35,14 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: const [
           Locale('en'),
-          Locale('pt'),
-          Locale('es'),
+          Locale('pt', 'BR'),
         ],
+        locale: const Locale('pt'),
         initialRoute: Routes.registration,
         routes: {
           Routes.home: (_) => const MyHomePage(),
           Routes.registration: (_) => const RegistrationView(),
-          Routes.login: (_) => const LoginScreen(),
+          // Routes.login: (_) => const LoginScreen(),
           Routes.empregos: (_) => const EmpregosScreen(),
         },
       ),

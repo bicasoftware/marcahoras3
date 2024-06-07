@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:marcahoras3/features/horas/horas_detail.dart';
+import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
 import 'package:marcahoras3/widgets/card_container.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../strings.dart';
 
 class HorasList extends StatelessWidget {
   final List<Horas> horas;
@@ -15,8 +15,10 @@ class HorasList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings();
+
     return CardContainer(
-      extrasButtonText: Strings.verTodas,
+      extrasButtonText: strings.verTodas,
       onExtraTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
