@@ -16,7 +16,7 @@ class WebResponse extends Equatable {
 
   /// The payload data
   /// {default as null}
-  final Object? data;
+  final dynamic data;
 
   const WebResponse({
     this.statusCode = 404,

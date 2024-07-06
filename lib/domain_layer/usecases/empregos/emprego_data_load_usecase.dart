@@ -4,7 +4,7 @@ import '../../models.dart';
 class EmpregoDataLoadUseCase {
   final EmpregoRepository _repo;
 
-  EmpregoDataLoadUseCase(
+  const EmpregoDataLoadUseCase(
     EmpregoRepository repository,
   ) : _repo = repository;
 

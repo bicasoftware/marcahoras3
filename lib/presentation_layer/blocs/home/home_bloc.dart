@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/domain_layer/usecases/vault/load_vault_data_usecase.dart';
 import 'package:marcahoras3/utils/utils.dart';
 
 import '../../../domain_layer/models.dart';
@@ -8,25 +7,30 @@ import 'home_state.dart';
 
 /// Class that holds presentation data to be shown in the first screen the app renders
 class HomeBloc extends Cubit<HomeState> {
-  final EmpregoDataLoadUseCase _loadAllUseCase;
+  final RegisterUserUsecase _registerUserUseCase;
+  final LoginUserUsecase _loginUserUseCase;
+
+  final EmpregoDataLoadUseCase _loadEmpregos;
   final EmpregoInsertUseCase _insertUseCase;
   final EmpregoDeleteUseCase _deleteUseCase;
-  final LoadVaultDataUseCase _vaultUseCase;
+  final LoadVaultDataUseCase _loadVaultDataUseCase;
+  final SetVaultDataUsecase _setVaultDataUseCase;
 
-  // TODO - implementar usecases de register e login
-  // TODO - salvar token no secure storage
-  final RegisterUserUseCase _registerUserUseCase;
-  final LoginUserUseCase _loginUserUseCase;
-
-  HomeBloc(
-    EmpregoDataLoadUseCase loadUseCase,
-    EmpregoInsertUseCase insertUseCase,
-    EmpregoDeleteUseCase deleteUseCase,
-    LoadVaultDataUseCase vaultUseCase,
-  )   : _loadAllUseCase = loadUseCase,
-        _insertUseCase = insertUseCase,
-        _deleteUseCase = deleteUseCase,
-        _vaultUseCase = vaultUseCase,
+  HomeBloc({
+    required EmpregoDataLoadUseCase empregoLoadUseCase,
+    required EmpregoInsertUseCase empregoInsertUseCase,
+    required EmpregoDeleteUseCase empregoDeleteUseCase,
+    required LoadVaultDataUseCase loadVaultDataUseCase,
+    required RegisterUserUsecase registerUserUsecase,
+    required LoginUserUsecase loginUserUsecase,
+    required SetVaultDataUsecase setVaultDataUseCase,
+  })  : _loadEmpregos = empregoLoadUseCase,
+        _insertUseCase = empregoInsertUseCase,
+        _deleteUseCase = empregoDeleteUseCase,
+        _loadVaultDataUseCase = loadVaultDataUseCase,
+        _loginUserUseCase = loginUserUsecase,
+        _registerUserUseCase = registerUserUsecase,
+        _setVaultDataUseCase = setVaultDataUseCase,
         super(
           HomeState(
             status: StateLoadingStatus(),
@@ -41,13 +45,16 @@ class HomeBloc extends Cubit<HomeState> {
         ),
       );
 
-      final empregoData = await _loadAllUseCase();
-      final vaultData = await _vaultUseCase();
+      final vaultData = await _loadVaultDataUseCase();
+      var empregos = <Empregos>[];
+      if (vaultData.hasToken) {
+        empregos = await _loadEmpregos();
+      }
 
       emit(
         state.copyWith(
-          empregos: empregoData,
-          selectedEmprego: empregoData.isNotEmpty ? empregoData.first : null,
+          empregos: empregos,
+          selectedEmprego: empregos.isNotEmpty ? empregos.first : null,
           status: StateSuccessStatus(),
           vault: vaultData,
         ),
@@ -130,7 +137,81 @@ class HomeBloc extends Cubit<HomeState> {
     );
   }
 
-  Future<void> register(String email, String password) {}
+  Future<void> register(String email, String password) async {
+    try {
+      emit(
+        state.copyWith(
+          status: StateLoadingStatus(),
+          empregos: [],
+          selectedEmprego: null,
+        ),
+      );
 
-  Future<void> loginIn(String email, String password) {}
+      final authData = await _registerUserUseCase(
+        email: email,
+        password: password,
+      );
+
+      final vault = await _setVaultDataUseCase(
+        accessToken: authData.accessToken,
+        refreshToken: authData.refreshToken,
+      );
+
+      emit(
+        state.copyWith(
+          status: StateSuccessStatus(),
+          empregos: [],
+          vault: vault,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(
+            errorMsg: e.toString(),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> loginIn(String email, String password) async {
+    try {
+      emit(
+        state.copyWith(
+          status: StateLoadingStatus(),
+          empregos: [],
+          selectedEmprego: null,
+        ),
+      );
+
+      final authData = await _loginUserUseCase(
+        email: email,
+        password: password,
+      );
+
+      final vault = await _setVaultDataUseCase(
+        accessToken: authData.accessToken,
+        refreshToken: authData.refreshToken,
+      );
+
+      final empregos = await _loadEmpregos();
+
+      emit(
+        state.copyWith(
+          status: StateSuccessStatus(),
+          empregos: empregos,
+          vault: vault,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(
+            errorMsg: e.toString(),
+          ),
+        ),
+      );
+    }
+  }
 }

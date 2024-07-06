@@ -4,7 +4,7 @@ import '../../utils/utils.dart';
 import '../dtos.dart';
 import '../realm_models/empregos_realm.dart';
 
-extension EmpregoMapper on EmpregosDTO {
+extension EmpregoMapper on EmpregosDto {
   Empregos toEmprego() {
     assertAllNotNull([id, admissao, entrada, saida]);
     return Empregos(
@@ -23,9 +23,9 @@ extension EmpregoMapper on EmpregosDTO {
 }
 
 extension EmpregoDtoMapper on Empregos {
-  EmpregosDTO toEmpregoDto() {
+  EmpregosDto toEmpregoDto() {
     assertAllNotNull([admissao, entrada, saida]);
-    return EmpregosDTO(
+    return EmpregosDto(
       id: id,
       descricao: descricao,
       admissao: admissao,
@@ -41,8 +41,8 @@ extension EmpregoDtoMapper on Empregos {
 }
 
 extension EmpregosRealmDtoMapper on EmpregosRealm {
-  EmpregosDTO toEmpregosDto() {
-    return EmpregosDTO(
+  EmpregosDto toEmpregosDto() {
+    return EmpregosDto(
       id: id,
       descricao: descricao,
       admissao: admissao,
@@ -73,7 +73,7 @@ extension EmpregosRealmDtoMapper on EmpregosRealm {
 //     );
 //   }
 // }
-extension EmpregosDtoToRealmMapper on EmpregosDTO {
+extension EmpregosDtoToRealmMapper on EmpregosDto {
   EmpregosRealm toRealmModel() {
     return EmpregosRealm(
       IdGenerator.generate(),

@@ -4,7 +4,7 @@ import '../../utils/utils.dart';
 import '../dtos.dart';
 
 @immutable
-class EmpregosDTO extends Equatable {
+class EmpregosDto extends Equatable {
   final String? id;
   final String? descricao;
   final DateTime? admissao;
@@ -21,7 +21,7 @@ class EmpregosDTO extends Equatable {
   final DateTime? createAt;
   final DateTime? updatedAt;
 
-  const EmpregosDTO({
+  const EmpregosDto({
     this.id,
     this.descricao,
     this.admissao,
@@ -73,8 +73,8 @@ class EmpregosDTO extends Equatable {
     };
   }
 
-  factory EmpregosDTO.fromJson(Map<String, dynamic> map) {
-    final emprego = EmpregosDTO(
+  factory EmpregosDto.fromJson(Map<String, dynamic> map) {
+    final emprego = EmpregosDto(
       id: map['id'],
       descricao: map['descricao'],
       admissao: parseDate(map['admissao']),
@@ -97,7 +97,7 @@ class EmpregosDTO extends Equatable {
     return emprego;
   }
 
-  static List<EmpregosDTO> fromJsonList(JsonList data) {
-    return data.map((e) => EmpregosDTO.fromJson(e)).toList();
+  static List<EmpregosDto> fromJsonList(JsonList data) {
+    return data.map((e) => EmpregosDto.fromJson(e)).toList();
   }
 }

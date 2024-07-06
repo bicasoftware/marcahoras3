@@ -1,12 +1,13 @@
 import '../../../utils/utils.dart';
+import '../../../utils/vault/vault_keys.dart';
 
 class LoadVaultDataUseCase {
-  LoadVaultDataUseCase();
+  const LoadVaultDataUseCase();
 
   Future<Vault> call() async {
     final vault = VaultManager();
-    final token = await vault.readValue('token');
-    final refreshToken = await vault.readValue('refresh_token');
+    final token = await vault.readValue(VaultKeys.accessToken);
+    final refreshToken = await vault.readValue(VaultKeys.refreshToken);
 
     return Vault(
       token: token,

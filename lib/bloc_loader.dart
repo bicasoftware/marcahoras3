@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/domain_layer/usecases/vault/load_vault_data_usecase.dart';
+import 'package:marcahoras3/data_layer/web/web.dart';
 import 'package:marcahoras3/realm/realm_connector.dart';
 
 import 'data_layer/providers.dart';
@@ -19,25 +19,36 @@ class BlocLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final realm = RealmConnector().realm;
+    final connector = WebConnector();
+
+    final registerRepo = RegistrationRepository(
+      provider: RegistrationProvider(connector: connector),
+    );
 
     final empregoRepo = EmpregoRepository(
-      EmpregosProvider(realm: realm),
+      EmpregosProvider(
+        realm: realm,
+        connector: connector,
+      ),
     );
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (_) => HomeBloc(
-            EmpregoDataLoadUseCase(
+            empregoLoadUseCase: EmpregoDataLoadUseCase(
               empregoRepo,
             ),
-            EmpregoInsertUseCase(
+            empregoInsertUseCase: EmpregoInsertUseCase(
               empregoRepo,
             ),
-            EmpregoDeleteUseCase(
+            empregoDeleteUseCase: EmpregoDeleteUseCase(
               empregoRepo,
             ),
-            LoadVaultDataUseCase(),
+            loadVaultDataUseCase: const LoadVaultDataUseCase(),
+            setVaultDataUseCase: const SetVaultDataUsecase(),
+            loginUserUsecase: LoginUserUsecase(repo: registerRepo),
+            registerUserUsecase: RegisterUserUsecase(repo: registerRepo),
           )..load(),
         ),
       ],

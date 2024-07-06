@@ -37,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _register(HomeBloc bloc) async {
     if (_formKey.currentState?.validate() == true) {
-      /// TODO - call homebloc
+      print("form valido");
     }
   }
 

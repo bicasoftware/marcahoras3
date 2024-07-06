@@ -10,11 +10,11 @@ class WebConnector {
   final JsonDecoder jsonDecoder;
   final Dio http;
 
-  WebConnector()
+  WebConnector([String? baseUrl])
       : jsonDecoder = const JsonDecoder(),
         http = Dio(
           BaseOptions(
-            baseUrl: FlutterConfig.get('base_url'),
+            baseUrl: baseUrl ?? const String.fromEnvironment('base_url'),
           ),
         );
 
@@ -49,14 +49,14 @@ class WebConnector {
     String? authHeader,
     ResponseType responseType = ResponseType.plain,
   }) async {
-    final jsonData = await jsonDecoder.encode(data);
+    final jsonData = await jsonDecoder.encode(data ?? {});
     final completePath = "/$path";
     try {
       final response = await http.request(
         completePath,
         data: jsonData,
         queryParameters: {
-          if (queryParams != null) ...queryParams,
+          ...(queryParams ?? {}),
         },
         options: buildOptions(
           authHeader: authHeader,

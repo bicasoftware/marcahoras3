@@ -22,10 +22,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.strings();
     return BlocLoader(
       child: MaterialApp(
-        title: strings.appName,
+        title: "Horas Extras",
         debugShowCheckedModeBanner: false,
         theme: mrAppTheme,
         localizationsDelegates: const [
