@@ -15,6 +15,7 @@ Future<T> fetchData<T>({
     final response = await connector.request(
       EndPoints.handshake,
       method: WebMethod.get,
+      skipAuth: true,
     );
 
     if (response.isSuccess && response.data?['status'] == 'ok') {

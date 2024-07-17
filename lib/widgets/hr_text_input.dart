@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:marcahoras3/presentation_layer/validators/form_validator.dart';
 
-class MrTextInput extends StatelessWidget {
+class HrTextInput extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String hint;
   final EdgeInsets padding;
   final List<String?>? validators;
 
-  const MrTextInput({
+  const HrTextInput({
     super.key,
     required this.controller,
     required this.label,

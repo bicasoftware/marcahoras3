@@ -10,6 +10,10 @@ class BrStrings implements StringsContract {
   @override
   String get continuar => 'Continuar';
   @override
+  String get empregos => 'Empregos';
+  @override
+  String get horas => 'Horas';
+  @override
   String get jaTenhoCadastro => 'Já Tem uma conta? Clique para entrar.';
   @override
   String get naoTenhoCadastro => 'Não Tem uma conta? Clique para criar.';

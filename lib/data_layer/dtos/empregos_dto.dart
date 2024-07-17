@@ -18,9 +18,6 @@ class EmpregosDto extends Equatable {
   final List<HorasDto>? horas;
   final List<SalariosDto>? salarios;
 
-  final DateTime? createAt;
-  final DateTime? updatedAt;
-
   const EmpregosDto({
     this.id,
     this.descricao,
@@ -34,8 +31,6 @@ class EmpregosDto extends Equatable {
     this.cargaHoraria,
     this.horas,
     this.salarios,
-    this.createAt,
-    this.updatedAt,
   });
 
   @override
@@ -53,8 +48,6 @@ class EmpregosDto extends Equatable {
       cargaHoraria,
       horas,
       salarios,
-      createAt,
-      updatedAt,
     ];
   }
 
@@ -78,16 +71,14 @@ class EmpregosDto extends Equatable {
       id: map['id'],
       descricao: map['descricao'],
       admissao: parseDate(map['admissao']),
-      entrada: parseTime(map['entrada'])!.toTimeStr(),
-      saida: parseTime(map['saida'])!.toTimeStr(),
+      entrada: map['entrada'],
+      saida: map['saida'],
       bancoHoras:
           map['banco_horas'] != null ? map['banco_horas'] as bool : null,
       porcNormal: map['porc_normal'],
       porcFeriado: map['porc_feriado'],
       ativo: map['ativo'] != null ? map['ativo'] as bool : null,
       cargaHoraria: map['carga_horaria'],
-      createAt: parseDate(map['created_at'], withTime: true)!,
-      updatedAt: parseDate(map['updated_at'], withTime: true)!,
       horas: map['horas'] != null ? HorasDto.fromJsonList(map['horas']) : [],
       salarios: map['salarios'] != null
           ? SalariosDto.fromJsonList(map['salarios'])
@@ -97,7 +88,7 @@ class EmpregosDto extends Equatable {
     return emprego;
   }
 
-  static List<EmpregosDto> fromJsonList(JsonList data) {
+  static List<EmpregosDto> fromJsonList(List<dynamic> data) {
     return data.map((e) => EmpregosDto.fromJson(e)).toList();
   }
 }

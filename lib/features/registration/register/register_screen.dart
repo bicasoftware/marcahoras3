@@ -4,7 +4,7 @@ import 'package:marcahoras3/presentation_layer/blocs/home/home_bloc.dart';
 import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
 import 'package:marcahoras3/presentation_layer/validators/form_validator.dart';
 import 'package:marcahoras3/presentation_layer/validators/password_match_validator.dart';
-import 'package:marcahoras3/widgets/mr_text_input.dart';
+import 'package:marcahoras3/widgets/hr_text_input.dart';
 
 import '../registration_container.dart';
 
@@ -41,6 +41,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  // TODO - implementar rotina de logoff
+  // TODO - verificar como limpar os dados do app ao remover o app no iOS
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<HomeBloc>();
@@ -66,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             onContinuePressed: () => _register(bloc),
             child: Column(
               children: [
-                MrTextInput(
+                HrTextInput(
                   controller: emailController,
                   label: strings.typeEmail,
                   hint: strings.email,
@@ -74,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     EmailValidator.validate(emailController.text, strings),
                   ],
                 ),
-                MrTextInput(
+                HrTextInput(
                   controller: passwordController,
                   label: strings.password,
                   hint: strings.password,
@@ -91,7 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     )
                   ],
                 ),
-                MrTextInput(
+                HrTextInput(
                   controller: passwordConfirmController,
                   label: strings.typeConfirmPass,
                   hint: strings.password,

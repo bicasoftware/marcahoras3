@@ -83,4 +83,10 @@ class EnStrings implements StringsContract {
         "FRY",
         "SAT",
       ];
+
+  @override
+  String get empregos => 'Jobs';
+
+  @override
+  String get horas => 'Overtime';
 }

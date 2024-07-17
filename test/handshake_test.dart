@@ -21,7 +21,6 @@ void main() {
       final response = await connector.request(
         EndPoints.login,
         method: WebMethod.post,
-        authHeader: null,
         data: {"email": "test@test.com", "password": "123456"},
       );
 

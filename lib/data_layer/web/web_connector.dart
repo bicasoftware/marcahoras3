@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:marcahoras3/utils/utils.dart';
 
 import 'web.dart';
@@ -9,6 +8,12 @@ import 'web.dart';
 class WebConnector {
   final JsonDecoder jsonDecoder;
   final Dio http;
+
+  String? _token;
+
+  set token(String? token) => _token = token;
+
+  String? get currentToken => _token;
 
   WebConnector([String? baseUrl])
       : jsonDecoder = const JsonDecoder(),
@@ -24,17 +29,13 @@ class WebConnector {
 
   Options buildOptions({
     String? token,
-    String? authHeader,
     WebMethod method = WebMethod.get,
     ResponseType responseType = ResponseType.json,
     ContentType? contentType,
+    bool skipAuthentication = false,
   }) {
     return Options(
-      headers: {
-        if (authHeader != null) "Authorization": authHeader,
-        if (authHeader != null && token != null)
-          "Authorization": "Bearer $token"
-      },
+      headers: skipAuthentication ? null : {"Authorization": "Bearer $token"},
       method: method.name,
       contentType: (contentType ?? ContentType.json).mimeType,
       responseType: responseType,
@@ -46,8 +47,8 @@ class WebConnector {
     WebMethod method = WebMethod.get,
     Object? data,
     JsonObj? queryParams,
-    String? authHeader,
     ResponseType responseType = ResponseType.plain,
+    bool skipAuth = false,
   }) async {
     final jsonData = await jsonDecoder.encode(data ?? {});
     final completePath = "/$path";
@@ -59,9 +60,10 @@ class WebConnector {
           ...(queryParams ?? {}),
         },
         options: buildOptions(
-          authHeader: authHeader,
+          token: Vault().token,
           method: method,
           responseType: responseType,
+          skipAuthentication: skipAuth,
         ),
       );
 
@@ -98,10 +100,13 @@ class WebConnector {
   }
 
   Future<WebResponse> _buildResponse(Response? response) async {
-    final decodedData = await jsonDecoder.decode(response?.data ?? '');
+    Object? data;
+    if (response?.data != null) {
+      data = await jsonDecoder.decode(response?.data);
+    }
 
     return WebResponse(
-      data: decodedData,
+      data: data,
       statusCode: response?.statusCode ?? 500,
       statusMessage: response?.statusMessage ?? '',
     );

@@ -6,6 +6,7 @@ import 'package:marcahoras3/features/registration/login/login_screen.dart';
 import 'package:marcahoras3/features/registration/register/register_screen.dart';
 
 import '../../presentation_layer/blocs.dart';
+import '../../utils/utils.dart';
 import '../empregos/empregos_screen.dart';
 
 class RegistrationView extends StatefulWidget {
@@ -39,7 +40,9 @@ class _RegistrationViewState extends State<RegistrationView>
   }
 
   Widget _getView(HomeState state) {
-    if (!state.hasRefreshToken) {
+    final vault = Vault();
+
+    if (!vault.isLoggedIn) {
       if (!isRegistration) {
         return LoginScreen(
           onRegistrationChange: toggleRegistrationView,
@@ -49,10 +52,6 @@ class _RegistrationViewState extends State<RegistrationView>
       return RegisterScreen(
         onRegistrationChange: toggleRegistrationView,
       );
-    }
-
-    if (state.empregos.isEmpty) {
-      return const EmpregosScreen();
     }
 
     return const MyHomePage();

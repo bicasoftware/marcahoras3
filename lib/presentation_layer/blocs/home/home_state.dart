@@ -6,22 +6,22 @@ import '../../../utils/utils.dart';
 class HomeState extends BaseState {
   final UnmodifiableListView<Empregos> empregos;
   final Empregos? selectedEmprego;
-  final Vault? _vault;
+  final int tabPos;
 
   HomeState({
     required super.status,
     Vault? vault,
     Iterable<Empregos> empregos = const [],
+    this.tabPos = 0,
     this.selectedEmprego,
-  })  : empregos = UnmodifiableListView(empregos),
-        _vault = vault;
+  }) : empregos = UnmodifiableListView(empregos);
 
   @override
   List<Object?> get props => [
-        _vault,
         status,
         empregos,
         selectedEmprego,
+        tabPos,
       ];
 
   HomeState copyWith({
@@ -29,20 +29,15 @@ class HomeState extends BaseState {
     StateStatus? status,
     Empregos? selectedEmprego,
     Vault? vault,
+    int? tabPos,
   }) {
     return HomeState(
       empregos: empregos ?? this.empregos,
       status: status ?? this.status,
       selectedEmprego: selectedEmprego ?? this.selectedEmprego,
-      vault: vault ?? _vault,
+      tabPos: tabPos ?? this.tabPos,
     );
   }
 
   int get empregoLength => empregos.length;
-
-  String get token => _vault?.token ?? '';
-  bool get hasToken => token.isNotEmpty;
-
-  String get refreshToken => _vault?.refreshToken ?? '';
-  bool get hasRefreshToken => refreshToken.isNotEmpty;
 }

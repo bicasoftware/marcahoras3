@@ -3,18 +3,34 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:marcahoras3/features/home/home.dart';
 import 'package:marcahoras3/presentation_layer/resources/color_scheme.dart';
-import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
 
 import 'bloc_loader.dart';
 import 'features/empregos/empregos_screen.dart';
 import 'features/registration/registration_view.dart';
 import 'routes.dart';
+import 'utils/utils.dart';
+import 'utils/vault/vault_keys.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
+  await _buildVaultData();
 
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
+}
+
+Future<void> _buildVaultData() async {
+  final vaultMan = VaultManager();
+  final token = await vaultMan.readValue(VaultKeys.accessToken);
+  final refreshToken = await vaultMan.readValue(VaultKeys.refreshToken);
+
+  final vault = Vault();
+  vault.setVaultData(
+    token: token ?? '',
+    refreshToken: refreshToken ?? '',
+  );
 }
 
 class MyApp extends StatelessWidget {

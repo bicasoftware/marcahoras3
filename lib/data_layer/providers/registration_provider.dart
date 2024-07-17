@@ -17,8 +17,8 @@ class RegistrationProvider {
     required String password,
   }) async {
     final response = await _connector.request(
-      EndPoints.register,
-      method: WebMethod.get,
+      EndPoints.login,
+      method: WebMethod.post,
       data: {
         'email': email,
         'password': password,
@@ -35,7 +35,6 @@ class RegistrationProvider {
     required String email,
     required String password,
   }) async {
-    
     final WebResponse response = await _connector.request(
       EndPoints.register,
       method: WebMethod.get,

@@ -14,26 +14,28 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocWatcher<HomeBloc, HomeState>(
-      builder: (c, s) {
-        return Container(
-          margin: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              EmpregoCard(
-                empregos: s.empregos,
-                selectedEmprego: s.selectedEmprego!,
-              ),
-              const SizedBox(height: 8),
-              CalendarPage(
-                emprego: s.selectedEmprego!,
-              ),
-              const HorasList(horas: []),
-            ],
-          ),
-        );
-      },
+    return SingleChildScrollView(
+      child: BlocWatcher<HomeBloc, HomeState>(
+        builder: (c, s) {
+          return Container(
+            margin: const EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                EmpregoCard(
+                  empregos: s.empregos,
+                  selectedEmprego: s.selectedEmprego!,
+                ),
+                const SizedBox(height: 8),
+                CalendarPage(
+                  emprego: s.selectedEmprego!,
+                ),
+                const HorasList(horas: []),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

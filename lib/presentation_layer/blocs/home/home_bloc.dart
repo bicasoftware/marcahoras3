@@ -13,21 +13,18 @@ class HomeBloc extends Cubit<HomeState> {
   final EmpregoDataLoadUseCase _loadEmpregos;
   final EmpregoInsertUseCase _insertUseCase;
   final EmpregoDeleteUseCase _deleteUseCase;
-  final LoadVaultDataUseCase _loadVaultDataUseCase;
   final SetVaultDataUsecase _setVaultDataUseCase;
 
   HomeBloc({
     required EmpregoDataLoadUseCase empregoLoadUseCase,
     required EmpregoInsertUseCase empregoInsertUseCase,
     required EmpregoDeleteUseCase empregoDeleteUseCase,
-    required LoadVaultDataUseCase loadVaultDataUseCase,
     required RegisterUserUsecase registerUserUsecase,
     required LoginUserUsecase loginUserUsecase,
     required SetVaultDataUsecase setVaultDataUseCase,
   })  : _loadEmpregos = empregoLoadUseCase,
         _insertUseCase = empregoInsertUseCase,
         _deleteUseCase = empregoDeleteUseCase,
-        _loadVaultDataUseCase = loadVaultDataUseCase,
         _loginUserUseCase = loginUserUsecase,
         _registerUserUseCase = registerUserUsecase,
         _setVaultDataUseCase = setVaultDataUseCase,
@@ -45,18 +42,13 @@ class HomeBloc extends Cubit<HomeState> {
         ),
       );
 
-      final vaultData = await _loadVaultDataUseCase();
-      var empregos = <Empregos>[];
-      if (vaultData.hasToken) {
-        empregos = await _loadEmpregos();
-      }
+      final empregos = await _loadEmpregos();
 
       emit(
         state.copyWith(
           empregos: empregos,
           selectedEmprego: empregos.isNotEmpty ? empregos.first : null,
           status: StateSuccessStatus(),
-          vault: vaultData,
         ),
       );
     } on Exception catch (e) {
@@ -65,6 +57,8 @@ class HomeBloc extends Cubit<HomeState> {
           status: StateErrorStatus(errorMsg: e.toString()),
         ),
       );
+
+      rethrow;
     }
   }
 
@@ -152,7 +146,7 @@ class HomeBloc extends Cubit<HomeState> {
         password: password,
       );
 
-      final vault = await _setVaultDataUseCase(
+      await _setVaultDataUseCase(
         accessToken: authData.accessToken,
         refreshToken: authData.refreshToken,
       );
@@ -161,7 +155,6 @@ class HomeBloc extends Cubit<HomeState> {
         state.copyWith(
           status: StateSuccessStatus(),
           empregos: [],
-          vault: vault,
         ),
       );
     } on Exception catch (e) {
@@ -190,7 +183,7 @@ class HomeBloc extends Cubit<HomeState> {
         password: password,
       );
 
-      final vault = await _setVaultDataUseCase(
+      await _setVaultDataUseCase(
         accessToken: authData.accessToken,
         refreshToken: authData.refreshToken,
       );
@@ -201,7 +194,6 @@ class HomeBloc extends Cubit<HomeState> {
         state.copyWith(
           status: StateSuccessStatus(),
           empregos: empregos,
-          vault: vault,
         ),
       );
     } on Exception catch (e) {
@@ -212,6 +204,16 @@ class HomeBloc extends Cubit<HomeState> {
           ),
         ),
       );
+
+      rethrow;
     }
+  }
+
+  void setTabPos(int pos) {
+    emit(
+      state.copyWith(
+        tabPos: pos,
+      ),
+    );
   }
 }

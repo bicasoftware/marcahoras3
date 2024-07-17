@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/features/empregos/empregos_screen.dart';
 import 'package:marcahoras3/features/home/home_content.dart';
 import 'package:marcahoras3/presentation_layer/blocs/home/home_state.dart';
 import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
 import 'package:marcahoras3/widgets/bloc_watcher.dart';
+import 'package:marcahoras3/widgets/hr_appbar.dart';
 
 import '../../presentation_layer/blocs/home/home_bloc.dart';
 
@@ -22,21 +25,33 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings();
+    final bloc = context.watch<HomeBloc>();
+    final state = bloc.state;
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(context.strings().appName),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(16.0),
-            bottomRight: Radius.circular(16.0),
-          ),
-        ),
-      ),
+      appBar: HrAppBar(label: context.strings().appName),
       body: BlocWatcher<HomeBloc, HomeState>(
-        builder: (c, HomeState s) {
-          return const SingleChildScrollView(child: HomeContent());
+        builder: (c, HomeState state) {
+          return state.tabPos == 0
+              ? const EmpregosScreen()
+              : const HomeContent();
         },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: state.tabPos,
+        onTap: bloc.setTabPos,
+        backgroundColor: Colors.white,
+        items: [
+          BottomNavigationBarItem(
+            label: strings.empregos,
+            icon: const Icon(Icons.work_outline),
+          ),
+          BottomNavigationBarItem(
+            label: strings.horas,
+            icon: const Icon(Icons.calendar_month),
+          ),
+        ],
       ),
     );
   }

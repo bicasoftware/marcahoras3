@@ -4,6 +4,7 @@ class JsonDecoder {
   const JsonDecoder();
 
   Future<dynamic> decode(String source) async {
+    if (source.isEmpty) return null;
     return jsonDecode(source);
   }
 

@@ -2,6 +2,8 @@ abstract class StringsContract {
   String get appName;
   String get appDescription;
   String get continuar;
+  String get empregos;
+  String get horas;
   String get jaTenhoCadastro;
   String get naoTenhoCadastro;
   String get tentar;
