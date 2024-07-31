@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:marcahoras3/features/home/home.dart';
+import 'package:marcahoras3/features/registration/login/login_screen.dart';
+import 'package:marcahoras3/features/registration/register/register_screen.dart';
 import 'package:marcahoras3/presentation_layer/resources/color_scheme.dart';
 
 import 'bloc_loader.dart';
@@ -38,6 +40,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final vault = Vault();
+
     return BlocLoader(
       child: MaterialApp(
         title: "Horas Extras",
@@ -53,11 +57,11 @@ class MyApp extends StatelessWidget {
           Locale('pt', 'BR'),
         ],
         locale: const Locale('pt'),
-        initialRoute: Routes.registration,
+        initialRoute: vault.isLoggedIn ? Routes.home : Routes.registration,
         routes: {
           Routes.home: (_) => const MyHomePage(),
-          Routes.registration: (_) => const RegistrationView(),
-          // Routes.login: (_) => const LoginScreen(),
+          Routes.registration: (_) => const RegisterScreen(),
+          Routes.login: (_) => const LoginScreen(),
           Routes.empregos: (_) => const EmpregosScreen(),
         },
       ),

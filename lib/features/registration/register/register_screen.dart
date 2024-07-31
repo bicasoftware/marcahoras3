@@ -6,14 +6,11 @@ import 'package:marcahoras3/presentation_layer/validators/form_validator.dart';
 import 'package:marcahoras3/presentation_layer/validators/password_match_validator.dart';
 import 'package:marcahoras3/widgets/hr_text_input.dart';
 
+import '../../../routes.dart';
 import '../registration_container.dart';
 
 class RegisterScreen extends StatefulWidget {
-  final VoidCallback onRegistrationChange;
-  const RegisterScreen({
-    required this.onRegistrationChange,
-    super.key,
-  });
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -41,6 +38,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  void _goToLogin(BuildContext c) {
+    Navigator.of(c).pushReplacementNamed(Routes.login);
+  }
+
   // TODO - implementar rotina de logoff
   // TODO - verificar como limpar os dados do app ao remover o app no iOS
 
@@ -65,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           key: _formKey,
           child: RegistrationContainer(
             changeRegisterLabel: strings.jaTenhoCadastro,
-            onChangeRegisterPressed: widget.onRegistrationChange,
+            onChangeRegisterPressed: () => _goToLogin(context),
             onContinuePressed: () => _register(bloc),
             child: Column(
               children: [

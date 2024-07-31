@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
+import 'package:marcahoras3/routes.dart';
 import 'package:marcahoras3/widgets/bloc_helper.dart';
 import 'package:marcahoras3/widgets/hr_text_input.dart';
 
@@ -9,12 +10,7 @@ import '../../../presentation_layer/validators/form_validator.dart';
 import '../registration_container.dart';
 
 class LoginScreen extends StatefulWidget {
-  final VoidCallback onRegistrationChange;
-
-  const LoginScreen({
-    required this.onRegistrationChange,
-    super.key,
-  });
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -35,11 +31,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _validateForm(HomeBloc bloc) async {
     final formState = _formKey.currentState?.validate();
     if (formState == true) {
-      print("form valido");
-
       /// TODO - criar dialog de loading antes de chamar essa função
       bloc.loginIn(emailController.text, passwordController.text);
     }
+  }
+
+  void _goToRegistration(BuildContext c) {
+    Navigator.of(c).pushReplacementNamed(Routes.registration);
   }
 
   @override
@@ -85,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
             key: _formKey,
             child: RegistrationContainer(
               changeRegisterLabel: strings.naoTenhoCadastro,
-              onChangeRegisterPressed: widget.onRegistrationChange,
+              onChangeRegisterPressed: () => _goToRegistration(context),
               onContinuePressed: () => _validateForm(bloc),
               child: Column(
                 children: [
