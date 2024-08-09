@@ -2,9 +2,11 @@ import '../resources/localizations/strings.dart';
 
 class EmailValidator {
   static String? validate(String? email, StringsContract strings) {
-    final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(email ?? "")) {
-      return strings.emailInvalid;
+    if (email != null || email!.isNotEmpty) {
+      final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+      if (!emailRegex.hasMatch(email ?? "")) {
+        return strings.emailInvalid;
+      }
     }
 
     return null;

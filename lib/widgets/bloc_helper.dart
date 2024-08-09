@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcahoras3/utils/utils.dart';
+import 'package:marcahoras3/widgets.dart';
 
 class BlocHelper<B extends StateStreamable<S>, S extends BaseState>
     extends StatelessWidget {
@@ -19,12 +20,25 @@ class BlocHelper<B extends StateStreamable<S>, S extends BaseState>
   Widget build(BuildContext context) {
     return BlocListener<B, S>(
       bloc: bloc,
-      listener: (context, state) {
-        if (state.status is StateErrorStatus) {
-          onError((state.status as StateErrorStatus).errorMsg);
-        }
+      listenWhen: (previous, current) {
+        return previous != current;
       },
       child: child,
+      listener: (context, state) {
+        switch (state.status) {
+          case StateLoadingStatus():
+            {
+              LoadingScreen(child: child);
+            }
+
+          case StateErrorStatus<BaseState>():
+            {
+              onError((state.status as StateErrorStatus).errorMsg);
+            }
+          case StateSuccessStatus():
+            {}
+        }
+      },
     );
   }
 }

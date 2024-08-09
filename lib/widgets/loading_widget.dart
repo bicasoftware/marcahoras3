@@ -12,12 +12,24 @@ class LoadingWidget extends StatelessWidget {
 }
 
 class LoadingScreen extends StatelessWidget {
-  const LoadingScreen({super.key});
+  final Widget child;
+
+  const LoadingScreen({
+    required this.child,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: LoadingWidget(),
+    return Scaffold(
+      body: Stack(
+        children: [
+          const Positioned.fill(
+            child: LoadingWidget(),
+          ),
+          child,
+        ],
+      ),
     );
   }
 }

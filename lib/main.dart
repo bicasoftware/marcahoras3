@@ -8,7 +8,6 @@ import 'package:marcahoras3/presentation_layer/resources/color_scheme.dart';
 
 import 'bloc_loader.dart';
 import 'features/empregos/empregos_screen.dart';
-import 'features/registration/registration_view.dart';
 import 'routes.dart';
 import 'utils/utils.dart';
 import 'utils/vault/vault_keys.dart';

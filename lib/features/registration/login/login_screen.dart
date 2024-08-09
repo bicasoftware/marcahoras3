@@ -65,10 +65,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 return AlertDialog(
                   actions: [
                     TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text("Ok"))
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("Ok"),
+                    )
                   ],
                   content: Container(
                     padding: const EdgeInsets.all(16),
@@ -91,21 +92,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: emailController,
                     label: strings.typeEmail,
                     hint: strings.email,
-                    validators: [
-                      EmailValidator.validate(emailController.text, strings),
-                    ],
+                    validator: (String? s) {
+                      return EmailValidator.validate(s, strings);
+                    },
                   ),
                   HrTextInput(
                     controller: passwordController,
                     label: strings.password,
                     hint: strings.password,
-                    validators: [
-                      MinCharactersValidator.validate(
+                    validator: (s) {
+                      return MinCharactersValidator.validate(
                         passwordController.text,
                         6,
                         strings,
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ],
               ),

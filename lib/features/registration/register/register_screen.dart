@@ -74,40 +74,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: emailController,
                   label: strings.typeEmail,
                   hint: strings.email,
-                  validators: [
-                    EmailValidator.validate(emailController.text, strings),
-                  ],
+                  validator: (s) {
+                    return EmailValidator.validate(
+                      emailController.text,
+                      strings,
+                    );
+                  },
                 ),
                 HrTextInput(
                   controller: passwordController,
                   label: strings.password,
                   hint: strings.password,
-                  validators: [
-                    MinCharactersValidator.validate(
+                  validator: (s) {
+                    String? error;
+
+                    error = MinCharactersValidator.validate(
                       passwordConfirmController.text,
                       6,
                       strings,
-                    ),
-                    PasswordMatchValidator.validate(
+                    );
+
+                    error ??= PasswordMatchValidator.validate(
                       passwordController.text,
                       passwordConfirmController.text,
                       strings,
-                    )
-                  ],
+                    );
+
+                    return error;
+                  },
                 ),
                 HrTextInput(
                   controller: passwordConfirmController,
                   label: strings.typeConfirmPass,
                   hint: strings.password,
-                  validators: [
-                    MinCharactersValidator.validate(
-                        passwordController.text, 6, strings),
-                    PasswordMatchValidator.validate(
+                  validator: (s) {
+                    String? error;
+                    error = MinCharactersValidator.validate(
+                      passwordController.text,
+                      6,
+                      strings,
+                    );
+
+                    error ??= PasswordMatchValidator.validate(
                       passwordController.text,
                       passwordConfirmController.text,
                       strings,
-                    )
-                  ],
+                    );
+
+                    return error;
+                  },
                 ),
               ],
             ),

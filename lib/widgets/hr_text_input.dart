@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/presentation_layer/validators/form_validator.dart';
 
 class HrTextInput extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String hint;
   final EdgeInsets padding;
-  final List<String?>? validators;
+  final String? Function(String?)? validator;
 
   const HrTextInput({
     super.key,
     required this.controller,
     required this.label,
     required this.hint,
-    this.validators,
+    this.validator,
     this.padding = EdgeInsets.zero,
   });
 
@@ -44,9 +43,7 @@ class HrTextInput extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            validator: (v) {
-              return FormValidator.validateAll(validators!);
-            },
+            validator: validator,
           ),
         ],
       ),
