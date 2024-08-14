@@ -51,7 +51,9 @@ class BlocLoader extends StatelessWidget {
             setVaultDataUseCase: const SetVaultDataUsecase(),
             loginUserUsecase: LoginUserUsecase(repo: registerRepo),
             registerUserUsecase: RegisterUserUsecase(repo: registerRepo),
-          )..load(),
+          )..load(
+              fetchData: vault.isLoggedIn,
+            ),
         ),
       ],
       child: child,

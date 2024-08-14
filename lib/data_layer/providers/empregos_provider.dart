@@ -26,6 +26,14 @@ class EmpregosProvider {
           method: WebMethod.get,
         );
 
+        if (response.statusCode != 200) {
+          throw WebException(
+            statusCode: response.statusCode,
+            errorMessage: response.statusMessage,
+            errorDetail: response.data['message'],
+          );
+        }
+
         return EmpregosDto.fromJsonList(response.data);
       },
       onConnectionFailed: (Realm r) async {

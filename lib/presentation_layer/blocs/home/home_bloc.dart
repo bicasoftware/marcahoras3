@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/data_layer/web/web_exception.dart';
 import 'package:marcahoras3/utils/utils.dart';
 
 import '../../../domain_layer/models.dart';
@@ -34,7 +35,9 @@ class HomeBloc extends Cubit<HomeState> {
           ),
         );
 
-  Future<void> load() async {
+  Future<void> load({
+    bool fetchData = false,
+  }) async {
     try {
       emit(
         state.copyWith(
@@ -42,7 +45,11 @@ class HomeBloc extends Cubit<HomeState> {
         ),
       );
 
-      final empregos = await _loadEmpregos();
+      var empregos = <Empregos>[];
+
+      if (fetchData) {
+        empregos = await _loadEmpregos();
+      }
 
       emit(
         state.copyWith(
@@ -168,7 +175,7 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
-  Future<void> loginIn(String email, String password) async {
+  Future<bool> loginIn(String email, String password) async {
     try {
       emit(
         state.copyWith(
@@ -196,11 +203,13 @@ class HomeBloc extends Cubit<HomeState> {
           empregos: empregos,
         ),
       );
+
+      return true;
     } on Exception catch (e) {
       emit(
         state.copyWith(
           status: StateErrorStatus(
-            errorMsg: e.toString(),
+            errorMsg: e is WebException ? e.errorDetail : e.toString(),
           ),
         ),
       );

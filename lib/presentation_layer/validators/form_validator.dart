@@ -4,7 +4,7 @@ class EmailValidator {
   static String? validate(String? email, StringsContract strings) {
     if (email != null || email!.isNotEmpty) {
       final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-      if (!emailRegex.hasMatch(email ?? "")) {
+      if (!emailRegex.hasMatch(email)) {
         return strings.emailInvalid;
       }
     }

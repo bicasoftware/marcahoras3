@@ -65,4 +65,13 @@ class BrStrings implements StringsContract {
         'sab',
         'dom',
       ];
+
+  @override
+  String get defaultErro => "Erro";
+
+  @override
+  String get fechar => "Fechar";
+  
+  @override
+  String get carregando => "Um momento...";
 }

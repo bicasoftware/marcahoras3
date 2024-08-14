@@ -85,8 +85,17 @@ class EnStrings implements StringsContract {
       ];
 
   @override
-  String get empregos => 'Jobs';
+  String get empregos => "Jobs";
 
   @override
-  String get horas => 'Overtime';
+  String get horas => "Overtime";
+  
+  @override
+  String get defaultErro => "Error";
+  
+  @override
+  String get fechar => "Close";
+  
+  @override
+  String get carregando => "Wait a moment...";
 }

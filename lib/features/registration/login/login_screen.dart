@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/presentation_layer/dialogs/loading_dialog.dart';
 import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
 import 'package:marcahoras3/routes.dart';
 import 'package:marcahoras3/widgets/bloc_helper.dart';
@@ -28,11 +29,15 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> _validateForm(HomeBloc bloc) async {
-    final formState = _formKey.currentState?.validate();
-    if (formState == true) {
-      /// TODO - criar dialog de loading antes de chamar essa função
-      bloc.loginIn(emailController.text, passwordController.text);
+  Future<void> _validateForm(HomeBloc bloc, BuildContext ctx) async {
+    if (_formKey.currentState?.validate() ?? false) {
+      showLoadingDialog(context: ctx);
+      final logged =
+          await bloc.loginIn(emailController.text, passwordController.text);
+      Navigator.of(context).pop(ctx);
+      if (logged && mounted) {
+        Navigator.of(context).pushReplacementNamed(Routes.home);
+      }
     }
   }
 
@@ -63,12 +68,13 @@ class _LoginScreenState extends State<LoginScreen> {
               context: context,
               builder: (context) {
                 return AlertDialog(
+                  title: Text(strings.defaultErro),
                   actions: [
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: const Text("Ok"),
+                      child: Text(strings.fechar),
                     )
                   ],
                   content: Container(
@@ -85,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: RegistrationContainer(
               changeRegisterLabel: strings.naoTenhoCadastro,
               onChangeRegisterPressed: () => _goToRegistration(context),
-              onContinuePressed: () => _validateForm(bloc),
+              onContinuePressed: () => _validateForm(bloc, context),
               child: Column(
                 children: [
                   HrTextInput(
