@@ -29,12 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> _validateForm(HomeBloc bloc, BuildContext ctx) async {
+  Future<void> _validateForm(RegistrationBloc bloc, BuildContext ctx) async {
     if (_formKey.currentState?.validate() ?? false) {
       showLoadingDialog(context: ctx);
       final logged =
           await bloc.loginIn(emailController.text, passwordController.text);
-      Navigator.of(context).pop(ctx);
+      Navigator.of(context).pop();
       if (logged && mounted) {
         Navigator.of(context).pushReplacementNamed(Routes.home);
       }
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<HomeBloc>();
+    final bloc = context.read<RegistrationBloc>();
     final strings = context.strings();
     return Scaffold(
       body: Container(
@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
-        child: BlocHelper<HomeBloc, HomeState>(
+        child: BlocHelper<RegistrationBloc, RegistrationState>(
           bloc: bloc,
           onError: (error) {
             showDialog(
@@ -72,6 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   actions: [
                     TextButton(
                       onPressed: () {
+                        Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       },
                       child: Text(strings.fechar),

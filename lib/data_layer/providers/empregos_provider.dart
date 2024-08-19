@@ -1,5 +1,7 @@
 import 'package:marcahoras3/data_layer/mappers/emprego_mapper.dart';
 import 'package:marcahoras3/data_layer/realm_models/empregos_realm.dart';
+import 'package:marcahoras3/data_layer/realm_models/horas_realm.dart';
+import 'package:marcahoras3/data_layer/realm_models/salarios_realm.dart';
 import 'package:marcahoras3/data_layer/web/request_helper.dart';
 import 'package:marcahoras3/data_layer/web/web.dart';
 import 'package:realm/realm.dart';
@@ -84,5 +86,11 @@ class EmpregosProvider {
         }
       },
     );
+  }
+
+  Future<void> cleanAll() async {
+    _realm.deleteAll<SalariosRealm>();
+    _realm.deleteAll<HorasRealm>();
+    _realm.deleteAll<EmpregosRealm>();
   }
 }

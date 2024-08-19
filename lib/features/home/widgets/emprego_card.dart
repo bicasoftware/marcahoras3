@@ -6,11 +6,11 @@ import '../../../widgets/card_container.dart';
 
 class EmpregoCard extends StatefulWidget {
   final List<Empregos> empregos;
-  final Empregos selectedEmprego;
+  final int? empregoPos;
 
   const EmpregoCard({
     required this.empregos,
-    required this.selectedEmprego,
+    this.empregoPos,
     super.key,
   });
 
@@ -23,10 +23,8 @@ class _EmpregoCardState extends State<EmpregoCard>
   late final List<Tab> tabs;
   late final TabController controller;
 
-  int get currentIndex {
-    if (widget.empregos.isEmpty) return 0;
-    final index = widget.empregos.indexOf(widget.selectedEmprego);
-    return index < 0 ? 0 : index;
+  int? get currentIndex {
+    return widget.empregos.isEmpty ? 0 : widget.empregoPos;
   }
 
   @override
@@ -49,7 +47,7 @@ class _EmpregoCardState extends State<EmpregoCard>
     controller = TabController(
       vsync: this,
       length: tabs.length,
-      initialIndex: currentIndex,
+      initialIndex: currentIndex ?? 0,
     );
     super.initState();
   }

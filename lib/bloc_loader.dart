@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcahoras3/data_layer/web/web.dart';
 import 'package:marcahoras3/realm/realm_connector.dart';
-import 'package:marcahoras3/utils/utils.dart';
 
 import 'data_layer/providers.dart';
 import 'data_layer/respositories.dart';
 import 'domain_layer/usecases.dart';
-import 'presentation_layer/blocs/home/home_bloc.dart';
+import 'presentation_layer/blocs.dart';
+import 'utils/utils.dart';
 
 class BlocLoader extends StatelessWidget {
   final Widget child;
@@ -38,22 +38,31 @@ class BlocLoader extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (_) => RegistrationBloc(
+              registerUserUseCase: RegisterUserUsecase(repo: registerRepo),
+              loginUserUseCase: LoginUserUsecase(repo: registerRepo),
+              setVaultDataUseCase: SetVaultDataUsecase(),
+              resetVault: ResetVaultUseCase(),
+              cleanDataUseCase:
+                  CleanDataUseCase(empregoRepository: empregoRepo)),
+        ),
+        BlocProvider(
+          create: (_) => EmpregosBloc(
+            empregoDataLoadUseCase: EmpregoDataLoadUseCase(
+              empregoRepo,
+            ),
+            insertUseCase: EmpregoInsertUseCase(
+              empregoRepo,
+            ),
+            deleteUseCase: EmpregoDeleteUseCase(
+              empregoRepo,
+            ),
+          )..load(fetchData: false),
+        ),
+        BlocProvider(
           create: (_) => HomeBloc(
-            empregoLoadUseCase: EmpregoDataLoadUseCase(
-              empregoRepo,
-            ),
-            empregoInsertUseCase: EmpregoInsertUseCase(
-              empregoRepo,
-            ),
-            empregoDeleteUseCase: EmpregoDeleteUseCase(
-              empregoRepo,
-            ),
-            setVaultDataUseCase: const SetVaultDataUsecase(),
-            loginUserUsecase: LoginUserUsecase(repo: registerRepo),
-            registerUserUsecase: RegisterUserUsecase(repo: registerRepo),
-          )..load(
-              fetchData: vault.isLoggedIn,
-            ),
+            empregoDataLoadUseCase: EmpregoDataLoadUseCase(empregoRepo),
+          )..load(),
         ),
       ],
       child: child,

@@ -24,11 +24,11 @@ class HomeContent extends StatelessWidget {
               children: [
                 EmpregoCard(
                   empregos: s.empregos,
-                  selectedEmprego: s.selectedEmprego!,
+                  empregoPos: s.empregoPos,
                 ),
                 const SizedBox(height: 8),
                 CalendarPage(
-                  emprego: s.selectedEmprego!,
+                  emprego: s.currentEmprego,
                 ),
                 const HorasList(horas: []),
               ],

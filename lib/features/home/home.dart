@@ -3,11 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcahoras3/features/empregos/empregos_screen.dart';
 import 'package:marcahoras3/features/home/home_content.dart';
 import 'package:marcahoras3/presentation_layer/blocs/home/home_state.dart';
+import 'package:marcahoras3/presentation_layer/blocs/registration/registration_bloc.dart';
+import 'package:marcahoras3/presentation_layer/dialogs/loading_dialog.dart';
 import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
 import 'package:marcahoras3/widgets/bloc_watcher.dart';
 import 'package:marcahoras3/widgets/hr_appbar.dart';
 
 import '../../presentation_layer/blocs/home/home_bloc.dart';
+import '../../routes.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -23,6 +26,16 @@ class _MyHomePageState extends State<MyHomePage>
     super.initState();
   }
 
+  void _logoff(BuildContext context) async {
+    final regBloc = context.read<RegistrationBloc>();
+
+    showLoadingDialog(context: context);
+    await regBloc.logout();
+
+    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacementNamed(Routes.registration);
+  }
+
   @override
   Widget build(BuildContext context) {
     final strings = context.strings();
@@ -30,7 +43,15 @@ class _MyHomePageState extends State<MyHomePage>
     final state = bloc.state;
 
     return Scaffold(
-      appBar: HrAppBar(label: context.strings().appName),
+      appBar: HrAppBar(
+        label: context.strings().appName,
+        actions: [
+          IconButton(
+            onPressed: () => _logoff(context),
+            icon: Icon(Icons.exit_to_app_outlined),
+          )
+        ],
+      ),
       body: BlocWatcher<HomeBloc, HomeState>(
         builder: (c, HomeState state) {
           return state.tabPos == 0

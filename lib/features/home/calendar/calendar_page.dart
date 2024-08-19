@@ -9,10 +9,10 @@ import '../widgets/add_hora_bts.dart';
 import 'calendar_header.dart';
 
 class CalendarPage extends StatelessWidget {
-  final Empregos emprego;
+  final Empregos? emprego;
 
   const CalendarPage({
-    required this.emprego,
+    this.emprego,
     super.key,
   });
 

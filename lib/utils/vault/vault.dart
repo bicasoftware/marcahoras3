@@ -1,15 +1,3 @@
-// class Vault {
-//   String? token;
-//   String? refreshToken;
-
-//   Vault({
-//     this.token,
-//     this.refreshToken,
-//   });
-
-//   bool get hasToken => token?.isNotEmpty == true;
-// }
-
 class Vault {
   Vault._();
   static final Vault _instance = Vault._();
