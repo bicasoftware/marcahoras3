@@ -45,12 +45,20 @@ class RegistrationProvider {
   }) async {
     final WebResponse response = await _connector.request(
       EndPoints.register,
-      method: WebMethod.get,
+      method: WebMethod.post,
       data: {
         'email': email,
         'password': password,
       },
     );
+
+    if ([200, 201].contains(response.statusCode) == false) {
+      throw WebException(
+        statusCode: response.statusCode,
+        errorMessage: response.statusMessage,
+        errorDetail: response.data['message'],
+      );
+    }
 
     return AuthenticationDataDto.fromJson(response.data);
   }

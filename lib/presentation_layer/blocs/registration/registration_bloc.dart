@@ -29,7 +29,7 @@ class RegistrationBloc extends Cubit<RegistrationState> {
           ),
         );
 
-  Future<void> register(String email, String password) async {
+  Future<bool> register(String email, String password) async {
     try {
       emit(
         state.copyWith(
@@ -52,6 +52,8 @@ class RegistrationBloc extends Cubit<RegistrationState> {
           status: StateSuccessStatus(),
         ),
       );
+
+      return true;
     } on Exception catch (e) {
       emit(
         state.copyWith(

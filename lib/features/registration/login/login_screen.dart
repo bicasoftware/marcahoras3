@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../presentation_layer/blocs.dart';
-import '../../../presentation_layer/validators/form_validator.dart';
+import '../../../presentation_layer/validators/validators.dart';
 import '../../../resources.dart';
 import '../../../routes.dart';
 import '../../../widgets.dart';
@@ -48,42 +48,14 @@ class _LoginScreenState extends State<LoginScreen> {
     final bloc = context.read<RegistrationBloc>();
     final strings = context.strings();
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.red,
-              Colors.red.shade900,
-            ],
-          ),
-        ),
+      body: RedGradientContainer(
         child: BlocHelper<RegistrationBloc, RegistrationState>(
           bloc: bloc,
           onError: (error) {
-            showDialog(
+            showErrorDialog(
               context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text(strings.defaultErro),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(strings.fechar),
-                    )
-                  ],
-                  content: Container(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(error),
-                  ),
-                );
-              },
+              errorMsg: error,
             );
-            print(error);
           },
           child: Form(
             key: _formKey,
