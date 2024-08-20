@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../presentation_layer/resources/colors.dart';
+import '../resources.dart';
+
 
 class CardContainer extends StatelessWidget {
   final Widget child;

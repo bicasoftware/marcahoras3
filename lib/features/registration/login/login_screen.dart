@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/presentation_layer/dialogs/loading_dialog.dart';
-import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
-import 'package:marcahoras3/routes.dart';
-import 'package:marcahoras3/widgets/bloc_helper.dart';
-import 'package:marcahoras3/widgets/hr_text_input.dart';
 
 import '../../../presentation_layer/blocs.dart';
 import '../../../presentation_layer/validators/form_validator.dart';
+import '../../../resources.dart';
+import '../../../routes.dart';
+import '../../../widgets.dart';
 import '../registration_container.dart';
 
 class LoginScreen extends StatefulWidget {

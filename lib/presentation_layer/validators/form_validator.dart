@@ -1,4 +1,4 @@
-import '../resources/localizations/strings.dart';
+import '../../resources/localizations/strings.dart';
 
 class EmailValidator {
   static String? validate(String? email, StringsContract strings) {

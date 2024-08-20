@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:marcahoras3/features/home/home.dart';
-import 'package:marcahoras3/features/registration/login/login_screen.dart';
-import 'package:marcahoras3/features/registration/register/register_screen.dart';
-import 'package:marcahoras3/presentation_layer/resources/color_scheme.dart';
 
 import 'bloc_loader.dart';
 import 'features/empregos/empregos_screen.dart';
+import 'features/home/home.dart';
+import 'features/registration/login/login_screen.dart';
+import 'features/registration/register/register_screen.dart';
+import 'resources.dart';
 import 'routes.dart';
 import 'utils/utils.dart';
 import 'utils/vault/vault_keys.dart';

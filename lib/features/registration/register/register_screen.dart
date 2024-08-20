@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/presentation_layer/blocs/home/home_bloc.dart';
-import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
+import 'package:marcahoras3/widgets/dialogs/loading_dialog.dart';
+import 'package:marcahoras3/resources/localizations/strings_data.dart';
 import 'package:marcahoras3/presentation_layer/validators/form_validator.dart';
 import 'package:marcahoras3/presentation_layer/validators/password_match_validator.dart';
 import 'package:marcahoras3/widgets/hr_text_input.dart';
@@ -32,18 +32,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  Future<void> _register(HomeBloc bloc) async {
+  Future<void> _register(RegistrationBloc bloc, BuildContext ctx) async {
     if (_formKey.currentState?.validate() == true) {
-      print("form valido");
+      showLoadingDialog(context: ctx);
+      final logged = await bloc.
+      print("valid form");
     }
   }
 
   void _goToLogin(BuildContext c) {
     Navigator.of(c).pushReplacementNamed(Routes.login);
   }
-
-  // TODO - implementar rotina de logoff
-  // TODO - verificar como limpar os dados do app ao remover o app no iOS
 
   @override
   Widget build(BuildContext context) {

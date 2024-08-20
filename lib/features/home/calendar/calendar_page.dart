@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/features/home/calendar/calendar_item.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../presentation_layer/resources/colors.dart';
 import '../../../presentation_layer/shared_widgets/bottomsheethelper.dart';
+import '../../../resources/colors.dart';
 import '../../../widgets/card_container.dart';
 import '../widgets/add_hora_bts.dart';
 import 'calendar_header.dart';
+import 'calendar_item.dart';
 
 class CalendarPage extends StatelessWidget {
   final Empregos? emprego;

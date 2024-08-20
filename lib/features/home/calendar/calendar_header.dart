@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
 
-import '../../../widgets/card_container.dart';
+import '../../../resources.dart';
+import '../../../widgets.dart';
 
 class CalendarHeader extends StatelessWidget {
   const CalendarHeader({super.key});

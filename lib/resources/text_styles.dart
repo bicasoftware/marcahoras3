@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/presentation_layer/resources/colors.dart';
+
+import '../resources.dart';
 
 class AppTextStyles {
   static const largeText = TextStyle(

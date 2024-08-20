@@ -4,8 +4,8 @@ import 'package:marcahoras3/features/empregos/empregos_screen.dart';
 import 'package:marcahoras3/features/home/home_content.dart';
 import 'package:marcahoras3/presentation_layer/blocs/home/home_state.dart';
 import 'package:marcahoras3/presentation_layer/blocs/registration/registration_bloc.dart';
-import 'package:marcahoras3/presentation_layer/dialogs/loading_dialog.dart';
-import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
+import 'package:marcahoras3/widgets/dialogs/loading_dialog.dart';
+import 'package:marcahoras3/resources/localizations/strings_data.dart';
 import 'package:marcahoras3/widgets/bloc_watcher.dart';
 import 'package:marcahoras3/widgets/hr_appbar.dart';
 

@@ -1,4 +1,4 @@
-import '../resources/localizations/strings.dart';
+import '../../resources/localizations/strings.dart';
 
 class PasswordMatchValidator {
   static String? validate(String? pwd1, String? pwd2, StringsContract strings) {

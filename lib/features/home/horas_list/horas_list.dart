@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/features/horas/horas_detail.dart';
-import 'package:marcahoras3/presentation_layer/resources/localizations/strings_data.dart';
-import 'package:marcahoras3/widgets/card_container.dart';
 
 import '../../../domain_layer/models.dart';
+import '../../../resources/localizations/strings_data.dart';
+import '../../../widgets/card_container.dart';
+import '../../horas/horas_detail.dart';
 
 class HorasList extends StatelessWidget {
   final List<Horas> horas;

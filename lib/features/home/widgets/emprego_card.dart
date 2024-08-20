@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/presentation_layer/resources/colors.dart';
+import 'package:marcahoras3/resources/colors.dart';
 
-import '../../../domain_layer/models/empregos.dart';
-import '../../../widgets/card_container.dart';
+import '../../../domain_layer/models.dart';
+import '../../../widgets.dart';
+
 
 class EmpregoCard extends StatefulWidget {
   final List<Empregos> empregos;
