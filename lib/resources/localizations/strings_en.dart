@@ -98,4 +98,22 @@ class EnStrings implements StringsContract {
   
   @override
   String get carregando => "Wait a moment...";
+  
+  @override
+  String get adicionarEmprego => "Click on + button";
+  
+  @override
+  String get empregosEmpty => "No Occupation Added";
+  
+  @override
+  String get editarEmprego => "Edit Occupation";
+  
+  @override
+  String get novoEmprego => "New Occupation";
+  
+  @override
+  String get descricaoEmprego => "Occupation Name";
+  
+  @override
+  String get emprego => "Occupation";
 }

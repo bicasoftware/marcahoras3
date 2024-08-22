@@ -7,9 +7,9 @@ import '../models.dart';
 
 @immutable
 class Empregos extends Equatable {
-  final String id;
+  final String? id;
   final String descricao;
-  final DateTime admissao;
+  final DateTime? admissao;
   final TimeOfDay entrada;
   final TimeOfDay saida;
   final bool bancoHoras;
@@ -22,16 +22,16 @@ class Empregos extends Equatable {
   final UnmodifiableListView<Salarios> salarios;
 
   Empregos({
-    required this.id,
-    required this.descricao,
-    required this.admissao,
-    required this.entrada,
-    required this.saida,
-    required this.bancoHoras,
-    required this.porcFeriado,
-    required this.porcNormal,
-    required this.cargaHoraria,
-    required this.ativo,
+    this.id,
+    this.descricao = '',
+    this.admissao,
+    this.entrada = const TimeOfDay(hour: 8, minute: 0),
+    this.saida =  const TimeOfDay(hour: 18, minute: 0),
+    this.bancoHoras = false,
+    this.porcFeriado = 100,
+    this.porcNormal = 50,
+    this.cargaHoraria = 220,
+    this.ativo = true,
     Iterable<Horas> horas = const [],
     Iterable<Salarios> salarios = const [],
   })  : horas = UnmodifiableListView(horas),

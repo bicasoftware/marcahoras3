@@ -6,12 +6,14 @@ class HrTextInput extends StatelessWidget {
   final String hint;
   final EdgeInsets padding;
   final String? Function(String?)? validator;
+  final TextStyle? labelStyle;
 
   const HrTextInput({
     super.key,
     required this.controller,
-    required this.label,
     required this.hint,
+    required this.label,
+    this.labelStyle,
     this.validator,
     this.padding = EdgeInsets.zero,
   });
@@ -28,10 +30,11 @@ class HrTextInput extends StatelessWidget {
         children: <Widget>[
           Text(
             label,
-            style: theme.labelLarge,
+            style: labelStyle ?? theme.labelLarge,
           ),
           TextFormField(
             controller: controller,
+            autofocus: false,
             decoration: InputDecoration(
               filled: true,
               border: const OutlineInputBorder(

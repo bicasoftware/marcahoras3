@@ -45,4 +45,6 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   void setTabPos(int pos) => emit(state.copyWith(tabPos: pos));
+
+  void toggleDarkMode() => emit(state.copyWith(isDarkMode: !state.isDarkMode));
 }

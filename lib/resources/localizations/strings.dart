@@ -5,6 +5,7 @@ abstract class StringsContract {
   String get continuar;
   String get defaultErro;
   String get empregos;
+  String get emprego;
   String get fechar;
   String get horas;
   String get jaTenhoCadastro;
@@ -27,6 +28,11 @@ abstract class StringsContract {
   String get passwordMustNotBeEmpty;
   String get valueCantBeEmpty;
   String get valueAtLeastNCharacter;
+  String get empregosEmpty;
+  String get adicionarEmprego;
+  String get novoEmprego;
+  String get editarEmprego;
+  String get descricaoEmprego;
 
   List<String> get weekDays;
 }

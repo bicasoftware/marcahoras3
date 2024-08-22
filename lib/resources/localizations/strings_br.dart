@@ -71,7 +71,24 @@ class BrStrings implements StringsContract {
 
   @override
   String get fechar => "Fechar";
-  
+
   @override
   String get carregando => "Um momento...";
+
+  @override
+  String get empregosEmpty => "Nenhum emprego adicionado.";
+  @override
+  String get adicionarEmprego => "Adicionar";
+  
+  @override
+  String get editarEmprego => "Editar Emprego";
+  
+  @override
+  String get novoEmprego => "Novo Emprego";
+  
+  @override
+  String get descricaoEmprego => "Descrição";
+  
+  @override
+  String get emprego => "Emprego";
 }

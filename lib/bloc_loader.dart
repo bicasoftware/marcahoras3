@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcahoras3/data_layer/web/web.dart';
+import 'package:marcahoras3/presentation_layer/blocs/empregos/empregos_detail/empregos_detail_bloc.dart';
 import 'package:marcahoras3/realm/realm_connector.dart';
 
 import 'data_layer/providers.dart';
@@ -51,9 +52,6 @@ class BlocLoader extends StatelessWidget {
             empregoDataLoadUseCase: EmpregoDataLoadUseCase(
               empregoRepo,
             ),
-            insertUseCase: EmpregoInsertUseCase(
-              empregoRepo,
-            ),
             deleteUseCase: EmpregoDeleteUseCase(
               empregoRepo,
             ),
@@ -63,6 +61,13 @@ class BlocLoader extends StatelessWidget {
           create: (_) => HomeBloc(
             empregoDataLoadUseCase: EmpregoDataLoadUseCase(empregoRepo),
           )..load(),
+        ),
+        BlocProvider(
+          create: (_) => EmpregosDetailBloc(
+            insertUseCase: EmpregoInsertUseCase(
+              empregoRepo,
+            ),
+          ),
         ),
       ],
       child: child,

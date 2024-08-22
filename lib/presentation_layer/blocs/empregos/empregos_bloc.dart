@@ -6,16 +6,13 @@ import '../../../domain_layer/models.dart';
 import '../../../domain_layer/usecases.dart';
 
 class EmpregosBloc extends Cubit<EmpregosState> {
-  final EmpregoInsertUseCase _insertUseCase;
   final EmpregoDeleteUseCase _deleteUseCase;
   final EmpregoDataLoadUseCase _loadEmpregos;
 
   EmpregosBloc({
-    required EmpregoInsertUseCase insertUseCase,
     required EmpregoDeleteUseCase deleteUseCase,
     required EmpregoDataLoadUseCase empregoDataLoadUseCase,
-  })  : _insertUseCase = insertUseCase,
-        _deleteUseCase = deleteUseCase,
+  })  : _deleteUseCase = deleteUseCase,
         _loadEmpregos = empregoDataLoadUseCase,
         super(
           EmpregosState(
@@ -53,37 +50,6 @@ class EmpregosBloc extends Cubit<EmpregosState> {
       );
 
       rethrow;
-    }
-  }
-
-  /// Insert new [Emprego] model
-  Future<void> addEmprego(Empregos emprego) async {
-    try {
-      emit(
-        state.copyWith(
-          status: StateLoadingStatus(),
-        ),
-      );
-
-      final newEmprego = await _insertUseCase(emprego);
-
-      emit(
-        state.copyWith(
-          empregos: [
-            ...state.empregos,
-            newEmprego,
-          ],
-          status: StateSuccessStatus(),
-        ),
-      );
-    } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          status: StateErrorStatus(
-            errorMsg: e.toString(),
-          ),
-        ),
-      );
     }
   }
 
