@@ -46,7 +46,19 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: "Horas Extras",
         debugShowCheckedModeBanner: false,
-        theme: mrAppTheme,
+        theme: ThemeData(
+          fontFamily: 'FiraSans',
+          useMaterial3: true,
+          colorScheme: lightColorScheme,
+          appBarTheme: appBarColorScheme,          
+          textTheme: TextTheme(
+            labelLarge: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),          
+        ),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

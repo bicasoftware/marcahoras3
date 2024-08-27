@@ -21,12 +21,13 @@ class AppColors {
   static const onBackground = Color(0xFF001F25);
   static const surface = Color(0xFFF8FDFF);
   static const onSurface = Color(0xFF001F25);
-  static const surfaceVariant = Color(0xFFF5DDDA);
+  static const surfaceVariant = Color(0xFFFFFFFF);
   static const onSurfaceVariant = Color(0xFF534341);
-  static const outline = Color(0xFF857370);
+  static const outline = Color(0xFFCE3C34);
   static const onInverseSurface = Color(0xFFD6F6FF);
   static const inverseSurface = Color(0xFF00363F);
-  static const inversePrimary = Color(0xFFCE3C34);
+  static const inversePrimary = Color.fromARGB(255, 247, 68, 59);
+  // static const inversePrimary = Color(0xFFCE3C34);
   static const shadow = Color(0xFF000000);
   static const surfaceTint = Color(0xFFB4271F);
   static const outlineVariant = Color(0xFFD8C2BE);

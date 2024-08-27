@@ -1,6 +1,7 @@
 abstract class StringsContract {
   String get appName;
   String get appDescription;
+  String get bancoHoras;
   String get carregando;
   String get continuar;
   String get defaultErro;
@@ -26,6 +27,9 @@ abstract class StringsContract {
   String get emailInvalid;
   String get passwordMustMatch;
   String get passwordMustNotBeEmpty;
+  String get salvar;
+  String get salario;
+  String get valorSalario;
   String get valueCantBeEmpty;
   String get valueAtLeastNCharacter;
   String get empregosEmpty;

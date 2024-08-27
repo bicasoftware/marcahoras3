@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 extension TimeOfDayHelper on TimeOfDay {
   String asString() {
-    return "$hour:$minute:00";
+    return "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}";
   }
 }
 

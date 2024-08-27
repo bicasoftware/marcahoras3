@@ -70,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onContinuePressed: () => _register(bloc, context),
               child: Column(
                 children: [
-                  HrTextInput(
+                  ShTextField(
                     controller: emailController,
                     label: strings.typeEmail,
                     hint: strings.email,
@@ -81,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       );
                     },
                   ),
-                  HrTextInput(
+                  ShTextField(
                     controller: passwordController,
                     label: strings.password,
                     hint: strings.password,
@@ -103,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return error;
                     },
                   ),
-                  HrTextInput(
+                  ShTextField(
                     controller: passwordConfirmController,
                     label: strings.typeConfirmPass,
                     hint: strings.password,

@@ -7,7 +7,7 @@ import 'package:marcahoras3/presentation_layer/blocs/registration/registration_b
 import 'package:marcahoras3/widgets/dialogs/loading_dialog.dart';
 import 'package:marcahoras3/resources/localizations/strings_data.dart';
 import 'package:marcahoras3/widgets/bloc_watcher.dart';
-import 'package:marcahoras3/widgets/hr_appbar.dart';
+import 'package:marcahoras3/widgets/sh_appbar.dart';
 
 import '../../presentation_layer/blocs/home/home_bloc.dart';
 import '../../routes.dart';
@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage>
     final state = bloc.state;
 
     return Scaffold(
-      appBar: HrAppBar(
+      appBar: ShAppBar(
         label: context.strings().appName,
         actions: [
           IconButton(

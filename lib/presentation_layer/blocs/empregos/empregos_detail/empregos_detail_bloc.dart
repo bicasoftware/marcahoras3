@@ -18,6 +18,12 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
           ),
         );
 
+  void reset() {
+    emit(
+      state.copyWith(emprego: Empregos()),
+    );
+  }
+
   void setDescricao(String descricao) {
     emit(
       state.copyWith(descricao: descricao),
@@ -57,6 +63,12 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
   void setCargaHoraria(int carga) {
     emit(
       state.copyWith(cargaHoraria: carga),
+    );
+  }
+
+  void toggleBancoHoras() {
+    emit(
+      state.copyWith(bancoHoras: !state.bancoHoras),
     );
   }
 

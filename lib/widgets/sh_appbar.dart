@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class HrAppBar extends StatelessWidget implements PreferredSizeWidget {
+class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String label;
   final List<Widget>? actions;
 
-  const HrAppBar({
+  const ShAppBar({
     required this.label,
     this.actions,
     super.key,

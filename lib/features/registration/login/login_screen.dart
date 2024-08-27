@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
               onContinuePressed: () => _validateForm(bloc, context),
               child: Column(
                 children: [
-                  HrTextInput(
+                  ShTextField(
                     controller: emailController,
                     label: strings.typeEmail,
                     hint: strings.email,
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       return EmailValidator.validate(s, strings);
                     },
                   ),
-                  HrTextInput(
+                  ShTextField(
                     controller: passwordController,
                     label: strings.password,
                     hint: strings.password,

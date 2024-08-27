@@ -17,7 +17,7 @@ class EmpregosDetailState extends BaseState implements Equatable {
   String? get descricao => emprego.descricao;
   TimeOfDay? get entrada => emprego.entrada;
   TimeOfDay? get saida => emprego.saida;
-  bool? get bancoHoras => emprego.bancoHoras;
+  bool get bancoHoras => emprego.bancoHoras;
   int? get porcFeriado => emprego.porcFeriado;
   int? get porcNormal => emprego.porcNormal;
   int? get cargaHoraria => emprego.cargaHoraria;
