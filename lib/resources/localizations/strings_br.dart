@@ -103,4 +103,7 @@ class BrStrings implements StringsContract {
   
   @override
   String get salvar => "Salvar";
+  
+  @override
+  String get cargaHoraria => "Carga Horária Mensal";
 }

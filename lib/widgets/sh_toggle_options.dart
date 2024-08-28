@@ -7,11 +7,13 @@ class ShToggleOptions extends StatefulWidget {
   final List<String> items;
   final String selectedItem;
   final ValueChanged<String> onChanged;
+  final String label;
 
   const ShToggleOptions({
     required this.items,
     required this.selectedItem,
     required this.onChanged,
+    required this.label,
     super.key,
   });
 
@@ -41,26 +43,34 @@ class _ShToggleOptionsState extends State<ShToggleOptions> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
+
     return IndicatorTile(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text("a", textAlign: TextAlign.left,),
-          Row(
-            children: [
-              const SizedBox(width: 16),
-              ToggleButtons(
-                children: widget.items.map((e) => _ToggleItem(value: e)).toList(),
-                isSelected: _selectedItems,
-                selectedColor: Colors.white,
-                selectedBorderColor: AppColors.primary,
-                borderColor: AppColors.onBackground,
-                onPressed: (i) {
-                  setState(() => _fillSelectedItems(i));
-                  widget.onChanged(widget.items[_itemIndex]);
-                },
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+            child: Text(
+              widget.label,
+              textAlign: TextAlign.left,
+              style: theme.labelLarge,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, bottom: 16),
+            child: ToggleButtons(
+              children:
+                  widget.items.map((e) => _ToggleItem(value: e)).toList(),
+              isSelected: _selectedItems,
+              selectedColor: Colors.white,
+              selectedBorderColor: AppColors.primary,
+              borderColor: AppColors.onBackground,              
+              onPressed: (i) {
+                setState(() => _fillSelectedItems(i));
+                widget.onChanged(widget.items[_itemIndex]);
+              },
+            ),
           ),
         ],
       ),

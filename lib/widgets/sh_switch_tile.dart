@@ -16,10 +16,11 @@ class ShSwitchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
     return IndicatorTile(
       child: SwitchListTile(
         value: value,
-        title: Text(label),
+        title: Text(label, style: theme.labelLarge,),
         contentPadding: EdgeInsets.only(left: 16),
         onChanged: onTap,
       ),

@@ -12,6 +12,7 @@ export 'widgets/sh_switch_tile.dart';
 export 'widgets/sh_slider_picker.dart';
 export 'widgets/sh_text_tile.dart';
 export 'widgets/sh_toggle_options.dart';
+export 'widgets/sh_drop_down.dart';
 export 'widgets/loading_widget.dart';
 export 'widgets/no_data_container.dart';
 export 'widgets/red_gradient_container.dart';

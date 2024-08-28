@@ -19,25 +19,7 @@ class IndicatorTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Stack(
-        children: [
-          Positioned(
-            left: 0,
-            top: 0,
-            bottom: 0,
-            child: Container(
-              width: _decorationSize,
-              margin: EdgeInsets.symmetric(
-                vertical: _decorationSize,
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withAlpha(30),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(_decorationSize),
-                  bottomLeft: Radius.circular(_decorationSize),
-                ),
-              ),
-            ),
-          ),
+        children: [        
           Container(
             margin: EdgeInsets.only(
               left: _decorationSize,
@@ -57,6 +39,21 @@ class IndicatorTile extends StatelessWidget {
               ],
             ),
             child: child,
+          ),
+          Positioned(
+            left: 4,
+            top: 0,
+            bottom: 0,
+            child: Container(
+              width: _decorationSize,              
+              decoration: BoxDecoration(
+                color: AppColors.inversePrimary.withAlpha(50),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(_decorationSize),
+                  bottomLeft: Radius.circular(_decorationSize),
+                ),
+              ),
+            ),
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../resources/colors.dart';
 
@@ -9,6 +10,11 @@ class ShTextField extends StatelessWidget {
   final EdgeInsets padding;
   final String? Function(String?)? validator;
   final TextStyle? labelStyle;
+  final bool isOutlined;
+  final Icon? icon;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? keyboardType;
+  final int? maxChars;
 
   const ShTextField({
     super.key,
@@ -17,46 +23,71 @@ class ShTextField extends StatelessWidget {
     required this.label,
     this.labelStyle,
     this.validator,
+    this.icon,
+    this.inputFormatters,
+    this.keyboardType,
+    this.maxChars,
     this.padding = EdgeInsets.zero,
+    this.isOutlined = true,
   });
+
+  get _inputBorder => UnderlineInputBorder(
+    borderSide: BorderSide(color: Colors.black12, width: 1),
+  );
+
+  InputDecoration outlinedDecoration(TextTheme theme) => InputDecoration(
+        filled: true,
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.outline),
+        ),
+        hintText: hint,
+        errorStyle: theme.labelMedium?.copyWith(
+          color: AppColors.onPrimary,
+          fontWeight: FontWeight.bold,
+        ),
+      );
+  InputDecoration defaultDecoration(TextTheme theme) => InputDecoration(
+        filled: true,
+        hintText: hint,
+        border: _inputBorder,
+        focusedBorder: _inputBorder,
+        errorBorder: _inputBorder,
+        enabledBorder: _inputBorder,
+        disabledBorder: _inputBorder,
+        focusedErrorBorder: _inputBorder,
+        contentPadding: EdgeInsets.zero,
+        icon: icon,
+        errorStyle: theme.labelMedium?.copyWith(
+          color: AppColors.onPrimary,
+          fontWeight: FontWeight.bold,
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Text(
-            label,
-            style: labelStyle ??
-                theme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                
-          ),
-          const SizedBox(height: 4),
-          TextFormField(
-            controller: controller,
-            autofocus: false,
-            decoration: InputDecoration(
-              filled: true,
-              border: const OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.outline),
-              ),
-              hintText: hint,
-              errorStyle: theme.labelMedium?.copyWith(
-                color: AppColors.onPrimary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            validator: validator,
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Text(
+          label,
+          style: labelStyle ??
+              theme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 4),
+        TextFormField(
+          controller: controller,
+          autofocus: false,
+          decoration:
+              isOutlined ? outlinedDecoration(theme) : defaultDecoration(theme),
+          validator: validator,
+          inputFormatters: inputFormatters,
+          keyboardType: keyboardType,
+          maxLength: maxChars,
+        ),
+      ],
     );
   }
 }

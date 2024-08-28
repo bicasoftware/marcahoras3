@@ -24,9 +24,28 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
     );
   }
 
+  bool validate() {
+    return [
+      state.descricao?.isNotEmpty ?? false,
+      (state.admissao != null && state.admissao!.isAfter(DateTime.now())),
+      state.entrada != null,
+      state.saida != null,
+      state.porcFeriado != null,
+      state.porcNormal != null,
+      state.ativo != null,
+      (state.salario != 0.0 ) // TODO - implementar check para lista de empregos
+    ].every((it) => it);
+  }
+
   void setDescricao(String descricao) {
     emit(
       state.copyWith(descricao: descricao),
+    );
+  }
+
+  void setSalario(double salario) {
+    emit(
+      state.copyWith(salario: salario)
     );
   }
 

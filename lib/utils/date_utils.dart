@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:intl/intl.dart';
 
 final _fmt = DateFormat('dd-mm-yyyy');
@@ -21,4 +23,10 @@ DateTime? parseTime(String? dateStr) {
 String? formatDate(DateTime? date) {
   if (date == null) return null;
   return _fmt.format(date);
+}
+
+String formatDateByLocale(DateTime? date, Locale locale) {
+  if (date == null) return '';
+  final fmt = DateFormat.yMd(locale.toString());
+  return fmt.format(date);
 }

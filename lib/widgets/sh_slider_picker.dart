@@ -21,25 +21,26 @@ class ShSliderPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
     return IndicatorTile(
       child: ListTile(
-        title: Text(label),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        title: Row(
           children: [
-            Text("${value.toString()} %"),
-            Slider(
-              min: minValue.toDouble(),
-              max: maxValue.toDouble(),
-              divisions: (maxValue - minValue) ~/ 5,
-              value: value.toDouble(),
-              label: value.toInt().toString(),
-              activeColor: AppColors.primary,
-              onChanged: (v) => onChanged(
-                v.toInt(),
-              ),
-            ),
+            Text(label, style: theme.labelLarge),
+            const Spacer(),
+            Text("${value.toString()} %", style: theme.labelLarge!.copyWith(color: AppColors.primary, fontWeight: FontWeight.normal)),
           ],
+        ),
+        subtitle: Slider(
+          min: minValue.toDouble(),
+          max: maxValue.toDouble(),
+          divisions: (maxValue - minValue) ~/ 5,
+          value: value.toDouble(),
+          label: value.toInt().toString(),
+          activeColor: AppColors.primary,
+          onChanged: (v) => onChanged(
+            v.toInt(),
+          ),
         ),
       ),
     );

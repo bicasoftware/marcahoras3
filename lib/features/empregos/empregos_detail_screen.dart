@@ -1,4 +1,6 @@
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcahoras3/presentation_layer/blocs/empregos/empregos_detail/empregos_detail_bloc.dart';
 
@@ -21,14 +23,15 @@ class EmpregosDetailScreen extends StatefulWidget {
 }
 
 class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
+  late final EmpregosDetailBloc _bloc;
   final _formKey = GlobalKey<FormState>();
   final ctrDescricao = TextEditingController();
-  final ctrSalario = TextEditingController();
+  final ctrSalarioMasked = MoneyMaskedTextController(leftSymbol: "R\$");
 
   @override
   void dispose() {
     ctrDescricao.dispose();
-    ctrSalario.dispose();
+    ctrSalarioMasked.dispose();
     super.dispose();
   }
 
@@ -37,8 +40,14 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     super.initState();
     if (mounted) {
       context.read<EmpregosDetailBloc>().reset();
+      ctrDescricao.addListener(_updateDescricao);
+      ctrSalarioMasked.addListener(_updateSalario);
     }
   }
+
+  void _updateSalario() => _bloc.setSalario(ctrSalarioMasked.numberValue);
+
+  void _updateDescricao() => _bloc.setDescricao(ctrDescricao.text);
 
   Future<void> _selectDate(
     BuildContext context,
@@ -66,16 +75,26 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     }
   }
 
-  void _setCargaHoraria(EmpregosDetailBloc bloc, String carga) {
-    bloc.setCargaHoraria(int.parse(carga));
+  Future<void> _validate(EmpregosDetailBloc bloc) async {
+    final valid = _formKey.currentState?.validate() ?? false;
+    if (valid) {
+      if (bloc.validate()) {
+        print("valid");
+      } else {
+        print('invalid on bloc');
+      }
+    } else {
+      print('invalid');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final strings = context.strings();
-    final bloc = context.watch<EmpregosDetailBloc>();
+    _bloc = context.watch<EmpregosDetailBloc>();
     final textTheme = Theme.of(context).textTheme;
-    final state = bloc.state;
+    final state = _bloc.state;
+    final locale = Localizations.localeOf(context);
 
     return Scaffold(
       appBar: ShAppBar(
@@ -83,9 +102,9 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
             widget.isInsert ? strings.adicionarEmprego : strings.editarEmprego,
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.symmetric(horizontal: 16),
         child: OutlinedButton.icon(
-          onPressed: () {},
+          onPressed: () => _validate(_bloc),
           icon: Icon(Icons.save_outlined),
           label: Text(
             strings.salvar,
@@ -101,9 +120,10 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
               children: [
                 ShTextTile(
                   controller: ctrDescricao,
-                  label: strings.emprego,
+                  label: "Descrição do Cargo",
                   hint: strings.descricaoEmprego,
                   labelStyle: textTheme.labelLarge,
+                  icon: Icon(Icons.text_fields),
                   validator: (s) {
                     return MinCharactersValidator.validate(
                       ctrDescricao.text,
@@ -113,24 +133,22 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                   },
                 ),
                 const SizedBox(height: 8),
-                ShToggleOptions(
-                  items: ["160", "180", "200", "220"],
-                  selectedItem: state.cargaHoraria.toString(),
-                  onChanged: (c) => _setCargaHoraria(bloc, c),
-                ),
-                const SizedBox(height: 8),
                 ShLabeledTile(
-                  value: state.admissao?.toIso8601String() ?? '',
+                  value: formatDateByLocale(
+                    state.admissao ?? DateTime.now(),
+                    locale,
+                  ),
                   label: "Data Admissão",
-                  onTap: () => _selectDate(context, bloc),
+                  onTap: () => _selectDate(context, _bloc),
                   icon: Icons.calendar_month,
                 ),
                 const SizedBox(height: 8),
                 ShTextTile(
-                  controller: ctrSalario,
+                  controller: ctrSalarioMasked,
                   label: strings.salario,
                   hint: "R\$ 1000,00",
                   labelStyle: textTheme.labelLarge,
+                  icon: Icon(Icons.monetization_on),
                   validator: (s) {
                     return MinCharactersValidator.validate(
                       ctrDescricao.text,
@@ -138,6 +156,10 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                       strings,
                     );
                   },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 8),
                 ShLabeledTile(
@@ -146,31 +168,39 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                   icon: Icons.timelapse_outlined,
                   onTap: () => _selectTime(
                     context: context,
-                    bloc: bloc,
+                    bloc: _bloc,
                     isEntrada: true,
                   ),
                 ),
                 const SizedBox(height: 8),
                 ShLabeledTile(
-                  value: bloc.state.saida?.asString() ?? "10:00",
+                  value: _bloc.state.saida?.asString() ?? "10:00",
                   label: "Horário Saída",
                   icon: Icons.timelapse_outlined,
                   onTap: () => _selectTime(
                     context: context,
-                    bloc: bloc,
+                    bloc: _bloc,
                   ),
+                ),
+                const SizedBox(height: 8),
+                ShDropDownButton(
+                  label: strings.cargaHoraria,
+                  value: state.cargaHoraria,
+                  options: [160, 180, 200, 220],
+                  onChanged: _bloc.setCargaHoraria,
+                  icon: Icon(Icons.list),
                 ),
                 const SizedBox(height: 8),
                 ShSwitchTile(
                   value: state.bancoHoras,
                   label: strings.bancoHoras,
-                  onTap: (_) => bloc.toggleBancoHoras(),
+                  onTap: (_) => _bloc.toggleBancoHoras(),
                 ),
                 const SizedBox(height: 8),
                 ShSliderPicker(
                   label: "Porcentagem Dias Normais",
                   value: state.porcNormal ?? 50,
-                  onChanged: bloc.setPorcNormal,
+                  onChanged: _bloc.setPorcNormal,
                   minValue: 50,
                   maxValue: 250,
                 ),
@@ -178,7 +208,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                 ShSliderPicker(
                   label: "Porcentagem Feriados/Domingos",
                   value: state.porcFeriado ?? 100,
-                  onChanged: bloc.setPorcFeriados,
+                  onChanged: _bloc.setPorcFeriados,
                   minValue: 100,
                   maxValue: 300,
                 ),

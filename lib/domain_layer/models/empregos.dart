@@ -18,6 +18,8 @@ class Empregos extends Equatable {
   final int cargaHoraria;
   final bool ativo;
 
+  final double salario;
+
   final UnmodifiableListView<Horas> horas;
   final UnmodifiableListView<Salarios> salarios;
 
@@ -26,12 +28,13 @@ class Empregos extends Equatable {
     this.descricao = '',
     this.admissao,
     this.entrada = const TimeOfDay(hour: 8, minute: 0),
-    this.saida =  const TimeOfDay(hour: 18, minute: 0),
+    this.saida = const TimeOfDay(hour: 18, minute: 0),
     this.bancoHoras = false,
     this.porcFeriado = 100,
     this.porcNormal = 50,
     this.cargaHoraria = 220,
     this.ativo = true,
+    this.salario = 0.0,
     Iterable<Horas> horas = const [],
     Iterable<Salarios> salarios = const [],
   })  : horas = UnmodifiableListView(horas),
@@ -48,6 +51,7 @@ class Empregos extends Equatable {
     int? porcNormal,
     int? cargaHoraria,
     bool? ativo,
+    double? salario,
     Iterable<Horas>? horas,
     Iterable<Salarios>? salarios,
   }) {
@@ -64,6 +68,7 @@ class Empregos extends Equatable {
       ativo: ativo ?? this.ativo,
       horas: horas ?? this.horas,
       salarios: salarios ?? this.salarios,
+      salario: salario ?? this.salario,
     );
   }
 
@@ -80,6 +85,7 @@ class Empregos extends Equatable {
       porcNormal,
       cargaHoraria,
       ativo,
+      salario,
     ];
   }
 }

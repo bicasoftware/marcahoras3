@@ -3,8 +3,8 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'bloc_loader.dart';
-import 'features/empregos/empregos_screen.dart';
 import 'features/empregos/empregos_detail_screen.dart';
+import 'features/empregos/empregos_screen.dart';
 import 'features/home/home.dart';
 import 'features/registration/login/login_screen.dart';
 import 'features/registration/register/register_screen.dart';
@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vault = Vault();
-
     return BlocLoader(
       child: MaterialApp(
         title: "Horas Extras",
@@ -50,14 +49,14 @@ class MyApp extends StatelessWidget {
           fontFamily: 'FiraSans',
           useMaterial3: true,
           colorScheme: lightColorScheme,
-          appBarTheme: appBarColorScheme,          
+          appBarTheme: appBarColorScheme,
           textTheme: TextTheme(
             labelLarge: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
-          ),          
+          ),
         ),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,

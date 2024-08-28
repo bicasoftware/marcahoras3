@@ -18,11 +18,12 @@ class ShLabeledTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
     return IndicatorTile(
       onTap: onTap,
       child: ListTile(
+        title: Text(label, style: theme.labelLarge,),
         leading: Icon(icon),
-        title: Text(label),
         subtitle: Text(value),
         contentPadding: EdgeInsets.only(left: 16),
       ),

@@ -37,6 +37,7 @@ abstract class StringsContract {
   String get novoEmprego;
   String get editarEmprego;
   String get descricaoEmprego;
+  String get cargaHoraria;
 
   List<String> get weekDays;
 }

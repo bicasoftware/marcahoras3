@@ -128,4 +128,6 @@ class EnStrings implements StringsContract {
   
   @override
   String get salvar => "Done!";
+  @override
+  String get cargaHoraria => "Monthly worked hours";
 }

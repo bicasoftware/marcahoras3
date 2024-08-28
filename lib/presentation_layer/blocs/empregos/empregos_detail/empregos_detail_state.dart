@@ -20,8 +20,9 @@ class EmpregosDetailState extends BaseState implements Equatable {
   bool get bancoHoras => emprego.bancoHoras;
   int? get porcFeriado => emprego.porcFeriado;
   int? get porcNormal => emprego.porcNormal;
-  int? get cargaHoraria => emprego.cargaHoraria;
+  int get cargaHoraria => emprego.cargaHoraria;
   bool? get ativo => emprego.ativo;
+  double get salario => emprego.salario;
 
   @override
   bool operator ==(covariant EmpregosDetailState other) {
@@ -44,6 +45,7 @@ class EmpregosDetailState extends BaseState implements Equatable {
     int? porcNormal,
     int? cargaHoraria,
     bool? ativo,
+    double? salario,
     StateStatus? status,
     Empregos? emprego,
   }) {
@@ -58,6 +60,7 @@ class EmpregosDetailState extends BaseState implements Equatable {
               porcNormal: porcNormal ?? this.emprego.porcNormal,
               cargaHoraria: cargaHoraria ?? this.emprego.cargaHoraria,
               ativo: ativo ?? this.emprego.ativo,
+              salario: salario ?? this.emprego.salario,
             );
 
     return EmpregosDetailState(
