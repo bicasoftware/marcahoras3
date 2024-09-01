@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:marcahoras3/utils/bloc/state_status.dart';
 
 import '../../../../domain_layer/models.dart';
 import '../../../../domain_layer/usecases.dart';
+import '../../../../utils/utils.dart';
 import 'empregos_detail_state.dart';
 
 class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
   final EmpregoInsertUseCase _insertUseCase;
+  final SalarioCreateUseCase _salariosCreateUseCase;
 
-  EmpregosDetailBloc({required EmpregoInsertUseCase insertUseCase})
-      : _insertUseCase = insertUseCase,
+  EmpregosDetailBloc({
+    required EmpregoInsertUseCase insertUseCase,
+    required SalarioCreateUseCase salariosCreateUseCase,
+  })  : _insertUseCase = insertUseCase,
+        _salariosCreateUseCase = salariosCreateUseCase,
         super(
           EmpregosDetailState(
             emprego: Empregos(),
@@ -27,13 +33,13 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
   bool validate() {
     return [
       state.descricao?.isNotEmpty ?? false,
-      (state.admissao != null && state.admissao!.isAfter(DateTime.now())),
+      (state.admissao != null && state.admissao!.isBefore(DateTime.now())),
       state.entrada != null,
       state.saida != null,
       state.porcFeriado != null,
       state.porcNormal != null,
       state.ativo != null,
-      (state.salario != 0.0 ) // TODO - implementar check para lista de empregos
+      (state.salario != 0.0) // TODO - implementar check para lista de empregos
     ].every((it) => it);
   }
 
@@ -44,9 +50,7 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
   }
 
   void setSalario(double salario) {
-    emit(
-      state.copyWith(salario: salario)
-    );
+    emit(state.copyWith(salario: salario));
   }
 
   void setAdmissao(DateTime admissao) {
@@ -92,7 +96,7 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
   }
 
   /// Insert new [Emprego] model
-  Future<Empregos?> addEmprego(Empregos emprego) async {
+  Future<Empregos?> save() async {
     try {
       emit(
         state.copyWith(
@@ -100,9 +104,21 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
         ),
       );
 
-      final newEmprego = await _insertUseCase(emprego);
+      final newEmprego = await _insertUseCase(state.emprego);
+      final newSal = Salarios(
+        id: '',
+        ativo: true,
+        empregoId: newEmprego.id!,
+        valor: state.salario,
+        vigencia: getVigencia(state.admissao!),
+      );
 
-      emit(
+      final firstSalario = await _salariosCreateUseCase(newSal);
+
+      // TODO - implementar usecases para incluir dados do Realm
+      // parei pois: SONO      
+
+      await emit(
         state.copyWith(
           emprego: Empregos(),
           status: StateSuccessStatus(),
@@ -111,6 +127,7 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
 
       return newEmprego;
     } on Exception catch (e) {
+      print(e.toString());
       emit(
         state.copyWith(
           status: StateErrorStatus(
@@ -118,8 +135,8 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
           ),
         ),
       );
-    }
 
-    return null;
+      rethrow;
+    }
   }
 }

@@ -18,6 +18,10 @@ class Vault {
     _refreshToken = _refreshToken;
   }
 
+  void clean() {
+    
+  }
+
   factory Vault() {
     return _instance;
   }

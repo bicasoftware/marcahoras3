@@ -35,6 +35,8 @@ Future<void> _buildVaultData() async {
   );
 }
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: "Horas Extras",
         debugShowCheckedModeBanner: false,
+        navigatorKey: navigatorKey,
         theme: ThemeData(
           fontFamily: 'FiraSans',
           useMaterial3: true,

@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
-import '../../utils/utils.dart';
+
 import '../dtos.dart';
 
 @immutable
 class EmpregosDto extends Equatable {
   final String? id;
   final String? descricao;
-  final DateTime? admissao;
+  final String? admissao;
   final String? entrada;
   final String? saida;
   final bool? bancoHoras;
@@ -52,10 +52,9 @@ class EmpregosDto extends Equatable {
   }
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'id': id,
+    final data = <String, dynamic>{
       'descricao': descricao,
-      'admissao': admissao?.millisecondsSinceEpoch,
+      'admissao': admissao,
       'entrada': entrada,
       'saida': saida,
       'banco_horas': bancoHoras,
@@ -64,13 +63,15 @@ class EmpregosDto extends Equatable {
       'ativo': ativo,
       'carga_horaria': cargaHoraria,
     };
+
+    return data;
   }
 
   factory EmpregosDto.fromJson(Map<String, dynamic> map) {
     final emprego = EmpregosDto(
       id: map['id'],
       descricao: map['descricao'],
-      admissao: parseDate(map['admissao']),
+      admissao: map['admissao'],
       entrada: map['entrada'],
       saida: map['saida'],
       bancoHoras:

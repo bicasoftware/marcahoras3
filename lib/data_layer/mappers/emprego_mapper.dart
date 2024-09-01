@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import '../../domain_layer/models.dart';
 import '../../realm/realm_id_generator.dart';
 import '../../utils/utils.dart';
@@ -10,7 +12,7 @@ extension EmpregoMapper on EmpregosDto {
     return Empregos(
       id: id!,
       descricao: descricao!,
-      admissao: admissao!,
+      admissao: DateFormat("yyyy-MM-dd").parse(admissao!),
       entrada: entrada!.toTimeOfDay(),
       saida: saida!.toTimeOfDay(),
       bancoHoras: bancoHoras ?? false,
@@ -24,11 +26,10 @@ extension EmpregoMapper on EmpregosDto {
 
 extension EmpregoDtoMapper on Empregos {
   EmpregosDto toEmpregoDto() {
-    assertAllNotNull([admissao, entrada, saida]);
     return EmpregosDto(
       id: id,
       descricao: descricao,
-      admissao: admissao,
+      admissao: DateFormat("yyyy-MM-dd").format(admissao ?? DateTime.now()),
       entrada: entrada.asString(),
       saida: saida.asString(),
       bancoHoras: bancoHoras,
@@ -45,7 +46,7 @@ extension EmpregosRealmDtoMapper on EmpregosRealm {
     return EmpregosDto(
       id: id,
       descricao: descricao,
-      admissao: admissao,
+      admissao: DateFormat("yyyy-MM-dd").format(admissao!),
       entrada: entrada,
       saida: saida,
       bancoHoras: bancoHoras,
@@ -78,7 +79,7 @@ extension EmpregosDtoToRealmMapper on EmpregosDto {
     return EmpregosRealm(
       IdGenerator.generate(),
       descricao: descricao,
-      admissao: admissao,
+      admissao: DateFormat("yyyy-MM-dd").parse(admissao!),
       entrada: entrada,
       saida: saida,
       bancoHoras: bancoHoras ?? false,

@@ -15,6 +15,7 @@ class ShTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
   final int? maxChars;
+  final ValueChanged<String>? onValueChanged;
 
   const ShTextField({
     super.key,
@@ -27,6 +28,7 @@ class ShTextField extends StatelessWidget {
     this.inputFormatters,
     this.keyboardType,
     this.maxChars,
+    this.onValueChanged,
     this.padding = EdgeInsets.zero,
     this.isOutlined = true,
   });
@@ -58,7 +60,7 @@ class ShTextField extends StatelessWidget {
         contentPadding: EdgeInsets.zero,
         icon: icon,
         errorStyle: theme.labelMedium?.copyWith(
-          color: AppColors.onPrimary,
+          color: AppColors.primary,
           fontWeight: FontWeight.bold,
         ),
       );
@@ -86,6 +88,7 @@ class ShTextField extends StatelessWidget {
           inputFormatters: inputFormatters,
           keyboardType: keyboardType,
           maxLength: maxChars,
+          onChanged: onValueChanged,
         ),
       ],
     );

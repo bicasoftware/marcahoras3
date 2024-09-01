@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:marcahoras3/resources.dart';
 
-import '../presentation_layer/validators/validators.dart';
 import '../widgets.dart';
 
 class ShTextTile extends StatelessWidget {
@@ -15,6 +13,7 @@ class ShTextTile extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
   final int? maxChars;
+  final ValueChanged<String>? onValueChanged;
 
   const ShTextTile({
     required this.controller,
@@ -26,12 +25,12 @@ class ShTextTile extends StatelessWidget {
     this.keyboardType,
     this.inputFormatters,
     this.maxChars,
+    this.onValueChanged,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.strings();
 
     return IndicatorTile(
       child: Container(
@@ -52,13 +51,8 @@ class ShTextTile extends StatelessWidget {
                 inputFormatters: inputFormatters,
                 keyboardType: keyboardType,
                 maxChars: maxChars,
-                validator: (s) {
-                  return MinCharactersValidator.validate(
-                    controller.text,
-                    6,
-                    strings,
-                  );
-                },
+                onValueChanged: onValueChanged,
+                validator: validator,
               ),
             ),
           ],

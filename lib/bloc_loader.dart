@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/data_layer/web/interceptors/invalid_user_interceptor.dart';
 import 'package:marcahoras3/data_layer/web/web.dart';
-import 'package:marcahoras3/presentation_layer/blocs/empregos/empregos_detail/empregos_detail_bloc.dart';
 import 'package:marcahoras3/realm/realm_connector.dart';
 
 import 'data_layer/providers.dart';
@@ -22,6 +22,11 @@ class BlocLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     final realm = RealmConnector().realm;
     final connector = WebConnector();
+
+    connector.addInterceptor(
+      InvalidUserInterceptor(),
+    );
+
     final vault = Vault();
     connector.token = vault.token;
 

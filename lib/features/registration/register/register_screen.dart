@@ -54,6 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     final bloc = context.read<RegistrationBloc>();
     final strings = context.strings();
+    final theme = Theme.of(context).textTheme;
 
     return Scaffold(
       body: RedGradientContainer(
@@ -74,6 +75,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: emailController,
                     label: strings.typeEmail,
                     hint: strings.email,
+                    isOutlined: true,
+                    labelStyle: theme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.onPrimary,
+                    ),
                     validator: (s) {
                       return EmailValidator.validate(
                         emailController.text,
@@ -81,10 +87,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       );
                     },
                   ),
+                  const SizedBox(height: 8),
                   ShTextField(
                     controller: passwordController,
                     label: strings.password,
                     hint: strings.password,
+                    isOutlined: true,
+                    labelStyle: theme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.onPrimary,
+                    ),
                     validator: (s) {
                       String? error;
 
@@ -103,10 +115,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return error;
                     },
                   ),
+                  const SizedBox(height: 8),
                   ShTextField(
                     controller: passwordConfirmController,
                     label: strings.typeConfirmPass,
                     hint: strings.password,
+                    isOutlined: true,
+                    labelStyle: theme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.onPrimary,
+                    ),
                     validator: (s) {
                       String? error;
                       error = MinCharactersValidator.validate(

@@ -15,3 +15,15 @@ extension SalariosMapper on SalariosDto {
     );
   }
 }
+
+extension SalariosDtoMapper on Salarios {
+  SalariosDto toSalarioDto() {
+    return SalariosDto(
+      id: id,
+      empregoId: empregoId,
+      vigencia: vigencia,
+      valor: valor.toDouble(),
+      ativo: ativo,
+    );
+  }
+}

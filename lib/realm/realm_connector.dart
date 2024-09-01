@@ -23,4 +23,12 @@ class RealmConnector {
   }
 
   Realm get realm => _realm;
+
+  void cleanAll() {
+    _realm.write(() {
+      _realm.deleteAll<SalariosRealm>();
+      _realm.deleteAll<HorasRealm>();
+      _realm.deleteAll<EmpregosRealm>();
+    });
+  }
 }

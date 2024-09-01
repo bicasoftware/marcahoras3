@@ -78,8 +78,9 @@ class RegistrationContainer extends StatelessWidget {
                         changeRegisterLabel,
                         textAlign: TextAlign.center,
                         style: theme.labelLarge?.copyWith(
+                          color: AppColors.onPrimary,
                           decoration: TextDecoration.underline,
-                          decorationColor: theme.labelLarge?.color,
+                          decorationColor: AppColors.onPrimary,
                         ),
                       ),
                     ),

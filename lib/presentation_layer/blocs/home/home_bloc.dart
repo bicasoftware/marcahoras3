@@ -44,6 +44,34 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
+  /// Method called when a user is deemed invalid
+  /// It should clean every possible data existing in the app
+  /// databases, Blocs, files, whatever is required for it to be a full new session.
+  Future<void> clean() async {
+    try {
+      emit(
+        state.copyWith(
+          status: StateLoadingStatus(),
+        ),
+      );
+
+      emit(
+        state.copyWith(
+          empregos: [],
+          status: StateSuccessStatus(),
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(errorMsg: e.toString()),
+        ),
+      );
+
+      rethrow;
+    }
+  }
+
   void setTabPos(int pos) => emit(state.copyWith(tabPos: pos));
 
   void toggleDarkMode() => emit(state.copyWith(isDarkMode: !state.isDarkMode));

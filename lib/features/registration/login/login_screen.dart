@@ -45,6 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
+
     final bloc = context.read<RegistrationBloc>();
     final strings = context.strings();
     return Scaffold(
@@ -69,14 +71,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: emailController,
                     label: strings.typeEmail,
                     hint: strings.email,
+                    isOutlined: true,
+                    labelStyle: theme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.onPrimary,
+                    ),
                     validator: (String? s) {
                       return EmailValidator.validate(s, strings);
                     },
                   ),
+                  const SizedBox(height: 8),
                   ShTextField(
                     controller: passwordController,
                     label: strings.password,
                     hint: strings.password,
+                    isOutlined: true,
+                    labelStyle: theme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.onPrimary,
+                    ),
                     validator: (s) {
                       return MinCharactersValidator.validate(
                         passwordController.text,

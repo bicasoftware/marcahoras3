@@ -1,12 +1,10 @@
 import 'package:flutter/foundation.dart';
 
-import '../../utils/utils.dart';
-
 @immutable
 class SalariosDto {
   final String? id;
   final String? empregoId;
-  final DateTime? vigencia;
+  final String? vigencia;
   final num? valor;
   final bool? ativo;
 
@@ -23,7 +21,7 @@ class SalariosDto {
     return SalariosDto(
       id: json['id'] as String,
       empregoId: json['emprego_id'] as String,
-      vigencia: parseDate(json['vigencia']),
+      vigencia: json['vigencia'],
       valor: json['valor'] as num,
       ativo: json['ativo'] as bool,
     );
