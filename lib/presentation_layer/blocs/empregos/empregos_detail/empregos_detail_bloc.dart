@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:marcahoras3/utils/bloc/state_status.dart';
 
 import '../../../../domain_layer/models.dart';
 import '../../../../domain_layer/usecases.dart';
@@ -116,9 +114,9 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
       final firstSalario = await _salariosCreateUseCase(newSal);
 
       // TODO - implementar usecases para incluir dados do Realm
-      // parei pois: SONO      
+      // parei pois: SONO
 
-      await emit(
+      emit(
         state.copyWith(
           emprego: Empregos(),
           status: StateSuccessStatus(),

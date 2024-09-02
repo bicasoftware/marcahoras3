@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/data_layer/web/interceptors/invalid_user_interceptor.dart';
-import 'package:marcahoras3/data_layer/web/web.dart';
 import 'package:marcahoras3/realm/realm_connector.dart';
 
 import 'data_layer/providers.dart';
 import 'data_layer/respositories.dart';
+import 'data_layer/web.dart';
 import 'domain_layer/usecases.dart';
 import 'presentation_layer/blocs.dart';
 import 'utils/utils.dart';
@@ -41,6 +40,10 @@ class BlocLoader extends StatelessWidget {
       ),
     );
 
+    final salarioRepo = SalariosRepository(
+      provider: SalariosProvider(connector: connector),
+    );
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -72,6 +75,7 @@ class BlocLoader extends StatelessWidget {
             insertUseCase: EmpregoInsertUseCase(
               empregoRepo,
             ),
+            salariosCreateUseCase: SalarioCreateUseCase(salarioRepo),
           ),
         ),
       ],

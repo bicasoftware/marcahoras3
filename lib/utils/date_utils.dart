@@ -31,10 +31,18 @@ String formatDateByLocale(DateTime? date, Locale locale) {
   return fmt.format(date);
 }
 
-String parseVigencia(DateTime date) {
-  final fmt = DateFormat('yyyy-MM');
-  return fmt.format(date);
+DateTime parseVigencia(String vigencia) {
+  return DateFormat('yyyy-MM').parse(vigencia);
 }
+
+String formatVigenciaDate(DateTime vigencia) {
+  return DateFormat('yyyy-MM').format(vigencia);
+}
+
+// String parseVigencia(DateTime date) {
+//   final fmt = DateFormat('yyyy-MM');
+//   return fmt.format(date);
+// }
 
 DateTime getVigencia(DateTime date) {
   return DateTime(date.year, date.month, date.day, 0, 0, 0, 0, 0);

@@ -23,15 +23,8 @@ class RegistrationProvider {
         'email': email,
         'password': password,
       },
+      skipAuth: true,
     );
-
-    if ([200, 201].contains(response.statusCode) == false) {
-      throw WebException(
-        statusCode: response.statusCode,
-        errorMessage: response.statusMessage,
-        errorDetail: response.data['message'],
-      );
-    }
 
     return AuthenticationDataDto.fromJson(response.data);
   }
@@ -50,6 +43,7 @@ class RegistrationProvider {
         'email': email,
         'password': password,
       },
+      skipAuth: true,
     );
 
     if ([200, 201].contains(response.statusCode) == false) {
