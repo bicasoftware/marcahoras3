@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'bloc_loader.dart';
 import 'features/empregos/empregos_detail_screen.dart';
-import 'features/empregos/empregos_screen.dart';
+import 'features/empregos/empregos/empregos_screen.dart';
 import 'features/home/home.dart';
 import 'features/registration/login/login_screen.dart';
 import 'features/registration/register/register_screen.dart';

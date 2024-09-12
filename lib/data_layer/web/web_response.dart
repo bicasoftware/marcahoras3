@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'web_exception.dart';
+
 /// Class that holds a HTTPRequest response data
 class WebResponse extends Equatable {
   /// Http response status code
@@ -31,4 +33,11 @@ class WebResponse extends Equatable {
         statusMessage,
         data,
       ];
+
+  WebException toWebException() {
+    return WebException(
+      statusCode: statusCode,
+      errorMessage: statusMessage,
+    );
+  }
 }

@@ -1,20 +1,8 @@
 import '../../domain_layer/models.dart';
-import '../../utils/utils.dart';
 import '../dtos.dart';
 
 extension HorasMapper on HorasDto {
   Horas toHoras() {
-    /// Validate fields to be obligatory as not null
-    assertAllNotNull(
-      [
-        id,
-        empregoId,
-        data,
-        inicio,
-        termino,
-      ],
-    );
-
     /// Return a Horas model to be used
     return Horas(
       id: id!,
@@ -24,6 +12,19 @@ extension HorasMapper on HorasDto {
       termino: termino!,
       tipoHora: HorasType.fromLetter(tipoHora),
       bancoHoras: bancoHoras ?? false,
+    );
+  }
+}
+
+extension HorasDtoMapper on Horas {
+  HorasDto toHorasDto() {
+    return HorasDto(
+      bancoHoras: bancoHoras,
+      data: data,
+      empregoId: empregoId,
+      inicio: inicio,
+      termino: termino,
+      tipoHora: tipoHora.letter,
     );
   }
 }

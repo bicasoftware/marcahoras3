@@ -8,8 +8,11 @@ import '../../../../utils/utils.dart';
 class EmpregosDetailState extends BaseState implements Equatable {
   final Empregos emprego;
 
+  final bool isEditing;
+
   EmpregosDetailState({
     required Empregos emprego,
+    this.isEditing = false,
     required super.status,
   }) : emprego = emprego;
 
@@ -48,6 +51,7 @@ class EmpregosDetailState extends BaseState implements Equatable {
     double? salario,
     StateStatus? status,
     Empregos? emprego,
+    bool? isEditing,
   }) {
     final updtEmprego = emprego ??
         this.emprego.copyWith(
@@ -66,6 +70,7 @@ class EmpregosDetailState extends BaseState implements Equatable {
     return EmpregosDetailState(
       emprego: updtEmprego,
       status: status ?? this.status,
+      isEditing: isEditing ?? this.isEditing,
     );
   }
 }

@@ -106,4 +106,20 @@ class BrStrings implements StringsContract {
   
   @override
   String get cargaHoraria => "Carga Horária Mensal";
+
+  @override
+  String get admissao => "Admissão";
+  @override
+  String get ativo => "Ativo";
+  @override
+  String get inativo => "Inativo";
+
+  @override
+  String get porcNormal => "Normal";
+
+  @override
+  String get porcFeriado => "Feriado";
+  
+  @override
+  String get editar => "Editar";
 }

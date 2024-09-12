@@ -9,7 +9,7 @@ class SalariosDto {
   final bool? ativo;
 
   const SalariosDto({
-    required this.id,
+    this.id,
     required this.empregoId,
     required this.vigencia,
     required this.valor,
@@ -35,10 +35,10 @@ class SalariosDto {
   // Method to convert SalariosDto instance to a JSON object
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      // 'id': id,
       'emprego_id': empregoId,
       'vigencia': vigencia,
-      'valor': valor,
+      'valor': valor.toString(),
       'ativo': ativo,
     };
   }

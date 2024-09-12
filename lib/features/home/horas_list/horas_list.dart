@@ -18,14 +18,16 @@ class HorasList extends StatelessWidget {
     final strings = context.strings();
 
     return CardContainer(
-      extrasButtonText: strings.verTodas,
-      onExtraTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const HorasDetail(),
-          ),
-        );
-      },
+      trailing: TextButton(
+        child: Text(strings.horas),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const HorasDetail(),
+            ),
+          );
+        },
+      ),
       child: ListView(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),

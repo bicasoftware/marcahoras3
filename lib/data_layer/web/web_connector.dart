@@ -47,7 +47,7 @@ class WebConnector {
     WebMethod method = WebMethod.get,
     Object? data,
     JsonObj? queryParams,
-    ResponseType responseType = ResponseType.plain,
+    ResponseType responseType = ResponseType.json,
     bool skipAuth = false,
   }) async {
     final jsonData = await jsonDecoder.encode(data ?? {});
@@ -85,24 +85,21 @@ class WebConnector {
           );
 
         default:
-          WebException(
-            errorMessage: e.message.toString(),
+          return WebResponse(
             statusCode: e.response?.statusCode ?? 500,
+            statusMessage: e.response?.data['message'] ?? '',
+            data: e.response,
           );
       }
-
-      if (e.response != null) {
-        return _buildResponse(e.response);
-      }
-
-      rethrow;
     }
   }
 
   Future<WebResponse> _buildResponse(Response? response) async {
     Object? data;
     if (response?.data != null) {
-      data = await jsonDecoder.decode(response?.data);
+      response?.data is String
+          ? data = await jsonDecoder.decode(response?.data)
+          : data = response?.data;
     }
 
     return WebResponse(

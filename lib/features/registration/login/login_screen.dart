@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  String _errorMsg = '';
 
   @override
   void dispose() {
@@ -54,10 +55,9 @@ class _LoginScreenState extends State<LoginScreen> {
         child: BlocHelper<RegistrationBloc, RegistrationState>(
           bloc: bloc,
           onError: (error) {
-            showErrorDialog(
-              context: context,
-              errorMsg: error,
-            );
+            setState(() => _errorMsg = error);
+            Navigator.of(context).pop();
+            context.showSnackBar(error);            
           },
           child: Form(
             key: _formKey,
@@ -65,6 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
               changeRegisterLabel: strings.naoTenhoCadastro,
               onChangeRegisterPressed: () => _goToRegistration(context),
               onContinuePressed: () => _validateForm(bloc, context),
+              errorMsg: _errorMsg,
               child: Column(
                 children: [
                   ShTextField(

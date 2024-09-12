@@ -26,10 +26,16 @@ class AppColors {
   static const outline = Color(0xFFCE3C34);
   static const onInverseSurface = Color(0xFFD6F6FF);
   static const inverseSurface = Color(0xFF00363F);
-  static const inversePrimary = Color.fromARGB(255, 247, 68, 59);
-  // static const inversePrimary = Color(0xFFCE3C34);
+  static const inversePrimary = Color(0xFFCE3C34);
   static const shadow = Color(0xFF000000);
   static const surfaceTint = Color(0xFFB4271F);
   static const outlineVariant = Color(0xFFD8C2BE);
   static const scrim = Color(0xFF000000);
+  static const disabled = Color.fromARGB(255, 117, 117, 117);
+  
+  static const statusAtivo = Color.fromARGB(255, 95, 184, 0);
+  static const statusInativo = Color.fromARGB(255, 255, 132, 125);
+  
+  static const porcNormalColor = Color.fromARGB(255, 95, 184, 0);
+  static const porcFeriadosColor = Color.fromARGB(255, 255, 132, 125);
 }

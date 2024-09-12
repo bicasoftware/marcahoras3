@@ -8,10 +8,9 @@ import '../realm_models/empregos_realm.dart';
 
 extension EmpregoMapper on EmpregosDto {
   Empregos toEmprego() {
-    assertAllNotNull([id, admissao, entrada, saida]);
     return Empregos(
-      id: id!,
-      descricao: descricao!,
+      id: id,
+      descricao: descricao ?? '',
       admissao: DateFormat("yyyy-MM-dd").parse(admissao!),
       entrada: entrada!.toTimeOfDay(),
       saida: saida!.toTimeOfDay(),

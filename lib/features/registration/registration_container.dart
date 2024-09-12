@@ -6,12 +6,16 @@ class RegistrationContainer extends StatelessWidget {
   final Widget child;
   final String changeRegisterLabel;
   final VoidCallback onChangeRegisterPressed, onContinuePressed;
+  final String? errorMsg;
+  final bool showErrorMsg;
 
   const RegistrationContainer({
     required this.child,
     required this.changeRegisterLabel,
     required this.onChangeRegisterPressed,
     required this.onContinuePressed,
+    this.errorMsg,
+    this.showErrorMsg = false,
     super.key,
   });
 
@@ -64,6 +68,18 @@ class RegistrationContainer extends StatelessWidget {
                     ),
                     // The child should contain all the text inputs required to login/register
                     child,
+                    if (showErrorMsg && (errorMsg?.isNotEmpty ?? false))
+                      Container(
+                        margin: EdgeInsets.only(top: 8),
+                        child: Text(
+                          "* ${errorMsg}",
+                          style: theme.labelMedium?.copyWith(
+                            color: AppColors.onPrimary,
+                            decorationColor: AppColors.onPrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: onContinuePressed,

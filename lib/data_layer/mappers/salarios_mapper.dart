@@ -5,7 +5,7 @@ import '../dtos.dart';
 extension SalariosMapper on SalariosDto {
   Salarios toSalario() {
     return Salarios(
-      id: id!,
+      id: id,
       empregoId: empregoId!,
       vigencia: parseVigencia(vigencia!),
       valor: valor?.toDouble() ?? 0.0,

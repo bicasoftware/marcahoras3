@@ -3,14 +3,14 @@ import 'package:flutter/foundation.dart';
 
 @immutable
 class Salarios extends Equatable {
-  final String id;
+  final String? id;
   final String empregoId;
   final DateTime vigencia;
   final double valor;
   final bool ativo;
 
   const Salarios({
-    required this.id,
+    this.id,
     required this.empregoId,
     required this.vigencia,
     required this.valor,
@@ -18,7 +18,7 @@ class Salarios extends Equatable {
   });
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       id,
       empregoId,

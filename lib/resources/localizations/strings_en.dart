@@ -89,45 +89,63 @@ class EnStrings implements StringsContract {
 
   @override
   String get horas => "Overtime";
-  
+
   @override
   String get defaultErro => "Error";
-  
+
   @override
   String get fechar => "Close";
-  
+
   @override
   String get carregando => "Wait a moment...";
-  
+
   @override
   String get adicionarEmprego => "Click on + button";
-  
+
   @override
   String get empregosEmpty => "No Occupation Added";
-  
+
   @override
   String get editarEmprego => "Edit Occupation";
-  
+
   @override
   String get novoEmprego => "New Occupation";
-  
+
   @override
   String get descricaoEmprego => "Occupation Name";
-  
+
   @override
   String get emprego => "Occupation";
-  
+
   @override
   String get bancoHoras => "Unpaid Overtime";
-  
+
   @override
   String get salario => "Salary";
-  
+
   @override
   String get valorSalario => "Salary value";
-  
+
   @override
   String get salvar => "Done!";
+
   @override
   String get cargaHoraria => "Monthly worked hours";
+
+  @override
+  String get admissao => "Starting Date";
+
+  @override
+  String get ativo => "Active";
+  @override
+  String get inativo => "Inactive";
+
+  @override
+  String get porcNormal => "% Normal";
+
+  @override
+  String get porcFeriado => "% Holidays";
+
+  @override
+  String get editar => "Editar";
 }

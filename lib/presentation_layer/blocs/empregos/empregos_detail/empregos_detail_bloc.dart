@@ -28,6 +28,15 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
     );
   }
 
+  void setAsEdit(Empregos emprego) {
+    emit(
+      state.copyWith(
+        emprego: emprego,
+        isEditing: true,
+      ),
+    );
+  }
+
   bool validate() {
     return [
       state.descricao?.isNotEmpty ?? false,
@@ -104,7 +113,6 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
 
       final newEmprego = await _insertUseCase(state.emprego);
       final newSal = Salarios(
-        id: '',
         ativo: true,
         empregoId: newEmprego.id!,
         valor: state.salario,
@@ -113,9 +121,6 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
 
       final firstSalario = await _salariosCreateUseCase(newSal);
 
-      // TODO - implementar usecases para incluir dados do Realm
-      // parei pois: SONO
-
       emit(
         state.copyWith(
           emprego: Empregos(),
@@ -123,7 +128,9 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
         ),
       );
 
-      return newEmprego;
+      return newEmprego.copyWith(
+        salarios: [firstSalario],
+      );
     } on Exception catch (e) {
       print(e.toString());
       emit(

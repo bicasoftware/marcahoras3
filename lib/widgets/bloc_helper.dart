@@ -27,16 +27,10 @@ class BlocHelper<B extends StateStreamable<S>, S extends BaseState>
       listener: (context, state) {
         switch (state.status) {
           case StateLoadingStatus():
-            {
-              LoadingScreen(child: child);
-            }
-
-          case StateErrorStatus<BaseState>():
-            {
-              onError((state.status as StateErrorStatus).errorMsg);
-            }
+            LoadingScreen(child: child);
+          case StateErrorStatus<BaseState>(): 
+            onError((state.status as StateErrorStatus).errorMsg);
           case StateSuccessStatus():
-            {}
         }
       },
     );

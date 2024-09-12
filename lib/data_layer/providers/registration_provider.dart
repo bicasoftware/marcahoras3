@@ -16,17 +16,23 @@ class RegistrationProvider {
     required String email,
     required String password,
   }) async {
-    final response = await _connector.request(
-      EndPoints.login,
-      method: WebMethod.post,
-      data: {
-        'email': email,
-        'password': password,
-      },
-      skipAuth: true,
-    );
+    try {
+      final response = await _connector.request(
+        EndPoints.login,
+        method: WebMethod.post,
+        data: {
+          'email': email,
+          'password': password,
+        },
+        skipAuth: true,
+      );
 
-    return AuthenticationDataDto.fromJson(response.data);
+      return response.isSuccess
+          ? AuthenticationDataDto.fromJson(response.data)
+          : throw response.toWebException();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   /// Try to connect to the server
@@ -36,24 +42,22 @@ class RegistrationProvider {
     required String email,
     required String password,
   }) async {
-    final WebResponse response = await _connector.request(
-      EndPoints.register,
-      method: WebMethod.post,
-      data: {
-        'email': email,
-        'password': password,
-      },
-      skipAuth: true,
-    );
-
-    if ([200, 201].contains(response.statusCode) == false) {
-      throw WebException(
-        statusCode: response.statusCode,
-        errorMessage: response.statusMessage,
-        errorDetail: response.data['message'],
+    try {
+      final WebResponse response = await _connector.request(
+        EndPoints.register,
+        method: WebMethod.post,
+        data: {
+          'email': email,
+          'password': password,
+        },
+        skipAuth: true,
       );
-    }
 
-    return AuthenticationDataDto.fromJson(response.data);
+      return response.isSuccess
+          ? AuthenticationDataDto.fromJson(response.data)
+          : throw response.toWebException();
+    } catch (e) {
+      rethrow;
+    }
   }
 }

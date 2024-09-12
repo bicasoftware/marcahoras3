@@ -60,8 +60,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: RedGradientContainer(
         child: BlocHelper<RegistrationBloc, RegistrationState>(
           bloc: bloc,
-          onError: (errorMsg) {
-            showErrorDialog(context: context, errorMsg: errorMsg);
+          onError: (error) {
+            SnackBar(
+              content: Text(
+                error,
+                style: theme.labelLarge,
+              ),
+              elevation: 2,
+              backgroundColor: AppColors.onPrimary,
+            );
           },
           child: Form(
             key: _formKey,

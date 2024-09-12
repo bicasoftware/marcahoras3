@@ -16,6 +16,8 @@ class InvalidUserInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       print("Erro de resposta: 401 - Não autorizado.");
       _doLogoff(err);
+    } else if (err.response?.statusCode == 403) {
+      throw err;
     } else if (![200, 201].contains(err.response?.statusCode)) {
       throw WebException(
         statusCode: err.response?.statusCode ?? 0,
@@ -25,7 +27,7 @@ class InvalidUserInterceptor extends Interceptor {
       );
     }
 
-    return handler.next(err);
+    return handler.reject(err);
   }
 
   void _doLogoff(DioException err) {
@@ -59,6 +61,4 @@ class InvalidUserInterceptor extends Interceptor {
       arguments: LoggedOffUserArgs(true),
     );
   }
-
-  // TODO - Implementar interceptor que pegue quando der timeout
 }

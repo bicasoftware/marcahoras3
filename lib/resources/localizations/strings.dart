@@ -1,6 +1,8 @@
 abstract class StringsContract {
   String get appName;
   String get appDescription;
+  String get ativo;
+  String get inativo;
   String get bancoHoras;
   String get carregando;
   String get continuar;
@@ -38,6 +40,10 @@ abstract class StringsContract {
   String get editarEmprego;
   String get descricaoEmprego;
   String get cargaHoraria;
+  String get admissao;
+  String get porcNormal;
+  String get porcFeriado;
+  String get editar;
 
   List<String> get weekDays;
 }

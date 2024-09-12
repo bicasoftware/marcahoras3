@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/realm/realm_connector.dart';
 
 import 'data_layer/providers.dart';
 import 'data_layer/respositories.dart';
@@ -19,7 +18,8 @@ class BlocLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final realm = RealmConnector().realm;
+    // TODO - remover comentário ao adicionar usecases que inserem dados no realm
+    // final realm = RealmConnector().realm;
     final connector = WebConnector();
 
     connector.addInterceptor(
@@ -34,10 +34,7 @@ class BlocLoader extends StatelessWidget {
     );
 
     final empregoRepo = EmpregoRepository(
-      EmpregosProvider(
-        realm: realm,
-        connector: connector,
-      ),
+      EmpregosProvider(connector),
     );
 
     final salarioRepo = SalariosRepository(
@@ -51,9 +48,8 @@ class BlocLoader extends StatelessWidget {
               registerUserUseCase: RegisterUserUsecase(repo: registerRepo),
               loginUserUseCase: LoginUserUsecase(repo: registerRepo),
               setVaultDataUseCase: SetVaultDataUsecase(),
-              resetVault: ResetVaultUseCase(),
-              cleanDataUseCase:
-                  CleanDataUseCase(empregoRepository: empregoRepo)),
+              resetVault: ResetVaultUseCase(),              
+              ),
         ),
         BlocProvider(
           create: (_) => EmpregosBloc(

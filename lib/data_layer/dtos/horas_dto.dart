@@ -10,8 +10,6 @@ class HorasDto {
   final String? termino;
   final String? tipoHora;
   final bool? bancoHoras;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
 
   const HorasDto({
     this.id,
@@ -21,13 +19,10 @@ class HorasDto {
     this.termino,
     this.tipoHora,
     this.bancoHoras,
-    this.createdAt,
-    this.updatedAt,
   });
 
   JsonObj toJson() {
     return <String, dynamic>{
-      'id': id,
       'empregoId': empregoId,
       'data': data?.millisecondsSinceEpoch,
       'inicio': inicio,
@@ -47,8 +42,6 @@ class HorasDto {
       tipoHora: map['tipo_hora'] != null ? map['tipo_hora'] as String : null,
       bancoHoras:
           map['banco_horas'] != null ? map['banco_horas'] as bool : null,
-      createdAt: parseDate(map['created_at']),
-      updatedAt: parseDate(map['updated_at']),
     );
   }
 

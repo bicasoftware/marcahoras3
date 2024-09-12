@@ -2,30 +2,32 @@ import 'package:flutter/material.dart';
 
 import '../resources.dart';
 
-
 class CardContainer extends StatelessWidget {
   final Widget child;
   final EdgeInsets padding;
   final EdgeInsets margin;
   final Color? bgColor;
-  final String? extrasButtonText;
-  final VoidCallback? onExtraTap;
+  final String? label;
+  final Widget? leading;
+  final Widget? trailing;
 
   const CardContainer({
     required this.child,
     this.margin = EdgeInsets.zero,
     this.padding = EdgeInsets.zero,
-    this.extrasButtonText,
-    this.onExtraTap,
     this.bgColor,
+    this.label,
+    this.leading,
+    this.trailing,
     super.key,
   });
 
   bool get _hasExtras =>
-      extrasButtonText != null && extrasButtonText!.isNotEmpty;
+      trailing != null || (label?.isNotEmpty ?? false) || leading != null;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
     return Container(
         padding: padding,
         margin: margin,
@@ -47,13 +49,24 @@ class CardContainer extends StatelessWidget {
             if (_hasExtras) ...[
               Row(
                 children: [
+                  if (leading != null)
+                    Container(
+                      child: leading!,
+                      margin: const EdgeInsets.only(left: 16),
+                    ),
+                  if (label?.isNotEmpty ?? false) ...[
+                    const SizedBox(width: 8),
+                    Text(
+                      label!,
+                      style: theme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(right: 8),
-                    child: TextButton(
-                      onPressed: onExtraTap,
-                      child: Text(extrasButtonText ?? ''),
-                    ),
+                    child: trailing,
                   ),
                 ],
               ),

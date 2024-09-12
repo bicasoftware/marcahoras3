@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/features/empregos/empregos_screen.dart';
+import 'package:marcahoras3/features/empregos/empregos/empregos_screen.dart';
 import 'package:marcahoras3/features/home/home_content.dart';
 import 'package:marcahoras3/presentation_layer/blocs/home/home_state.dart';
 import 'package:marcahoras3/presentation_layer/blocs/registration/registration_bloc.dart';

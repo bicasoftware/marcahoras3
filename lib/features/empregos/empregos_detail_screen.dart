@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
 import '../../presentation_layer/validators/validators.dart';
 import '../../resources.dart';
@@ -28,6 +29,8 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
   final ctrSalarioMasked =
       MoneyMaskedTextController(leftSymbol: "R\$", initialValue: 0.0);
 
+  late final Empregos editableEmprego;
+
   @override
   void dispose() {
     ctrDescricao.dispose();
@@ -37,10 +40,10 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
 
   @override
   void initState() {
+    final bloc = context.read<EmpregosDetailBloc>();
+    ctrDescricao.text = bloc.state.descricao ?? '';
+    ctrSalarioMasked.text = bloc.state.salario.toString();
     super.initState();
-    if (mounted) {
-      context.read<EmpregosDetailBloc>().reset();
-    }
   }
 
   Future<void> _selectDate(
@@ -81,7 +84,8 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
         final newEmprego = await bloc.save();
 
         Navigator.of(context).pop(); // should pop the awaiting dialog
-        Navigator.of(context).pop(newEmprego); // pop the screen and returns a [Emprego] instance
+        Navigator.of(context)
+            .pop(newEmprego); // pop the screen and returns a [Emprego] instance
       }
     }
   }
@@ -112,118 +116,123 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 4),
         child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: BlocHelper<EmpregosDetailBloc, EmpregosDetailState>(
-              bloc: bloc,
-              onError: (err) async {
-                showErrorDialog(context: context, errorMsg: err);
-                Navigator.of(context).pop();
-                
-              },
-              child: Column(
-                children: [
-                  ShTextTile(
-                    controller: ctrDescricao,
-                    label: "Descrição do Cargo",
-                    hint: strings.descricaoEmprego,
-                    labelStyle: textTheme.labelLarge,
-                    icon: Icon(Icons.text_fields),
-                    onValueChanged: bloc.setDescricao,
-                    validator: (s) {
-                      return MinCharactersValidator.validate(
-                        ctrDescricao.text,
-                        6,
-                        strings,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  ShLabeledTile(
-                    value: formatDateByLocale(
-                      state.admissao ?? DateTime.now(),
-                      locale,
+          child: BlocHelper<EmpregosDetailBloc, EmpregosDetailState>(
+            bloc: bloc,
+            onError: (error) {
+              context.showSnackBar(error);
+            },
+            child: Form(
+              key: _formKey,
+              child: BlocHelper<EmpregosDetailBloc, EmpregosDetailState>(
+                bloc: bloc,
+                onError: (err) async {
+                  showErrorDialog(context: context, errorMsg: err);
+                  Navigator.of(context).pop();
+                },
+                child: Column(
+                  children: [
+                    ShTextTile(
+                      controller: ctrDescricao,
+                      label: "Descrição do Cargo",
+                      hint: strings.descricaoEmprego,
+                      labelStyle: textTheme.labelLarge,
+                      icon: Icon(Icons.text_fields),
+                      onValueChanged: bloc.setDescricao,
+                      validator: (s) {
+                        return MinCharactersValidator.validate(
+                          ctrDescricao.text,
+                          6,
+                          strings,
+                        );
+                      },
                     ),
-                    label: "Data Admissão",
-                    onTap: () => _selectDate(context, bloc),
-                    icon: Icons.calendar_month,
-                  ),
-                  const SizedBox(height: 8),
-                  ShTextTile(
-                    controller: ctrSalarioMasked,
-                    label: strings.salario,
-                    hint: "R\$ 1000,00",
-                    labelStyle: textTheme.labelLarge,
-                    icon: Icon(Icons.monetization_on),
-                    onValueChanged: (s) =>
-                        bloc.setSalario(ctrSalarioMasked.numberValue),
-                    validator: (s) {
-                      if (ctrSalarioMasked.numberValue <= 0.0) {
-                        return "Salário deve ser preenchido corretamente";
-                      }
-                      return MinCharactersValidator.validate(
-                        ctrDescricao.text,
-                        6,
-                        strings,
-                      );
-                    },
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    keyboardType: TextInputType.number,
-                  ),
-                  const SizedBox(height: 8),
-                  ShLabeledTile(
-                    value: state.entrada?.asString() ?? '09:00',
-                    label: "Horário Entrada",
-                    icon: Icons.timelapse_outlined,
-                    onTap: () => _selectTime(
-                      context: context,
-                      bloc: bloc,
-                      isEntrada: true,
+                    const SizedBox(height: 8),
+                    ShLabeledTile(
+                      value: formatDateByLocale(
+                        state.admissao ?? DateTime.now(),
+                        locale,
+                      ),
+                      label: "Data Admissão",
+                      onTap: () => _selectDate(context, bloc),
+                      icon: Icons.calendar_month,
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  ShLabeledTile(
-                    value: bloc.state.saida?.asString() ?? "10:00",
-                    label: "Horário Saída",
-                    icon: Icons.timelapse_outlined,
-                    onTap: () => _selectTime(
-                      context: context,
-                      bloc: bloc,
+                    const SizedBox(height: 8),
+                    ShTextTile(
+                      controller: ctrSalarioMasked,
+                      label: strings.salario,
+                      hint: "R\$ 1000,00",
+                      labelStyle: textTheme.labelLarge,
+                      icon: Icon(Icons.monetization_on),
+                      onValueChanged: (s) =>
+                          bloc.setSalario(ctrSalarioMasked.numberValue),
+                      validator: (s) {
+                        if (ctrSalarioMasked.numberValue <= 0.0) {
+                          return "Salário deve ser preenchido corretamente";
+                        }
+                        return MinCharactersValidator.validate(
+                          ctrDescricao.text,
+                          6,
+                          strings,
+                        );
+                      },
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      keyboardType: TextInputType.number,
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  ShDropDownButton(
-                    label: strings.cargaHoraria,
-                    value: state.cargaHoraria,
-                    options: [160, 180, 200, 220],
-                    onChanged: bloc.setCargaHoraria,
-                    icon: Icon(Icons.list),
-                  ),
-                  const SizedBox(height: 8),
-                  ShSwitchTile(
-                    value: state.bancoHoras,
-                    label: strings.bancoHoras,
-                    onTap: (_) => bloc.toggleBancoHoras(),
-                  ),
-                  const SizedBox(height: 8),
-                  ShSliderPicker(
-                    label: "Porcentagem Dias Normais",
-                    value: state.porcNormal ?? 50,
-                    onChanged: bloc.setPorcNormal,
-                    minValue: 50,
-                    maxValue: 250,
-                  ),
-                  const SizedBox(height: 8),
-                  ShSliderPicker(
-                    label: "Porcentagem Feriados/Domingos",
-                    value: state.porcFeriado ?? 100,
-                    onChanged: bloc.setPorcFeriados,
-                    minValue: 100,
-                    maxValue: 300,
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                    ShLabeledTile(
+                      value: state.entrada?.asString() ?? '09:00',
+                      label: "Horário Entrada",
+                      icon: Icons.timelapse_outlined,
+                      onTap: () => _selectTime(
+                        context: context,
+                        bloc: bloc,
+                        isEntrada: true,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    ShLabeledTile(
+                      value: bloc.state.saida?.asString() ?? "10:00",
+                      label: "Horário Saída",
+                      icon: Icons.timelapse_outlined,
+                      onTap: () => _selectTime(
+                        context: context,
+                        bloc: bloc,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    ShDropDownButton(
+                      label: strings.cargaHoraria,
+                      value: state.cargaHoraria,
+                      options: [160, 180, 200, 220],
+                      onChanged: bloc.setCargaHoraria,
+                      icon: Icon(Icons.list),
+                    ),
+                    const SizedBox(height: 8),
+                    ShSwitchTile(
+                      value: state.bancoHoras,
+                      label: strings.bancoHoras,
+                      onTap: (_) => bloc.toggleBancoHoras(),
+                    ),
+                    const SizedBox(height: 8),
+                    ShSliderPicker(
+                      label: "Porcentagem Dias Normais",
+                      value: state.porcNormal ?? 50,
+                      onChanged: bloc.setPorcNormal,
+                      minValue: 50,
+                      maxValue: 250,
+                    ),
+                    const SizedBox(height: 8),
+                    ShSliderPicker(
+                      label: "Porcentagem Feriados/Domingos",
+                      value: state.porcFeriado ?? 100,
+                      onChanged: bloc.setPorcFeriados,
+                      minValue: 100,
+                      maxValue: 300,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

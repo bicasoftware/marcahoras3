@@ -43,9 +43,9 @@ class ShTextField extends StatelessWidget {
           borderSide: BorderSide(color: AppColors.outline),
         ),
         hintText: hint,
-        errorStyle: theme.labelMedium?.copyWith(
+        errorStyle: theme.labelLarge?.copyWith(
           color: AppColors.onPrimary,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.bold,          
         ),
       );
   InputDecoration defaultDecoration(TextTheme theme) => InputDecoration(

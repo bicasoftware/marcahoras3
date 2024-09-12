@@ -10,19 +10,16 @@ class RegistrationBloc extends Cubit<RegistrationState> {
   final LoginUserUsecase _loginUserUseCase;
   final SetVaultDataUsecase _setVaultDataUseCase;
   final ResetVaultUseCase _resetVault;
-  final CleanDataUseCase _cleanDataUseCase;
 
   RegistrationBloc({
     required RegisterUserUsecase registerUserUseCase,
     required LoginUserUsecase loginUserUseCase,
     required SetVaultDataUsecase setVaultDataUseCase,
     required ResetVaultUseCase resetVault,
-    required CleanDataUseCase cleanDataUseCase,
   })  : _registerUserUseCase = registerUserUseCase,
         _loginUserUseCase = loginUserUseCase,
         _setVaultDataUseCase = setVaultDataUseCase,
         _resetVault = resetVault,
-        _cleanDataUseCase = cleanDataUseCase,
         super(
           RegistrationState(
             status: StateSuccessStatus(),
@@ -96,7 +93,7 @@ class RegistrationBloc extends Cubit<RegistrationState> {
       emit(
         state.copyWith(
           status: StateErrorStatus(
-            errorMsg: e is WebException ? e.errorDetail : e.toString(),
+            errorMsg: e is WebException ? e.errorMessage : e.toString(),
           ),
         ),
       );
@@ -114,7 +111,6 @@ class RegistrationBloc extends Cubit<RegistrationState> {
       );
 
       await _resetVault();
-      await _cleanDataUseCase();
 
       emit(
         state.copyWith(
