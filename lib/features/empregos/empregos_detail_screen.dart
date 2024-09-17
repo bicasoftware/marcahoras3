@@ -82,7 +82,8 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
       if (bloc.validate()) {
         showLoadingDialog(context: context);
         final newEmprego = await bloc.save();
-
+        final empregosBloc = await context.read<EmpregosBloc>();
+        empregosBloc.addEmprego(newEmprego!);
         Navigator.of(context).pop(); // should pop the awaiting dialog
         Navigator.of(context)
             .pop(newEmprego); // pop the screen and returns a [Emprego] instance

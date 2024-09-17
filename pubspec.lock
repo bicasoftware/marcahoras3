@@ -242,10 +242,10 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: "0dfb6b6a1979dac1c1245e17cef824d7b452ea29bd33d3467269f9bef3715fb0"
+      sha256: "5598aa796bbf4699afd5c67c0f5f6e2ed542afc956884b9cd58c306966efc260"
       url: "https://pub.dev"
     source: hosted
-    version: "5.6.0"
+    version: "5.7.0"
   dio_web_adapter:
     dependency: transitive
     description:
@@ -258,18 +258,18 @@ packages:
     dependency: transitive
     description:
       name: ejson
-      sha256: "42bdc6f57444e8c9cbf2c8dc8044424c27890a1d8cf64953b95f02d289afd88b"
+      sha256: "0e9c87b97c003995d1ff8cbc9da68ba4a2a61f2634d511068cc753922fcf3712"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1"
+    version: "0.4.0"
   ejson_annotation:
     dependency: transitive
     description:
       name: ejson_annotation
-      sha256: "7053cff1b6acf375b8e76270d576915fe434701f1f25b5751c8f9e1e73e50bcf"
+      sha256: cf09cf916839c4b10686f15d3eadb0d398d935e718e6d3c0703af6132ce48002
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1"
+    version: "0.4.0"
   equatable:
     dependency: "direct main"
     description:
@@ -694,34 +694,34 @@ packages:
     dependency: "direct main"
     description:
       name: realm
-      sha256: "939e27315fc5f5c6dc52ee87d9b1d5e44936718b6c0f9fd7d9d0a96d8e025ac1"
+      sha256: f6d6f592b17067451b4af3e55c5e54b97181090bbfb3f7ac769e360ef43b1082
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.0"
+    version: "20.0.0"
   realm_common:
     dependency: transitive
     description:
       name: realm_common
-      sha256: "73919ec7a92cca6d6889cbf2688cca53e92779a115f5bba5bc69eb341c29581f"
+      sha256: "2695723e6b928921c18b0b6bdab9b913b9ae6479f82bb339df435a99e2f821d2"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.0"
+    version: "20.0.0"
   realm_dart:
     dependency: transitive
     description:
       name: realm_dart
-      sha256: "5ba69ba9a7533beedb23b64ea16291728c1cff2143f699f82bcfae958fcec50b"
+      sha256: ed43c59783e2913caae7ac165b383571f416bceeefeff3363d90b742a0a50009
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.0"
+    version: "20.0.0"
   realm_generator:
     dependency: transitive
     description:
       name: realm_generator
-      sha256: ab1743027815a543faf348b12361662a2bf8ec7b9bcc0d9847276db70430c79e
+      sha256: f0bf7ba7a5adc356be995ba130ea33af1c44c1e0fd8e13485a6d93a98850e50c
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.0"
+    version: "20.0.0"
   sane_uuid:
     dependency: transitive
     description:
@@ -859,10 +859,10 @@ packages:
     dependency: "direct main"
     description:
       name: uuid
-      sha256: "83d37c7ad7aaf9aa8e275490669535c8080377cfa7a7004c24dfac53afffaa90"
+      sha256: f33d6bb662f0e4f79dcd7ada2e6170f3b3a2530c28fc41f49a411ddedd576a77
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.2"
+    version: "4.5.0"
   vector_math:
     dependency: transitive
     description:

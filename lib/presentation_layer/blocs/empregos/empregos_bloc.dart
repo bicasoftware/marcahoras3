@@ -84,4 +84,23 @@ class EmpregosBloc extends Cubit<EmpregosState> {
       );
     }
   }
+
+  Future<void> addEmprego(Empregos emprego) async {
+    try {
+      emit(
+        state.copyWith(
+          empregos: [...state.empregos, emprego],
+          status: StateSuccessStatus(),
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(
+            errorMsg: e.toString(),
+          ),
+        ),
+      );
+    }
+  }
 }
