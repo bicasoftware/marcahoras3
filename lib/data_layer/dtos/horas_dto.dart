@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
+
 import '../../utils/utils.dart';
 
 @immutable
@@ -48,5 +50,10 @@ class HorasDto {
   static List<HorasDto> fromJsonList(dynamic list) {
     if (list.isEmpty) return [];
     return list.map<HorasDto>((h) => HorasDto.fromJson(h)).toList();
+  }
+
+  @override
+  String toString() {
+    return 'HorasDto(id: $id, empregoId: $empregoId, data: $data, inicio: $inicio, termino: $termino, tipoHora: $tipoHora, bancoHoras: $bancoHoras)';
   }
 }

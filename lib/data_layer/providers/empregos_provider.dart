@@ -39,6 +39,22 @@ class EmpregosProvider {
     }
   }
 
+  Future<EmpregosDto> update(EmpregosDto emprego) async {
+    try {
+      final result = await _connector.request(
+        EndPoints.empregos,
+        method: WebMethod.patch,
+        data: emprego,
+      );
+
+      return result.isSuccess
+          ? EmpregosDto.fromJson(result.data)
+          : throw result.toWebException();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> delete(String empregoId) async {
     try {
       final response = await _connector.request(

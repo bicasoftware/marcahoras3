@@ -9,7 +9,7 @@ import 'package:marcahoras3/utils/vault/vault.dart';
 
 void main() {
   final String fakeToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYmRlNzA0ZC1jYjk5LTQxYzItOWU3ZC02ZGMyZTQ4ZWNlNWUiLCJyZWZyZXNoX3Rva2VuIjoiIiwiaWF0IjoxNzI1Mjk2NTQ2LCJleHAiOjE3MjU1OTg5NDZ9.rUbYGNMLlzYcj4gAS5cNFR-HQp-pWer1K7u1iWJ1zdg";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZmY5NTI1OC1jODNiLTQ3NDUtYWJjMi04YWVkOTQxNGIxMzEiLCJyZWZyZXNoX3Rva2VuIjoiIiwiaWF0IjoxNzI2NjY0Mjg1LCJleHAiOjE3MjY5NjY2ODV9.-z1f5TGJy69zPmKEmCzU4RHLq9zV6ihu4Kdjq54DGnM";
 
   final connector = WebConnector("http://localhost:3000");
   connector.addInterceptor(InvalidUserInterceptor());

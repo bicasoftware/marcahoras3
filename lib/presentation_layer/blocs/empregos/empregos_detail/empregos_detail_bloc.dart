@@ -8,12 +8,15 @@ import 'empregos_detail_state.dart';
 
 class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
   final EmpregoInsertUseCase _insertUseCase;
+  final EmpregoUpdateUseCase _updateUseCase;
   final SalarioCreateUseCase _salariosCreateUseCase;
 
   EmpregosDetailBloc({
     required EmpregoInsertUseCase insertUseCase,
+    required EmpregoUpdateUseCase updateUseCase,
     required SalarioCreateUseCase salariosCreateUseCase,
   })  : _insertUseCase = insertUseCase,
+        _updateUseCase = updateUseCase,
         _salariosCreateUseCase = salariosCreateUseCase,
         super(
           EmpregosDetailState(
@@ -102,8 +105,12 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
     );
   }
 
-  /// Insert new [Emprego] model
   Future<Empregos?> save() async {
+    return state.isEditing ? await update() : await insert();
+  }
+
+  /// Insert a new Emprego and returns a [Emprego] model
+  Future<Empregos?> insert() async {
     try {
       emit(
         state.copyWith(
@@ -111,6 +118,53 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
         ),
       );
 
+      final newEmprego = await _insertUseCase(state.emprego);
+      final newSal = Salarios(
+        ativo: true,
+        empregoId: newEmprego.id!,
+        valor: state.salario,
+        vigencia: getVigencia(state.admissao!),
+      );
+
+      final firstSalario = await _salariosCreateUseCase(newSal);
+
+      emit(
+        state.copyWith(
+          emprego: Empregos(),
+          status: StateSuccessStatus(),
+        ),
+      );
+
+      return newEmprego.copyWith(
+        salarios: [firstSalario],
+      );
+    } on Exception catch (e) {
+      print(e.toString());
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(
+            errorMsg: e.toString(),
+          ),
+        ),
+      );
+
+      rethrow;
+    }
+  }
+
+  /// Updates an Emprego and returns a [Emprego] model
+  Future<Empregos?> update() async {
+    try {
+      emit(
+        state.copyWith(
+          status: StateLoadingStatus(),
+        ),
+      );
+
+      /// TODO
+      /// Atualizar emprego
+      /// verificar lista de salários e salvar caso haja um novo
+      /// retornar emprego com lista de salários
       final newEmprego = await _insertUseCase(state.emprego);
       final newSal = Salarios(
         ativo: true,

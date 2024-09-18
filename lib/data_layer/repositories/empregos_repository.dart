@@ -23,6 +23,12 @@ class EmpregoRepository implements EmpregosContract {
   }
 
   @override
+  Future<Empregos> update(Empregos e) async {
+    final dto = await _provider.update(e.toEmpregoDto());
+    return dto.toEmprego();
+  }
+
+  @override
   Future<void> delete(String empregoId) async {
     await _provider.delete(empregoId);
   }

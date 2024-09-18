@@ -45,11 +45,11 @@ class BlocLoader extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (_) => RegistrationBloc(
-              registerUserUseCase: RegisterUserUsecase(repo: registerRepo),
-              loginUserUseCase: LoginUserUsecase(repo: registerRepo),
-              setVaultDataUseCase: SetVaultDataUsecase(),
-              resetVault: ResetVaultUseCase(),              
-              ),
+            registerUserUseCase: RegisterUserUsecase(repo: registerRepo),
+            loginUserUseCase: LoginUserUsecase(repo: registerRepo),
+            setVaultDataUseCase: SetVaultDataUsecase(),
+            resetVault: ResetVaultUseCase(),
+          ),
         ),
         BlocProvider(
           create: (_) => EmpregosBloc(
@@ -71,6 +71,7 @@ class BlocLoader extends StatelessWidget {
             insertUseCase: EmpregoInsertUseCase(
               empregoRepo,
             ),
+            updateUseCase: EmpregoUpdateUseCase(empregoRepo),
             salariosCreateUseCase: SalarioCreateUseCase(salarioRepo),
           ),
         ),
