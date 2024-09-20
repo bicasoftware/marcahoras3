@@ -1,4 +1,8 @@
 import 'package:intl/intl.dart';
+import 'package:marcahoras3/data_layer/mappers/horas_mapper.dart';
+import 'package:marcahoras3/data_layer/mappers/salarios_mapper.dart';
+import 'package:marcahoras3/data_layer/repositories/horas_repository.dart';
+import 'package:marcahoras3/data_layer/repositories/salarios_repository.dart';
 
 import '../../domain_layer/models.dart';
 import '../../realm/realm_id_generator.dart';
@@ -19,6 +23,8 @@ extension EmpregoMapper on EmpregosDto {
       porcNormal: porcNormal ?? 0,
       cargaHoraria: cargaHoraria ?? 220,
       ativo: ativo ?? false,
+      salarios: salarios?.map((s) => s.toSalario()).toList() ?? [],
+      horas: horas?.map((h) => h.toHoras()).toList() ?? [],
     );
   }
 }

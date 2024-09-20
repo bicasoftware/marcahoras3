@@ -148,4 +148,10 @@ class EnStrings implements StringsContract {
 
   @override
   String get editar => "Editar";
+
+  @override
+  String get recebiAumento => "Recebi um Aumento";
+
+  @override
+  String get alterarValor => "Alterar Valor";
 }

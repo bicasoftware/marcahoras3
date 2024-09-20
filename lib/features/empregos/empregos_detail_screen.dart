@@ -2,6 +2,7 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/features/empregos/salarios_action_type.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
@@ -10,6 +11,7 @@ import '../../resources.dart';
 import '../../utils/utils.dart';
 import '../../widgets.dart';
 import '../../widgets/dialogs/time_picker_dialog.dart';
+import 'salarios_tile.dart';
 
 class EmpregosDetailScreen extends StatefulWidget {
   final bool isInsert;
@@ -162,28 +164,15 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                         icon: Icons.calendar_month,
                       ),
                       const SizedBox(height: 8),
-                      ShTextTile(
-                        controller: ctrSalarioMasked,
-                        label: strings.salario,
-                        hint: "R\$ 1000,00",
-                        labelStyle: textTheme.labelLarge,
-                        icon: Icon(Icons.monetization_on),
-                        onValueChanged: (s) =>
-                            bloc.setSalario(ctrSalarioMasked.numberValue),
-                        validator: (s) {
-                          if (ctrSalarioMasked.numberValue <= 0.0) {
-                            return "Salário deve ser preenchido corretamente";
-                          }
-                          return MinCharactersValidator.validate(
-                            ctrDescricao.text,
-                            6,
-                            strings,
-                          );
+                      SalariosTile(
+                        isEditing: state.isEditing,
+                        salarios: state.salarios,
+                        onOptionSelected: (SalariosActionType value) {
+                          print(value);
                         },
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        keyboardType: TextInputType.number,
+                        controller: ctrSalarioMasked,
+                        onSalarioValueChanged: (_) =>
+                            bloc.setSalario(ctrSalarioMasked.numberValue),
                       ),
                       const SizedBox(height: 8),
                       ShLabeledTile(

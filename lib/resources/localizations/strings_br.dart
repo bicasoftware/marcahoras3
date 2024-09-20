@@ -109,8 +109,10 @@ class BrStrings implements StringsContract {
 
   @override
   String get admissao => "Admissão";
+
   @override
   String get ativo => "Ativo";
+  
   @override
   String get inativo => "Inativo";
 
@@ -122,4 +124,10 @@ class BrStrings implements StringsContract {
   
   @override
   String get editar => "Editar";
+  
+  @override
+  String get recebiAumento => "Recebi um Aumento";
+  
+  @override
+  String get alterarValor => "Alterar Valor";
 }

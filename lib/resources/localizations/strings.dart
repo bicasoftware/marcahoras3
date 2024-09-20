@@ -44,6 +44,8 @@ abstract class StringsContract {
   String get porcNormal;
   String get porcFeriado;
   String get editar;
+  String get recebiAumento;
+  String get alterarValor;
 
   List<String> get weekDays;
 }

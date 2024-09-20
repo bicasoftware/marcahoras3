@@ -26,6 +26,7 @@ class EmpregosDetailState extends BaseState implements Equatable {
   int get cargaHoraria => emprego.cargaHoraria;
   bool? get ativo => emprego.ativo;
   double get salario => emprego.salario;
+  List<Salarios> get salarios => emprego.salarios;
 
   @override
   bool operator ==(covariant EmpregosDetailState other) {

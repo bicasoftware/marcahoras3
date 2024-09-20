@@ -35,8 +35,8 @@ DateTime parseVigencia(String vigencia) {
   return DateFormat('yyyy-MM').parse(vigencia);
 }
 
-String formatVigenciaDate(DateTime vigencia) {
-  return DateFormat('yyyy-MM').format(vigencia);
+String formatVigenciaDate(DateTime vigencia, [Locale? locale, String? mask]) {
+  return DateFormat(mask ?? 'yyyy-MM', locale?.languageCode).format(vigencia);
 }
 
 // String parseVigencia(DateTime date) {
