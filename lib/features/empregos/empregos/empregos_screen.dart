@@ -55,6 +55,7 @@ class EmpregosScreen extends StatelessWidget {
                         },
                         child: CardContainer(
                           label: e.descricao,
+                          margin: EdgeInsets.only(bottom: 8),
                           leading: Icon(
                             Icons.work_outline_outlined,
                             color: AppColors.primary,

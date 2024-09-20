@@ -44,12 +44,15 @@ class _SalariosTileState extends State<SalariosTile> {
                 style: theme.labelLarge,
               ),
               subtitle: Column(
-                children: widget.salarios.map(
-                  (s) => _SalarioItem(
-                    vigencia: formatVigenciaDate(s.vigencia, locale, 'MMMM/yyyy'),
-                    valor: s.valor.toString(),
-                  ),
-                ).toList(),
+                children: widget.salarios
+                    .map(
+                      (s) => _SalarioItem(
+                        vigencia:
+                            formatVigenciaDate(s.vigencia, locale, 'MMMM/yyyy'),
+                        valor: s.valor.toString(),
+                      ),
+                    )
+                    .toList(),
               ),
               leading: Icon(Icons.monetization_on),
               contentPadding: EdgeInsets.only(left: 16),
@@ -118,11 +121,27 @@ class _SalarioItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: <Widget>[
-      Text(valor),
-      const SizedBox(width: 8),
-      Text(vigencia),
-    ]);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Icon(
+          Icons.money_outlined,
+          color: AppColors.statusAtivo,
+          size: 24,
+        ),
+        const SizedBox(width: 8),
+        Text(valor),
+        const SizedBox(width: 8),
+        Icon(
+          Icons.calendar_month,
+          color: AppColors.statusInativo,
+          size: 24,
+        ),
+        const SizedBox(width: 8),
+        Text(vigencia),
+      ],
+    );
   }
 }
 
