@@ -46,6 +46,7 @@ abstract class StringsContract {
   String get editar;
   String get recebiAumento;
   String get alterarValor;
+  String get vigencia;
 
   List<String> get weekDays;
 }

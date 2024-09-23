@@ -100,10 +100,10 @@ class BrStrings implements StringsContract {
 
   @override
   String get valorSalario => "Valor Salário";
-  
+
   @override
   String get salvar => "Salvar";
-  
+
   @override
   String get cargaHoraria => "Carga Horária Mensal";
 
@@ -112,7 +112,7 @@ class BrStrings implements StringsContract {
 
   @override
   String get ativo => "Ativo";
-  
+
   @override
   String get inativo => "Inativo";
 
@@ -121,13 +121,15 @@ class BrStrings implements StringsContract {
 
   @override
   String get porcFeriado => "Feriado";
-  
+
   @override
   String get editar => "Editar";
-  
+
   @override
   String get recebiAumento => "Recebi um Aumento";
-  
+
   @override
   String get alterarValor => "Alterar Valor";
+  @override
+  String get vigencia => "Vigencia";
 }

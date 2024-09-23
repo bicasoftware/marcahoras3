@@ -32,10 +32,13 @@ class AppColors {
   static const outlineVariant = Color(0xFFD8C2BE);
   static const scrim = Color(0xFF000000);
   static const disabled = Color.fromARGB(255, 117, 117, 117);
-  
+
   static const statusAtivo = Color.fromARGB(255, 95, 184, 0);
   static const statusInativo = Color.fromARGB(255, 255, 132, 125);
-  
+
+  static const editColor = Color.fromARGB(150, 255, 230, 0);
+  static const deleteColor = Color.fromARGB(150, 242, 14, 2);
+
   static const porcNormalColor = Color.fromARGB(255, 95, 184, 0);
   static const porcFeriadosColor = Color.fromARGB(255, 255, 132, 125);
 }

@@ -1,6 +1,7 @@
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:marcahoras3/features/empregos/salarios_tile_item.dart';
 import 'package:marcahoras3/utils/date_utils.dart';
 
 import '../../domain_layer/models.dart';
@@ -39,20 +40,41 @@ class _SalariosTileState extends State<SalariosTile> {
     return widget.isEditing
         ? IndicatorTile(
             child: ListTile(
-              title: Text(
-                strings.salario,
-                style: theme.labelLarge,
+              title: Container(
+                margin: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  strings.salario,
+                  style: theme.labelLarge,
+                ),
               ),
-              subtitle: Column(
-                children: widget.salarios
-                    .map(
-                      (s) => _SalarioItem(
-                        vigencia:
-                            formatVigenciaDate(s.vigencia, locale, 'MMMM/yyyy'),
-                        valor: s.valor.toString(),
-                      ),
-                    )
-                    .toList(),
+              subtitle: ListView.separated(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: widget.salarios.length,
+                padding: EdgeInsets.zero,
+                separatorBuilder: (context, index) {
+                  return index & 1 == 0
+                      ? Divider(
+                          thickness: 1,
+                          height: 16,
+                        )
+                      : Container();
+                },
+                itemBuilder: (context, index) {
+                  final s = widget.salarios[index];
+
+                  return SalariosTileItem(
+                    vigencia:
+                        formatVigenciaDate(s.vigencia, locale, 'MMMM/yyyy'),
+                    valor: s.valor.toString(),
+                    onDelete: () {
+                      print('delete');
+                    },
+                    onEdit: () {
+                      print('edit');
+                    },
+                  );
+                },
               ),
               leading: Icon(Icons.monetization_on),
               contentPadding: EdgeInsets.only(left: 16),
@@ -107,41 +129,6 @@ class _SalariosTileState extends State<SalariosTile> {
             ],
             keyboardType: TextInputType.number,
           );
-  }
-}
-
-class _SalarioItem extends StatelessWidget {
-  final String vigencia;
-  final String valor;
-
-  const _SalarioItem({
-    required this.vigencia,
-    required this.valor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Icon(
-          Icons.money_outlined,
-          color: AppColors.statusAtivo,
-          size: 24,
-        ),
-        const SizedBox(width: 8),
-        Text(valor),
-        const SizedBox(width: 8),
-        Icon(
-          Icons.calendar_month,
-          color: AppColors.statusInativo,
-          size: 24,
-        ),
-        const SizedBox(width: 8),
-        Text(vigencia),
-      ],
-    );
   }
 }
 

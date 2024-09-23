@@ -1,6 +1,5 @@
 enum SalariosActionType {
-  aumento,
-  alterar;
+  aumento;
 
   const SalariosActionType();
 }

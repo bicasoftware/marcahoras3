@@ -168,11 +168,13 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                         isEditing: state.isEditing,
                         salarios: state.salarios,
                         onOptionSelected: (SalariosActionType value) {
+                          /// TODO - Mostrar BTS com number input pra salarios e para vigencia
                           print(value);
                         },
                         controller: ctrSalarioMasked,
-                        onSalarioValueChanged: (_) =>
-                            bloc.setSalario(ctrSalarioMasked.numberValue),
+                        onSalarioValueChanged: (_) {
+                          bloc.setSalario(ctrSalarioMasked.numberValue);
+                        },
                       ),
                       const SizedBox(height: 8),
                       ShLabeledTile(

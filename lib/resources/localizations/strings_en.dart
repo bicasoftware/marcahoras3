@@ -154,4 +154,6 @@ class EnStrings implements StringsContract {
 
   @override
   String get alterarValor => "Alterar Valor";
+  @override
+  String get vigencia => "Vigencia";
 }
