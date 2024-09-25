@@ -20,7 +20,10 @@ class ShSwitchTile extends StatelessWidget {
     return IndicatorTile(
       child: SwitchListTile(
         value: value,
-        title: Text(label, style: theme.labelLarge,),
+        title: Text(
+          label,
+          style: theme.labelLarge,
+        ),
         contentPadding: EdgeInsets.only(left: 16),
         onChanged: onTap,
       ),

@@ -109,6 +109,9 @@ class EnStrings implements StringsContract {
   String get editarEmprego => "Edit Occupation";
 
   @override
+  String get editarSalario => "Edit Salary";
+
+  @override
   String get novoEmprego => "New Occupation";
 
   @override
@@ -154,6 +157,13 @@ class EnStrings implements StringsContract {
 
   @override
   String get alterarValor => "Alterar Valor";
+
   @override
   String get vigencia => "Vigencia";
+  @override
+  String get addAumento => "Add new raise";
+  @override
+  String get cancelar => "Cancel";
+  @override
+  String get confirmar => "Confirm";
 }

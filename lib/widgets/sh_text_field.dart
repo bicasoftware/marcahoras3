@@ -7,7 +7,7 @@ class ShTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String hint;
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
   final String? Function(String?)? validator;
   final TextStyle? labelStyle;
   final bool isOutlined;
@@ -34,8 +34,8 @@ class ShTextField extends StatelessWidget {
   });
 
   get _inputBorder => UnderlineInputBorder(
-    borderSide: BorderSide(color: Colors.black12, width: 1),
-  );
+        borderSide: BorderSide(color: Colors.black12, width: 1),
+      );
 
   InputDecoration outlinedDecoration(TextTheme theme) => InputDecoration(
         filled: true,
@@ -45,7 +45,7 @@ class ShTextField extends StatelessWidget {
         hintText: hint,
         errorStyle: theme.labelLarge?.copyWith(
           color: AppColors.onPrimary,
-          fontWeight: FontWeight.bold,          
+          fontWeight: FontWeight.bold,
         ),
       );
   InputDecoration defaultDecoration(TextTheme theme) => InputDecoration(

@@ -15,6 +15,7 @@ class BottomSheetHelper {
       useRootNavigator: useRootNavigation,
       barrierColor: barrierColor ?? Colors.black.withOpacity(.7),
       showDragHandle: true,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(
@@ -27,7 +28,10 @@ class BottomSheetHelper {
       ),
       builder: (context) => Material(
         color: bgColor,
-        child: body,
+        child: Container(
+          child: body,
+          padding: MediaQuery.of(context).viewInsets,
+        ),
       ),
     );
   }

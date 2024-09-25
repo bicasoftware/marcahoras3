@@ -6,7 +6,7 @@ Future<void> showLoadingDialog({
 }) async {
   showDialog(
     context: context,
-    barrierDismissible: false,
+    barrierDismissible: true,
     builder: (BuildContext context) {
       final strings = context.strings();
       return AlertDialog(

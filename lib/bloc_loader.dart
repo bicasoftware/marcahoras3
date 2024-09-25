@@ -18,8 +18,6 @@ class BlocLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO - remover comentário ao adicionar usecases que inserem dados no realm
-    // final realm = RealmConnector().realm;
     final connector = WebConnector();
 
     connector.addInterceptor(
@@ -73,6 +71,8 @@ class BlocLoader extends StatelessWidget {
             ),
             updateUseCase: EmpregoUpdateUseCase(empregoRepo),
             salariosCreateUseCase: SalarioCreateUseCase(salarioRepo),
+            salariosUpdateUseCase: SalarioUpdateUseCase(salarioRepo),
+            salariosDeleteUseCase: SalarioDeleteUseCase(salarioRepo),
           ),
         ),
       ],

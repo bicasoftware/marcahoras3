@@ -17,26 +17,43 @@ class SalariosProvider {
       },
     );
 
-    return SalariosDto.fromJsonList(response.data);
+    return response.isSuccess
+        ? SalariosDto.fromJsonList(response.data)
+        : throw response.toWebException();
   }
 
   Future<SalariosDto> create(SalariosDto salario) async {
+    print(salario.toString());
+
     final response = await _connector.request(
       EndPoints.salarios,
       method: WebMethod.post,
       data: salario,
     );
 
-    return SalariosDto.fromJson(response.data);
+    return response.isSuccess
+        ? SalariosDto.fromJson(response.data)
+        : throw response.toWebException();
+  }
+
+  Future<SalariosDto> update(SalariosDto salario) async {
+    final response = await _connector.request(
+      EndPoints.salarios,
+      method: WebMethod.patch,
+      data: salario,
+    );
+
+    return response.isSuccess
+        ? SalariosDto.fromJson(response.data)
+        : throw response.toWebException();
   }
 
   Future<void> delete(String salarioId) async {
-    await _connector.request(
-      EndPoints.salarios,
+    final response = await _connector.request(
+      "${EndPoints.salarios}/$salarioId",
       method: WebMethod.delete,
-      queryParams: {
-        'salario_id': salarioId,
-      },
     );
+
+    if (!response.isSuccess) throw response.toWebException();
   }
 }

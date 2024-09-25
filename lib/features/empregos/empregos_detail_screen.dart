@@ -1,8 +1,10 @@
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/features/empregos/salarios_action_type.dart';
+import 'package:marcahoras3/features/empregos/salarios/salarios_action_type.dart';
+import 'package:marcahoras3/features/empregos/salarios/salarios_detail_bts.dart';
+import 'package:marcahoras3/resources/localizations/strings.dart';
+import 'package:marcahoras3/widgets/dialogs/confirmation_dialog.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
@@ -10,8 +12,9 @@ import '../../presentation_layer/validators/validators.dart';
 import '../../resources.dart';
 import '../../utils/utils.dart';
 import '../../widgets.dart';
+import '../../widgets/bottomsheets/bottomsheethelper.dart';
 import '../../widgets/dialogs/time_picker_dialog.dart';
-import 'salarios_tile.dart';
+import 'salarios/salarios_tile.dart';
 
 class EmpregosDetailScreen extends StatefulWidget {
   final bool isInsert;
@@ -83,13 +86,84 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     if (valid) {
       if (bloc.validate()) {
         showLoadingDialog(context: context);
-        final newEmprego = await bloc.save();
-        final empregosBloc = await context.read<EmpregosBloc>();
-        empregosBloc.addEmprego(newEmprego!);
-        Navigator.of(context).pop(); // should pop the awaiting dialog
-        Navigator.of(context)
-            .pop(newEmprego); // pop the screen and returns a [Emprego] instance
+
+        await bloc.save();
+
+        await context.read<EmpregosBloc>().load();
+
+        // should pop the awaiting dialog
+        Navigator.of(context).pop();
+
+        // pop the screen and returns a [Emprego] instance
+        Navigator.of(context).pop();
       }
+    }
+  }
+
+  void _deleteSalario(Salarios salario, EmpregosDetailBloc bloc) async {
+    final bool shouldDelete = await showConfirmationDialog(
+      context: context,
+      titleMsg: "Apagar Salário",
+      descriptionText: "Você realmente deseja apagar o Salário?",
+    );
+
+    if (shouldDelete) {
+      print(shouldDelete);
+      showLoadingDialog(context: context);
+
+      await bloc.deleteSalario(salario: salario);
+
+      // should pop the awaiting dialog
+      Navigator.of(context).pop();
+    }
+  }
+
+  void _updateSalario(Salarios salario, EmpregosDetailBloc bloc) async {
+    final strings = context.strings();
+    await BottomSheetHelper.showModalBts(
+      context: context,
+      body: SalariosDetailBts(
+        value: salario.valor,
+        vigencia: salario.vigencia,
+        title: strings.editarSalario,
+        onSave: (valor, vigencia) async {
+          showLoadingDialog(context: context);
+          await bloc.updateSalario(
+            salario.copyWith(valor: valor, vigencia: vigencia),
+          );
+
+          // should pop the awaiting dialog
+          Navigator.of(context).pop();
+        },
+      ),
+    );
+  }
+
+  void _handleAumento(
+    SalariosActionType action,
+    EmpregosDetailBloc bloc,
+  ) async {
+    final strings = context.strings();
+    if (action == SalariosActionType.aumento) {
+      await BottomSheetHelper.showModalBts(
+        context: context,
+        body: SalariosDetailBts(
+          value: 0.0,
+          vigencia: DateTime.now(),
+          title: strings.addAumento,
+          onSave: (valor, vigencia) async {
+            showLoadingDialog(context: context);
+
+            await bloc.insertSalario(
+              valor: valor,
+              vigencia: vigencia,
+              empregoId: bloc.state.emprego.id!,
+            );
+
+            Navigator.of(context).pop();
+          },
+        ),
+      );
     }
   }
 
@@ -140,7 +214,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                     children: [
                       ShTextTile(
                         controller: ctrDescricao,
-                        label: "Descrição do Cargo",
+                        label: strings.descricaoEmprego,
                         hint: strings.descricaoEmprego,
                         labelStyle: textTheme.labelLarge,
                         icon: Icon(Icons.text_fields),
@@ -159,22 +233,23 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                           state.admissao ?? DateTime.now(),
                           locale,
                         ),
-                        label: "Data Admissão",
+                        label: strings.admissao,
                         onTap: () => _selectDate(context, bloc),
                         icon: Icons.calendar_month,
                       ),
                       const SizedBox(height: 8),
                       SalariosTile(
-                        isEditing: state.isEditing,
-                        salarios: state.salarios,
-                        onOptionSelected: (SalariosActionType value) {
-                          /// TODO - Mostrar BTS com number input pra salarios e para vigencia
-                          print(value);
-                        },
                         controller: ctrSalarioMasked,
+                        isEditing: bloc.state.isEditing,
+                        salarios: state.emprego.salarios,
+                        onOptionSelected: (action) {
+                          _handleAumento(action, bloc);
+                        },
                         onSalarioValueChanged: (_) {
                           bloc.setSalario(ctrSalarioMasked.numberValue);
                         },
+                        onEdit: (s) => _updateSalario(s, bloc),
+                        onDelete: (s) => _deleteSalario(s, bloc),
                       ),
                       const SizedBox(height: 8),
                       ShLabeledTile(

@@ -18,6 +18,12 @@ class SalariosRepository implements SalariosContract {
   }
 
   @override
+  Future<Salarios> update(Salarios salario) async {
+    final newSalario = await _provider.update(salario.toSalarioDto());
+    return newSalario.toSalario();
+  }
+
+  @override
   Future<List<Salarios>> list(String empregoId) async {
     final salarios = await _provider.list(empregoId);
     return salarios.map((s) => s.toSalario()).toList();

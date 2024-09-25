@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '../../resources.dart';
+import '../../../resources.dart';
 
 class SalariosTileItem extends StatefulWidget {
   final String vigencia;
@@ -55,41 +55,47 @@ class _SalariosTileItemState extends State<SalariosTileItem>
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(left: 12),
-              color: AppColors.surface,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: <Widget>[
-                            _LabelText(strings.valorSalario),
-                            const Spacer(),
-                            _LabelText(strings.vigencia),
-                            const SizedBox(width: 12),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            _ValueText(widget.valor),
-                            const Spacer(),
-                            _ValueText(widget.vigencia),
-                            const SizedBox(width: 12),
-                          ],
-                        ),
-                      ],
+            GestureDetector(
+              onTap: () => widget.onEdit(),
+              child: Container(
+                margin: EdgeInsets.only(left: 12),
+                color: AppColors.surface,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            children: <Widget>[
+                              _LabelText(strings.valorSalario),
+                              const Spacer(),
+                              _LabelText(strings.vigencia),
+                              const SizedBox(width: 12),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              _ValueText(widget.valor),
+                              const Spacer(),
+                              _ValueText(widget.vigencia),
+                              const SizedBox(width: 12),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.swipe_left, color: Colors.black12),
-                    onPressed: () => controller.openEndActionPane(),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.arrow_right_rounded,
+                        color: Colors.black12,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -131,8 +137,7 @@ class _LabelText extends StatelessWidget {
 
     return Text(
       label,
-      style: theme.labelMedium?.copyWith(
-          fontWeight: FontWeight.bold, color: AppColors.inversePrimary),
+      style: theme.labelMedium?.copyWith(fontWeight: FontWeight.bold),
       textAlign: TextAlign.start,
     );
   }

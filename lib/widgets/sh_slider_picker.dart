@@ -28,7 +28,13 @@ class ShSliderPicker extends StatelessWidget {
           children: [
             Text(label, style: theme.labelLarge),
             const Spacer(),
-            Text("${value.toString()} %", style: theme.labelLarge!.copyWith(color: AppColors.primary, fontWeight: FontWeight.normal)),
+            Text(
+              "${value.toString()} %",
+              style: theme.labelLarge!.copyWith(
+                color: AppColors.onSurface,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
         subtitle: Slider(
@@ -37,7 +43,6 @@ class ShSliderPicker extends StatelessWidget {
           divisions: (maxValue - minValue) ~/ 5,
           value: value.toDouble(),
           label: value.toInt().toString(),
-          activeColor: AppColors.primary,
           onChanged: (v) => onChanged(
             v.toInt(),
           ),

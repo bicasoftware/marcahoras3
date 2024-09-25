@@ -84,6 +84,9 @@ class BrStrings implements StringsContract {
   String get editarEmprego => "Editar Emprego";
 
   @override
+  String get editarSalario => "Editar Salário";
+
+  @override
   String get novoEmprego => "Novo Emprego";
 
   @override
@@ -130,6 +133,16 @@ class BrStrings implements StringsContract {
 
   @override
   String get alterarValor => "Alterar Valor";
+
   @override
   String get vigencia => "Vigencia";
+
+  @override
+  String get addAumento => "Adicionar Aumento";
+
+  @override
+  String get cancelar => "Cancelar";
+
+  @override
+  String get confirmar => "Confirmar";
 }

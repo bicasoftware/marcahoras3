@@ -34,13 +34,18 @@ class SalariosDto {
 
   // Method to convert SalariosDto instance to a JSON object
   Map<String, dynamic> toJson() {
-    return {
-      // 'id': id,
+    final salarioMap = {
       'emprego_id': empregoId,
       'vigencia': vigencia,
       'valor': valor.toString(),
       'ativo': ativo,
     };
+
+    if (id != null) {
+      salarioMap['id'] = id;
+    }
+
+    return salarioMap;
   }
 
   // Override toString for easy debugging

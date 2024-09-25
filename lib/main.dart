@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 import 'bloc_loader.dart';
 import 'features/empregos/empregos_detail_screen.dart';
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: appBarColorScheme,
           textTheme: TextTheme(
             labelLarge: TextStyle(
-              color: Colors.black,
+              color: AppColors.primary,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
+          MonthYearPickerLocalizations.delegate,
         ],
         supportedLocales: const [
           Locale('en'),

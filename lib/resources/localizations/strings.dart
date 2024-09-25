@@ -37,7 +37,9 @@ abstract class StringsContract {
   String get empregosEmpty;
   String get adicionarEmprego;
   String get novoEmprego;
+  String get addAumento;
   String get editarEmprego;
+  String get editarSalario;
   String get descricaoEmprego;
   String get cargaHoraria;
   String get admissao;
@@ -47,6 +49,8 @@ abstract class StringsContract {
   String get recebiAumento;
   String get alterarValor;
   String get vigencia;
+  String get cancelar;
+  String get confirmar;
 
   List<String> get weekDays;
 }

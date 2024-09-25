@@ -8,11 +8,13 @@ class ShLabeledTile extends StatelessWidget {
   final VoidCallback? onTap;
   final IconData icon;
   final Widget? trailing;
+  final EdgeInsets padding;
 
   const ShLabeledTile({
     required this.value,
     required this.label,
     required this.icon,
+    this.padding = const EdgeInsets.only(left: 16),
     this.onTap,
     this.trailing,
     super.key,
@@ -30,7 +32,7 @@ class ShLabeledTile extends StatelessWidget {
         ),
         leading: Icon(icon),
         subtitle: Text(value),
-        contentPadding: EdgeInsets.only(left: 16),
+        contentPadding: padding,
         trailing: trailing,
       ),
     );

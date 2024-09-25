@@ -74,4 +74,8 @@ class EmpregosDetailState extends BaseState implements Equatable {
       isEditing: isEditing ?? this.isEditing,
     );
   }
+
+  EmpregosDetailState emitLoading() => this.copyWith(
+        status: StateLoadingStatus(),
+      );
 }
