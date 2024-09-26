@@ -41,7 +41,6 @@ class _SalariosTileState extends State<SalariosTile> {
     final theme = Theme.of(context).textTheme;
     final locale = Localizations.localeOf(context);
 
-    /// TODO - Verificar pq isEditing sempre vem como true
     return widget.isEditing
         ? IndicatorTile(
             child: ListTile(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcahoras3/features/empregos/salarios/salarios_action_type.dart';
 import 'package:marcahoras3/features/empregos/salarios/salarios_detail_bts.dart';
-import 'package:marcahoras3/resources/localizations/strings.dart';
 import 'package:marcahoras3/widgets/dialogs/confirmation_dialog.dart';
 
 import '../../domain_layer/models.dart';

@@ -23,11 +23,12 @@ class EmpregosScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: empregos.length > 0
           ? FloatingActionButton(
-              onPressed: () {
+              onPressed: () async {
                 final detailsBloc = context.read<EmpregosDetailBloc>();
                 detailsBloc.reset();
 
-                Navigator.of(context).pushNamed(Routes.empregosDetail);
+                await Navigator.of(context).pushNamed(Routes.empregosDetail);
+                bloc.load();
               },
               child: Icon(Icons.add),
             )
