@@ -78,6 +78,9 @@ class _SalariosTileState extends State<SalariosTile> {
               ),
               contentPadding: EdgeInsets.only(left: 16),
               trailing: FloatingActionButton.small(
+                heroTag: "plus_button",
+                backgroundColor: AppColors.secondary,
+                foregroundColor: AppColors.onSecondary,
                 child: Icon(Icons.add),
                 onPressed: () {
                   widget.onOptionSelected(SalariosActionType.aumento);

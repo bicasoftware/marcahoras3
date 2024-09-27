@@ -166,4 +166,6 @@ class EnStrings implements StringsContract {
   String get cancelar => "Cancel";
   @override
   String get confirmar => "Confirm";
+  @override
+  String get calendario => "Calendário";
 }

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../widgets/bottomsheets/bottomsheethelper.dart';
-import '../../../resources/colors.dart';
 import '../../../widgets/card_container.dart';
-import '../widgets/add_hora_bts.dart';
-import 'calendar_header.dart';
 import 'calendar_item.dart';
 
 class CalendarPage extends StatelessWidget {
@@ -18,55 +14,30 @@ class CalendarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            const CalendarHeader(),
-            const SizedBox(height: 8),
-            CardContainer(
-              child: Column(
-                children: [
-                  // TODO - Mudar isso pra um próprio widget baseado no mês, mas num arquivo separado
-                  GridView.count(
-                    crossAxisCount: 7,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      for (int i = 0; i < 31; i++)
-                        CalendarItem(
-                          weekDay: 1,
-                          type:
-                              i % 2 == 0 ? HorasType.normal : HorasType.feriado,
-                          monthDay: i + 1,
-                        )
-                    ],
-                  ),
-                ],
-              ),
+            // TODO - Mudar isso pra um próprio widget baseado no mês, mas num arquivo separado
+            GridView.count(
+              crossAxisCount: 7,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                for (int i = 0; i < 31; i++)
+                  CalendarItem(
+                    weekDay: 1,
+                    type: i % 2 == 0 ? HorasType.normal : HorasType.feriado,
+                    monthDay: i + 1,
+                  )
+              ],
             ),
-            const SizedBox(
-              height: 20,
-            )
           ],
         ),
-        Positioned(
-          right: 5,
-          bottom: 0,
-          child: FloatingActionButton.small(
-            backgroundColor: AppColors.secondary,
-            foregroundColor: AppColors.onSecondary,
-            onPressed: () {
-              BottomSheetHelper.showModalBts(
-                context: context,
-                dismissible: true,
-                body: const AddHoraBts(),
-              );
-            },
-            child: const Icon(Icons.add),
-          ),
-        ),
+        const SizedBox(
+          height: 20,
+        )
       ],
     );
   }

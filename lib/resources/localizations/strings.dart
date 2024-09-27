@@ -51,6 +51,7 @@ abstract class StringsContract {
   String get vigencia;
   String get cancelar;
   String get confirmar;
+  String get calendario;
 
   List<String> get weekDays;
 }

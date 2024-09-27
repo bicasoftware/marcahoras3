@@ -50,14 +50,19 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
     final strings = context.strings();
 
     return Scaffold(
+      appBar: ShAppBar(
+        label: strings.empregos,
+      ),
       floatingActionButton: empregos.length > 0
           ? FloatingActionButton(
+              heroTag: "plus_button",
+              backgroundColor: AppColors.secondary,
+              foregroundColor: AppColors.onSecondary,
               onPressed: () async {
                 final detailsBloc = context.read<EmpregosDetailBloc>();
                 detailsBloc.reset();
-
-                await Navigator.of(context)
-                    .pushNamed(Routes.empregosDetail);
+          
+                await Navigator.of(context).pushNamed(Routes.empregosDetail);
                 bloc.load();
               },
               child: Icon(Icons.add),
@@ -75,8 +80,7 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
               ? NoDataContainer(
                   contentLabel: strings.empregosEmpty,
                   helperButtonLabel: strings.adicionarEmprego,
-                  helperButtonTap: () =>
-                      _showAddEmpregoScreen(context, bloc),
+                  helperButtonTap: () => _showAddEmpregoScreen(context, bloc),
                 )
               : ListView.builder(
                   itemCount: bloc.state.empregos.length,
@@ -124,8 +128,7 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                               SlidableAction(
                                 backgroundColor: AppColors.deleteColor,
                                 icon: Icons.delete,
-                                onPressed: (_) =>
-                                    _onDelete(context, bloc, e),
+                                onPressed: (_) => _onDelete(context, bloc, e),
                               ),
                             ],
                           ),

@@ -13,11 +13,15 @@ class HomeBloc extends Cubit<HomeState> {
   HomeBloc({
     required EmpregoDataLoadUseCase empregoDataLoadUseCase,
     required EmpregoDeleteUseCase empregoDeleteUseCase,
+    required int year,
+    required int month,
   })  : _loadEmpregos = empregoDataLoadUseCase,
         _empregoDeleteUseCase = empregoDeleteUseCase,
         super(
           HomeState(
             status: StateLoadingStatus(),
+            month: month,
+            year: year,
           ),
         );
 
@@ -35,6 +39,7 @@ class HomeBloc extends Cubit<HomeState> {
         state.copyWith(
           empregos: empregos,
           status: StateSuccessStatus(),
+          empregoPos: empregos.length == 0 ? -1 : 0,
         ),
       );
     } on Exception catch (e) {
@@ -111,7 +116,14 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
-  void setTabPos(int pos) => emit(state.copyWith(tabPos: pos));
+  void setEmpregoPos(Empregos e) {
+    final index = state.empregos.indexOf(e);
+    emit(state.copyWith(empregoPos: index));
+  }
+
+  void setNavigationbarPosition(int pos) {
+    emit(state.copyWith(navigatorPos: pos));
+  }
 
   void toggleDarkMode() => emit(state.copyWith(isDarkMode: !state.isDarkMode));
 }

@@ -145,4 +145,7 @@ class BrStrings implements StringsContract {
 
   @override
   String get confirmar => "Confirmar";
+
+  @override
+  String get calendario => "Calendário";
 }

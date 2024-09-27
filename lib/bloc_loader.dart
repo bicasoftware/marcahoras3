@@ -8,13 +8,20 @@ import 'domain_layer/usecases.dart';
 import 'presentation_layer/blocs.dart';
 import 'utils/utils.dart';
 
-class BlocLoader extends StatelessWidget {
+class BlocLoader extends StatefulWidget {
   final Widget child;
 
   const BlocLoader({
     required this.child,
     super.key,
   });
+
+  @override
+  State<BlocLoader> createState() => _BlocLoaderState();
+}
+
+class _BlocLoaderState extends State<BlocLoader> {
+  final DateTime _initialDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +68,8 @@ class BlocLoader extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => HomeBloc(
+            month: _initialDate.month,
+            year: _initialDate.year,
             empregoDataLoadUseCase: EmpregoDataLoadUseCase(empregoRepo),
             empregoDeleteUseCase: EmpregoDeleteUseCase(empregoRepo),
           )..load(),
@@ -77,7 +86,7 @@ class BlocLoader extends StatelessWidget {
           ),
         ),
       ],
-      child: child,
+      child: widget.child,
     );
   }
 }

@@ -5,60 +5,66 @@ import '../../../domain_layer/models.dart';
 import '../../../utils/utils.dart';
 
 class HomeState extends BaseState {
-  final int tabPos;
-  final int? empregoPos;
+  final int navigatorPos;
+  final int empregoPos;
   final UnmodifiableListView<Empregos> empregos;
   final bool isDarkMode;
+  final int month;
+  final int year;
 
   HomeState({
     required super.status,
-    int? empregoPos,
+    this.empregoPos = -1,
     Iterable<Empregos> empregos = const [],
-    this.tabPos = 0,
+    this.navigatorPos = 0,
     this.isDarkMode = false,
-  })  : empregos = UnmodifiableListView(empregos),
-        empregoPos = empregos.isNotEmpty ? 0 : null;
+    required this.year,
+    required this.month,
+  }) : empregos = UnmodifiableListView(empregos);
 
   HomeState copyWith({
     StateStatus? status,
-    int? tabPos,
+    int? navigatorPos,
     Iterable<Empregos>? empregos,
     int? empregoPos,
     bool? isDarkMode,
+    int? year,
+    int? month,
   }) {
     return HomeState(
       status: status ?? this.status,
-      tabPos: tabPos ?? this.tabPos,
+      navigatorPos: navigatorPos ?? this.navigatorPos,
       empregos: empregos ?? this.empregos,
       empregoPos: empregoPos ?? this.empregoPos,
       isDarkMode: isDarkMode ?? this.isDarkMode,
+      year: year ?? this.year,
+      month: month ?? this.month,
     );
   }
 
   Empregos? get currentEmprego =>
-      empregoPos != null ? empregos[empregoPos!] : null;
+      empregoPos == -1 ? null : empregos[empregoPos];
 
   @override
   String toString() {
-    return 'HomeState(tabPos: $tabPos, empregoPos: $empregoPos, empregos: $empregos, isDarkMode: $isDarkMode)';
+    return 'HomeState(tabPos: $navigatorPos, empregoPos: $empregoPos, empregos: $empregos, isDarkMode: $isDarkMode)';
   }
 
   @override
   bool operator ==(covariant HomeState other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.tabPos == tabPos &&
-      other.empregoPos == empregoPos &&
-      other.empregos == empregos &&
-      other.isDarkMode == isDarkMode;
+
+    return other.navigatorPos == navigatorPos &&
+        other.empregoPos == empregoPos &&
+        other.empregos == empregos &&
+        other.isDarkMode == isDarkMode;
   }
 
   @override
   int get hashCode {
-    return tabPos.hashCode ^
-      empregoPos.hashCode ^
-      empregos.hashCode ^
-      isDarkMode.hashCode;
+    return navigatorPos.hashCode ^
+        empregoPos.hashCode ^
+        empregos.hashCode ^
+        isDarkMode.hashCode;
   }
 }
