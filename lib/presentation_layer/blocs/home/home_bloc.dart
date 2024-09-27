@@ -1,16 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../utils/utils.dart';
+import '../../../domain_layer/models.dart';
 import '../../../domain_layer/usecases.dart';
+import '../../../utils/utils.dart';
 import 'home_state.dart';
 
 /// Class that holds presentation data to be shown in the first screen the app renders
 class HomeBloc extends Cubit<HomeState> {
   EmpregoDataLoadUseCase _loadEmpregos;
+  EmpregoDeleteUseCase _empregoDeleteUseCase;
 
   HomeBloc({
     required EmpregoDataLoadUseCase empregoDataLoadUseCase,
+    required EmpregoDeleteUseCase empregoDeleteUseCase,
   })  : _loadEmpregos = empregoDataLoadUseCase,
+        _empregoDeleteUseCase = empregoDeleteUseCase,
         super(
           HomeState(
             status: StateLoadingStatus(),
@@ -37,6 +41,41 @@ class HomeBloc extends Cubit<HomeState> {
       emit(
         state.copyWith(
           status: StateErrorStatus(errorMsg: e.toString()),
+        ),
+      );
+
+      rethrow;
+    }
+  }
+
+  Future<void> deleteEmprego(Empregos emprego) async {
+    try {
+      emit(
+        state.copyWith(
+          status: StateLoadingStatus(),
+        ),
+      );
+
+      /// Deletes [Emprego] from server
+      await _empregoDeleteUseCase(emprego.id!);
+
+      /// Creates a new list of [Empregos] and remove the deleted emprego
+      final empregosList = [...state.empregos];
+      empregosList.remove(emprego);
+
+      /// Finally emits a new state with the new [Salarios] list
+      emit(
+        state.copyWith(
+          status: StateSuccessStatus(),
+          empregos: empregosList,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(
+            errorMsg: e.toString(),
+          ),
         ),
       );
 

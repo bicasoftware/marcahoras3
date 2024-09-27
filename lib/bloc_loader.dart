@@ -62,6 +62,7 @@ class BlocLoader extends StatelessWidget {
         BlocProvider(
           create: (_) => HomeBloc(
             empregoDataLoadUseCase: EmpregoDataLoadUseCase(empregoRepo),
+            empregoDeleteUseCase: EmpregoDeleteUseCase(empregoRepo),
           )..load(),
         ),
         BlocProvider(

@@ -5,5 +5,5 @@ class EmpregoDeleteUseCase {
 
   const EmpregoDeleteUseCase(EmpregoRepository repository) : _repo = repository;
 
-  Future<void> call(String empregoId) => _repo.delete(empregoId);
+  Future<void> call(String empregoId) async => _repo.delete(empregoId);
 }

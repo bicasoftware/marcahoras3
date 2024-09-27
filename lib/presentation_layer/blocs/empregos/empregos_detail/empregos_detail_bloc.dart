@@ -149,7 +149,6 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
         ),
       );
     } on Exception catch (e) {
-      print(e.toString());
       emit(
         state.copyWith(
           status: StateErrorStatus(
@@ -218,7 +217,6 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
         ),
       );
     } on Exception catch (e) {
-      print(e.toString());
       emit(
         state.copyWith(
           status: StateErrorStatus(

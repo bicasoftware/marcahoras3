@@ -14,7 +14,6 @@ class InvalidUserInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (err.response?.statusCode == 401) {
-      print("Erro de resposta: 401 - Não autorizado.");
       _doLogoff(err);
     } else if (err.response?.statusCode == 403) {
       throw err;

@@ -58,7 +58,8 @@ class EmpregosProvider {
   Future<void> delete(String empregoId) async {
     try {
       final response = await _connector.request(
-        EndPoints.empregos,
+        "${EndPoints.empregos}/$empregoId",
+        method: WebMethod.delete,
         queryParams: {
           "id": empregoId,
         },

@@ -23,8 +23,6 @@ class SalariosProvider {
   }
 
   Future<SalariosDto> create(SalariosDto salario) async {
-    print(salario.toString());
-
     final response = await _connector.request(
       EndPoints.salarios,
       method: WebMethod.post,

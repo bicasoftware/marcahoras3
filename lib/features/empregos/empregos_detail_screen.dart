@@ -107,7 +107,6 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     );
 
     if (shouldDelete) {
-      print(shouldDelete);
       showLoadingDialog(context: context);
 
       await bloc.deleteSalario(salario: salario);
