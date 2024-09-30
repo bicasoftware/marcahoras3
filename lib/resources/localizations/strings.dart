@@ -54,4 +54,5 @@ abstract class StringsContract {
   String get calendario;
 
   List<String> get weekDays;
+  List<String> get months;
 }

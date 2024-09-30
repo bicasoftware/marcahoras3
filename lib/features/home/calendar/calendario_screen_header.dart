@@ -10,11 +10,17 @@ class CalendarioScreenHeader extends StatefulWidget {
   final int? empregoPos;
   final int month;
   final int year;
+  final VoidCallback onMonthAdd, onMonthDec;
+  final void Function(int year) onYearChanged, onMonthChanged;
 
   const CalendarioScreenHeader({
     required this.empregos,
     required this.month,
     required this.year,
+    required this.onMonthAdd,
+    required this.onMonthDec,
+    required this.onYearChanged,
+    required this.onMonthChanged,
     this.empregoPos,
     super.key,
   });
@@ -40,6 +46,10 @@ class _CalendarioScreenHeaderState extends State<CalendarioScreenHeader> {
           CalendarDateNavigator(
             year: widget.year,
             month: widget.month,
+            onYearChanged: widget.onYearChanged,
+            onMonthChanged: widget.onMonthChanged,
+            onMonthAdd: widget.onMonthAdd,
+            onMonthDec: widget.onMonthDec,
           ),
           const CalendarHeader(),
         ],

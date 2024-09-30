@@ -84,6 +84,22 @@ class EnStrings implements StringsContract {
         "SAT",
       ];
 
+    @override
+  List<String> get months => [
+        'Janeiro',
+        'Fevereiro',
+        'Março',
+        'Abril',
+        'Maio',
+        'Junho',
+        'Julho',
+        'Agosto',
+        'Setembro',
+        'Outubro',
+        'Novembro',
+        'Desembro',
+      ];
+
   @override
   String get empregos => "Jobs";
 

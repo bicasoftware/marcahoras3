@@ -67,6 +67,22 @@ class BrStrings implements StringsContract {
       ];
 
   @override
+  List<String> get months => [
+        'Janeiro',
+        'Fevereiro',
+        'Março',
+        'Abril',
+        'Maio',
+        'Junho',
+        'Julho',
+        'Agosto',
+        'Setembro',
+        'Outubro',
+        'Novembro',
+        'Dezembro',
+      ];
+
+  @override
   String get defaultErro => "Erro";
 
   @override

@@ -9,6 +9,7 @@ class CalendarHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(bottom: 8),
+      margin: EdgeInsets.symmetric(horizontal: 8),
       child: Row(
         children: context
             .strings()
@@ -32,9 +33,11 @@ class _WeekDayItem extends StatelessWidget {
     final theme = Theme.of(context).textTheme;
 
     return Expanded(
-      child: Text(weekday.toUpperCase(),
-          textAlign: TextAlign.center,
-          style: theme.labelLarge?.copyWith(color: AppColors.onPrimary)),
+      child: Text(
+        weekday.toUpperCase(),
+        textAlign: TextAlign.center,
+        style: theme.labelLarge?.copyWith(color: AppColors.onPrimary),
+      ),
     );
   }
 }

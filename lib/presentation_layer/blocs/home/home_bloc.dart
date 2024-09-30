@@ -126,4 +126,23 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   void toggleDarkMode() => emit(state.copyWith(isDarkMode: !state.isDarkMode));
+
+  void incMonth() {
+    if (state.month == 12) {
+      emit(state.copyWith(year: state.year + 1, month: 1));
+    } else {
+      emit(state.copyWith(month: state.month + 1));
+    }
+  }
+
+  void decMonth() {
+    if (state.month == 1) {
+      emit(state.copyWith(year: state.year - 1, month: 12));
+    } else {
+      emit(state.copyWith(month: state.month - 1));
+    }
+  }
+
+  void setMonth(int newMonth) => emit(state.copyWith(month: newMonth));
+  void setYear(int newYear) => emit(state.copyWith(year: newYear));
 }
