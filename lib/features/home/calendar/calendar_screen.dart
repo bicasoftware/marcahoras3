@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcahoras3/features/home/calendar/calendario_screen_header.dart';
-import 'package:marcahoras3/features/home/calendar/widgets/calendar_date_navigator.dart';
 import 'package:marcahoras3/features/home/calendar/widgets/empregos_dropdown.dart';
 import 'package:marcahoras3/features/home/horas_list/horas_list.dart';
 import 'package:marcahoras3/features/home/widgets/add_hora_bts.dart';

@@ -47,3 +47,11 @@ String formatVigenciaDate(DateTime vigencia, [Locale? locale, String? mask]) {
 DateTime getVigencia(DateTime date) {
   return DateTime(date.year, date.month, date.day, 0, 0, 0, 0, 0);
 }
+
+extension DateHelper on DateTime {
+  bool isSameDay(DateTime date) {
+    return this.year == date.year &&
+        this.month == date.month &&
+        this.day == date.day;
+  }
+}

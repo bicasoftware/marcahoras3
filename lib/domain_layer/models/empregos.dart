@@ -24,6 +24,8 @@ class Empregos extends Equatable {
   final UnmodifiableListView<Horas> horas;
   final UnmodifiableListView<Salarios> salarios;
 
+  final UnmodifiableListView<CalendarPageModel> calendarPages;
+
   Empregos({
     this.id,
     this.descricao = '',
@@ -38,8 +40,10 @@ class Empregos extends Equatable {
     this.salario = 0.0,
     Iterable<Horas> horas = const [],
     Iterable<Salarios> salarios = const [],
+    Iterable<CalendarPageModel> calendarPages = const [],
   })  : horas = UnmodifiableListView(horas),
-        salarios = UnmodifiableListView(salarios);
+        salarios = UnmodifiableListView(salarios),
+        calendarPages = UnmodifiableListView(calendarPages);
 
   Empregos copyWith({
     String? id,
@@ -55,6 +59,7 @@ class Empregos extends Equatable {
     double? salario,
     Iterable<Horas>? horas,
     Iterable<Salarios>? salarios,
+    Iterable<CalendarPageModel>? calendarPages,
   }) {
     return Empregos(
       id: id ?? this.id,
@@ -70,6 +75,7 @@ class Empregos extends Equatable {
       horas: horas ?? this.horas,
       salarios: salarios ?? this.salarios,
       salario: salario ?? this.salario,
+      calendarPages: calendarPages ?? this.calendarPages,
     );
   }
 
@@ -89,6 +95,7 @@ class Empregos extends Equatable {
       salario,
       horas,
       salarios,
+      calendarPages,
     ];
   }
 }

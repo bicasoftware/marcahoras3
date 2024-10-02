@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../widgets/card_container.dart';
 import 'calendar_item.dart';
 
 class CalendarPage extends StatelessWidget {
@@ -19,19 +18,26 @@ class CalendarPage extends StatelessWidget {
       children: [
         Column(
           children: [
-            // TODO - Mudar isso pra um próprio widget baseado no mês, mas num arquivo separado
             GridView.count(
               crossAxisCount: 7,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              children: [
-                for (int i = 0; i < 31; i++)
-                  CalendarItem(
-                    weekDay: 1,
-                    type: i % 2 == 0 ? HorasType.normal : HorasType.feriado,
-                    monthDay: i + 1,
-                  )
-              ],
+              childAspectRatio: 1.1,
+              children: emprego?.calendarPages.first.items.map((it) {
+                    switch (it) {
+                      case CalendarItemEmpty():
+                        return CalendarItem();
+                      case CalendarItemDateOnly():
+                        return CalendarItem(monthDay: it.date!.day);
+                      case CalendarItemComplete():
+                        return CalendarItem(
+                          type: it.horaType,
+                          monthDay: it.date!.day,
+                          weekDay: it.weekDay,
+                        );
+                    }
+                  }).toList() ??
+                  [],
             ),
           ],
         ),

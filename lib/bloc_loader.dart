@@ -21,6 +21,9 @@ class BlocLoader extends StatefulWidget {
 }
 
 class _BlocLoaderState extends State<BlocLoader> {
+
+  /// Date used to generate the first page of each [Salario]
+  /// inside the load method inside the [BlocHome] bloc  
   final DateTime _initialDate = DateTime.now();
 
   @override

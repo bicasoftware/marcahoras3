@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain_layer/models.dart';
@@ -9,6 +10,7 @@ import 'home_state.dart';
 class HomeBloc extends Cubit<HomeState> {
   EmpregoDataLoadUseCase _loadEmpregos;
   EmpregoDeleteUseCase _empregoDeleteUseCase;
+  CalendarPageGeneratorUseCase _calendarPageGeneratorUseCase;
 
   HomeBloc({
     required EmpregoDataLoadUseCase empregoDataLoadUseCase,
@@ -17,6 +19,7 @@ class HomeBloc extends Cubit<HomeState> {
     required int month,
   })  : _loadEmpregos = empregoDataLoadUseCase,
         _empregoDeleteUseCase = empregoDeleteUseCase,
+        _calendarPageGeneratorUseCase = CalendarPageGeneratorUseCase(),
         super(
           HomeState(
             status: StateLoadingStatus(),
@@ -34,6 +37,17 @@ class HomeBloc extends Cubit<HomeState> {
       );
 
       final empregos = await _loadEmpregos();
+
+      /// TODO - verificar no server, pq as datas estão vindo diferente do banco
+      empregos.forEachIndexed((i, e) async {
+        final calendarPage = await _calendarPageGeneratorUseCase(
+          e.horas,
+          state.month,
+          state.year,
+        );
+
+        empregos[i] = empregos[i].copyWith(calendarPages: [calendarPage]);
+      });
 
       emit(
         state.copyWith(

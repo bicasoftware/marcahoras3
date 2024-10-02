@@ -57,13 +57,13 @@ class BrStrings implements StringsContract {
 
   @override
   List<String> get weekDays => [
+        'dom',
         'seg',
         'ter',
         'qua',
         'qui',
         'sex',
         'sab',
-        'dom',
       ];
 
   @override
