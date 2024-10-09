@@ -5,23 +5,25 @@ import '../../models.dart';
 sealed class CalendarItemModel {
   final Horas? horas;
   final DateTime? date;
+  final bool? isToday;
 
-  CalendarItemModel({required this.horas, required this.date});
+  CalendarItemModel({required this.horas, required this.date, required this.isToday});
 }
 
 class CalendarItemEmpty extends CalendarItemModel {
-  CalendarItemEmpty() : super(date: null, horas: null);
+  CalendarItemEmpty() : super(date: null, horas: null, isToday: false);
 }
 
 class CalendarItemDateOnly extends CalendarItemModel {
-  CalendarItemDateOnly(DateTime data) : super(date: data, horas: null);
+  CalendarItemDateOnly(DateTime data, bool isToday) : super(date: data, horas: null, isToday: isToday);
 }
 
 class CalendarItemComplete extends CalendarItemModel implements Equatable {
   CalendarItemComplete({
-    Horas? horas,
-    DateTime? date,
-  }) : super(horas: null, date: null);
+    required Horas horas,
+    required DateTime date,
+    required bool isToday,
+  }) : super(horas: horas, date: date, isToday: isToday);
 
   @override
   List<Object?> get props => [horas, date];

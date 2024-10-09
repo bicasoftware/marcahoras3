@@ -11,8 +11,8 @@ class EmpregoRepository implements EmpregosContract {
   ) : _provider = provider;
 
   @override
-  Future<List<Empregos>> list() async {
-    final dtos = await _provider.list();
+  Future<List<Empregos>> list(String from, String to) async {
+    final dtos = await _provider.list(from, to);
     return dtos.map((e) => e.toEmprego()).toList();
   }
 

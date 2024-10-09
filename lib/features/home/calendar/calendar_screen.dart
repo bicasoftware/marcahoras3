@@ -26,6 +26,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
     final strings = context.strings();
+    final canClick = bloc.state.currentEmprego != null;
 
     return Scaffold(
       appBar: ShAppBar(
@@ -51,30 +52,38 @@ class _CalendarScreenState extends State<CalendarScreen> {
         },
         child: const Icon(Icons.add),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CalendarioScreenHeader(
-              empregos: bloc.state.empregos,
-              empregoPos: bloc.state.empregoPos,
-              year: bloc.state.year,
-              month: bloc.state.month,
-              onMonthAdd: bloc.incMonth,
-              onMonthDec: bloc.decMonth,
-              onYearChanged: bloc.setYear,
-              onMonthChanged: bloc.setMonth,
-              // onEmpregoChanged: (value) => bloc.setEmpregoPos(value),
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CalendarPage(
-                emprego: bloc.state.currentEmprego,
+      body: BlocHelper<HomeBloc, HomeState>(
+        bloc: bloc,
+        onError: (e) {
+          print(e);
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              CalendarioScreenHeader(
+                empregos: bloc.state.empregos,
+                empregoPos: bloc.state.empregoPos,
+                year: bloc.state.year,
+                month: bloc.state.month,
+                onMonthAdd: canClick ? bloc.incMonth : () {},
+                onMonthDec: canClick ? bloc.decMonth : () {},
+                onYearChanged: canClick ? bloc.setYear : (_) {},
+                onMonthChanged: canClick ? bloc.setMonth : (_) {},
+
+                /// TODO - implementar
+                // onEmpregoChanged: (value) => bloc.setEmpregoPos(value),
               ),
-            ),
-            const HorasList(horas: []),
-          ],
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CalendarPage(
+                  page: bloc.state.currentPage(),
+                ),
+              ),
+              const HorasList(horas: []),
+            ],
+          ),
         ),
       ),
     );

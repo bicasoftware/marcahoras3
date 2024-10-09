@@ -7,51 +7,17 @@ import '../../../domain_layer/usecases.dart';
 
 class EmpregosBloc extends Cubit<EmpregosState> {
   final EmpregoDeleteUseCase _deleteUseCase;
-  final EmpregoDataLoadUseCase _loadEmpregos;
+  // final EmpregoDataLoadUseCase _loadEmpregos;
 
   EmpregosBloc({
     required EmpregoDeleteUseCase deleteUseCase,
     required EmpregoDataLoadUseCase empregoDataLoadUseCase,
   })  : _deleteUseCase = deleteUseCase,
-        _loadEmpregos = empregoDataLoadUseCase,
         super(
           EmpregosState(
             status: StateLoadingStatus(),
           ),
         );
-
-  /// Load initial [Empregos] data
-  Future<void> load({
-    bool fetchData = false,
-  }) async {
-    try {
-      emit(
-        state.copyWith(
-          empregos: state.empregos,
-          status: StateLoadingStatus(),
-        ),
-      );
-
-      final empregos = !fetchData ? <Empregos>[] : await _loadEmpregos();
-
-      emit(
-        state.copyWith(
-          empregos: empregos,
-          status: StateSuccessStatus(),
-        ),
-      );
-    } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          status: StateErrorStatus(
-            errorMsg: e.toString(),
-          ),
-        ),
-      );
-
-      rethrow;
-    }
-  }
 
   /// Deletes a [Emprego] by its ID
   Future<void> deleteEmprego(String empregoId) async {

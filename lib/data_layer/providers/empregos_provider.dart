@@ -8,11 +8,15 @@ class EmpregosProvider {
     WebConnector connector,
   ) : _connector = connector;
 
-  Future<List<EmpregosDto>> list() async {
+  Future<List<EmpregosDto>> list(String from, String to) async {
     try {
       final response = await _connector.request(
         EndPoints.empregos,
         method: WebMethod.get,
+        queryParams: {
+          "from": from,
+          "to": to,
+        },
       );
 
       return response.isSuccess

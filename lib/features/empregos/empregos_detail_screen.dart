@@ -88,7 +88,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
 
         await bloc.save();
 
-        await context.read<EmpregosBloc>().load();
+        await context.read<HomeBloc>().load();
 
         // should pop the awaiting dialog
         Navigator.of(context).pop();

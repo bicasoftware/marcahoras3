@@ -9,12 +9,14 @@ class HorasProvider {
     required WebConnector connector,
   }) : _connector = connector;
 
-  Future<List<HorasDto>> list(String empregoId) async {
+  Future<List<HorasDto>> list(String empregoId, String from, String to) async {
     final result = await _connector.request(
       _route,
       method: WebMethod.get,
       queryParams: {
-        "emprego_id": empregoId,
+        "emprego": empregoId,
+        "from": from,
+        "to": to,
       },
     );
 

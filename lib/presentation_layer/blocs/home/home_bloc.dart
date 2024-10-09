@@ -10,16 +10,20 @@ import 'home_state.dart';
 class HomeBloc extends Cubit<HomeState> {
   EmpregoDataLoadUseCase _loadEmpregos;
   EmpregoDeleteUseCase _empregoDeleteUseCase;
+  HorasLoadByRangeUseCase _horasLoadByRangeUseCase;
+
   CalendarPageGeneratorUseCase _calendarPageGeneratorUseCase;
 
   HomeBloc({
     required EmpregoDataLoadUseCase empregoDataLoadUseCase,
     required EmpregoDeleteUseCase empregoDeleteUseCase,
+    required HorasLoadByRangeUseCase horasLoadByRangeUseCase,
     required int year,
     required int month,
   })  : _loadEmpregos = empregoDataLoadUseCase,
         _empregoDeleteUseCase = empregoDeleteUseCase,
         _calendarPageGeneratorUseCase = CalendarPageGeneratorUseCase(),
+        _horasLoadByRangeUseCase = horasLoadByRangeUseCase,
         super(
           HomeState(
             status: StateLoadingStatus(),
@@ -36,9 +40,9 @@ class HomeBloc extends Cubit<HomeState> {
         ),
       );
 
-      final empregos = await _loadEmpregos();
+      final (from, to) = getFormatedDateRange(state.year, state.month);
+      final empregos = await _loadEmpregos(from, to);
 
-      /// TODO - verificar no server, pq as datas estão vindo diferente do banco
       empregos.forEachIndexed((i, e) async {
         final calendarPage = await _calendarPageGeneratorUseCase(
           e.horas,
@@ -141,19 +145,136 @@ class HomeBloc extends Cubit<HomeState> {
 
   void toggleDarkMode() => emit(state.copyWith(isDarkMode: !state.isDarkMode));
 
-  void incMonth() {
+  void incMonth() async {
+    if (state.currentEmprego == null) return;
+
+    final int newYear;
+    final int newMonth;
+
     if (state.month == 12) {
-      emit(state.copyWith(year: state.year + 1, month: 1));
+      newYear = state.year + 1;
+      newMonth = 1;
     } else {
-      emit(state.copyWith(month: state.month + 1));
+      newYear = state.year;
+      newMonth = state.month + 1;
+    }
+
+    if (state.hasPage(newYear, newMonth) == -1) {
+      try {
+        emit(state.copyWith(status: StateLoadingStatus()));
+
+        final (initDate, endDate) = getFormatedDateRange(newYear, newMonth);
+
+        final List<Horas> horas = await _horasLoadByRangeUseCase(
+          state.currentEmprego!.id!,
+          initDate,
+          endDate,
+        );
+
+        final calendarPage = await _calendarPageGeneratorUseCase(
+          horas,
+          newMonth,
+          newYear,
+        );
+
+        final allHoras = <Horas>[...state.currentEmprego!.horas, ...horas];
+        final pages = [...state.currentEmprego!.calendarPages, calendarPage];
+
+        final empregosList = [...state.empregos];
+        empregosList[state.empregoPos] = state.currentEmprego!
+            .copyWith(horas: allHoras, calendarPages: pages);
+
+        emit(
+          state.copyWith(
+            status: StateSuccessStatus(),
+            year: newYear,
+            month: newMonth,
+            empregos: empregosList,
+          ),
+        );
+      } on Exception catch (e) {
+        emit(
+          state.copyWith(
+            status: StateErrorStatus(errorMsg: e.toString()),
+          ),
+        );
+
+        rethrow;
+      }
+    } else {
+      emit(
+        state.copyWith(
+          status: StateSuccessStatus(),
+          year: newYear,
+          month: newMonth,
+        ),
+      );
     }
   }
 
-  void decMonth() {
+  void decMonth() async {
+    if (state.currentEmprego == null) return;
+    final int newMonth;
+    final int newYear;
+
     if (state.month == 1) {
-      emit(state.copyWith(year: state.year - 1, month: 12));
+      newYear = (state.year - 1);
+      newMonth = 12;
     } else {
-      emit(state.copyWith(month: state.month - 1));
+      newYear = state.year;
+      newMonth = state.month - 1;
+    }
+
+    if (state.hasPage(newYear, newMonth) == -1) {
+      try {
+        emit(state.copyWith(status: StateLoadingStatus()));
+
+        final (initDate, endDate) = getFormatedDateRange(newYear, newMonth);
+
+        final List<Horas> horas = await _horasLoadByRangeUseCase(
+          state.currentEmprego!.id!,
+          initDate,
+          endDate,
+        );
+
+        final calendarPage = await _calendarPageGeneratorUseCase(
+          horas,
+          newMonth,
+          newYear,
+        );
+
+        final allHoras = <Horas>[...state.currentEmprego!.horas, ...horas];
+        final pages = [...state.currentEmprego!.calendarPages, calendarPage];
+
+        final empregosList = [...state.empregos];
+        empregosList[state.empregoPos] = state.currentEmprego!
+            .copyWith(horas: allHoras, calendarPages: pages);
+
+        emit(
+          state.copyWith(
+            status: StateSuccessStatus(),
+            year: newYear,
+            month: newMonth,
+            empregos: empregosList,
+          ),
+        );
+      } on Exception catch (e) {
+        emit(
+          state.copyWith(
+            status: StateErrorStatus(errorMsg: e.toString()),
+          ),
+        );
+
+        rethrow;
+      }
+    } else {
+      emit(
+        state.copyWith(
+          status: StateSuccessStatus(),
+          year: newYear,
+          month: newMonth,
+        ),
+      );
     }
   }
 

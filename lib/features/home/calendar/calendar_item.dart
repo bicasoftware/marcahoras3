@@ -6,11 +6,13 @@ import '../../../resources.dart';
 class CalendarItem extends StatelessWidget {
   final int weekDay, monthDay;
   final HorasType type;
+  final bool isToday;
 
   const CalendarItem({
     this.weekDay = -1,
     this.monthDay = -1,
     this.type = HorasType.unknown,
+    this.isToday = false,
     super.key,
   });
 
@@ -23,7 +25,7 @@ class CalendarItem extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color:  isToday ? AppColors.primaryContainer : AppColors.surface,
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),
         child: monthDay == -1 && weekDay == -1
@@ -36,7 +38,7 @@ class CalendarItem extends StatelessWidget {
                     '$monthDay',
                     style: theme.bodyLarge?.copyWith(
                       color: AppColors.onSurface,
-                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Container(

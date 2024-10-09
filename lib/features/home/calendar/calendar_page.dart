@@ -4,10 +4,10 @@ import '../../../domain_layer/models.dart';
 import 'calendar_item.dart';
 
 class CalendarPage extends StatelessWidget {
-  final Empregos? emprego;
+  final CalendarPageModel page;
 
   const CalendarPage({
-    this.emprego,
+    required this.page,
     super.key,
   });
 
@@ -23,21 +23,24 @@ class CalendarPage extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               childAspectRatio: 1.1,
-              children: emprego?.calendarPages.first.items.map((it) {
-                    switch (it) {
-                      case CalendarItemEmpty():
-                        return CalendarItem();
-                      case CalendarItemDateOnly():
-                        return CalendarItem(monthDay: it.date!.day);
-                      case CalendarItemComplete():
-                        return CalendarItem(
-                          type: it.horaType,
-                          monthDay: it.date!.day,
-                          weekDay: it.weekDay,
-                        );
-                    }
-                  }).toList() ??
-                  [],
+              children: page.items.map(
+                (it) {
+                  switch (it) {
+                    case CalendarItemEmpty():
+                      return CalendarItem();
+                    case CalendarItemDateOnly():
+                      return CalendarItem(
+                          monthDay: it.date!.day, isToday: it.isToday ?? false);
+                    case CalendarItemComplete():
+                      return CalendarItem(
+                        type: it.horaType,
+                        monthDay: it.date?.day ?? -1,
+                        weekDay: it.weekDay,
+                        isToday: it.isToday ?? false,
+                      );
+                  }
+                },
+              ).toList(),
             ),
           ],
         ),

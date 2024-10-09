@@ -31,7 +31,7 @@ class HomeState extends BaseState {
     int? year,
     int? month,
   }) {
-    return HomeState(
+    final newState = HomeState(
       status: status ?? this.status,
       navigatorPos: navigatorPos ?? this.navigatorPos,
       empregos: empregos ?? this.empregos,
@@ -40,10 +40,24 @@ class HomeState extends BaseState {
       year: year ?? this.year,
       month: month ?? this.month,
     );
+
+    return newState;
   }
 
   Empregos? get currentEmprego =>
       empregoPos == -1 ? null : empregos[empregoPos];
+
+  CalendarPageModel currentPage() {
+    return currentEmprego!.calendarPages.firstWhere(
+      (p) => p.month == this.month && p.year == this.year,
+    );
+  }
+
+  int? hasPage(int year, int month) {
+    return currentEmprego?.calendarPages.indexWhere(
+      (it) => it.month == month && it.year == year,
+    );
+  }
 
   @override
   String toString() {

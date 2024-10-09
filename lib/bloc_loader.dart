@@ -23,7 +23,7 @@ class BlocLoader extends StatefulWidget {
 class _BlocLoaderState extends State<BlocLoader> {
 
   /// Date used to generate the first page of each [Salario]
-  /// inside the load method inside the [BlocHome] bloc  
+  /// inside the load method inside the [BlocHome] bloc
   final DateTime _initialDate = DateTime.now();
 
   @override
@@ -49,6 +49,10 @@ class _BlocLoaderState extends State<BlocLoader> {
       provider: SalariosProvider(connector: connector),
     );
 
+    final horasProvider = HorasProvider(connector: connector);
+
+    final horasRepo = HorasRepository(provider: horasProvider);
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -67,15 +71,16 @@ class _BlocLoaderState extends State<BlocLoader> {
             deleteUseCase: EmpregoDeleteUseCase(
               empregoRepo,
             ),
-          )..load(fetchData: false),
+          ),
         ),
         BlocProvider(
           create: (_) => HomeBloc(
-            month: _initialDate.month,
-            year: _initialDate.year,
-            empregoDataLoadUseCase: EmpregoDataLoadUseCase(empregoRepo),
-            empregoDeleteUseCase: EmpregoDeleteUseCase(empregoRepo),
-          )..load(),
+              month: _initialDate.month,
+              year: _initialDate.year,
+              empregoDataLoadUseCase: EmpregoDataLoadUseCase(empregoRepo),
+              empregoDeleteUseCase: EmpregoDeleteUseCase(empregoRepo),
+              horasLoadByRangeUseCase: HorasLoadByRangeUseCase(horasRepo))
+            ..load(),
         ),
         BlocProvider(
           create: (_) => EmpregosDetailBloc(
