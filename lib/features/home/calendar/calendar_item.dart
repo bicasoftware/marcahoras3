@@ -24,10 +24,15 @@ class CalendarItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          color:  isToday ? AppColors.primaryContainer : AppColors.surface,
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-        ),
+        decoration: monthDay > -1
+            ? BoxDecoration(
+                color: isToday ? AppColors.primaryContainer : AppColors.surface,
+                border: Border.all(
+                  color: AppColors.shadow.withAlpha(20),
+                ),
+                borderRadius: BorderRadius.circular(8),
+              )
+            : null,
         child: monthDay == -1 && weekDay == -1
             ? Container()
             : Column(
@@ -38,7 +43,7 @@ class CalendarItem extends StatelessWidget {
                     '$monthDay',
                     style: theme.bodyLarge?.copyWith(
                       color: AppColors.onSurface,
-                      fontWeight: FontWeight.bold,
+                      // fontWeight: FontWeight.bold,
                     ),
                   ),
                   Container(

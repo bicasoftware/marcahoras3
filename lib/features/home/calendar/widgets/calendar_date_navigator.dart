@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../resources.dart';
 import '../../../../widgets/bottomsheets/bottomsheethelper.dart';
 
-class CalendarDateNavigator extends StatelessWidget
+class CalendarDateNavigator extends StatefulWidget
     implements PreferredSizeWidget {
   final int year;
   final int month;
@@ -21,9 +21,32 @@ class CalendarDateNavigator extends StatelessWidget
   });
 
   @override
+  State<CalendarDateNavigator> createState() => _CalendarDateNavigatorState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(48);
+}
+
+class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
+  final _yearList = <String>[];
+  late final DateTime today;
+
+  @override
+  void initState() {
+    super.initState();
+
+    today = DateTime.now();
+    for (int i = today.year - 5; i < today.year + 2; i++) {
+      _yearList.add("$i");
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     final strings = context.strings();
+    final hintedYear = today.year.toString();
+    final hintedMonth = strings.months[today.month-1];
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -37,7 +60,7 @@ class CalendarDateNavigator extends StatelessWidget
               color: AppColors.onPrimary,
               size: 16,
             ),
-            onPressed: onMonthDec,
+            onPressed: widget.onMonthDec,
           ),
         ),
         Expanded(
@@ -46,42 +69,20 @@ class CalendarDateNavigator extends StatelessWidget
             alignment: Alignment.centerRight,
             child: TextButton(
               child: Text(
-                strings.months[month-1],
+                strings.months[widget.month - 1],
                 style: theme.bodyLarge?.copyWith(
                   color: AppColors.onPrimary,
                 ),
               ),
               onPressed: () async {
-                BottomSheetHelper.showModalBts(
+                await BottomSheetHelper.showGridBts(
+                  axisCount: 3,
                   context: context,
-                  body: Container(
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: GridView.count(
-                        crossAxisCount: 3,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        childAspectRatio: 3.1,
-                        children: strings.months.map(
-                          (m) {
-                            return GestureDetector(
-                              onTap: () {
-                                onMonthChanged(strings.months.indexOf(m));
-                                print(strings.months.indexOf(m));
-                                Navigator.of(context).pop();
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(
-                                  8,
-                                ),
-                                child: Text(m, textAlign: TextAlign.justify),
-                              ),
-                            );
-                          },
-                        ).toList(),
-                      ),
-                    ),
-                  ),
+                  items: strings.months,
+                  hintedItem: hintedMonth,
+                  onItemSelected: (pos) {
+                    widget.onMonthChanged(pos);
+                  },
                 );
               },
             ),
@@ -93,27 +94,21 @@ class CalendarDateNavigator extends StatelessWidget
             alignment: Alignment.centerLeft,
             child: TextButton(
               child: Text(
-                "$year",
+                "${widget.year}",
                 style: theme.bodyLarge?.copyWith(
                   color: AppColors.onPrimary,
                 ),
                 textAlign: TextAlign.end,
               ),
               onPressed: () async {
-                BottomSheetHelper.showModalBts(
+                BottomSheetHelper.showGridBts(
                   context: context,
-                  body: Container(
-                    height: 230,
-                    child: YearPicker(
-                      firstDate: DateTime(2010, 01, 01),
-                      lastDate: DateTime.now(),
-                      selectedDate: DateTime(year, month, 1),
-                      onChanged: (value) {
-                        onYearChanged(value.year);
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ),
+                  axisCount: 3,
+                  items: _yearList,
+                  hintedItem: hintedYear,
+                  onItemSelected: (pos) {
+                    widget.onYearChanged(int.parse(_yearList[pos]));
+                  },
                 );
               },
             ),
@@ -127,13 +122,10 @@ class CalendarDateNavigator extends StatelessWidget
               color: AppColors.onPrimary,
               size: 16,
             ),
-            onPressed: onMonthAdd,
+            onPressed: widget.onMonthAdd,
           ),
         ),
       ]),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(48);
 }

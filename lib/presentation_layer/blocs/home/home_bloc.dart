@@ -146,90 +146,32 @@ class HomeBloc extends Cubit<HomeState> {
   void toggleDarkMode() => emit(state.copyWith(isDarkMode: !state.isDarkMode));
 
   void incMonth() async {
-    if (state.currentEmprego == null) return;
-
-    final int newYear;
-    final int newMonth;
-
-    if (state.month == 12) {
-      newYear = state.year + 1;
-      newMonth = 1;
-    } else {
-      newYear = state.year;
-      newMonth = state.month + 1;
-    }
-
-    if (state.hasPage(newYear, newMonth) == -1) {
-      try {
-        emit(state.copyWith(status: StateLoadingStatus()));
-
-        final (initDate, endDate) = getFormatedDateRange(newYear, newMonth);
-
-        final List<Horas> horas = await _horasLoadByRangeUseCase(
-          state.currentEmprego!.id!,
-          initDate,
-          endDate,
-        );
-
-        final calendarPage = await _calendarPageGeneratorUseCase(
-          horas,
-          newMonth,
-          newYear,
-        );
-
-        final allHoras = <Horas>[...state.currentEmprego!.horas, ...horas];
-        final pages = [...state.currentEmprego!.calendarPages, calendarPage];
-
-        final empregosList = [...state.empregos];
-        empregosList[state.empregoPos] = state.currentEmprego!
-            .copyWith(horas: allHoras, calendarPages: pages);
-
-        emit(
-          state.copyWith(
-            status: StateSuccessStatus(),
-            year: newYear,
-            month: newMonth,
-            empregos: empregosList,
-          ),
-        );
-      } on Exception catch (e) {
-        emit(
-          state.copyWith(
-            status: StateErrorStatus(errorMsg: e.toString()),
-          ),
-        );
-
-        rethrow;
-      }
-    } else {
-      emit(
-        state.copyWith(
-          status: StateSuccessStatus(),
-          year: newYear,
-          month: newMonth,
-        ),
-      );
-    }
+    state.month == 12
+        ? await _updateCalendar(state.year + 1, 1)
+        : await _updateCalendar(state.year, state.month + 1);
   }
 
   void decMonth() async {
+    state.month == 1
+        ? await _updateCalendar(state.year - 1, 12)
+        : await _updateCalendar(state.year, state.month - 1);
+  }
+
+  void setMonth(int month) async {
+    await _updateCalendar(state.year, month + 1);
+  }
+
+  void setYear(int newYear) async {
+    await _updateCalendar(newYear, state.month);
+  }
+
+  Future<void> _updateCalendar(int year, int month) async {
     if (state.currentEmprego == null) return;
-    final int newMonth;
-    final int newYear;
-
-    if (state.month == 1) {
-      newYear = (state.year - 1);
-      newMonth = 12;
-    } else {
-      newYear = state.year;
-      newMonth = state.month - 1;
-    }
-
-    if (state.hasPage(newYear, newMonth) == -1) {
+    if (state.hasPage(year, month) == -1) {
       try {
         emit(state.copyWith(status: StateLoadingStatus()));
 
-        final (initDate, endDate) = getFormatedDateRange(newYear, newMonth);
+        final (initDate, endDate) = getFormatedDateRange(year, month);
 
         final List<Horas> horas = await _horasLoadByRangeUseCase(
           state.currentEmprego!.id!,
@@ -239,8 +181,8 @@ class HomeBloc extends Cubit<HomeState> {
 
         final calendarPage = await _calendarPageGeneratorUseCase(
           horas,
-          newMonth,
-          newYear,
+          month,
+          year,
         );
 
         final allHoras = <Horas>[...state.currentEmprego!.horas, ...horas];
@@ -253,8 +195,8 @@ class HomeBloc extends Cubit<HomeState> {
         emit(
           state.copyWith(
             status: StateSuccessStatus(),
-            year: newYear,
-            month: newMonth,
+            year: year,
+            month: month,
             empregos: empregosList,
           ),
         );
@@ -271,13 +213,22 @@ class HomeBloc extends Cubit<HomeState> {
       emit(
         state.copyWith(
           status: StateSuccessStatus(),
-          year: newYear,
-          month: newMonth,
+          year: year,
+          month: month,
         ),
       );
     }
   }
 
-  void setMonth(int newMonth) => emit(state.copyWith(month: newMonth));
-  void setYear(int newYear) => emit(state.copyWith(year: newYear));
+  Future<void> insertHora(Horas hora) async {
+
+  }
+
+  Future<void> deleteHora(Horas hora) async {
+
+  }
+
+  Future<void> updateHora(Horas hora) async {
+
+  }
 }

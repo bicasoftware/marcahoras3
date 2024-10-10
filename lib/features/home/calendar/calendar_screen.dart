@@ -26,7 +26,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
     final strings = context.strings();
-    final canClick = bloc.state.currentEmprego != null;
 
     return Scaffold(
       appBar: ShAppBar(
@@ -66,10 +65,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 empregoPos: bloc.state.empregoPos,
                 year: bloc.state.year,
                 month: bloc.state.month,
-                onMonthAdd: canClick ? bloc.incMonth : () {},
-                onMonthDec: canClick ? bloc.decMonth : () {},
-                onYearChanged: canClick ? bloc.setYear : (_) {},
-                onMonthChanged: canClick ? bloc.setMonth : (_) {},
+                onMonthAdd: bloc.incMonth ,
+                onMonthDec: bloc.decMonth ,
+                onYearChanged: bloc.setYear,
+                onMonthChanged: bloc.setMonth,
 
                 /// TODO - implementar
                 // onEmpregoChanged: (value) => bloc.setEmpregoPos(value),
