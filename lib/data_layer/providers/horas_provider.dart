@@ -62,7 +62,7 @@ class HorasProvider {
   Future<bool> delete(String horaId) async {
     final result = await _connector.request(
       "$_route/$horaId",
-      method: WebMethod.post,
+      method: WebMethod.delete,
     );
 
     return result.data;

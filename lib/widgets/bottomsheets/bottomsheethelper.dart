@@ -13,6 +13,7 @@ class BottomSheetHelper {
     Color? barrierColor,
     bool dismissible = false,
     Radius topRadius = const Radius.circular(24),
+    Widget? leading,
   }) {
     final theme = Theme.of(context).textTheme;
 
@@ -30,32 +31,35 @@ class BottomSheetHelper {
       ),
       builder: (context) => Material(
         color: bgColor,
-        child: Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (label != null)
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        label,
-                        style: theme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: AppColors.inversePrimary,
-                        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (label != null)
+                    Text(
+                      label,
+                      style: theme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: AppColors.inversePrimary,
                       ),
-                      const Divider(),
-                    ],
-                  ),
-                ),
-              body,
-            ],
-          ),
-          padding: MediaQuery.of(context).viewInsets,
+                      textAlign: TextAlign.start,
+                    ),
+                  if (leading != null) ...[
+                    const Spacer(),
+                    leading,
+                  ],
+                  const Divider(),
+                ],
+              ),
+            ),
+            body,
+          ],
         ),
       ),
     );

@@ -28,6 +28,7 @@ Future<bool> showConfirmationDialog({
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
+              response = false;
             },
             child: Text(cancelLabel ?? strings.cancelar),
           ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/utils/utils.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
 import '../../../resources.dart';
-import '../../../utils/date_utils.dart';
 import '../../../widgets.dart';
 import '../horas_list/horas_list.dart';
 import '../widgets/add_hora_bts.dart';
@@ -41,6 +41,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
               "{DATA}",
               formatDateByLocale(data, locale),
             ),
+      leading: isEdit
+          ? IconButton(
+              icon: Icon(Icons.delete_outline, color: AppColors.primary),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the current bts
+                _onDelete(bloc, selectedHora!);
+              },
+            )
+          : null,
       body: AddHoraBts(
         hora: selectedHora,
         feriado: selectedHora?.tipoHora == HorasType.feriado,
@@ -52,15 +61,24 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
 
     if (newHora != null) {
-      showLoadingDialog(context: context);
-      isEdit ? await bloc.updateHora(newHora) : await bloc.insertHora(newHora);
-
-      /// Pops the loading dialog
-      Navigator.of(context).pop();
-
-      // /// Pop the bottomsheet
-      // Navigator.of(context).pop();
+      awaitableTask(
+        context: context,
+        actualTask: () async => isEdit
+            ? await bloc.updateHora(newHora)
+            : await bloc.insertHora(newHora),
+      );
     }
+  }
+
+  Future<void> _onDelete(HomeBloc bloc, Horas selectedHora) async {
+    final strings = context.strings();
+    await awaitableTask(
+      context: context,
+      requireConfirmation: true,
+      confirmationTitle: strings.confirmar,
+      confirmationMessage: "Deseja apapgar essa hora extra?",
+      actualTask: () => bloc.deleteHora(selectedHora),
+    );
   }
 
   @override

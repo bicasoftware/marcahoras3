@@ -358,5 +358,62 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
-  Future<void> deleteHora(Horas hora) async {}
+  Future<void> deleteHora(Horas hora) async {
+    try {
+      emit(
+        state.copyWith(
+          status: StateLoadingStatus(),
+        ),
+      );
+
+      /// Update the previous [Horas] model
+      await _horasDeleteUseCase(hora);
+
+      /// Creates a new list without the delete [Horas] on state
+      final horasList = state.currentEmprego!.horas.iCopy().iDelete(hora);
+
+      final newPageItems = state.currentPage().items.iCopy().iUpdateWhere(
+            where: (h) => h.date?.isSameDay(hora.data) ?? false,
+            newItem: CalendarItemDateOnly(
+              hora.data,
+              hora.data.isSameDay(
+                DateTime.now(),
+              ),
+            ),
+          );
+
+      ///Generates a copy of the current [CalendarPage]
+      final currentPage =
+          state.currentPage().copyWith(items: newPageItems, horas: horasList);
+
+      final calendarPages = state.currentEmprego!.calendarPages
+          .iCopy()
+          .iUpdateItem(currentPage, state.currentPage());
+
+      final updatedEmprego = state.currentEmprego!.copyWith(
+        horas: horasList,
+        calendarPages: calendarPages,
+      );
+
+      final empregosList =
+          state.empregos.iCopy().iUpdateAt(updatedEmprego, state.empregoPos);
+
+      emit(
+        state.copyWith(
+          status: StateSuccessStatus(),
+          empregos: empregosList,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(
+            errorMsg: e.toString(),
+          ),
+        ),
+      );
+
+      rethrow;
+    }
+  }
 }
