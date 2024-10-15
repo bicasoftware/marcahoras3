@@ -25,12 +25,12 @@ class HorasDto {
 
   JsonObj toJson() {
     final map = <String, dynamic>{
-      'empregoId': empregoId,
+      'emprego_id': empregoId,
       'data': formatDate(data!, true),
       'inicio': inicio,
       'termino': termino,
-      'tipoHora': tipoHora,
-      'bancoHoras': bancoHoras,
+      'tipo_hora': tipoHora,
+      'banco_horas': bancoHoras,
     };
 
     if (id != null) map['id'] = id;

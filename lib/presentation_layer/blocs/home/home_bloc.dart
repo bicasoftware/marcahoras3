@@ -239,8 +239,6 @@ class HomeBloc extends Cubit<HomeState> {
         ),
       );
 
-      /// Aplicar o mesmo para onUpdateHora
-      
       /// Insert the new [Horas] model
       final newHora = await _horasCreateUsecase(hora);
 

@@ -37,12 +37,14 @@ class HorasProvider {
 
   Future<HorasDto> create(HorasDto hora) async {
     final result = await _connector.request(
-      _route,
+      EndPoints.horas,
       method: WebMethod.post,
-      data: hora,
+      data: hora.toJson(),
     );
 
-    return HorasDto.fromJson(result.data);
+    return result.isSuccess
+        ? HorasDto.fromJson(result.data)
+        : throw result.toWebException();
   }
 
   Future<HorasDto> update(HorasDto hora) async {
@@ -52,7 +54,9 @@ class HorasProvider {
       data: hora,
     );
 
-    return HorasDto.fromJson(result.data);
+    return result.isSuccess
+        ? HorasDto.fromJson(result.data)
+        : throw result.toWebException();
   }
 
   Future<bool> delete(String horaId) async {
