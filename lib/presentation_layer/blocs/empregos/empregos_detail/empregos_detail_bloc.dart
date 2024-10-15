@@ -58,7 +58,7 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
       state.porcFeriado != null,
       state.porcNormal != null,
       state.ativo != null,
-      (state.salario != 0.0)
+      ((state.salario != 0.0) || state.emprego.salarios.isNotEmpty)
     ].every((it) => it);
   }
 

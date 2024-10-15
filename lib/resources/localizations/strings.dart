@@ -58,6 +58,9 @@ abstract class StringsContract {
   String get data;
   String get novahora;
   String get editHoraReplace;
+  String get pagas;
+  String get horasTrabalhadas;
+  String get valorReceber;
 
   List<String> get weekDays;
   List<String> get months;

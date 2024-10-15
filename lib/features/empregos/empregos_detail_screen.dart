@@ -59,7 +59,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
       context,
       bloc.state.admissao ?? DateTime.now(),
     );
-    
+
     if (date != null && date != bloc.state.admissao) {
       bloc.setAdmissao(date);
     }
@@ -85,17 +85,15 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     final valid = _formKey.currentState?.validate() ?? false;
     if (valid) {
       if (bloc.validate()) {
-        showLoadingDialog(context: context);
-
-        await bloc.save();
-
-        await context.read<HomeBloc>().load();
-
-        // should pop the awaiting dialog
-        Navigator.of(context).pop();
-
-        // pop the screen and returns a [Emprego] instance
-        Navigator.of(context).pop();
+        await awaitableTask(
+          context: context,
+          actualTask: () async {
+            await bloc.save();
+            await context.read<HomeBloc>().load();
+            Navigator.of(context).pop();
+          },
+          popWhenDone: true,
+        );
       }
     }
   }

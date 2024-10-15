@@ -181,4 +181,13 @@ class BrStrings implements StringsContract {
 
   @override  
   String get novahora => "Nova Hora Extra";
+  
+  @override
+  String get pagas => "Pagas";
+  
+  @override
+  String get horasTrabalhadas => "Horas Trabalhadas";
+  
+  @override
+  String get valorReceber => "Valor a receber";
 }

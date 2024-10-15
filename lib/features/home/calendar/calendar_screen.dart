@@ -1,6 +1,8 @@
+import 'package:collection/collection.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/utils/utils.dart';
+import '../../../utils/utils.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
@@ -97,7 +99,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           PopupSessionButton(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.small(
         heroTag: 'plus_button',
         backgroundColor: AppColors.secondary,
         foregroundColor: AppColors.onSecondary,
@@ -128,9 +130,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 onMonthDec: bloc.decMonth,
                 onYearChanged: bloc.setYear,
                 onMonthChanged: bloc.setMonth,
-
-                /// TODO - implementar
-                // onEmpregoChanged: (value) => bloc.setEmpregoPos(value),
               ),
               const SizedBox(height: 8),
               Padding(
@@ -148,11 +147,26 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   },
                 ),
               ),
-              const HorasList(horas: []),
+              HorasList(
+                horas: [...bloc.state.currentPage().horas]
+                    .sorted((a, b) => a.data.compareTo(b.data))
+                    .take(5)
+                    .toList(),
+                onDelete: (h) => _deleteHora(h, bloc),
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _deleteHora(Horas h, HomeBloc bloc) async {
+    await awaitableTask(
+      context: context,
+      actualTask: () => bloc.deleteHora(h),
+      requireConfirmation: true,
+      confirmationMessage: "Deseja apagar a Hora Extra?"
     );
   }
 }

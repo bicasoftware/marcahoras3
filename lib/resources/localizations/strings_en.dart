@@ -201,4 +201,13 @@ class EnStrings implements StringsContract {
 
   @override
   String get novahora => "Add Overtime";
+  
+  @override
+  String get pagas => "Paid";
+  
+  @override
+  String get horasTrabalhadas => "Worked Hours";
+  
+  @override
+  String get valorReceber => "Value to be paid";
 }

@@ -10,11 +10,13 @@ class CardContainer extends StatelessWidget {
   final String? label;
   final Widget? leading;
   final Widget? trailing;
+  final bool hasShadow;
 
   const CardContainer({
     required this.child,
     this.margin = EdgeInsets.zero,
     this.padding = EdgeInsets.zero,
+    this.hasShadow = true,
     this.bgColor,
     this.label,
     this.leading,
@@ -31,17 +33,19 @@ class CardContainer extends StatelessWidget {
     return Container(
         padding: padding,
         margin: margin,
-        decoration: BoxDecoration(
-          color: bgColor ?? AppColors.surface,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 1,
-              color: AppColors.onSurface.withAlpha(40),
-              // spreadRadius: .2,
-            )
-          ],
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-        ),
+        decoration: hasShadow
+            ? BoxDecoration(
+                color: bgColor ?? AppColors.surface,
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 1,
+                    color: AppColors.onSurface.withAlpha(40),
+                    // spreadRadius: .2,
+                  )
+                ],
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+              )
+            : null,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,

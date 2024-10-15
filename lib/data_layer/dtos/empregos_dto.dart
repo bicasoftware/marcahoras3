@@ -64,6 +64,10 @@ class EmpregosDto extends Equatable {
       'carga_horaria': cargaHoraria,
     };
 
+    if (id != null) {
+      data['id'] = id;
+    }
+
     return data;
   }
 
