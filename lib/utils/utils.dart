@@ -5,6 +5,7 @@ export 'assertions.dart';
 export 'extensions.dart';
 export 'typedefs.dart';
 export './extensions/timeofdayutils.dart';
+export './extensions/immutable_list_utils.dart';
 export './bloc/base_state.dart';
 export './bloc/state_status.dart';
 export './vault/vault.dart';
