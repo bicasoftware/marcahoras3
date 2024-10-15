@@ -7,7 +7,11 @@ sealed class CalendarItemModel {
   final DateTime? date;
   final bool? isToday;
 
-  CalendarItemModel({required this.horas, required this.date, required this.isToday});
+  CalendarItemModel({
+    required this.horas,
+    required this.date,
+    required this.isToday,
+  });
 }
 
 class CalendarItemEmpty extends CalendarItemModel {
@@ -15,7 +19,14 @@ class CalendarItemEmpty extends CalendarItemModel {
 }
 
 class CalendarItemDateOnly extends CalendarItemModel {
-  CalendarItemDateOnly(DateTime data, bool isToday) : super(date: data, horas: null, isToday: isToday);
+  CalendarItemDateOnly(
+    DateTime data,
+    bool isToday,
+  ) : super(
+          date: data,
+          horas: null,
+          isToday: isToday,
+        );
 }
 
 class CalendarItemComplete extends CalendarItemModel implements Equatable {

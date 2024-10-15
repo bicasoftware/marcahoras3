@@ -291,7 +291,72 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
-  Future<void> deleteHora(Horas hora) async {}
+  Future<void> updateHora(Horas hora) async {
+    assert(state.currentEmprego != null);
+    assert(hora.id != null);
+    assert(hora.empregoId.isNotEmpty);
 
-  Future<void> updateHora(Horas hora) async {}
+    try {
+      emit(
+        state.copyWith(
+          status: StateLoadingStatus(),
+        ),
+      );
+
+      /// Update the previous [Horas] model
+      final updatedHora = await _horasUpdateUseCase(hora);
+
+      /// Generates a new list based in the current [Emprego] on state
+      final horasList = state.currentEmprego!.horas.iCopy().iUpdateWhere(
+            newItem: updatedHora,
+            where: (Horas h) => h.id == hora.id!,
+          );
+
+      final newPageItems = state.currentPage().items.iCopy().iUpdateWhere(
+            where: (h) => h.date?.isSameDay(updatedHora.data) ?? false,
+            newItem: CalendarItemComplete(
+              horas: updatedHora,
+              date: updatedHora.data,
+              isToday: updatedHora.data.isSameDay(
+                DateTime.now(),
+              ),
+            ),
+          );
+
+      ///Generates a copy of the current [CalendarPage]
+      final currentPage =
+          state.currentPage().copyWith(items: newPageItems, horas: horasList);
+
+      final calendarPages = state.currentEmprego!.calendarPages
+          .iCopy()
+          .iUpdateItem(currentPage, state.currentPage());
+
+      final updatedEmprego = state.currentEmprego!.copyWith(
+        horas: horasList,
+        calendarPages: calendarPages,
+      );
+
+      final empregosList =
+          state.empregos.iCopy().iUpdateAt(updatedEmprego, state.empregoPos);
+
+      emit(
+        state.copyWith(
+          status: StateSuccessStatus(),
+          empregos: empregosList,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(
+            errorMsg: e.toString(),
+          ),
+        ),
+      );
+
+      rethrow;
+    }
+  }
+
+  Future<void> deleteHora(Horas hora) async {}
 }
