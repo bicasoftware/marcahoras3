@@ -25,6 +25,7 @@ extension HorasDtoMapper on Horas {
       inicio: inicio,
       termino: termino,
       tipoHora: tipoHora.letter,
+      id: id,
     );
   }
 }

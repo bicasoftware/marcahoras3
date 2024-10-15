@@ -11,6 +11,9 @@ class HomeBloc extends Cubit<HomeState> {
   EmpregoDataLoadUseCase _loadEmpregos;
   EmpregoDeleteUseCase _empregoDeleteUseCase;
   HorasLoadByRangeUseCase _horasLoadByRangeUseCase;
+  HorasCreateUseCase _horasCreateUsecase;
+  HorasUpdateUseCase _horasUpdateUseCase;
+  HorasDeleteUseCase _horasDeleteUseCase;
 
   CalendarPageGeneratorUseCase _calendarPageGeneratorUseCase;
 
@@ -18,12 +21,18 @@ class HomeBloc extends Cubit<HomeState> {
     required EmpregoDataLoadUseCase empregoDataLoadUseCase,
     required EmpregoDeleteUseCase empregoDeleteUseCase,
     required HorasLoadByRangeUseCase horasLoadByRangeUseCase,
+    required HorasCreateUseCase horasCreateUsecase,
+    required HorasUpdateUseCase horasUpdateUseCase,
+    required HorasDeleteUseCase horasDeleteUseCase,
     required int year,
     required int month,
   })  : _loadEmpregos = empregoDataLoadUseCase,
         _empregoDeleteUseCase = empregoDeleteUseCase,
         _calendarPageGeneratorUseCase = CalendarPageGeneratorUseCase(),
         _horasLoadByRangeUseCase = horasLoadByRangeUseCase,
+        _horasCreateUsecase = horasCreateUsecase,
+        _horasUpdateUseCase = horasUpdateUseCase,
+        _horasDeleteUseCase = horasDeleteUseCase,
         super(
           HomeState(
             status: StateLoadingStatus(),
@@ -221,14 +230,70 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   Future<void> insertHora(Horas hora) async {
+    if (state.currentEmprego == null) return;
 
+    try {
+      emit(
+        state.copyWith(
+          status: StateLoadingStatus(),
+        ),
+      );
+
+      /// Aplicar o mesmo para onUpdateHora
+      
+      /// Insert the new [Horas] model
+      final newHora = await _horasCreateUsecase(hora);
+
+      /// Generates a new list based in the current [Emprego] on state
+      final horasList = state.currentEmprego!.horas.iAdd(newHora);
+
+      final newPageItems = state.currentPage().items.iCopy().iUpdateWhere(
+            where: (h) => h.date?.isSameDay(newHora.data) ?? false,
+            newItem: CalendarItemComplete(
+              horas: newHora,
+              date: newHora.data,
+              isToday: newHora.data.isSameDay(
+                DateTime.now(),
+              ),
+            ),
+          );
+
+      ///Generates a copy of the current [CalendarPage]
+      final currentPage =
+          state.currentPage().copyWith(items: newPageItems, horas: horasList);
+
+      final calendarPages = state.currentEmprego!.calendarPages
+          .iCopy()
+          .iUpdateItem(currentPage, state.currentPage());
+
+      final updatedEmprego = state.currentEmprego!.copyWith(
+        horas: horasList,
+        calendarPages: calendarPages,
+      );
+
+      final empregosList =
+          state.empregos.iCopy().iUpdateAt(updatedEmprego, state.empregoPos);
+
+      emit(
+        state.copyWith(
+          status: StateSuccessStatus(),
+          empregos: empregosList,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(
+            errorMsg: e.toString(),
+          ),
+        ),
+      );
+
+      rethrow;
+    }
   }
 
-  Future<void> deleteHora(Horas hora) async {
+  Future<void> deleteHora(Horas hora) async {}
 
-  }
-
-  Future<void> updateHora(Horas hora) async {
-
-  }
+  Future<void> updateHora(Horas hora) async {}
 }

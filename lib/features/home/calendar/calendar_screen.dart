@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/features/home/calendar/calendario_screen_header.dart';
-import 'package:marcahoras3/features/home/calendar/widgets/empregos_dropdown.dart';
-import 'package:marcahoras3/features/home/horas_list/horas_list.dart';
-import 'package:marcahoras3/features/home/widgets/add_hora_bts.dart';
-import 'package:marcahoras3/features/home/widgets/popup_session.dart';
-import 'package:marcahoras3/resources.dart';
 
+import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
+import '../../../resources.dart';
+import '../../../utils/date_utils.dart';
 import '../../../widgets.dart';
-import '../../../widgets/bottomsheets/bottomsheethelper.dart';
+import '../horas_list/horas_list.dart';
+import '../widgets/add_hora_bts.dart';
+import '../widgets/popup_session.dart';
 import 'calendar_page.dart';
+import 'calendario_screen_header.dart';
+import 'widgets/empregos_dropdown.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({
@@ -22,6 +23,46 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
+  void _showHorasBts({
+    required BuildContext context,
+    required HomeBloc bloc,
+    Horas? selectedHora,
+    DateTime? data,
+    bool isEdit = false,
+  }) async {
+    final strings = context.strings();
+    final locale = Localizations.localeOf(context);
+    final newHora = await BottomSheetHelper.showModalBts(
+      context: context,
+      dismissible: true,
+      label: !isEdit
+          ? strings.novahora
+          : strings.editHoraReplace.replaceAll(
+              "{DATA}",
+              formatDateByLocale(data, locale),
+            ),
+      body: AddHoraBts(
+        hora: selectedHora,
+        feriado: selectedHora?.tipoHora == HorasType.feriado,
+        empregoId: bloc.state.currentEmprego!.id!,
+        initDate: selectedHora?.data ?? data ?? DateTime.now(),
+        empregoEntrada: bloc.state.currentEmprego!.entrada,
+        hideDate: (selectedHora?.data != null || data != null),
+      ),
+    );
+
+    if (newHora != null) {
+      showLoadingDialog(context: context);
+      isEdit ? await bloc.updateHora(newHora) : await bloc.insertHora(newHora);
+
+      /// Pops the loading dialog
+      Navigator.of(context).pop();
+
+      // /// Pop the bottomsheet
+      // Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
@@ -42,19 +83,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
         heroTag: 'plus_button',
         backgroundColor: AppColors.secondary,
         foregroundColor: AppColors.onSecondary,
-        onPressed: () {
-          BottomSheetHelper.showModalBts(
-            context: context,
-            dismissible: true,
-            body: const AddHoraBts(),
-          );
-        },
+        onPressed: () => _showHorasBts(
+          context: context,
+          bloc: bloc,
+        ),
         child: const Icon(Icons.add),
       ),
       body: BlocHelper<HomeBloc, HomeState>(
         bloc: bloc,
         onError: (e) {
-          print(e);
+          showErrorDialog(
+            context: context,
+            errorMsg: e,
+          );
         },
         child: SingleChildScrollView(
           child: Column(
@@ -65,8 +106,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 empregoPos: bloc.state.empregoPos,
                 year: bloc.state.year,
                 month: bloc.state.month,
-                onMonthAdd: bloc.incMonth ,
-                onMonthDec: bloc.decMonth ,
+                onMonthAdd: bloc.incMonth,
+                onMonthDec: bloc.decMonth,
                 onYearChanged: bloc.setYear,
                 onMonthChanged: bloc.setMonth,
 
@@ -78,6 +119,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: CalendarPage(
                   page: bloc.state.currentPage(),
+                  onCalendarItemTap: (h, d) async {
+                    _showHorasBts(
+                      context: context,
+                      bloc: bloc,
+                      selectedHora: h,
+                      data: d,
+                      isEdit: h != null,
+                    );
+                  },
                 ),
               ),
               const HorasList(horas: []),

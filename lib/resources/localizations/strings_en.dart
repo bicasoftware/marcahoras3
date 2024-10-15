@@ -72,6 +72,8 @@ class EnStrings implements StringsContract {
 
   @override
   String get verTodas => "see all";
+  @override
+  String get feriado => "Holiday";
 
   @override
   List<String> get weekDays => [
@@ -84,7 +86,7 @@ class EnStrings implements StringsContract {
         "SAT",
       ];
 
-    @override
+  @override
   List<String> get months => [
         'Janeiro',
         'Fevereiro',
@@ -184,4 +186,19 @@ class EnStrings implements StringsContract {
   String get confirmar => "Confirm";
   @override
   String get calendario => "Calendário";
+
+  @override
+  String get ate => "To";
+
+  @override
+  String get das => "From";
+
+  @override
+  String get data => "Date";
+
+  @override
+  String get editHoraReplace => "Overtime at Day: {DATA}";
+
+  @override
+  String get novahora => "Add Overtime";
 }

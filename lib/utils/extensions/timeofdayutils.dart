@@ -4,6 +4,10 @@ extension TimeOfDayHelper on TimeOfDay {
   String asString() {
     return "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}";
   }
+
+  TimeOfDay addHours(int amount) {
+    return TimeOfDay(hour: hour + amount, minute: minute);
+  }
 }
 
 extension TimeOfDayToStringHelper on String {

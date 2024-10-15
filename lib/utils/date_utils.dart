@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:intl/intl.dart';
 
-final _fmt = DateFormat('dd-mm-yyyy');
+final _fmt = DateFormat('dd-MM-yyyy');
 final _fmtServer = DateFormat('yyyy-MM-dd');
 final _timeFmt = DateFormat('hh:MM:ss');
 

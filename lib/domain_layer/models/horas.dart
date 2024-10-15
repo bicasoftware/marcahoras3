@@ -34,9 +34,6 @@ class Horas extends Equatable {
     ];
   }
 
-  @override
-  bool get stringify => true;
-
   Horas copyWith({
     String? id,
     String? empregoId,

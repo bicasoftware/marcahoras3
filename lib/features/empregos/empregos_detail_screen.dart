@@ -12,6 +12,7 @@ import '../../resources.dart';
 import '../../utils/utils.dart';
 import '../../widgets.dart';
 import '../../widgets/bottomsheets/bottomsheethelper.dart';
+import '../../widgets/dialogs/dialog_helper.dart';
 import '../../widgets/dialogs/time_picker_dialog.dart';
 import 'salarios/salarios_tile.dart';
 
@@ -54,11 +55,11 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     BuildContext context,
     EmpregosDetailBloc bloc,
   ) async {
-    final date = await datePickerDialog(
-      context: context,
-      initialDate: bloc.state.admissao,
-      allowFutureDate: false,
+    final date = await DialogHelper.showDateTimeDialog(
+      context,
+      bloc.state.admissao ?? DateTime.now(),
     );
+    
     if (date != null && date != bloc.state.admissao) {
       bloc.setAdmissao(date);
     }
@@ -70,9 +71,9 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     bool isEntrada = false,
   }) async {
     final initValue = isEntrada ? bloc.state.entrada : bloc.state.saida;
-    final picked = await timePickerDialog(
+    final picked = await DialogHelper.showTimeDialog(
       context: context,
-      time: initValue,
+      time: initValue!,
     );
 
     if (picked != null && picked != initValue) {

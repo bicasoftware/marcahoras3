@@ -52,6 +52,12 @@ abstract class StringsContract {
   String get cancelar;
   String get confirmar;
   String get calendario;
+  String get feriado;
+  String get das;
+  String get ate;
+  String get data;
+  String get novahora;
+  String get editHoraReplace;
 
   List<String> get weekDays;
   List<String> get months;

@@ -52,6 +52,8 @@ class BrStrings implements StringsContract {
   @override
   String get valueCantBeEmpty => 'O texto não pode estar vazio!';
   @override
+  String get feriado => 'Feriado';
+  @override
   String get valueAtLeastNCharacter =>
       'O texto precisa ter ao menos {N} letras!';
 
@@ -164,4 +166,19 @@ class BrStrings implements StringsContract {
 
   @override
   String get calendario => "Calendário";
+
+  @override
+  String get ate => "Até";
+
+  @override
+  String get das => "Das";
+
+  @override
+  String get data => "Data";
+
+  @override
+  String get editHoraReplace => "Hora Extra Dia: {DATA}";
+
+  @override  
+  String get novahora => "Nova Hora Extra";
 }

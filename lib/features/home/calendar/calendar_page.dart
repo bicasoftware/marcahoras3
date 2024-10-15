@@ -5,9 +5,11 @@ import 'calendar_item.dart';
 
 class CalendarPage extends StatelessWidget {
   final CalendarPageModel page;
+  final void Function(Horas? hora, DateTime? data)? onCalendarItemTap;
 
   const CalendarPage({
     required this.page,
+    required this.onCalendarItemTap,
     super.key,
   });
 
@@ -30,13 +32,20 @@ class CalendarPage extends StatelessWidget {
                       return CalendarItem();
                     case CalendarItemDateOnly():
                       return CalendarItem(
-                          monthDay: it.date!.day, isToday: it.isToday ?? false);
+                        monthDay: it.date!.day,
+                        isToday: it.isToday ?? false,
+                        data: it.date,
+                        onCalendarItemTap: onCalendarItemTap,
+                      );
                     case CalendarItemComplete():
                       return CalendarItem(
                         type: it.horaType,
                         monthDay: it.date?.day ?? -1,
                         weekDay: it.weekDay,
                         isToday: it.isToday ?? false,
+                        data: it.date,
+                        hora: it.horas,
+                        onCalendarItemTap: onCalendarItemTap,
                       );
                   }
                 },

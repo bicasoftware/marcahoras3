@@ -24,14 +24,18 @@ class HorasDto {
   });
 
   JsonObj toJson() {
-    return <String, dynamic>{
+    final map = <String, dynamic>{
       'empregoId': empregoId,
-      'data': data?.millisecondsSinceEpoch,
+      'data': formatDate(data!, true),
       'inicio': inicio,
       'termino': termino,
       'tipoHora': tipoHora,
       'bancoHoras': bancoHoras,
     };
+
+    if (id != null) map['id'] = id;
+
+    return map;
   }
 
   factory HorasDto.fromJson(JsonObj map) {

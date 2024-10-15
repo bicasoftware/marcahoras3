@@ -7,12 +7,15 @@ class BottomSheetHelper {
   static Future<T?> showModalBts<T>({
     required BuildContext context,
     required Widget body,
+    String? label,
     bool useRootNavigation = false,
     Color? bgColor,
     Color? barrierColor,
     bool dismissible = false,
     Radius topRadius = const Radius.circular(24),
   }) {
+    final theme = Theme.of(context).textTheme;
+
     return showModalBottomSheet<T>(
       context: context,
       useRootNavigator: useRootNavigation,
@@ -28,7 +31,30 @@ class BottomSheetHelper {
       builder: (context) => Material(
         color: bgColor,
         child: Container(
-          child: body,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (label != null)
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        label,
+                        style: theme.labelLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: AppColors.inversePrimary,
+                        ),
+                      ),
+                      const Divider(),
+                    ],
+                  ),
+                ),
+              body,
+            ],
+          ),
           padding: MediaQuery.of(context).viewInsets,
         ),
       ),

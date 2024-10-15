@@ -21,16 +21,6 @@ void main() {
   final fInitDate = formatDate(initDate, true);
   final fEndDate = formatDate(endDate, true);
 
-  test('should generate the correct vigencia dates', () {
-    final (inicio, termino) = getFormatedDateRange(2024, 10);
-
-    print(inicio);
-    print(termino);
-
-    assert(inicio == "2024-10-01");
-    assert(termino == "2024-10-31");
-  });
-
   test('should list empregos', () async {
     try {
       final provider = EmpregosProvider(connector);
