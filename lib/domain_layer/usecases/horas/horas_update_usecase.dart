@@ -1,13 +1,12 @@
-
 import '../../../data_layer/respositories.dart';
 import '../../models.dart';
 
-class HorasCreateUseCase {
+class HorasUpdateUseCase {
   final HorasRepository _repo;
 
-  HorasCreateUseCase({
+  HorasUpdateUseCase({
     required HorasRepository repo,
   }) : _repo = repo;
 
-  Future<Horas> call(Horas hora) => _repo.create(hora);
+  Future<Horas> call(Horas hora) => _repo.update(hora);
 }

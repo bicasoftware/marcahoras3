@@ -2,12 +2,12 @@
 import '../../../data_layer/respositories.dart';
 import '../../models.dart';
 
-class HorasCreateUseCase {
+class HorasDeleteUseCase {
   final HorasRepository _repo;
 
-  HorasCreateUseCase({
+  HorasDeleteUseCase({
     required HorasRepository repo,
   }) : _repo = repo;
 
-  Future<Horas> call(Horas hora) => _repo.create(hora);
+  Future<void> call(Horas hora) => _repo.delete(hora.id!);
 }
