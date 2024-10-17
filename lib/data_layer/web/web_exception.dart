@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:marcahoras3/utils/extensions/json_helper.dart';
 
 class WebException implements Exception {

@@ -1,9 +1,8 @@
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/features/empregos/salarios/salarios_action_type.dart';
-import 'package:marcahoras3/features/empregos/salarios/salarios_detail_bts.dart';
-import 'package:marcahoras3/widgets/dialogs/confirmation_dialog.dart';
+import 'salarios/salarios_action_type.dart';
+import 'salarios/salarios_detail_bts.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
@@ -11,9 +10,7 @@ import '../../presentation_layer/validators/validators.dart';
 import '../../resources.dart';
 import '../../utils/utils.dart';
 import '../../widgets.dart';
-import '../../widgets/bottomsheets/bottomsheethelper.dart';
 import '../../widgets/dialogs/dialog_helper.dart';
-import '../../widgets/dialogs/time_picker_dialog.dart';
 import 'salarios/salarios_tile.dart';
 
 class EmpregosDetailScreen extends StatefulWidget {

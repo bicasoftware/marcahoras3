@@ -3,6 +3,7 @@ library widgets;
 export 'widgets/bloc_helper.dart';
 export 'widgets/bottomsheets/bottomsheethelper.dart';
 export 'widgets/card_container.dart';
+export 'widgets/dialogs/confirmation_dialog.dart';
 export 'widgets/dialogs/error_dialog.dart';
 export 'widgets/dialogs/loading_dialog.dart';
 export 'widgets/indicator_tile.dart';

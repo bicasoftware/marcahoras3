@@ -1,11 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
 import 'bloc_loader.dart';
-import 'features/empregos/empregos_detail_screen.dart';
 import 'features/empregos/empregos/empregos_screen.dart';
+import 'features/empregos/empregos_detail_screen.dart';
 import 'features/home/home.dart';
 import 'features/registration/login/login_screen.dart';
 import 'features/registration/register/register_screen.dart';
@@ -47,6 +48,8 @@ class MyApp extends StatelessWidget {
     return BlocLoader(
       child: MaterialApp(
         title: "Horas Extras",
+        /// TODO - revisar pq o locale tá sendo caindo pra en_US e não pra pt_BR
+        locale: PlatformDispatcher.instance.locale, // Access device's locale
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         theme: ThemeData(
@@ -69,10 +72,9 @@ class MyApp extends StatelessWidget {
           MonthYearPickerLocalizations.delegate,
         ],
         supportedLocales: const [
-          Locale('en'),
           Locale('pt', 'BR'),
+          Locale('en', 'US'),
         ],
-        locale: const Locale('pt'),
         initialRoute: vault.isLoggedIn ? Routes.home : Routes.registration,
         routes: {
           Routes.home: (_) => const MyHomePage(),

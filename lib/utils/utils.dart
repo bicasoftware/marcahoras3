@@ -3,6 +3,8 @@ library utils;
 export 'date_utils.dart';
 export 'assertions.dart';
 export 'extensions.dart';
+export 'calc_utils.dart';
+export 'currency_helper.dart';
 export 'typedefs.dart';
 export './extensions/timeofdayutils.dart';
 export './extensions/immutable_list_utils.dart';

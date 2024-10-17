@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marcahoras3/utils/utils.dart';
 
 import '../../../resources.dart';
 import '../../../resources/localizations/strings.dart';
@@ -42,7 +43,7 @@ class EmpregosTile extends StatelessWidget {
       title: _IconLabel(
         icon: Icons.payments_outlined,
         iconColor: AppColors.statusAtivo,
-        label: "${strings.salario}: R\$ $salario",
+        label: "${strings.salario}: ${CurrencyHelper.formatAmount(salario)}",
         // style: theme.labelLarge?.copyWith(fontWeight: FontWeight.normal),
       ),
       subtitle: Column(

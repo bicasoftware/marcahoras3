@@ -1,5 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:collection';
+import 'package:collection/collection.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../utils/utils.dart';
@@ -51,6 +50,10 @@ class HomeState extends BaseState {
     return currentEmprego!.calendarPages.firstWhere(
       (p) => p.month == this.month && p.year == this.year,
     );
+  }
+
+  Salarios? getSalarioByVigencia(int year, int month) {
+    return currentEmprego?.getSalarioByVigencia(year, month);
   }
 
   int? hasPage(int year, int month) {

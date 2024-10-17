@@ -7,6 +7,7 @@ import 'package:marcahoras3/utils/date_utils.dart';
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/validators/validators.dart';
 import '../../../resources.dart';
+import '../../../utils/utils.dart';
 import '../../../widgets.dart';
 import 'salarios_action_type.dart';
 
@@ -70,7 +71,7 @@ class _SalariosTileState extends State<SalariosTile> {
                   return SalariosTileItem(
                     vigencia:
                         formatVigenciaDate(s.vigencia, locale, 'MMMM/yyyy'),
-                    valor: s.valor.toString(),
+                    valor: CurrencyHelper.formatAmount(s.valor),
                     onDelete: () => widget.onDelete(s),
                     onEdit: () => widget.onEdit(s),
                   );
@@ -91,7 +92,7 @@ class _SalariosTileState extends State<SalariosTile> {
         : ShTextTile(
             controller: widget.controller,
             label: strings.salario,
-            hint: "R\$ 1000,00",
+            hint: CurrencyHelper.formatAmount(1000),
             labelStyle: theme.labelLarge,
             icon: Icon(Icons.monetization_on),
             onValueChanged: widget.onSalarioValueChanged,

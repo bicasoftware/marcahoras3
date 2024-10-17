@@ -1,6 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:collection';
-
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -97,5 +95,21 @@ class Empregos extends Equatable {
       salarios,
       calendarPages,
     ];
+  }
+
+  Salarios getSalarioByVigencia(int year, int month) {
+    final _vig = DateTime(year, month, 1);
+    return salarios
+        .sorted((a, b) => a.vigencia.compareTo(b.vigencia))
+        .reversed
+        .firstWhere((s) => s.vigencia.isAfter(_vig));
+  }
+
+  Salarios? getCurrentSalario() {
+    if (salarios.length == 1) {
+      return salarios.first;
+    }
+
+    return salarios.sorted((a, b) => a.vigencia.compareTo(b.vigencia)).last;
   }
 }

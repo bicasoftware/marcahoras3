@@ -116,7 +116,7 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                             child: EmpregosTile(
                               descricao: e.descricao,
                               admissao: e.admissao!,
-                              salario: 1200,
+                              salario: e.getCurrentSalario()?.valor ?? 0.0,
                               status: e.ativo,
                               porcNormal: e.porcNormal,
                               porcFeriado: e.porcFeriado,

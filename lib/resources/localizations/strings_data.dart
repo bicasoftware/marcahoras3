@@ -11,6 +11,7 @@ extension StringsHelper on BuildContext {
     switch (locale.countryCode) {
       case "BR":
         return const BrStrings();
+      case "en_US":
       default:
         return const EnStrings();
     }
