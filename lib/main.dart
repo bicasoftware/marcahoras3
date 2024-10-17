@@ -48,7 +48,6 @@ class MyApp extends StatelessWidget {
     return BlocLoader(
       child: MaterialApp(
         title: "Horas Extras",
-        /// TODO - revisar pq o locale tá sendo caindo pra en_US e não pra pt_BR
         locale: PlatformDispatcher.instance.locale, // Access device's locale
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
