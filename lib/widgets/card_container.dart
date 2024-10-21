@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../resources.dart';
+import '../widgets.dart';
 
 class CardContainer extends StatelessWidget {
   final Widget child;
@@ -30,54 +29,42 @@ class CardContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    return Container(
-        padding: padding,
-        margin: margin,
-        decoration: hasShadow
-            ? BoxDecoration(
-                color: bgColor ?? AppColors.surface,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 1,
-                    color: AppColors.onSurface.withAlpha(40),
-                    // spreadRadius: .2,
-                  )
-                ],
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-              )
-            : null,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (_hasExtras) ...[
-              Row(
-                children: [
-                  if (leading != null)
-                    Container(
-                      child: leading!,
-                      margin: const EdgeInsets.only(left: 16),
+    return OutlinedCard(
+      padding: padding,
+      margin: margin,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (_hasExtras) ...[
+            Row(
+              children: [
+                if (leading != null)
+                  Container(
+                    child: leading!,
+                    margin: const EdgeInsets.only(left: 16),
+                  ),
+                if (label?.isNotEmpty ?? false) ...[
+                  const SizedBox(width: 8),
+                  Text(
+                    label!,
+                    style: theme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
-                  if (label?.isNotEmpty ?? false) ...[
-                    const SizedBox(width: 8),
-                    Text(
-                      label!,
-                      style: theme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: trailing,
                   ),
                 ],
-              ),
-              const Divider(endIndent: 16, indent: 16, height: 0),
-            ],
-            child,
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: trailing,
+                ),
+              ],
+            ),
+            const Divider(endIndent: 16, indent: 16, height: 0),
           ],
-        ));
+          child,
+        ],
+      ),
+    );
   }
 }

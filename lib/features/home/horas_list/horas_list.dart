@@ -10,11 +10,13 @@ import 'horas_list_tile.dart';
 
 class HorasList extends StatelessWidget {
   final List<Horas> horas;
+  final Empregos emprego;
   final void Function(Horas h) onDelete;
 
   const HorasList({
     required this.horas,
     required this.onDelete,
+    required this.emprego,
     super.key,
   });
 
@@ -73,7 +75,7 @@ class HorasList extends StatelessWidget {
                   ),
                   child: HorasListTile(
                     hora: h,
-                    salario: 1200,
+                    emprego: emprego,
                   ),
                 ),
               ),

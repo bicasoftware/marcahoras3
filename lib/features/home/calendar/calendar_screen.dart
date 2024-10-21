@@ -153,6 +153,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     .take(5)
                     .toList(),
                 onDelete: (h) => _deleteHora(h, bloc),
+                emprego: bloc.state.currentEmprego!,
               ),
             ],
           ),

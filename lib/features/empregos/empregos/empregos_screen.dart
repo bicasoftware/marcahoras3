@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:marcahoras3/domain_layer/models/empregos.dart';
-import 'package:marcahoras3/features/empregos/empregos/empregos_tile.dart';
-import 'package:marcahoras3/main.dart';
-import 'package:marcahoras3/widgets/dialogs/confirmation_dialog.dart';
+import 'empregos_tile.dart';
+import '../../../domain_layer/models.dart';
+import '../../../main.dart';
+import '../../../utils/utils.dart';
 
 import '../../../presentation_layer/blocs.dart';
 import '../../../resources.dart';
@@ -61,7 +60,7 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
               onPressed: () async {
                 final detailsBloc = context.read<EmpregosDetailBloc>();
                 detailsBloc.reset();
-          
+
                 await Navigator.of(context).pushNamed(Routes.empregosDetail);
                 bloc.load();
               },
@@ -74,69 +73,64 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
           Navigator.of(context).pop();
           context.showSnackBar(error);
         },
-        child: RefreshIndicator(
-          onRefresh: () => bloc.load(),
-          child: empregos.length == 0
-              ? NoDataContainer(
-                  contentLabel: strings.empregosEmpty,
-                  helperButtonLabel: strings.adicionarEmprego,
-                  helperButtonTap: () => _showAddEmpregoScreen(context, bloc),
-                )
-              : ListView.builder(
-                  itemCount: bloc.state.empregos.length,
-                  itemBuilder: (_, index) {
-                    final e = bloc.state.empregos[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: GestureDetector(
-                        onTap: () {
-                          final detailsBloc =
-                              context.read<EmpregosDetailBloc>();
-                          detailsBloc.setAsEdit(e);
-                          Navigator.of(context).pushNamed(
-                            Routes.empregosDetail,
-                          );
-                        },
-                        child: Slidable(
-                          child: CardContainer(
-                            label: e.descricao,
-                            margin: EdgeInsets.only(bottom: 8),
-                            leading: Icon(
-                              Icons.work_outline_outlined,
-                              color: AppColors.primary,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: RefreshIndicator(
+            onRefresh: () => bloc.load(),
+            child: empregos.length == 0
+                ? NoDataContainer(
+                    contentLabel: strings.empregosEmpty,
+                    helperButtonLabel: strings.adicionarEmprego,
+                    helperButtonTap: () => _showAddEmpregoScreen(context, bloc),
+                  )
+                : ListView.builder(
+                    itemCount: bloc.state.empregos.length,
+                    itemBuilder: (_, index) {
+                      final e = bloc.state.empregos[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: ContentTile(
+                          borderRadius: 2,
+                          title: e.descricao,
+                          margin: EdgeInsets.only(bottom: 8),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          onDelete: () {
+                            _onDelete(context, bloc, e);
+                          },
+                          onUpdate: () {
+                            final detailsBloc =
+                                context.read<EmpregosDetailBloc>();
+                            detailsBloc.setAsEdit(e);
+                            Navigator.of(context).pushNamed(
+                              Routes.empregosDetail,
+                            );
+                          },
+                          child: EmpregosTile(
+                            descricao: e.descricao,
+                            salario: e.getCurrentSalario()!,
+                            status: e.ativo,
+                            porcNormal: e.porcNormal,
+                            porcFeriado: e.porcFeriado,
+                            bancoHoras: e.bancoHoras,
+                            cargaHoraria: e.cargaHoraria,
+                            valorHoraNormal: CalcHelper.calcPorcentagemHora(
+                              e.getCurrentSalario()?.valor ?? 0.0,
+                              e.cargaHoraria,
+                              e.porcNormal,
                             ),
-                            trailing: IconButton(
-                              onPressed: null,
-                              icon: Icon(
-                                Icons.edit,
-                                color: AppColors.disabled,
-                                size: 16,
-                              ),
+                            valorHoraFeriados: CalcHelper.calcPorcentagemHora(
+                              e.getCurrentSalario()?.valor ?? 0.0,
+                              e.cargaHoraria,
+                              e.porcFeriado,
                             ),
-                            child: EmpregosTile(
-                              descricao: e.descricao,
-                              admissao: e.admissao!,
-                              salario: e.getCurrentSalario()?.valor ?? 0.0,
-                              status: e.ativo,
-                              porcNormal: e.porcNormal,
-                              porcFeriado: e.porcFeriado,
-                            ),
-                          ),
-                          endActionPane: ActionPane(
-                            motion: StretchMotion(),
-                            children: [
-                              SlidableAction(
-                                backgroundColor: AppColors.deleteColor,
-                                icon: Icons.delete,
-                                onPressed: (_) => _onDelete(context, bloc, e),
-                              ),
-                            ],
+                            admissao: e.admissao!,
                           ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  ),
+          ),
         ),
       ),
     );

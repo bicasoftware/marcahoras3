@@ -154,6 +154,9 @@ class EnStrings implements StringsContract {
   String get cargaHoraria => "Monthly worked hours";
 
   @override
+  String get cargaHorariaAbrev => "Wkd. Hours";
+
+  @override
   String get admissao => "Starting Date";
 
   @override
@@ -201,13 +204,28 @@ class EnStrings implements StringsContract {
 
   @override
   String get novahora => "Add Overtime";
-  
+
   @override
   String get pagas => "Paid";
-  
+
   @override
   String get horasTrabalhadas => "Worked Hours";
-  
+
   @override
   String get valorReceber => "Value to be paid";
+
+  @override
+  String get feriados => "Holidays";
+
+  @override
+  String get normais => "Regular";
+
+  @override
+  String get porcentagem => "Percentage";
+
+  @override
+  String get valorHora => "Overtime value";
+  
+  @override
+  String get horasExtras => "Overtime";
 }

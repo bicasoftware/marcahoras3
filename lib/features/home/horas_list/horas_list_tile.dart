@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
 import '../../../resources/localizations/strings.dart';
+import '../../../utils/utils.dart';
 
 class HorasListTile extends StatelessWidget {
-  final double salario;
   final Horas hora;
+  final Empregos emprego;
 
   const HorasListTile({
-    required this.salario,
     required this.hora,
+    required this.emprego,
     super.key,
   });
 
@@ -22,12 +23,27 @@ class HorasListTile extends StatelessWidget {
     return hora.bancoHoras ? strings.bancoHoras : strings.pagas;
   }
 
+  double _salario() => emprego.getCurrentSalario()?.valor ?? 0.0;
+
   String _valorHora() {
-    return "R\$ 5,60";
+    final porc = hora.tipoHora == HorasType.normal
+        ? emprego.porcNormal
+        : emprego.porcFeriado;
+
+    final valor = CalcHelper.calcPorcentagemHora(
+      _salario(),
+      emprego.cargaHoraria,
+      porc,
+    );
+
+    return CurrencyHelper.formatAmount(valor);
   }
 
   String _horasTrabalhadas() {
-    return "2 horas";
+    final inicio = hora.inicio.toTimeOfDay();
+    final termino = hora.termino.toTimeOfDay();
+
+    return "${termino.hour - inicio.hour}";
   }
 
   @override
@@ -62,7 +78,8 @@ class HorasListTile extends StatelessWidget {
               _IconLabel(
                 icon: Icons.payment,
                 iconColor: AppColors.secondary,
-                label: "${strings.salario}: ${salario}",
+                label:
+                    "${strings.salario}: ${CurrencyHelper.formatAmount(_salario())}",
               ),
             ],
           ),

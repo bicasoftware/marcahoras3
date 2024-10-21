@@ -11,6 +11,7 @@ abstract class StringsContract {
   String get emprego;
   String get fechar;
   String get horas;
+  String get horasExtras;
   String get jaTenhoCadastro;
   String get naoTenhoCadastro;
   String get tentar;
@@ -42,6 +43,7 @@ abstract class StringsContract {
   String get editarSalario;
   String get descricaoEmprego;
   String get cargaHoraria;
+  String get cargaHorariaAbrev;
   String get admissao;
   String get porcNormal;
   String get porcFeriado;
@@ -61,6 +63,11 @@ abstract class StringsContract {
   String get pagas;
   String get horasTrabalhadas;
   String get valorReceber;
+  String get normais;
+  String get feriados;
+  String get valorHora;
+  String get porcentagem;
+
 
   List<String> get weekDays;
   List<String> get months;

@@ -129,6 +129,9 @@ class BrStrings implements StringsContract {
   String get cargaHoraria => "Carga Horária Mensal";
 
   @override
+  String get cargaHorariaAbrev => "C. Horária";
+
+  @override
   String get admissao => "Admissão";
 
   @override
@@ -138,10 +141,10 @@ class BrStrings implements StringsContract {
   String get inativo => "Inativo";
 
   @override
-  String get porcNormal => "Normal";
+  String get porcNormal => "Extra Normal";
 
   @override
-  String get porcFeriado => "Feriado";
+  String get porcFeriado => "Extra Feriado";
 
   @override
   String get editar => "Editar";
@@ -179,15 +182,30 @@ class BrStrings implements StringsContract {
   @override
   String get editHoraReplace => "Hora Extra Dia: {DATA}";
 
-  @override  
+  @override
   String get novahora => "Nova Hora Extra";
-  
+
   @override
   String get pagas => "Pagas";
-  
+
   @override
   String get horasTrabalhadas => "Horas Trabalhadas";
-  
+
   @override
   String get valorReceber => "Valor a receber";
+
+  @override
+  String get feriados => "Feriados";
+
+  @override
+  String get normais => "Normais";
+
+  @override
+  String get porcentagem => "Porcentagem";
+
+  @override
+  String get valorHora => "Valor Hora";
+  
+  @override
+  String get horasExtras => "Horas Extras";
 }
