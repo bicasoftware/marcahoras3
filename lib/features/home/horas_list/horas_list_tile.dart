@@ -15,12 +15,14 @@ class HorasListTile extends StatelessWidget {
     super.key,
   });
 
-  Color _bancoHorasColor() {
-    return hora.bancoHoras ? AppColors.secondary : AppColors.statusAtivo;
+  Color _tipoHoraColor() {
+    return Color(hora.tipoHora.colorHex);
   }
 
-  String _formatFormaHora(StringsContract strings) {
-    return hora.bancoHoras ? strings.bancoHoras : strings.pagas;
+  String _tipoHoraLabel(StringsContract strings) {
+    return hora.tipoHora == HorasType.normal
+        ? strings.horaNormal
+        : strings.horaFeriado;
   }
 
   double _salario() => emprego.getCurrentSalario()?.valor ?? 0.0;
@@ -50,38 +52,39 @@ class HorasListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = context.strings();
 
-    return ListTile(
-      dense: true,
-      trailing: Badge(
-        backgroundColor: _bancoHorasColor(),
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        label: Text(
-          _formatFormaHora(strings),
-        ),
-      ),
-      title: _IconLabel(
-        icon: Icons.timeline,
-        iconColor: AppColors.primary,
-        label: "${strings.horasTrabalhadas}: ${_horasTrabalhadas()}",
-      ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Row(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _IconLabel(
-                icon: Icons.payments_outlined,
-                iconColor: _bancoHorasColor(),
-                label: "${strings.valorReceber}: ${_valorHora()}",
-              ),
-              _IconLabel(
-                icon: Icons.payment,
-                iconColor: AppColors.secondary,
-                label:
-                    "${strings.salario}: ${CurrencyHelper.formatAmount(_salario())}",
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _IconLabel(
+                  icon: Icons.timeline,
+                  iconColor: AppColors.primary,
+                  label: "${strings.horasTrabalhadas}: ${_horasTrabalhadas()}",
+                ),
+                _IconLabel(
+                  icon: Icons.payments_outlined,
+                  iconColor: _tipoHoraColor(),
+                  label: "${strings.valorReceber}: ${_valorHora()}",
+                ),
+                _IconLabel(
+                  icon: Icons.payment,
+                  iconColor: AppColors.secondary,
+                  label:
+                      "${strings.salario}: ${CurrencyHelper.formatAmount(_salario())}",
+                ),
+              ],
+            ),
+          ),
+          Badge(
+            backgroundColor: _tipoHoraColor(),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            label: Text(
+              _tipoHoraLabel(strings),
+            ),
           ),
         ],
       ),

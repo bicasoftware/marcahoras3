@@ -417,5 +417,3 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 }
-
-///TODO - adicionar calculos de horas feitas e valores a receber

@@ -126,10 +126,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 empregoPos: bloc.state.empregoPos,
                 year: bloc.state.year,
                 month: bloc.state.month,
-                onMonthAdd: bloc.incMonth,
-                onMonthDec: bloc.decMonth,
-                onYearChanged: bloc.setYear,
-                onMonthChanged: bloc.setMonth,
+                onMonthAdd: () => awaitableTask(
+                  context: context,
+                  actualTask: () async => bloc.incMonth(),
+                ),
+                onMonthDec: () => awaitableTask(
+                  context: context,
+                  actualTask: () async => bloc.decMonth(),
+                ),
+                onYearChanged: (int y) => awaitableTask(
+                  context: context,
+                  actualTask: () async => bloc.setYear(y),
+                ),
+                onMonthChanged: (m) => awaitableTask(
+                  context: context,
+                  actualTask: () async => bloc.setMonth(m),
+                ),
               ),
               const SizedBox(height: 8),
               Padding(
@@ -148,12 +160,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
               ),
               HorasList(
-                horas: [...bloc.state.currentPage().horas]
-                    .sorted((a, b) => a.data.compareTo(b.data))
-                    .take(5)
-                    .toList(),
+                horas: bloc.state.currentPage().horasList,
                 onDelete: (h) => _deleteHora(h, bloc),
                 emprego: bloc.state.currentEmprego!,
+                onItemTap: (h) {
+                  _showHorasBts(
+                    context: context,
+                    bloc: bloc,
+                    selectedHora: h,
+                    data: h.data,
+                    isEdit: true,
+                  );
+                },
               ),
             ],
           ),
@@ -167,7 +185,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       context: context,
       actualTask: () => bloc.deleteHora(h),
       requireConfirmation: true,
-      confirmationMessage: "Deseja apagar a Hora Extra?"
+      confirmationMessage: "Deseja apagar a Hora Extra?",
     );
   }
 }

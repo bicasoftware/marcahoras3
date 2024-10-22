@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:collection/collection.dart';
 
 import '../../../domain_layer/models.dart';
@@ -64,7 +65,7 @@ class HomeState extends BaseState {
 
   @override
   String toString() {
-    return 'HomeState(tabPos: $navigatorPos, empregoPos: $empregoPos, empregos: $empregos, isDarkMode: $isDarkMode)';
+    return 'HomeState(navigatorPos: $navigatorPos, empregoPos: $empregoPos, empregos: $empregos, isDarkMode: $isDarkMode, month: $month, year: $year)';
   }
 
   @override
@@ -74,7 +75,9 @@ class HomeState extends BaseState {
     return other.navigatorPos == navigatorPos &&
         other.empregoPos == empregoPos &&
         other.empregos == empregos &&
-        other.isDarkMode == isDarkMode;
+        other.isDarkMode == isDarkMode &&
+        other.month == month &&
+        other.year == year;
   }
 
   @override
@@ -82,6 +85,8 @@ class HomeState extends BaseState {
     return navigatorPos.hashCode ^
         empregoPos.hashCode ^
         empregos.hashCode ^
-        isDarkMode.hashCode;
+        isDarkMode.hashCode ^
+        month.hashCode ^
+        year.hashCode;
   }
 }

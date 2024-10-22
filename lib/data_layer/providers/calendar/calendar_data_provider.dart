@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:marcahoras3/utils/utils.dart';
 
 import '../../../domain_layer/models.dart';
+import '../../../utils/utils.dart';
 
 class CalendarioPageDataProvider {
   static CalendarPageModel mapToCalendar({
@@ -33,7 +33,11 @@ class CalendarioPageDataProvider {
       calendarDays.add(
         hora == null
             ? CalendarItemDateOnly(currentDate, today.isSameDay(currentDate))
-            : CalendarItemComplete(date: currentDate, horas: hora, isToday: today.isSameDay(currentDate)),
+            : CalendarItemComplete(
+                date: currentDate,
+                horas: hora,
+                isToday: today.isSameDay(currentDate),
+              ),
       );
 
       currentDate = currentDate.add(Duration(days: 1));

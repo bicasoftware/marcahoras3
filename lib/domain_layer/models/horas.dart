@@ -56,8 +56,8 @@ class Horas extends Equatable {
 }
 
 enum HorasType {
-  normal('n', 0xFF4800FF),
-  feriado('f', 0xFFFF6600),
+  normal('n', 0xFF5FB800),
+  feriado('f', 0xFFFF847D),
   unknown('u', 0xFF8F8F8F);
 
   final String letter;

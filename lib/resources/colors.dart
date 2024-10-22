@@ -39,6 +39,6 @@ class AppColors {
   static const editColor = Color.fromARGB(150, 255, 230, 0);
   static const deleteColor = Color.fromARGB(150, 242, 14, 2);
 
-  static const porcNormalColor = Color.fromARGB(255, 95, 184, 0);
-  static const porcFeriadosColor = Color.fromARGB(255, 255, 132, 125);
+  static const porcNormalColor = Color(0xFF5FB800);
+  static const porcFeriadosColor = Color(0xFFFF847D);
 }

@@ -32,8 +32,8 @@ class CardContainer extends StatelessWidget {
     return OutlinedCard(
       padding: padding,
       margin: margin,
+      hasShadow: hasShadow,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           if (_hasExtras) ...[
@@ -60,7 +60,8 @@ class CardContainer extends StatelessWidget {
                 ),
               ],
             ),
-            const Divider(endIndent: 16, indent: 16, height: 0),
+            const Divider(endIndent: 16, indent: 16, height: 2),
+            const SizedBox(height: 4),
           ],
           child,
         ],

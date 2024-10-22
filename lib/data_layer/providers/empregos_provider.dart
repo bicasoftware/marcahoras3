@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import '../dtos.dart';
 import '../web.dart';
 
@@ -20,7 +22,9 @@ class EmpregosProvider {
       );
 
       return response.isSuccess
-          ? EmpregosDto.fromJsonList(response.data)
+          ? await Isolate.run(() {
+              return EmpregosDto.fromJsonList(response.data);
+            })
           : throw response.toWebException();
     } catch (e) {
       rethrow;

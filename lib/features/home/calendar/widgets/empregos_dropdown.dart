@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcahoras3/presentation_layer/blocs.dart';
+import 'package:marcahoras3/utils/utils.dart';
 
 import '../../../../domain_layer/models.dart';
 import '../../../../resources.dart';
@@ -18,7 +19,7 @@ class EmpregosDropdown extends StatelessWidget {
         dropdownColor: AppColors.inversePrimary,
         iconEnabledColor: AppColors.onPrimary,
         value: bloc.state.currentEmprego,
-        focusColor: AppColors.onPrimary,        
+        focusColor: AppColors.onPrimary,
         items: bloc.state.empregos
             .map(
               (e) => DropdownMenuItem<Empregos>(
@@ -33,8 +34,12 @@ class EmpregosDropdown extends StatelessWidget {
               ),
             )
             .toList(),
-        onChanged: (e) {
-          if (e != null) bloc.setEmpregoPos(e);
+        onChanged: (e) async {
+          if (e != null) {
+            await awaitableTask(
+                context: context,
+                actualTask: () async => bloc.setEmpregoPos(e));
+          }
         },
       ),
     );
