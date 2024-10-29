@@ -2,7 +2,6 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:marcahoras3/features/empregos/salarios/salarios_tile_item.dart';
-import 'package:marcahoras3/utils/date_utils.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/validators/validators.dart';

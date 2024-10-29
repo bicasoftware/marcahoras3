@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:marcahoras3/features/relatorio/relatorio_screen.dart';
 import 'package:month_year_picker/month_year_picker.dart';
@@ -18,7 +18,7 @@ import 'utils/vault/vault_keys.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterConfig.loadEnvVariables();
+  await dotenv.load(fileName: "assets/.env");
   await _buildVaultData();
 
   runApp(
@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
           Routes.login: (_) => const LoginScreen(),
           Routes.empregos: (_) => const EmpregosScreen(),
           Routes.empregosDetail: (_) => const EmpregosDetailScreen(),
-          Routes.relatorio: (_) => const RelatorioScreen(),          
+          Routes.relatorio: (_) => const RelatorioScreen(),
         },
       ),
     );

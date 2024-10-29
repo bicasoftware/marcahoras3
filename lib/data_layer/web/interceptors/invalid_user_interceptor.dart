@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcahoras3/data_layer/web/web_exception.dart';
 import 'package:marcahoras3/main.dart';
 import 'package:marcahoras3/presentation_layer/blocs.dart';
-import 'package:marcahoras3/realm/realm_connector.dart';
 import 'package:marcahoras3/widgets.dart';
 
 import '../../../routes.dart';
@@ -36,10 +35,6 @@ class InvalidUserInterceptor extends Interceptor {
       errorMsg:
           err.message ?? 'Erro de comunicação com servidor. Desconectando...',
     );
-
-    /// Clean Realm data
-    final r = RealmConnector();
-    r.cleanAll();
 
     /// Delete data from the [Vault]
     final vaultManager = VaultManager();

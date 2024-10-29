@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:marcahoras3/utils/utils.dart';
 
 import 'web.dart';
@@ -18,9 +19,7 @@ class WebConnector {
   WebConnector([String? baseUrl])
       : jsonDecoder = const JsonDecoder(),
         http = Dio(
-          BaseOptions(
-            baseUrl: baseUrl ?? const String.fromEnvironment('base_url'),
-          ),
+          BaseOptions(baseUrl: baseUrl ?? dotenv.get('base_url')),
         );
 
   void addInterceptor(Interceptor i) => http.interceptors.add(i);

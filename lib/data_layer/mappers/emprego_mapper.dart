@@ -1,12 +1,10 @@
 import 'package:intl/intl.dart';
-import 'package:marcahoras3/data_layer/mappers/horas_mapper.dart';
-import 'package:marcahoras3/data_layer/mappers/salarios_mapper.dart';
 
 import '../../domain_layer/models.dart';
-import '../../realm/realm_id_generator.dart';
 import '../../utils/utils.dart';
 import '../dtos.dart';
-import '../realm_models/empregos_realm.dart';
+import 'horas_mapper.dart';
+import 'salarios_mapper.dart';
 
 extension EmpregoMapper on EmpregosDto {
   Empregos toEmprego() {
@@ -40,56 +38,6 @@ extension EmpregoDtoMapper on Empregos {
       porcNormal: porcNormal,
       cargaHoraria: cargaHoraria,
       ativo: ativo,
-    );
-  }
-}
-
-extension EmpregosRealmDtoMapper on EmpregosRealm {
-  EmpregosDto toEmpregosDto() {
-    return EmpregosDto(
-      id: id,
-      descricao: descricao,
-      admissao: DateFormat("yyyy-MM-dd").format(admissao!),
-      entrada: entrada,
-      saida: saida,
-      bancoHoras: bancoHoras,
-      porcNormal: porcNormal,
-      porcFeriado: porcFeriado,
-      ativo: ativo,
-      cargaHoraria: cargaHoraria,
-    );
-  }
-}
-
-// extension EmpregosModelToRealmDtoMapper on Empregos {
-//   EmpregosRealm toEmpregos() {
-//     return EmpregosRealm(
-//       IdGenerator.generate(),
-//       descricao: descricao,
-//       admissao: admissao,
-//       entrada: entrada.asString(),
-//       saida: saida.asString(),
-//       bancoHoras: bancoHoras,
-//       porcNormal: porcNormal,
-//       porcFeriado: porcFeriado,
-//       ativo: ativo,
-//       cargaHoraria: cargaHoraria,
-//     );
-//   }
-// }
-extension EmpregosDtoToRealmMapper on EmpregosDto {
-  EmpregosRealm toRealmModel() {
-    return EmpregosRealm(
-      IdGenerator.generate(),
-      descricao: descricao,
-      admissao: DateFormat("yyyy-MM-dd").parse(admissao!),
-      entrada: entrada,
-      saida: saida,
-      bancoHoras: bancoHoras ?? false,
-      porcNormal: porcNormal ?? 50,
-      porcFeriado: porcFeriado ?? 100,
-      ativo: ativo ?? true,
-      cargaHoraria: cargaHoraria ?? 220,
     );
   }
 }
