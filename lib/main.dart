@@ -19,6 +19,7 @@ import 'utils/vault/vault_keys.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/.env");
+
   await _buildVaultData();
 
   runApp(

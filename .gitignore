@@ -103,3 +103,4 @@ coverage/
 
 assets/.env
 .vscode/launch.json
+*.g.dart
