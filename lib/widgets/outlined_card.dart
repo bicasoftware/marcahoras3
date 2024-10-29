@@ -7,11 +7,13 @@ class OutlinedCard extends StatelessWidget {
   final Widget child;
   final double borderRadius;
   final bool hasShadow;
+  final Color cardColor;
 
   const OutlinedCard({
     this.borderRadius = 8,
     this.hasShadow = true,
     required this.child,
+    this.cardColor = AppColors.surface,
     this.padding,
     this.margin,
     super.key,
@@ -23,7 +25,7 @@ class OutlinedCard extends StatelessWidget {
       padding: padding,
       margin: margin,
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: cardColor,
         boxShadow: hasShadow
             ? [
                 BoxShadow(

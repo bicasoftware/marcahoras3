@@ -4,12 +4,13 @@ import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
 import '../../../resources/localizations/strings.dart';
 import '../../../utils/utils.dart';
+import '../../../widgets.dart';
 
-class HorasListTile extends StatelessWidget {
+class RelatorioHorasListTile extends StatelessWidget {
   final Horas hora;
   final Empregos emprego;
 
-  const HorasListTile({
+  const RelatorioHorasListTile({
     required this.hora,
     required this.emprego,
     super.key,
@@ -40,49 +41,60 @@ class HorasListTile extends StatelessWidget {
   }
 
   int _horasTrabalhadas() {
-    return hora.termino.hour - hora.inicio.hour;
+    final inicio = hora.inicio;
+    final termino = hora.termino;
+
+    return termino.hour - inicio.hour;
   }
 
   @override
   Widget build(BuildContext context) {
     final strings = context.strings();
+    final locale = Localizations.localeOf(context);
     final ht = _horasTrabalhadas();
     final vh = _valorHora();
 
-    return Container(
+    return OutlinedCard(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _IconLabel(
-                  icon: Icons.timeline,
-                  iconColor: AppColors.primary,
-                  label: "${strings.horasTrabalhadas}: $ht",
-                ),
-                _IconLabel(
-                  icon: Icons.payments_outlined,
-                  iconColor: _tipoHoraColor(),
+          Row(
+            children: [
+              Expanded(
+                child: _IconLabel(
+                  icon: Icons.date_range,
+                  iconColor: AppColors.onSurface,
                   label:
-                      "${strings.valorReceber}: ${CurrencyHelper.formatAmount(vh * ht)}",
+                      "${strings.data}: ${formatDateByLocale(hora.data, locale)}",
                 ),
-                _IconLabel(
-                  icon: Icons.payment,
-                  iconColor: AppColors.secondary,
-                  label:
-                      "${strings.salario}: ${CurrencyHelper.formatAmount(_salario())}",
+              ),
+              Badge(
+                backgroundColor: _tipoHoraColor(),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                label: Text(
+                  _tipoHoraLabel(strings),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Badge(
-            backgroundColor: _tipoHoraColor(),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            label: Text(
-              _tipoHoraLabel(strings),
-            ),
+          const Divider(),
+          _IconLabel(
+            icon: Icons.timeline,
+            iconColor: AppColors.primary,
+            label: "${strings.horasTrabalhadas}: $ht",
+          ),
+          _IconLabel(
+            icon: Icons.payments_outlined,
+            iconColor: _tipoHoraColor(),
+            label:
+                "${strings.valorReceber}: ${CurrencyHelper.formatAmount(vh * ht)}",
+          ),
+          _IconLabel(
+            icon: Icons.payment,
+            iconColor: AppColors.secondary,
+            label:
+                "${strings.salario}: ${CurrencyHelper.formatAmount(_salario())}",
           ),
         ],
       ),

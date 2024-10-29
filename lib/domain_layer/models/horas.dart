@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 @immutable
 class Horas extends Equatable {
   final String? id;
   final String empregoId;
   final DateTime data;
-  final String inicio;
-  final String termino;
+  final TimeOfDay inicio;
+  final TimeOfDay termino;
   final HorasType tipoHora;
   final bool bancoHoras;
 
@@ -38,8 +38,8 @@ class Horas extends Equatable {
     String? id,
     String? empregoId,
     DateTime? data,
-    String? inicio,
-    String? termino,
+    TimeOfDay? inicio,
+    TimeOfDay? termino,
     HorasType? tipoHora,
     bool? bancoHoras,
   }) {

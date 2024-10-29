@@ -13,11 +13,17 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage>
-    with SingleTickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage> {
+  late final List<Widget> _pages;
+
   @override
   void initState() {
     super.initState();
+    _pages = [
+      const EmpregosScreen(),
+      const CalendarScreen(
+      ),
+    ];
   }
 
   @override
@@ -27,9 +33,10 @@ class _MyHomePageState extends State<MyHomePage>
     final state = bloc.state;
 
     return Scaffold(
-      body: bloc.state.navigatorPos == 0
-          ? const EmpregosScreen()
-          : const CalendarScreen(),
+      body: AnimatedSwitcher(
+        duration: Duration(milliseconds: 300),
+        child: _pages[bloc.state.navigatorPos],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: state.navigatorPos,
         onTap: bloc.setNavigationbarPosition,

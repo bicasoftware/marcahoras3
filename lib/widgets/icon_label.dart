@@ -5,10 +5,12 @@ import '../resources.dart';
 class IconLabel extends StatelessWidget {
   final String label;
   final Icon icon;
+  final Color labelColor;
 
   const IconLabel({
     required this.label,
     required this.icon,
+    this.labelColor = AppColors.onSurface,
     super.key,
   });
 
@@ -24,7 +26,7 @@ class IconLabel extends StatelessWidget {
           label,
           style: theme.labelLarge?.copyWith(
             fontWeight: FontWeight.bold,
-            color: AppColors.onSurface,
+            color: labelColor,
           ),
         ),
       ],

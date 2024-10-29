@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:marcahoras3/resources/colors.dart';
+
 import '../widgets.dart';
 
 class CardContainer extends StatelessWidget {
   final Widget child;
   final EdgeInsets padding;
   final EdgeInsets margin;
-  final Color? bgColor;
-  final String? label;
+  final Color cardColor;
+  final Widget? label;
   final Widget? leading;
   final Widget? trailing;
   final bool hasShadow;
@@ -16,23 +18,22 @@ class CardContainer extends StatelessWidget {
     this.margin = EdgeInsets.zero,
     this.padding = EdgeInsets.zero,
     this.hasShadow = true,
-    this.bgColor,
+    this.cardColor = AppColors.surface,
     this.label,
     this.leading,
     this.trailing,
     super.key,
   });
 
-  bool get _hasExtras =>
-      trailing != null || (label?.isNotEmpty ?? false) || leading != null;
+  bool get _hasExtras => trailing != null || (label != null) || leading != null;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
     return OutlinedCard(
       padding: padding,
       margin: margin,
       hasShadow: hasShadow,
+      cardColor: cardColor,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -44,14 +45,9 @@ class CardContainer extends StatelessWidget {
                     child: leading!,
                     margin: const EdgeInsets.only(left: 16),
                   ),
-                if (label?.isNotEmpty ?? false) ...[
+                if (label != null) ...[
                   const SizedBox(width: 8),
-                  Text(
-                    label!,
-                    style: theme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  label!,
                 ],
                 const Spacer(),
                 Padding(
@@ -60,7 +56,7 @@ class CardContainer extends StatelessWidget {
                 ),
               ],
             ),
-            const Divider(endIndent: 16, indent: 16, height: 2),
+            // const Divider(endIndent: 16, indent: 16, height: 2),
             const SizedBox(height: 4),
           ],
           child,

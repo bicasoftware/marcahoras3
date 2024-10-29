@@ -1,12 +1,11 @@
-import 'package:collection/collection.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../utils/utils.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
 import '../../../resources.dart';
+import '../../../routes.dart';
+import '../../../utils/utils.dart';
 import '../../../widgets.dart';
 import '../horas_list/horas_list.dart';
 import '../widgets/add_hora_bts.dart';
@@ -99,15 +98,27 @@ class _CalendarScreenState extends State<CalendarScreen> {
           PopupSessionButton(),
         ],
       ),
-      floatingActionButton: FloatingActionButton.small(
-        heroTag: 'plus_button',
-        backgroundColor: AppColors.secondary,
-        foregroundColor: AppColors.onSecondary,
-        onPressed: () => _showHorasBts(
-          context: context,
-          bloc: bloc,
-        ),
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton.small(
+            child: const Icon(Icons.list_alt),
+            backgroundColor: AppColors.errorContainer,
+            foregroundColor: AppColors.onSecondary,
+            onPressed: () => Navigator.of(context).pushNamed(Routes.relatorio),
+          ),
+          const SizedBox(height: 8),
+          FloatingActionButton(
+            heroTag: 'plus_button',
+            backgroundColor: AppColors.secondary,
+            foregroundColor: AppColors.onSecondary,
+            onPressed: () => _showHorasBts(
+              context: context,
+              bloc: bloc,
+            ),
+            child: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: BlocHelper<HomeBloc, HomeState>(
         bloc: bloc,
@@ -122,8 +133,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CalendarioScreenHeader(
-                empregos: bloc.state.empregos,
-                empregoPos: bloc.state.empregoPos,
                 year: bloc.state.year,
                 month: bloc.state.month,
                 onMonthAdd: () => awaitableTask(

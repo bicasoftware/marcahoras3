@@ -39,13 +39,13 @@ class _AddHoraBtsState extends State<AddHoraBts> {
     if (widget.hora != null) {
       _date = widget.initDate;
       _feriado = widget.hora!.tipoHora == HorasType.feriado;
-      _entrada = widget.hora!.inicio.toTimeOfDay();
-      _saida = widget.hora!.termino.toTimeOfDay();
+      _entrada = widget.hora!.inicio;
+      _saida = widget.hora!.termino;
     } else {
       _date = widget.initDate;
       _feriado = widget.feriado;
       _entrada = widget.empregoEntrada;
-      _saida = widget.empregoEntrada.addHours(1);
+      _saida = TimeOfDayHelper.addHours(widget.empregoEntrada, 1);
     }
 
     super.initState();
@@ -55,15 +55,15 @@ class _AddHoraBtsState extends State<AddHoraBts> {
     final Horas resultHora;
     if (widget.hora != null) {
       resultHora = widget.hora!.copyWith(
-        inicio: _entrada.asString(),
-        termino: _saida.asString(),
+        inicio: _entrada,
+        termino: _saida,
         tipoHora: _feriado == true ? HorasType.feriado : HorasType.normal,
       );
     } else {
       resultHora = Horas(
         empregoId: widget.empregoId,
-        inicio: _entrada.asString(),
-        termino: _saida.asString(),
+        inicio: _entrada,
+        termino: _saida,
         data: _date,
         tipoHora: _feriado == true ? HorasType.feriado : HorasType.normal,
         bancoHoras: false,

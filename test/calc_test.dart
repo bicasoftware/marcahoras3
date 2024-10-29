@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:marcahoras3/utils/utils.dart';
 
@@ -25,6 +26,21 @@ void main() {
       expect(CalcHelper.calcPorcentagem(60, 10), equals(66.0));
       expect(CalcHelper.calcPorcentagem(45, 20), equals(54.0));
       expect(CalcHelper.calcPorcentagem(30, 50), equals(45.0));
+    });
+
+    test('calcula porcentagem', () {
+      final from = TimeOfDay(hour: 10, minute: 20);
+      final to = TimeOfDay(hour: 11, minute: 40);
+
+      final valor = CalcHelper.calcValorReceber(
+        cargaHoraria: 220,
+        from: from,
+        to: to,
+        porcentagem: 50,
+        salario: 1200.0,
+      );
+
+      print(valor);
     });
   });
 }

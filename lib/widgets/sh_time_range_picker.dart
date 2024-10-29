@@ -40,7 +40,7 @@ class _ShTimeRangePickerState extends State<ShTimeRangePicker> {
         Expanded(
           flex: 5,
           child: ShLabeledTile(
-            value: _entrada.asString(),
+            value: TimeOfDayHelper.formatTime(_entrada),
             label: strings.das,
             icon: Icons.timelapse,
             onTap: () async {
@@ -60,7 +60,7 @@ class _ShTimeRangePickerState extends State<ShTimeRangePicker> {
         Expanded(
           flex: 5,
           child: ShLabeledTile(
-            value: _saida.asString(),
+            value: TimeOfDayHelper.formatTime(_saida),
             label: strings.ate,
             icon: Icons.timelapse,
             onTap: () async {

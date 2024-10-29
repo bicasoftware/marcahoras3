@@ -247,7 +247,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                       ),
                       const SizedBox(height: 8),
                       ShLabeledTile(
-                        value: state.entrada?.asString() ?? '09:00',
+                        value: TimeOfDayHelper.formatTime(state.entrada!),
                         label: "Horário Entrada",
                         icon: Icons.timelapse_outlined,
                         onTap: () => _selectTime(
@@ -258,7 +258,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                       ),
                       const SizedBox(height: 8),
                       ShLabeledTile(
-                        value: bloc.state.saida?.asString() ?? "10:00",
+                        value: TimeOfDayHelper.formatTime(bloc.state.saida!),
                         label: "Horário Saída",
                         icon: Icons.timelapse_outlined,
                         onTap: () => _selectTime(

@@ -22,6 +22,7 @@ class HorasList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context);
+    final theme = Theme.of(context).textTheme;
 
     return ListView(
       shrinkWrap: true,
@@ -34,7 +35,12 @@ class HorasList extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 8),
             child: IndicatorTile(
               child: CardContainer(
-                label: formatDateByLocale(h.data, locale),
+                label: Text(
+                  formatDateByLocale(h.data, locale),
+                  style: theme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 margin: EdgeInsets.only(bottom: 8),
                 hasShadow: false,
                 leading: Icon(

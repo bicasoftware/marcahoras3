@@ -23,8 +23,8 @@ void main() {
     bancoHoras: false,
     data: DateTime.now(),
     empregoId: empregoId,
-    inicio: "18:00",
-    termino: "19:00",
+    inicio: TimeOfDayHelper.parseString("18:00"),
+    termino: TimeOfDayHelper.parseString("19:00"),
     tipoHora: HorasType.normal,
   );
 

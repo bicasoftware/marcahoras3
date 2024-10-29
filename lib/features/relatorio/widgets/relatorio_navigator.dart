@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../../../resources.dart';
-import 'calendar_header.dart';
-import 'widgets/calendar_date_navigator.dart';
+import '../../home/calendar/widgets/calendar_date_navigator.dart';
 
-class CalendarioScreenHeader extends StatefulWidget {
+class RelatorioNavigator extends StatefulWidget {
   final int month;
   final int year;
   final VoidCallback onMonthAdd, onMonthDec;
   final void Function(int year) onYearChanged, onMonthChanged;
 
-  const CalendarioScreenHeader({
+  const RelatorioNavigator({
     required this.month,
     required this.year,
     required this.onMonthAdd,
@@ -21,10 +20,10 @@ class CalendarioScreenHeader extends StatefulWidget {
   });
 
   @override
-  State<CalendarioScreenHeader> createState() => _CalendarioScreenHeaderState();
+  State<RelatorioNavigator> createState() => _RelatorioNavigatorState();
 }
 
-class _CalendarioScreenHeaderState extends State<CalendarioScreenHeader> {
+class _RelatorioNavigatorState extends State<RelatorioNavigator> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,7 +45,6 @@ class _CalendarioScreenHeaderState extends State<CalendarioScreenHeader> {
             onMonthAdd: widget.onMonthAdd,
             onMonthDec: widget.onMonthDec,
           ),
-          const CalendarHeader(),
         ],
       ),
     );
