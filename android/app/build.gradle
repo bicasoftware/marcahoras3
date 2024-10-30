@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.marcahoras3"
+    namespace "sha.br.marcahoras"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -41,7 +41,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.marcahoras3"
+        applicationId "sha.br.marcahoras"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
@@ -52,6 +52,24 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.debug
+        }
+    }
+
+    flavorDimensions "padrao"
+
+    productFlavors {
+        offline {
+            dimension "padrao"
+            resValue "string", "marcahoras", "offline flavor version"
+            applicationIdSuffix ".offline"
+            versionNameSuffix ".offline"
+        }
+
+        online {
+            dimension "padrao"
+            applicationIdSuffix ".online"
+            resValue "string", "marcahoras", "online flavor version"
+            versionNameSuffix ".online"
         }
     }
 }

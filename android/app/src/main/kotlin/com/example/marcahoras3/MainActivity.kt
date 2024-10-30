@@ -1,4 +1,4 @@
-package com.example.marcahoras3
+package sha.br.marcahoras
 
 import io.flutter.embedding.android.FlutterActivity
 
