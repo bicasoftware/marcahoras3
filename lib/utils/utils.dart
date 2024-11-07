@@ -6,6 +6,7 @@ export 'extensions.dart';
 export 'calc_utils.dart';
 export 'currency_helper.dart';
 export 'typedefs.dart';
+export './exceptions/resource_not_found.dart';
 export './extensions/timeofdayutils.dart';
 export './extensions/immutable_list_utils.dart';
 export './bloc/base_state.dart';

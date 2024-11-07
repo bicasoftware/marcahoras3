@@ -96,4 +96,21 @@ class EmpregosDto extends Equatable {
   static List<EmpregosDto> fromJsonList(List<dynamic> data) {
     return data.map((e) => EmpregosDto.fromJson(e)).toList();
   }
+
+  EmpregosDto copyWithId(String id) {
+    return EmpregosDto(
+      id: id,
+      descricao: this.descricao,
+      admissao: this.admissao,
+      entrada: this.entrada,
+      saida: this.saida,
+      bancoHoras: this.bancoHoras,
+      porcNormal: this.porcNormal,
+      porcFeriado: this.porcFeriado,
+      ativo: this.ativo,
+      cargaHoraria: this.cargaHoraria,
+      horas: this.horas,
+      salarios: this.salarios,
+    );
+  }
 }

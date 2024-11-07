@@ -1,14 +1,12 @@
+import '../../domain_layer/contracts.dart';
 import '../../domain_layer/models.dart';
 import '../mappers/horas_mapper.dart';
 
-import '../../domain_layer/contracts.dart';
-import '../providers.dart';
-
 class HorasRepository implements HorasContract {
-  final HorasProvider _provider;
+  final HorasProviderContract _provider;
 
   HorasRepository({
-    required HorasProvider provider,
+    required HorasProviderContract provider,
   }) : _provider = provider;
 
   @override

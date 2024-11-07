@@ -33,11 +33,6 @@ class HorasApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appFlavor = String.fromEnvironment('FLUTTER_APP_FLAVOR') != ''
-        ? String.fromEnvironment('FLUTTER_APP_FLAVOR')
-        : null;
-    print(appFlavor);
-
     final vault = Vault();
     return BlocLoader(
       child: MaterialApp(
@@ -69,7 +64,7 @@ class HorasApp extends StatelessWidget {
           Locale('pt', 'BR'),
           Locale('en', 'US'),
         ],
-        initialRoute: vault.isLoggedIn ? Routes.home : Routes.registration,
+        initialRoute: _getMainRoute(vault),
         routes: {
           Routes.home: (_) => const MyHomePage(),
           Routes.registration: (_) => const RegisterScreen(),
@@ -80,5 +75,13 @@ class HorasApp extends StatelessWidget {
         },
       ),
     );
+  }
+
+  String _getMainRoute(Vault vault) {
+    if (AppConfig.shared.flavor == Flavor.online) {
+      return vault.isLoggedIn ? Routes.home : Routes.registration;
+    }
+
+    return Routes.home;
   }
 }

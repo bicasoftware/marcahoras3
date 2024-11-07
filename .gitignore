@@ -104,3 +104,7 @@ coverage/
 assets/.env
 .vscode/launch.json
 *.g.dart
+*.realm.dart
+default.realm.lock
+.metadata
+default.realm

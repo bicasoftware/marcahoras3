@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'app_config.dart';
 import 'data_layer/providers.dart';
 import 'data_layer/respositories.dart';
 import 'data_layer/web.dart';
@@ -36,21 +37,17 @@ class _BlocLoaderState extends State<BlocLoader> {
     final vault = Vault();
     connector.token = vault.token;
 
+    final empregosProvider = AppConfig.shared.empregosProvider;
+    final horasProvider = AppConfig.shared.horasProvider;
+    final salariosProvider = AppConfig.shared.salariosProvider;
+
     final registerRepo = RegistrationRepository(
       provider: RegistrationProvider(connector: connector),
     );
 
-    final empregoRepo = EmpregoRepository(
-      EmpregosProvider(connector),
-    );
-
-    final salarioRepo = SalariosRepository(
-      provider: SalariosProvider(connector: connector),
-    );
-
-    final horasProvider = HorasProvider(connector: connector);
-
-    final horasRepo = HorasRepository(provider: horasProvider);
+    final empregoRepo = EmpregoRepository(empregosProvider!);
+    final salarioRepo = SalariosRepository(provider: salariosProvider!);
+    final horasRepo = HorasRepository(provider: horasProvider!);
 
     return MultiBlocProvider(
       providers: [

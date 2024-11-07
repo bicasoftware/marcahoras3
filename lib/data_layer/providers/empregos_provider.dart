@@ -1,9 +1,10 @@
 import 'dart:isolate';
 
+import '../../domain_layer/contracts.dart';
 import '../dtos.dart';
 import '../web.dart';
 
-class EmpregosProvider {
+class EmpregosProvider implements EmpregosProviderContract {
   final WebConnector _connector;
 
   const EmpregosProvider(

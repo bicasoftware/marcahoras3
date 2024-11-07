@@ -1,7 +1,8 @@
+import '../../domain_layer/contracts.dart';
 import '../dtos.dart';
 import '../web.dart';
 
-class HorasProvider {
+class HorasProvider implements HorasProviderContract {
   final WebConnector _connector;
   final String _route = EndPoints.horas;
 
@@ -9,6 +10,7 @@ class HorasProvider {
     required WebConnector connector,
   }) : _connector = connector;
 
+  @override
   Future<List<HorasDto>> list(String empregoId, String from, String to) async {
     final result = await _connector.request(
       _route,
@@ -23,6 +25,7 @@ class HorasProvider {
     return HorasDto.fromJsonList(result.data);
   }
 
+  @override
   Future<HorasDto> findOne(String horaId) async {
     final result = await _connector.request(
       _route,
@@ -35,6 +38,7 @@ class HorasProvider {
     return HorasDto.fromJson(result.data);
   }
 
+  @override
   Future<HorasDto> create(HorasDto hora) async {
     final result = await _connector.request(
       EndPoints.horas,
@@ -47,6 +51,7 @@ class HorasProvider {
         : throw result.toWebException();
   }
 
+  @override
   Future<HorasDto> update(HorasDto hora) async {
     final result = await _connector.request(
       _route,
@@ -59,6 +64,7 @@ class HorasProvider {
         : throw result.toWebException();
   }
 
+  @override
   Future<bool> delete(String horaId) async {
     final result = await _connector.request(
       "$_route/$horaId",

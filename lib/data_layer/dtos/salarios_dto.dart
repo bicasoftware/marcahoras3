@@ -53,4 +53,14 @@ class SalariosDto {
   String toString() {
     return 'Salario{id: $id, empregoId: $empregoId, vigencia: $vigencia, valor: $valor, ativo: $ativo}';
   }
+
+  SalariosDto copyWithId(String newId) {
+    return SalariosDto(
+      id: newId,
+      ativo: ativo,
+      empregoId: empregoId,
+      valor: valor,
+      vigencia: vigencia,
+    );
+  }
 }

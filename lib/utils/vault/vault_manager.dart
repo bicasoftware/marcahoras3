@@ -1,6 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:marcahoras3/utils/vault/vault_keys.dart';
 
+import 'vault.dart';
+
 class VaultManager {
   static final VaultManager _vault = VaultManager._internal();
   static late final FlutterSecureStorage _storage;
@@ -30,5 +32,17 @@ class VaultManager {
       deleteValue(VaultKeys.accessToken),
       deleteValue(VaultKeys.refreshToken),
     ]);
+  }
+
+  static Future<void> buildVaultData() async {
+    final vaultMan = VaultManager();
+    final token = await vaultMan.readValue(VaultKeys.accessToken);
+    final refreshToken = await vaultMan.readValue(VaultKeys.refreshToken);
+
+    final vault = Vault();
+    vault.setVaultData(
+      token: token ?? '',
+      refreshToken: refreshToken ?? '',
+    );
   }
 }

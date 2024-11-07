@@ -182,6 +182,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   );
                 },
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Hero(
+                  tag: "totais_button",
+                  child: OutlinedButton.icon(
+                    label: Text("Ver Todas"),                
+                    icon: const Icon(Icons.list_alt),                
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(Routes.relatorio);
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
             ],
           ),
         ),

@@ -41,7 +41,7 @@ class CalendarPageModel extends Equatable {
     );
   }
 
-  List<Horas> get horasList => horas.take(5).toList();
+  List<Horas> get horasList => horas.take(3).toList();
 
   List<Horas> listHorasByType(HorasType type) {
     return type == HorasType.normal ? _normais : _feriados;

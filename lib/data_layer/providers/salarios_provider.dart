@@ -1,13 +1,15 @@
-import '../web.dart';
+import '../../domain_layer/contracts.dart';
 import '../dtos.dart';
+import '../web.dart';
 
-class SalariosProvider {
+class SalariosProvider implements SalariosProviderContract {
   final WebConnector _connector;
 
   SalariosProvider({
     required WebConnector connector,
   }) : _connector = connector;
 
+  @override
   Future<List<SalariosDto>> list(String empregoId) async {
     final response = await _connector.request(
       EndPoints.salarios,
@@ -22,6 +24,7 @@ class SalariosProvider {
         : throw response.toWebException();
   }
 
+  @override
   Future<SalariosDto> create(SalariosDto salario) async {
     final response = await _connector.request(
       EndPoints.salarios,
@@ -34,6 +37,7 @@ class SalariosProvider {
         : throw response.toWebException();
   }
 
+  @override
   Future<SalariosDto> update(SalariosDto salario) async {
     final response = await _connector.request(
       EndPoints.salarios,
@@ -46,6 +50,7 @@ class SalariosProvider {
         : throw response.toWebException();
   }
 
+  @override
   Future<void> delete(String salarioId) async {
     final response = await _connector.request(
       "${EndPoints.salarios}/$salarioId",

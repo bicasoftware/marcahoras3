@@ -1,14 +1,13 @@
 import 'package:marcahoras3/domain_layer/models/salarios.dart';
 
-import '../../domain_layer/contracts.dart';
 import '../../data_layer/mappers/salarios_mapper.dart';
-import '../providers.dart';
+import '../../domain_layer/contracts.dart';
 
 class SalariosRepository implements SalariosContract {
-  final SalariosProvider _provider;
+  final SalariosProviderContract _provider;
 
   SalariosRepository({
-    required SalariosProvider provider,
+    required SalariosProviderContract provider,
   }) : _provider = provider;
 
   @override

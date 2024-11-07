@@ -59,4 +59,12 @@ extension DateHelper on DateTime {
         this.month == date.month &&
         this.day == date.day;
   }
+
+  bool isSameDayOrAfter(DateTime date) {
+    return this.isSameDay(date) || this.isAfter(date);
+  }
+
+  bool isSameDayOfBefore(DateTime date) {
+    return this.isSameDay(date) || this.isBefore(date);
+  }
 }

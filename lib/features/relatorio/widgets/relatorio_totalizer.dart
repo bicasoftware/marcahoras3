@@ -64,54 +64,57 @@ class _RelatorioTotalizerState extends State<RelatorioTotalizer> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
 
-    return CardContainer(
-      label: Text(
-        "Totais",
-        style: theme.bodyLarge?.copyWith(
-          fontWeight: FontWeight.bold,
-          color: AppColors.onPrimary,
+    return Hero(
+      tag: "totais_button",
+      child: CardContainer(      
+        label: Text(
+          "Totais",
+          style: theme.bodyLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: AppColors.onPrimary,
+          ),
         ),
-      ),
-      padding: EdgeInsets.all(8),
-      cardColor: AppColors.inversePrimary,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            RelatorioTotalizerRow(
-              leftLabel:
-                  "Normais: ${TimeOfDayHelper.formatTimeFromMinutes(_horasNormalFeitas)}",
-              endLabel:
-                  "Total - ${CurrencyHelper.formatAmount(_horasNormaisReceber)}",
-              icon: Icon(
-                Icons.circle,
-                color: AppColors.porcNormalColor,
-                size: 16,
+        padding: EdgeInsets.all(8),
+        cardColor: AppColors.inversePrimary,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              RelatorioTotalizerRow(
+                leftLabel:
+                    "Normais: ${TimeOfDayHelper.formatTimeFromMinutes(_horasNormalFeitas)}",
+                endLabel:
+                    "Total - ${CurrencyHelper.formatAmount(_horasNormaisReceber)}",
+                icon: Icon(
+                  Icons.circle,
+                  color: AppColors.porcNormalColor,
+                  size: 16,
+                ),
               ),
-            ),
-            RelatorioTotalizerRow(
-              leftLabel:
-                  "Feriados: ${TimeOfDayHelper.formatTimeFromMinutes(_horasFeriadoFeitas)}",
-              endLabel:
-                  "Total - ${CurrencyHelper.formatAmount(_horasFeriadosReceber)}",
-              icon: Icon(
-                Icons.circle,
-                color: AppColors.porcFeriadosColor,
-                size: 16,
+              RelatorioTotalizerRow(
+                leftLabel:
+                    "Feriados: ${TimeOfDayHelper.formatTimeFromMinutes(_horasFeriadoFeitas)}",
+                endLabel:
+                    "Total - ${CurrencyHelper.formatAmount(_horasFeriadosReceber)}",
+                icon: Icon(
+                  Icons.circle,
+                  color: AppColors.porcFeriadosColor,
+                  size: 16,
+                ),
               ),
-            ),
-            RelatorioTotalizerRow(
-              leftLabel:
-                  "Total no Mês: ${TimeOfDayHelper.formatTimeFromMinutes(_horasFeitasTotal)}",
-              endLabel:
-                  "Total - ${CurrencyHelper.formatAmount(_horasReceberTotal)}",
-              icon: Icon(
-                Icons.circle,
-                size: 16,
-                color: AppColors.onPrimary,
+              RelatorioTotalizerRow(
+                leftLabel:
+                    "Total no Mês: ${TimeOfDayHelper.formatTimeFromMinutes(_horasFeitasTotal)}",
+                endLabel:
+                    "Total - ${CurrencyHelper.formatAmount(_horasReceberTotal)}",
+                icon: Icon(
+                  Icons.circle,
+                  size: 16,
+                  color: AppColors.onPrimary,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

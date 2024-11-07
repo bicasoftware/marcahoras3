@@ -1,13 +1,12 @@
 import '../../domain_layer/contracts.dart';
 import '../../domain_layer/models.dart';
 import '../mappers/emprego_mapper.dart';
-import '../providers.dart';
 
 class EmpregoRepository implements EmpregosContract {
-  final EmpregosProvider _provider;
+  final EmpregosProviderContract _provider;
 
   EmpregoRepository(
-    EmpregosProvider provider,
+    EmpregosProviderContract provider,
   ) : _provider = provider;
 
   @override

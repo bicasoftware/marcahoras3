@@ -1,6 +1,9 @@
+import 'package:realm/realm.dart';
+
 import '../../domain_layer/models.dart';
 import '../../utils/date_utils.dart';
 import '../dtos.dart';
+import '../tables/realm_models.dart';
 
 extension SalariosMapper on SalariosDto {
   Salarios toSalario() {
@@ -10,6 +13,15 @@ extension SalariosMapper on SalariosDto {
       vigencia: parseVigencia(vigencia!),
       valor: valor?.toDouble() ?? 0.0,
       ativo: ativo ?? false,
+    );
+  }
+
+  SalariosRealm toRealm() {
+    return SalariosRealm(
+      id ?? Uuid.v4().toString(),
+      ativo: ativo,
+      valor: valor?.toDouble(),
+      vigencia: vigencia,
     );
   }
 }
@@ -23,5 +35,23 @@ extension SalariosDtoMapper on Salarios {
       valor: valor.toDouble(),
       ativo: ativo,
     );
+  }
+}
+
+extension SalariosRealmDtoMapper on SalariosRealm {
+  SalariosDto toDto() {
+    return SalariosDto(
+      id: id,
+      vigencia: vigencia,
+      valor: valor,
+      ativo: ativo,
+      empregoId: this.emprego.first.id,
+    );
+  }
+
+  void updateFromDto(SalariosDto salario) {
+    vigencia = salario.vigencia ?? this.vigencia;
+    valor = salario.valor?.toDouble() ?? this.valor ?? 0.0;
+    ativo = salario.ativo ?? this.ativo;    
   }
 }

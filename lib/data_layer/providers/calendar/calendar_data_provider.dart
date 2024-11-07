@@ -3,6 +3,8 @@ import 'package:collection/collection.dart';
 import '../../../domain_layer/models.dart';
 import '../../../utils/utils.dart';
 
+///TODO - mover essa classe pra outro lugar!!!!
+
 class CalendarioPageDataProvider {
   static CalendarPageModel mapToCalendar({
     required List<Horas> horas,

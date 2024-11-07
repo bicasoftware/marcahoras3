@@ -59,4 +59,16 @@ class HorasDto {
   String toString() {
     return 'HorasDto(id: $id, empregoId: $empregoId, data: $data, inicio: $inicio, termino: $termino, tipoHora: $tipoHora, bancoHoras: $bancoHoras)';
   }
+
+  HorasDto copyWithId(int id) {
+    return HorasDto(
+      id: id.toString(),
+      empregoId: this.empregoId,
+      data: this.data,
+      inicio: this.inicio,
+      termino: this.termino,
+      tipoHora: this.tipoHora,
+      bancoHoras: this.bancoHoras,
+    );
+  }
 }
