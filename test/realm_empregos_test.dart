@@ -7,11 +7,14 @@ import 'package:realm/realm.dart';
 
 void main() {
   Realm _buildRealm() {
-    final config = Configuration.local([
-      SalariosRealm.schema,
-      HorasRealm.schema,
-      EmpregosRealm.schema,
-    ]);
+    final config = Configuration.local(
+      [
+        SalariosRealm.schema,
+        HorasRealm.schema,
+        EmpregosRealm.schema,
+      ],
+      schemaVersion: 2,
+    );
 
     return Realm(config);
   }
@@ -41,6 +44,9 @@ void main() {
         saida: "20:00",
         porcFeriado: 100,
         porcNormal: 55,
+        salarios: [
+          SalariosDto(vigencia: "2024-11", valor: 1300.55, ativo: true),
+        ],
       ),
     );
 
@@ -52,7 +58,7 @@ void main() {
     final provider = EmpregosDbProvider(realm: realm);
 
     final dto = EmpregosDto(
-      id: "9aded73b-8db5-44cb-b451-f15ffac1e7c2",
+      id: "6bce5397-19a3-4d8f-905f-56ae4990d23c",
       admissao: formatDate(DateTime.now(), true),
       ativo: true,
       bancoHoras: false,
@@ -74,6 +80,6 @@ void main() {
     final provider = EmpregosDbProvider(realm: realm);
 
     final result =
-        await provider.delete("2ccbbfef-3894-48c4-9446-9db4b58d5844");
+        await provider.delete("7fc0d5c6-3a6e-4bb2-9609-18733bcf30a1");
   });
 }

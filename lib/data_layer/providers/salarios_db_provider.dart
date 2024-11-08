@@ -36,10 +36,13 @@ class SalariosDbProvider implements SalariosProviderContract {
   Future<List<SalariosDto>> list(String empregoId) async {
     final result = _realm.find<EmpregosRealm>(empregoId);
     if (result != null) {
-      return result.salarios.map((s) => s.toDto()).toList();
+      return result.salarios
+          .where((s) => s.empregoId != null)
+          .map((s) => s.toDto())
+          .toList();
     }
 
-    throw ResourceNotFound("resource not found");
+    return [];
   }
 
   @override

@@ -50,7 +50,7 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
   }
 
   bool validate() {
-    return [
+    final result = [
       state.descricao?.isNotEmpty ?? false,
       (state.admissao != null && state.admissao!.isBefore(DateTime.now())),
       state.entrada != null,
@@ -60,6 +60,8 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
       state.ativo != null,
       ((state.salario != 0.0) || state.emprego.salarios.isNotEmpty)
     ].every((it) => it);
+
+    return result;
   }
 
   void setDescricao(String descricao) {

@@ -6,12 +6,17 @@ import 'package:marcahoras3/utils/date_utils.dart';
 import 'package:realm/realm.dart';
 
 void main() {
+  final String empregoId = "6bce5397-19a3-4d8f-905f-56ae4990d23c";
+
   Realm _buildRealm() {
-    final config = Configuration.local([
-      SalariosRealm.schema,
-      HorasRealm.schema,
-      EmpregosRealm.schema,
-    ]);
+    final config = Configuration.local(
+      [
+        SalariosRealm.schema,
+        HorasRealm.schema,
+        EmpregosRealm.schema,
+      ],
+      schemaVersion: 2,
+    );
 
     return Realm(config);
   }
@@ -21,7 +26,7 @@ void main() {
 
   final dto = HorasDto(
     id: Uuid.v4().toString(),
-    empregoId: "9aded73b-8db5-44cb-b451-f15ffac1e7c2",
+    empregoId: empregoId,
     bancoHoras: false,
     data: DateTime.now(),
     inicio: "18:00",
@@ -31,6 +36,7 @@ void main() {
 
   final updatedDto = HorasDto(
     id: "43f9ec2a-6462-466a-9fe9-57022c6854e6",
+    empregoId: empregoId,
     bancoHoras: false,
     inicio: "17:00",
     termino: "21:00",
@@ -40,8 +46,7 @@ void main() {
   test('should read horas', () async {
     final (from, to) = getFormatedDateRange(2024, 11);
 
-    final result = await horasProvider.list(
-        "9aded73b-8db5-44cb-b451-f15ffac1e7c2", from, to);
+    final result = await horasProvider.list(empregoId, from, to);
 
     print(result);
   });
@@ -58,7 +63,7 @@ void main() {
 
   test('should delete hora', () async {
     final result =
-        await horasProvider.delete("bd8dcefa-cf03-4977-9ee3-48ba7abb7337");
+        await horasProvider.delete("b4c04833-b276-4542-8742-09ea06c131b3");
 
     assert(result == true);
   });

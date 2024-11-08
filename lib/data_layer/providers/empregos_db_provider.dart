@@ -1,3 +1,4 @@
+import 'package:marcahoras3/data_layer/mappers/salarios_mapper.dart';
 import 'package:marcahoras3/data_layer/tables/realm_models.dart';
 import 'package:marcahoras3/utils/utils.dart';
 import 'package:realm/realm.dart';
@@ -13,11 +14,17 @@ class EmpregosDbProvider implements EmpregosProviderContract {
 
   @override
   Future<EmpregosDto> append(EmpregosDto e) async {
-    final result = await _realm.writeAsync<EmpregosRealm>(
-      () => _realm.add(e.toRealm()),
+    final emprego = await _realm.writeAsync<EmpregosRealm>(
+      () {
+        final emp = _realm.add(e.toRealm());
+        emp.salarios
+            .add(e.salarios!.first.copyWith(empregoId: emp.id!).toRealm());
+
+        return emp;
+      },
     );
 
-    return e.copyWithId(result.id.toString());
+    return emprego.toDto();
   }
 
   @override

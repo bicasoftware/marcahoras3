@@ -72,8 +72,15 @@ extension EmpregosRealmHelper on EmpregosRealm {
       porcNormal: porcNormal,
       cargaHoraria: cargaHoraria,
       ativo: ativo,
-      salarios: mapChildren ? this.salarios.map((s) => s.toDto()).toList() : null,
-      horas: mapChildren ? this.horas.map((h) => h.toDto()).toList() : null,
+      salarios:
+          mapChildren ? this.salarios.map((s) => s.toDto()).toList() : null,
+      horas: mapChildren
+          ? this
+              .horas
+              .where((s) => s.data != null)
+              .map((h) => h.toDto())
+              .toList()
+          : null,
     );
   }
 

@@ -10,7 +10,7 @@ class SalariosDto {
 
   const SalariosDto({
     this.id,
-    required this.empregoId,
+    this.empregoId,
     required this.vigencia,
     required this.valor,
     required this.ativo,
@@ -54,11 +54,11 @@ class SalariosDto {
     return 'Salario{id: $id, empregoId: $empregoId, vigencia: $vigencia, valor: $valor, ativo: $ativo}';
   }
 
-  SalariosDto copyWithId(String newId) {
+  SalariosDto copyWith({String? id, String? empregoId}) {
     return SalariosDto(
-      id: newId,
+      id: id ?? this.id,
       ativo: ativo,
-      empregoId: empregoId,
+      empregoId: empregoId ?? this.empregoId,
       valor: valor,
       vigencia: vigencia,
     );

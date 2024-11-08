@@ -118,7 +118,7 @@ class EnStrings implements StringsContract {
   String get carregando => "Wait a moment...";
 
   @override
-  String get adicionarEmprego => "Click on + button";
+  String get adicionarEmprego => "Click here to add";
 
   @override
   String get empregosEmpty => "No Occupation Added";
@@ -225,7 +225,7 @@ class EnStrings implements StringsContract {
 
   @override
   String get valorHora => "Overtime value";
-  
+
   @override
   String get horasExtras => "Overtime";
 }

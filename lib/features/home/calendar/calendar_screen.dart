@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../app_config.dart';
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
 import '../../../resources.dart';
@@ -95,7 +96,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         centerTitle: false,
         actions: [
           EmpregosDropdown(),
-          PopupSessionButton(),
+          if (AppConfig.shared.flavor == Flavor.online) PopupSessionButton(),
         ],
       ),
       floatingActionButton: Column(
@@ -187,8 +188,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 child: Hero(
                   tag: "totais_button",
                   child: OutlinedButton.icon(
-                    label: Text("Ver Todas"),                
-                    icon: const Icon(Icons.list_alt),                
+                    label: Text("Ver Todas"),
+                    icon: const Icon(Icons.list_alt),
                     onPressed: () {
                       Navigator.of(context).pushNamed(Routes.relatorio);
                     },

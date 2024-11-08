@@ -27,6 +27,10 @@ class _SalariosRealm {
   late double? valor;
   bool? ativo = true;
 
+  /// This field is required, so the offline Realm models don't interfere
+  /// with the online models parsing
+  late String? empregoId;
+
   @Backlink(#salarios)
   late Iterable<_EmpregosRealm> emprego;
 }
@@ -40,6 +44,10 @@ class _HorasRealm {
   late String? termino;
   late String? tipoHora;
   late bool? bancoHoras;
+
+  /// This field is required, so the offline Realm models don't interfere
+  /// with the online models parsing
+  late String? empregoId;
 
   @Backlink(#horas)
   late Iterable<_EmpregosRealm> emprego;

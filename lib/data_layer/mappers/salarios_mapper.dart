@@ -22,6 +22,7 @@ extension SalariosMapper on SalariosDto {
       ativo: ativo,
       valor: valor?.toDouble(),
       vigencia: vigencia,
+      empregoId: empregoId,
     );
   }
 }
@@ -45,13 +46,13 @@ extension SalariosRealmDtoMapper on SalariosRealm {
       vigencia: vigencia,
       valor: valor,
       ativo: ativo,
-      empregoId: this.emprego.first.id,
+      empregoId: empregoId,
     );
   }
 
   void updateFromDto(SalariosDto salario) {
     vigencia = salario.vigencia ?? this.vigencia;
     valor = salario.valor?.toDouble() ?? this.valor ?? 0.0;
-    ativo = salario.ativo ?? this.ativo;    
+    ativo = salario.ativo ?? this.ativo;
   }
 }

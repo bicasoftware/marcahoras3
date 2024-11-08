@@ -28,37 +28,19 @@ class _BlocLoaderState extends State<BlocLoader> {
 
   @override
   Widget build(BuildContext context) {
-    final connector = WebConnector();
-
-    connector.addInterceptor(
-      InvalidUserInterceptor(),
+    final empregoRepo = EmpregoRepository(
+      AppConfig.shared.empregosProvider!,
     );
-
-    final vault = Vault();
-    connector.token = vault.token;
-
-    final empregosProvider = AppConfig.shared.empregosProvider;
-    final horasProvider = AppConfig.shared.horasProvider;
-    final salariosProvider = AppConfig.shared.salariosProvider;
-
-    final registerRepo = RegistrationRepository(
-      provider: RegistrationProvider(connector: connector),
+    final salarioRepo = SalariosRepository(
+      provider: AppConfig.shared.salariosProvider!,
     );
-
-    final empregoRepo = EmpregoRepository(empregosProvider!);
-    final salarioRepo = SalariosRepository(provider: salariosProvider!);
-    final horasRepo = HorasRepository(provider: horasProvider!);
+    final horasRepo = HorasRepository(
+      provider: AppConfig.shared.horasProvider!,
+    );
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => RegistrationBloc(
-            registerUserUseCase: RegisterUserUsecase(repo: registerRepo),
-            loginUserUseCase: LoginUserUsecase(repo: registerRepo),
-            setVaultDataUseCase: SetVaultDataUsecase(),
-            resetVault: ResetVaultUseCase(),
-          ),
-        ),
+        if (AppConfig.shared.flavor == Flavor.online) _buildRegistrationBloc(),
         BlocProvider(
           create: (_) => EmpregosBloc(
             empregoDataLoadUseCase: EmpregoDataLoadUseCase(
@@ -94,6 +76,31 @@ class _BlocLoaderState extends State<BlocLoader> {
         ),
       ],
       child: widget.child,
+    );
+  }
+
+  /// Building the whole whatnots of this BlocProvider separately
+  /// so it doesn't mess with offline version of the app
+  BlocProvider _buildRegistrationBloc() {
+    final connector = WebConnector();
+
+    connector.addInterceptor(
+      InvalidUserInterceptor(),
+    );
+
+    final vault = Vault();
+    connector.token = vault.token;
+
+    final registerRepo = RegistrationRepository(
+      provider: RegistrationProvider(connector: connector),
+    );
+    return BlocProvider(
+      create: (_) => RegistrationBloc(
+        registerUserUseCase: RegisterUserUsecase(repo: registerRepo),
+        loginUserUseCase: LoginUserUsecase(repo: registerRepo),
+        setVaultDataUseCase: SetVaultDataUsecase(),
+        resetVault: ResetVaultUseCase(),
+      ),
     );
   }
 }

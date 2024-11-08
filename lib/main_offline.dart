@@ -6,18 +6,21 @@ import 'app_config.dart';
 import 'data_layer/providers.dart';
 import 'data_layer/tables/realm_models.dart';
 import 'main.dart';
-import 'utils/utils.dart';
+import 'utils/vault/vault_manager.dart';
 
 void main() async {
   print('offline app running');
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/.env");
   await VaultManager.buildVaultData();
-  final config = Configuration.local([
-    EmpregosRealm.schema,
-    HorasRealm.schema,
-    SalariosRealm.schema,
-  ]);
+  final config = Configuration.local(
+    [
+      EmpregosRealm.schema,
+      HorasRealm.schema,
+      SalariosRealm.schema,
+    ],
+    schemaVersion: 2,
+  );
 
   final realm = Realm(config);
 

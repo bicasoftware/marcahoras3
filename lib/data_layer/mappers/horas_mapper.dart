@@ -26,6 +26,7 @@ extension HorasMapper on HorasDto {
       termino: termino,
       tipoHora: tipoHora,
       bancoHoras: bancoHoras,
+      empregoId: empregoId,
     );
   }
 }
@@ -53,6 +54,7 @@ extension HorasRealmHelper on HorasRealm {
       termino: termino,
       tipoHora: tipoHora,
       id: id,
+      empregoId: empregoId,
     );
   }
 

@@ -65,7 +65,7 @@ class HorasDbProvider implements HorasProviderContract {
           .toList();
     }
 
-    throw ResourceNotFound("resource not found");
+    return [];
   }
 
   @override
