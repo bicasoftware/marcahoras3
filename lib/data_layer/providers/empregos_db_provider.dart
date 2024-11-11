@@ -16,11 +16,7 @@ class EmpregosDbProvider implements EmpregosProviderContract {
   Future<EmpregosDto> append(EmpregosDto e) async {
     final emprego = await _realm.writeAsync<EmpregosRealm>(
       () {
-        final emp = _realm.add(e.toRealm());
-        emp.salarios
-            .add(e.salarios!.first.copyWith(empregoId: emp.id!).toRealm());
-
-        return emp;
+        return _realm.add(e.toRealm());
       },
     );
 

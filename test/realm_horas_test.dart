@@ -6,7 +6,7 @@ import 'package:marcahoras3/utils/date_utils.dart';
 import 'package:realm/realm.dart';
 
 void main() {
-  final String empregoId = "6bce5397-19a3-4d8f-905f-56ae4990d23c";
+  final String empregoId = "9aded73b-8db5-44cb-b451-f15ffac1e7c2";
 
   Realm _buildRealm() {
     final config = Configuration.local(
@@ -35,7 +35,7 @@ void main() {
   );
 
   final updatedDto = HorasDto(
-    id: "43f9ec2a-6462-466a-9fe9-57022c6854e6",
+    id: "33bda68c-6048-4adf-ab22-9b98d548c5d2",
     empregoId: empregoId,
     bancoHoras: false,
     inicio: "17:00",
@@ -63,7 +63,7 @@ void main() {
 
   test('should delete hora', () async {
     final result =
-        await horasProvider.delete("b4c04833-b276-4542-8742-09ea06c131b3");
+        await horasProvider.delete("704a3f72-fbb3-4568-a4ba-63330b39dbab");
 
     assert(result == true);
   });

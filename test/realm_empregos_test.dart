@@ -19,10 +19,10 @@ void main() {
     return Realm(config);
   }
 
-  test('should read from realm', () async {
-    final realm = _buildRealm();
-    final provider = EmpregosDbProvider(realm: realm);
+  final realm = _buildRealm();
+  final provider = EmpregosDbProvider(realm: realm);
 
+  test('should read from realm', () async {
     final (from, to) = getFormatedDateRange(2024, 10);
 
     final result = await provider.list(from, to);
@@ -30,9 +30,6 @@ void main() {
   });
 
   test('should insert a new emprego', () async {
-    final realm = _buildRealm();
-    final provider = EmpregosDbProvider(realm: realm);
-
     final result = await provider.append(
       EmpregosDto(
         admissao: formatDate(DateTime.now(), true),
@@ -54,9 +51,6 @@ void main() {
   });
 
   test('should update a emprego', () async {
-    final realm = _buildRealm();
-    final provider = EmpregosDbProvider(realm: realm);
-
     final dto = EmpregosDto(
       id: "6bce5397-19a3-4d8f-905f-56ae4990d23c",
       admissao: formatDate(DateTime.now(), true),
@@ -76,9 +70,6 @@ void main() {
   });
 
   test('should delete empregos', () async {
-    final realm = _buildRealm();
-    final provider = EmpregosDbProvider(realm: realm);
-
     final result =
         await provider.delete("7fc0d5c6-3a6e-4bb2-9609-18733bcf30a1");
   });

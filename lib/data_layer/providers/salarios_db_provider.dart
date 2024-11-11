@@ -19,6 +19,8 @@ class SalariosDbProvider implements SalariosProviderContract {
       await _realm.writeAsync(
         () => emprego.salarios.add(salario.toRealm()),
       );
+
+      return salario;
     }
 
     throw ResourceNotFound('resource not found');
@@ -26,9 +28,9 @@ class SalariosDbProvider implements SalariosProviderContract {
 
   @override
   Future<void> delete(String salarioId) async {
-    final h = _realm.find<HorasRealm>(salarioId);
-    if (h != null) {
-      _realm.writeAsync(() => _realm.delete(h));
+    final s = _realm.find<SalariosRealm>(salarioId);
+    if (s != null) {
+      await _realm.writeAsync(() => _realm.delete(s));
     }
   }
 

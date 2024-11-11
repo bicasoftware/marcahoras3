@@ -21,8 +21,8 @@ extension EmpregoMapper on EmpregosDto {
       porcNormal: porcNormal ?? 0,
       cargaHoraria: cargaHoraria ?? 220,
       ativo: ativo ?? false,
-      salarios: salarios?.map((s) => s.toSalario()).toList() ?? [],
-      horas: horas?.map((h) => h.toHoras()).toList() ?? [],
+      salarios: salarios.map((s) => s.toSalario()).toList(),
+      horas: horas.map((h) => h.toHoras()).toList(),
     );
   }
 
@@ -43,7 +43,7 @@ extension EmpregoMapper on EmpregosDto {
 }
 
 extension EmpregoDtoMapper on Empregos {
-  EmpregosDto toEmpregoDto() {
+  EmpregosDto toEmpregoDto([bool mapChildren = false]) {
     return EmpregosDto(
       id: id,
       descricao: descricao,
@@ -55,6 +55,10 @@ extension EmpregoDtoMapper on Empregos {
       porcNormal: porcNormal,
       cargaHoraria: cargaHoraria,
       ativo: ativo,
+      salarios: mapChildren
+          ? this.salarios.map((s) => s.toSalarioDto()).toList()
+          : [],
+      horas: mapChildren ? this.horas.map((h) => h.toHorasDto()).toList() : [],
     );
   }
 }
@@ -72,15 +76,14 @@ extension EmpregosRealmHelper on EmpregosRealm {
       porcNormal: porcNormal,
       cargaHoraria: cargaHoraria,
       ativo: ativo,
-      salarios:
-          mapChildren ? this.salarios.map((s) => s.toDto()).toList() : null,
+      salarios: mapChildren ? this.salarios.map((s) => s.toDto()).toList() : [],
       horas: mapChildren
           ? this
               .horas
               .where((s) => s.data != null)
               .map((h) => h.toDto())
               .toList()
-          : null,
+          : [],
     );
   }
 

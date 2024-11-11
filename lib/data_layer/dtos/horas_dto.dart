@@ -60,9 +60,9 @@ class HorasDto {
     return 'HorasDto(id: $id, empregoId: $empregoId, data: $data, inicio: $inicio, termino: $termino, tipoHora: $tipoHora, bancoHoras: $bancoHoras)';
   }
 
-  HorasDto copyWithId(int id) {
+  HorasDto copyWithId(String id) {
     return HorasDto(
-      id: id.toString(),
+      id: id,
       empregoId: this.empregoId,
       data: this.data,
       inicio: this.inicio,

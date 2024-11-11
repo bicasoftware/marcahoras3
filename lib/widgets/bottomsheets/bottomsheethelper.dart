@@ -22,44 +22,47 @@ class BottomSheetHelper {
       useRootNavigator: useRootNavigation,
       barrierColor: barrierColor ?? Colors.black.withOpacity(.7),
       showDragHandle: true,
-      isScrollControlled: true,
+      isScrollControlled: true,      
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: topRadius,
           topRight: topRadius,
         ),
       ),
-      builder: (context) => Material(
-        color: bgColor,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 8),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (label != null)
-                    Text(
-                      label,
-                      style: theme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: AppColors.inversePrimary,
+      builder: (context) => Padding(        
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Material(
+          color: bgColor,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 8),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (label != null)
+                      Text(
+                        label,
+                        style: theme.labelLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: AppColors.inversePrimary,
+                        ),
+                        textAlign: TextAlign.start,
                       ),
-                      textAlign: TextAlign.start,
-                    ),
-                  if (leading != null) ...[
-                    const Spacer(),
-                    leading,
+                    if (leading != null) ...[
+                      const Spacer(),
+                      leading,
+                    ],
+                    const Divider(),
                   ],
-                  const Divider(),
-                ],
+                ),
               ),
-            ),
-            body,
-          ],
+              body,
+            ],
+          ),
         ),
       ),
     );

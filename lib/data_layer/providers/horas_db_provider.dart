@@ -14,14 +14,13 @@ class HorasDbProvider implements HorasProviderContract {
   @override
   Future<HorasDto> create(HorasDto hora) async {
     final emprego = _realm.find<EmpregosRealm>(hora.empregoId);
+    final horaRealm = hora.toRealm();
     if (emprego != null) {
       await _realm.writeAsync(
-        () {
-          emprego.horas.add(hora.toRealm());
-        },
+        () => emprego.horas.add(horaRealm),
       );
 
-      return hora;
+      return hora.copyWithId(horaRealm.id!);
     }
 
     throw ResourceNotFound('resource not found');

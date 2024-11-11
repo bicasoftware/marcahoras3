@@ -15,8 +15,8 @@ class EmpregosDto extends Equatable {
   final int? porcFeriado;
   final bool? ativo;
   final int? cargaHoraria;
-  final List<HorasDto>? horas;
-  final List<SalariosDto>? salarios;
+  final List<HorasDto> horas;
+  final List<SalariosDto> salarios;
 
   const EmpregosDto({
     this.id,
@@ -29,8 +29,8 @@ class EmpregosDto extends Equatable {
     this.porcFeriado,
     this.ativo,
     this.cargaHoraria,
-    this.horas,
-    this.salarios,
+    this.horas = const [],
+    this.salarios = const[],
   });
 
   @override
