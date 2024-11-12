@@ -22,19 +22,13 @@ class ShLabeledTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
-    return IndicatorTile(
+    return ShCustomLabelTile(
+      label: label,
+      icon: icon,
+      padding: padding,
+      child: Text(value),
       onTap: onTap,
-      child: ListTile(
-        title: Text(
-          label,
-          style: theme.labelLarge,
-        ),
-        leading: Icon(icon),
-        subtitle: Text(value),
-        contentPadding: padding,
-        trailing: trailing,
-      ),
+      trailing: trailing,
     );
   }
 }

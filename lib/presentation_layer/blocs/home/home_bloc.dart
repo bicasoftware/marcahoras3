@@ -143,9 +143,9 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
-  void setEmpregoPos(Empregos e) {
+  void setEmpregoPos(Empregos e) async {
     final index = state.empregos.indexOf(e);
-    emit(state.copyWith(empregoPos: index));
+    await _updateCalendar(state.year, state.month, e, index);
   }
 
   void setNavigationbarPosition(int pos) {
@@ -174,16 +174,27 @@ class HomeBloc extends Cubit<HomeState> {
     await _updateCalendar(newYear, state.month);
   }
 
-  Future<void> _updateCalendar(int year, int month) async {
+  Future<void> _updateCalendar(
+    int year,
+    int month, [
+    Empregos? emprego,
+    int? empregoPos,
+  ]) async {
     if (state.currentEmprego == null) return;
-    if (state.hasPage(year, month) == -1) {
+
+    final Empregos currentEmprego = emprego ?? state.currentEmprego!;
+    final pageIndex = currentEmprego.calendarPages.indexWhere(
+      (it) => it.month == month && it.year == year,
+    );
+
+    if (pageIndex == -1) {
       try {
         emit(state.copyWith(status: StateLoadingStatus()));
 
         final (initDate, endDate) = getFormatedDateRange(year, month);
 
         final List<Horas> horas = await _horasLoadByRangeUseCase(
-          state.currentEmprego!.id!,
+          currentEmprego.id!,
           initDate,
           endDate,
         );
@@ -194,12 +205,12 @@ class HomeBloc extends Cubit<HomeState> {
           year,
         );
 
-        final allHoras = <Horas>[...state.currentEmprego!.horas, ...horas];
-        final pages = [...state.currentEmprego!.calendarPages, calendarPage];
+        final allHoras = <Horas>[...currentEmprego.horas, ...horas];
+        final pages = [...currentEmprego.calendarPages, calendarPage];
 
         final empregosList = [...state.empregos];
-        empregosList[state.empregoPos] = state.currentEmprego!
-            .copyWith(horas: allHoras, calendarPages: pages);
+        empregosList[empregoPos ?? state.empregoPos] =
+            currentEmprego.copyWith(horas: allHoras, calendarPages: pages);
 
         emit(
           state.copyWith(
@@ -207,6 +218,7 @@ class HomeBloc extends Cubit<HomeState> {
             year: year,
             month: month,
             empregos: empregosList,
+            empregoPos: empregoPos ?? state.empregoPos,
           ),
         );
       } on Exception catch (e) {
@@ -224,10 +236,65 @@ class HomeBloc extends Cubit<HomeState> {
           status: StateSuccessStatus(),
           year: year,
           month: month,
+          empregoPos: empregoPos ?? state.empregoPos,
         ),
       );
     }
   }
+  // Future<void> _updateCalendar(int year, int month) async {
+  //   if (state.currentEmprego == null) return;
+  //   if (state.hasPage(year, month) == -1) {
+  //     try {
+  //       emit(state.copyWith(status: StateLoadingStatus()));
+
+  //       final (initDate, endDate) = getFormatedDateRange(year, month);
+
+  //       final List<Horas> horas = await _horasLoadByRangeUseCase(
+  //         state.currentEmprego!.id!,
+  //         initDate,
+  //         endDate,
+  //       );
+
+  //       final calendarPage = await _calendarPageGeneratorUseCase(
+  //         horas,
+  //         month,
+  //         year,
+  //       );
+
+  //       final allHoras = <Horas>[...state.currentEmprego!.horas, ...horas];
+  //       final pages = [...state.currentEmprego!.calendarPages, calendarPage];
+
+  //       final empregosList = [...state.empregos];
+  //       empregosList[state.empregoPos] = state.currentEmprego!
+  //           .copyWith(horas: allHoras, calendarPages: pages);
+
+  //       emit(
+  //         state.copyWith(
+  //           status: StateSuccessStatus(),
+  //           year: year,
+  //           month: month,
+  //           empregos: empregosList,
+  //         ),
+  //       );
+  //     } on Exception catch (e) {
+  //       emit(
+  //         state.copyWith(
+  //           status: StateErrorStatus(errorMsg: e.toString()),
+  //         ),
+  //       );
+
+  //       rethrow;
+  //     }
+  //   } else {
+  //     emit(
+  //       state.copyWith(
+  //         status: StateSuccessStatus(),
+  //         year: year,
+  //         month: month,
+  //       ),
+  //     );
+  //   }
+  // }
 
   Future<void> insertHora(Horas hora) async {
     if (state.currentEmprego == null) return;

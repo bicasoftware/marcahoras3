@@ -2,8 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:marcahoras3/features/relatorio/relatorio_screen.dart';
-import 'package:month_year_picker/month_year_picker.dart';
 
 import 'app_config.dart';
 import 'bloc_loader.dart';
@@ -12,6 +10,7 @@ import 'features/empregos/empregos_detail_screen.dart';
 import 'features/home/home.dart';
 import 'features/registration/login/login_screen.dart';
 import 'features/registration/register/register_screen.dart';
+import 'features/relatorio/relatorio_screen.dart';
 import 'resources.dart';
 import 'routes.dart';
 import 'utils/utils.dart';
@@ -58,7 +57,6 @@ class HorasApp extends StatelessWidget {
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
-          MonthYearPickerLocalizations.delegate,
         ],
         supportedLocales: const [
           Locale('pt', 'BR'),

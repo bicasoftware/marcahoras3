@@ -70,7 +70,6 @@ void main() {
   });
 
   test('should delete empregos', () async {
-    final result =
-        await provider.delete("7fc0d5c6-3a6e-4bb2-9609-18733bcf30a1");
+    await provider.delete("7fc0d5c6-3a6e-4bb2-9609-18733bcf30a1");
   });
 }

@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/utils.dart';
 import '../models.dart';
 
 @immutable
@@ -103,7 +104,7 @@ class Empregos extends Equatable {
     return salarios
         .sorted((a, b) => a.vigencia.compareTo(b.vigencia))
         .reversed
-        .firstWhere((s) => s.vigencia.isAfter(_vig));
+        .firstWhere((s) => s.vigencia.isSameDayOfBefore(_vig));
   }
 
   Salarios? getCurrentSalario() {

@@ -99,27 +99,28 @@ class _CalendarScreenState extends State<CalendarScreen> {
           if (AppConfig.shared.flavor == Flavor.online) PopupSessionButton(),
         ],
       ),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            child: const Icon(Icons.list_alt),
-            backgroundColor: AppColors.errorContainer,
-            foregroundColor: AppColors.onSecondary,
-            onPressed: () => Navigator.of(context).pushNamed(Routes.relatorio),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Hero(
+          tag: "totais_button",
+          child: OutlinedButton.icon(
+            label: Text(strings.relatorios),
+            icon: const Icon(Icons.list_alt),
+            onPressed: () {
+              Navigator.of(context).pushNamed(Routes.relatorio);
+            },
           ),
-          const SizedBox(height: 8),
-          FloatingActionButton(
-            heroTag: 'plus_button',
-            backgroundColor: AppColors.secondary,
-            foregroundColor: AppColors.onSecondary,
-            onPressed: () => _showHorasBts(
-              context: context,
-              bloc: bloc,
-            ),
-            child: const Icon(Icons.add),
-          ),
-        ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'plus_button',
+        backgroundColor: AppColors.secondary,
+        foregroundColor: AppColors.onSecondary,
+        onPressed: () => _showHorasBts(
+          context: context,
+          bloc: bloc,
+        ),
+        child: const Icon(Icons.add),
       ),
       body: BlocHelper<HomeBloc, HomeState>(
         bloc: bloc,
@@ -183,20 +184,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   );
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Hero(
-                  tag: "totais_button",
-                  child: OutlinedButton.icon(
-                    label: Text("Ver Todas"),
-                    icon: const Icon(Icons.list_alt),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(Routes.relatorio);
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
             ],
           ),
         ),

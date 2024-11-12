@@ -1,11 +1,10 @@
-import 'package:marcahoras3/data_layer/mappers/salarios_mapper.dart';
-import 'package:marcahoras3/data_layer/tables/realm_models.dart';
-import 'package:marcahoras3/utils/utils.dart';
 import 'package:realm/realm.dart';
 
 import '../../domain_layer/contracts.dart';
+import '../../utils/utils.dart';
 import '../dtos/empregos_dto.dart';
 import '../mappers/emprego_mapper.dart';
+import '../tables/realm_models.dart';
 
 class EmpregosDbProvider implements EmpregosProviderContract {
   final Realm _realm;

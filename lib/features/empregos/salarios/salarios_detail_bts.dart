@@ -1,13 +1,11 @@
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:marcahoras3/resources.dart';
-import 'package:marcahoras3/utils/utils.dart';
 
 import '../../../presentation_layer/validators/validators.dart';
+import '../../../resources.dart';
 import '../../../widgets.dart';
 import '../../../widgets/bottomsheets/bts_container.dart';
-import '../../../widgets/dialogs/time_picker_dialog.dart';
 
 class SalariosDetailBts extends StatefulWidget {
   final double value;
@@ -30,29 +28,22 @@ class SalariosDetailBts extends StatefulWidget {
 class _SalariosDetailBtsState extends State<SalariosDetailBts> {
   late final MoneyMaskedTextController amountController;
   DateTime _vigencia = DateTime.now();
+  late int year, month;
+  final yearList = List<int>.generate(6, (i) => 2019 + i);
+  final controller = FixedExtentScrollController();
 
   @override
   void initState() {
     amountController = MoneyMaskedTextController(initialValue: widget.value);
+    year = widget.vigencia?.year ?? _vigencia.year;
+    month = widget.vigencia?.month ?? _vigencia.month;
     super.initState();
-  }
-
-  Future<void> _selectVigencia(
-    BuildContext context,
-  ) async {
-    final date = await vigenciaPicker(
-      context: context,
-      vigenciaInicial: _vigencia,
-    );
-
-    setState(() => _vigencia = date ?? _vigencia);
   }
 
   @override
   Widget build(BuildContext context) {
     final strings = context.strings();
     final theme = Theme.of(context).textTheme;
-    final locale = Localizations.localeOf(context);
 
     return BtsContainer(
       title: widget.title,
@@ -78,18 +69,50 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 16),
-          ShLabeledTile(
-            value: formatVigenciaDate(_vigencia, locale, "MMMM yyyy"),
+          ShCustomLabelTile(
             label: strings.vigencia,
-            onTap: () => _selectVigencia(context),
             icon: Icons.calendar_month,
+            child: Container(
+              padding: EdgeInsets.all(8),
+              child: SizedBox(
+                height: 100,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: ShScrollablePicker<String>(
+                        items: strings.months,
+                        selectedItem: strings.months[month - 1],
+                        onItemSelected: (int pos) {
+                          setState(
+                            () => month = pos + 1,
+                          );
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: ShScrollablePicker<int>(
+                        items: yearList,
+                        selectedItem: year,
+                        onItemSelected: (int selection) {
+                          setState(() => year = yearList[selection]);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: OutlinedButton.icon(
               onPressed: () {
                 Navigator.of(context).pop();
-                widget.onSave(amountController.numberValue, _vigencia);
+                widget.onSave(
+                  amountController.numberValue,
+                  DateTime(year, month, 1),
+                );
               },
               icon: Icon(Icons.save_outlined),
               label: Text(strings.salvar),
