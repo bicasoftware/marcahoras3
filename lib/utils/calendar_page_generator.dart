@@ -1,12 +1,10 @@
 import 'package:collection/collection.dart';
 
-import '../../../domain_layer/models.dart';
-import '../../../utils/utils.dart';
+import '../domain_layer/models.dart';
+import 'utils.dart';
 
-///TODO - mover essa classe pra outro lugar!!!!
-
-class CalendarioPageDataProvider {
-  static CalendarPageModel mapToCalendar({
+class CalendarioPageGenerator {
+  static CalendarPageModel generate({
     required List<Horas> horas,
     required int month,
     required int year,

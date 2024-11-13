@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/features/relatorio/widgets/relatorio_totalizer.dart';
-import 'package:marcahoras3/resources.dart';
 
 import '../../presentation_layer/blocs.dart';
+import '../../resources.dart';
+import '../../utils/pdf_generator.dart';
 import '../../widgets.dart';
 import 'widgets/relatorio_horas_list.dart';
+import 'widgets/relatorio_totalizer.dart';
 
 class RelatorioScreen extends StatefulWidget {
   const RelatorioScreen({
@@ -30,7 +31,11 @@ class _RelatorioScreenState extends State<RelatorioScreen> {
         centerTitle: false,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              PdfGenerator.generate(
+                bloc.state.currentPage().horas,
+              );
+            },
             icon: Icon(Icons.save_alt),
           ),
         ],

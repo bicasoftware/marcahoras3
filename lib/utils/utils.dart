@@ -4,6 +4,7 @@ export 'date_utils.dart';
 export 'assertions.dart';
 export 'extensions.dart';
 export 'calc_utils.dart';
+export 'calendar_page_generator.dart';
 export 'currency_helper.dart';
 export 'typedefs.dart';
 export './exceptions/resource_not_found.dart';

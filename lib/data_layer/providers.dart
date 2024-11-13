@@ -1,6 +1,6 @@
 library providers;
 
-export 'providers/calendar/calendar_data_provider.dart';
+export '../utils/calendar_page_generator.dart';
 export 'providers/empregos_db_provider.dart';
 export 'providers/empregos_provider.dart';
 export 'providers/horas_db_provider.dart';
