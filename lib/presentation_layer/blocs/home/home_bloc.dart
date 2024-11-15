@@ -1,8 +1,10 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../domain_layer/usecases.dart';
+import '../../../features/relatorio/report_page_generator.dart';
 import '../../../utils/utils.dart';
 import 'home_state.dart';
 
@@ -59,7 +61,21 @@ class HomeBloc extends Cubit<HomeState> {
           state.year,
         );
 
-        empregos[i] = empregos[i].copyWith(calendarPages: [calendarPage]);
+        final reportPage = await ReportPageGenerator(
+          year: state.year,
+          month: state.month,
+          bancoHoras: state.currentEmprego!.bancoHoras,
+          cargaHoraria: state.currentEmprego!.cargaHoraria,
+          porcNormal: state.currentEmprego!.porcNormal,
+          porcDiff: state.currentEmprego!.porcFeriado,
+          salario: state.getSalarioByVigencia(state.year, state.month),
+          horas: state.currentEmprego!.horas,
+        ).generate();
+
+        empregos[i] = empregos[i].copyWith(
+          calendarPages: [calendarPage],
+          reportPages: [reportPage],
+        );
       });
 
       emit(
@@ -205,12 +221,29 @@ class HomeBloc extends Cubit<HomeState> {
           year,
         );
 
+        /// Generates all overtime information needed to be presented in
+        /// [RelatorioScreen] and in the pdf generation routine
+        final reportPage = await ReportPageGenerator(
+          year: year,
+          month: month,
+          bancoHoras: currentEmprego.bancoHoras,
+          cargaHoraria: currentEmprego.cargaHoraria,
+          porcNormal: currentEmprego.porcNormal,
+          porcDiff: currentEmprego.porcFeriado,
+          salario: state.getSalarioByVigencia(year, month),
+          horas: horas,
+        ).generate();
+
         final allHoras = <Horas>[...currentEmprego.horas, ...horas];
         final pages = [...currentEmprego.calendarPages, calendarPage];
+        final reportPages = [...currentEmprego.reportPages, reportPage];
 
         final empregosList = [...state.empregos];
-        empregosList[empregoPos ?? state.empregoPos] =
-            currentEmprego.copyWith(horas: allHoras, calendarPages: pages);
+        empregosList[empregoPos ?? state.empregoPos] = currentEmprego.copyWith(
+          horas: allHoras,
+          calendarPages: pages,
+          reportPages: reportPages,
+        );
 
         emit(
           state.copyWith(

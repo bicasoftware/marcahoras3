@@ -1,7 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:collection/collection.dart';
 
 import '../../../domain_layer/models.dart';
+import '../../../domain_layer/models/report/report_model.dart';
 import '../../../utils/utils.dart';
 
 class HomeState extends BaseState {
@@ -49,6 +49,12 @@ class HomeState extends BaseState {
 
   CalendarPageModel currentPage() {
     return currentEmprego!.calendarPages.firstWhere(
+      (p) => p.month == this.month && p.year == this.year,
+    );
+  }
+
+  ReportModel currentReport() {
+    return currentEmprego!.reportPages.firstWhere(
       (p) => p.month == this.month && p.year == this.year,
     );
   }

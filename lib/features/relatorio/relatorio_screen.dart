@@ -25,6 +25,7 @@ class _RelatorioScreenState extends State<RelatorioScreen> {
     final strings = context.strings();
     final bloc = context.watch<HomeBloc>();
     final locale = Localizations.localeOf(context);
+    final reportModel = bloc.state.currentReport();
 
     final totalizer = ReportTotalizer(
       salario: bloc.state.currentEmprego!.getSalarioByVigencia(

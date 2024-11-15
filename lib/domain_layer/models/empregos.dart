@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:marcahoras3/domain_layer/models/report/report_model.dart';
 
 import '../../utils/utils.dart';
 import '../models.dart';
@@ -24,6 +25,7 @@ class Empregos extends Equatable {
   final UnmodifiableListView<Salarios> salarios;
 
   final UnmodifiableListView<CalendarPageModel> calendarPages;
+  final UnmodifiableListView<ReportModel> reportPages;
 
   Empregos({
     this.id,
@@ -40,9 +42,11 @@ class Empregos extends Equatable {
     Iterable<Horas> horas = const [],
     Iterable<Salarios> salarios = const [],
     Iterable<CalendarPageModel> calendarPages = const [],
+    Iterable<ReportModel> reportPages = const [],
   })  : horas = UnmodifiableListView(horas),
         salarios = UnmodifiableListView(salarios),
-        calendarPages = UnmodifiableListView(calendarPages);
+        calendarPages = UnmodifiableListView(calendarPages),
+        reportPages = UnmodifiableListView(reportPages);
 
   Empregos copyWith({
     String? id,
@@ -59,6 +63,7 @@ class Empregos extends Equatable {
     Iterable<Horas>? horas,
     Iterable<Salarios>? salarios,
     Iterable<CalendarPageModel>? calendarPages,
+    Iterable<ReportModel>? reportPages,
   }) {
     return Empregos(
       id: id ?? this.id,
@@ -75,6 +80,7 @@ class Empregos extends Equatable {
       salarios: salarios ?? this.salarios,
       salario: salario ?? this.salario,
       calendarPages: calendarPages ?? this.calendarPages,
+      reportPages: reportPages ?? this.reportPages,
     );
   }
 
@@ -95,6 +101,7 @@ class Empregos extends Equatable {
       horas,
       salarios,
       calendarPages,
+      reportPages,
     ];
   }
 

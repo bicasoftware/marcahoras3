@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../domain_layer/models/report/report_model.dart';
 import '../../../resources.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets.dart';
@@ -8,9 +9,11 @@ import 'relatorio_totalizer_row.dart';
 
 class TotalsContainer extends StatefulWidget {
   final ReportTotalizer totais;
+  final ReportModel report;
 
   const TotalsContainer({
     required this.totais,
+    required this.report,
     super.key,
   });
 

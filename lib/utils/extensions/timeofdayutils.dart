@@ -45,6 +45,10 @@ class TimeOfDayHelper {
 
     return getTimeOfDayFromMinutes(minutes);
   }
+
+  static String formatDayInRange(TimeOfDay from, TimeOfDay to) {
+    return getTimeOfDayInRange(from, to).asString();
+  }
 }
 
 extension TimeOfDayExt on TimeOfDay {
