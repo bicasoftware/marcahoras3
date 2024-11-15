@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/features/relatorio/pdf_preview_screen.dart';
+import 'package:marcahoras3/features/relatorio/totalizer.dart';
 
 import '../../presentation_layer/blocs.dart';
 import '../../resources.dart';
@@ -22,6 +24,18 @@ class _RelatorioScreenState extends State<RelatorioScreen> {
   Widget build(BuildContext context) {
     final strings = context.strings();
     final bloc = context.watch<HomeBloc>();
+    final locale = Localizations.localeOf(context);
+
+    final totalizer = ReportTotalizer(
+      salario: bloc.state.currentEmprego!.getSalarioByVigencia(
+        bloc.state.year,
+        bloc.state.month,
+      ),
+      cargaHoraria: bloc.state.currentEmprego!.cargaHoraria,
+      porcNormal: bloc.state.currentEmprego!.porcNormal,
+      porcFeriado: bloc.state.currentEmprego!.porcFeriado,
+      page: bloc.state.currentPage(),
+    );
 
     return Scaffold(
       appBar: ShAppBar(
@@ -32,8 +46,23 @@ class _RelatorioScreenState extends State<RelatorioScreen> {
         actions: [
           IconButton(
             onPressed: () async {
-              PdfGenerator.generate(
-                bloc.state.currentPage().horas,
+              final data = await PdfGenerator.generate(
+                title:
+                    "Relatório de Horas de ${strings.months[bloc.state.month]} de ${bloc.state.year}",
+                horas: bloc.state.currentPage().horas,
+                totais: totalizer,
+                locale: locale,
+              );
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) {
+                    return PdfPreviewScreen(
+                      title: "Teste",
+                      pdfData: data,
+                    );
+                  },
+                ),
               );
             },
             icon: Icon(Icons.save_alt),
@@ -42,15 +71,8 @@ class _RelatorioScreenState extends State<RelatorioScreen> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: RelatorioTotalizer(
-          salario: bloc.state.currentEmprego!.getSalarioByVigencia(
-            bloc.state.year,
-            bloc.state.month,
-          ),
-          cargaHoraria: bloc.state.currentEmprego!.cargaHoraria,
-          porcNormal: bloc.state.currentEmprego!.porcNormal,
-          porcFeriado: bloc.state.currentEmprego!.porcFeriado,
-          page: bloc.state.currentPage(),
+        child: TotalsContainer(
+          totais: totalizer,
         ),
       ),
       body: SingleChildScrollView(

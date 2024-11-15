@@ -39,44 +39,19 @@ class TimeOfDayHelper {
 
     return TimeOfDay(hour: hours.truncate(), minute: minutesCalc);
   }
+
+  static TimeOfDay getTimeOfDayInRange(TimeOfDay from, TimeOfDay to) {
+    final minutes = getMinutesBetweenTimes(from, to);
+
+    return getTimeOfDayFromMinutes(minutes);
+  }
 }
 
-// extension TimeOfDayHelper on TimeOfDay {
-//   String asString() {
-//     return "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}";
-//   }
+extension TimeOfDayExt on TimeOfDay {
+  String asString([addSeconds = false]) {
+    final tempo =
+        "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}";
 
-//   TimeOfDay addHours(int amount) {
-//     return TimeOfDay(hour: hour + amount, minute: minute);
-//   }
-// }
-
-// extension TimeOfDayToStringHelper on String {
-//   TimeOfDay toTimeOfDay() {
-//     final values = split(':').map((it) => int.tryParse(it) ?? 0).toList();
-//     return TimeOfDay(hour: values[0], minute: values[1]);
-//   }
-// }
-
-// extension TimeOfDayToDateHelper on DateTime {
-// TimeOfDay toTimeOfDay() {
-//   return TimeOfDay(hour: hour, minute: minute);
-// }
-
-// String toTimeStr() {
-//   return "$hour:$minute:00";
-// }
-// }
-
-// int getMinutesBetweenTimes(TimeOfDay from, TimeOfDay to) {
-//   final hours = (to.hour - from.hour) * 60;
-//   final minutes = to.minute + from.minute;
-//   return hours + minutes;
-// }
-
-// TimeOfDay getTimeOfDayFromMinutes(int minutes) {
-//   final hours = minutes / 60;
-//   final minutesCalc = minutes % 60;
-
-//   return TimeOfDay(hour: hours.truncate(), minute: minutesCalc);
-// }
+    return addSeconds ? "$tempo:00" : tempo;
+  }
+}
