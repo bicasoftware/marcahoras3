@@ -5,16 +5,12 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 
 import '../domain_layer/models.dart';
-import '../features/relatorio/totalizer.dart';
 import 'utils.dart';
-
-///TODO - Gerar no state a lista de horas 
 
 class PdfGenerator {
   static Future<Uint8List> generate({
     required String title,
-    required List<Horas> horas,
-    required ReportTotalizer totais,
+    required ReportModel report,
     required Locale locale,
   }) async {
     final pdf = Document();
@@ -43,10 +39,13 @@ class PdfGenerator {
                       TableHeaderText(text: 'Inicio'),
                       TableHeaderText(text: 'Termino'),
                       TableHeaderText(text: 'Horas Feitas'),
+                      TableHeaderText(text: '%'),
                       TableHeaderText(text: 'Total'),
                     ],
                   ),
-                  ...horas.map((h) => _horaRowDisplay(h, locale)).toList()
+                  ...report.hours
+                      .map((h) => _horaRowDisplay(h, locale))
+                      .toList()
                 ],
               ),
               Spacer(),
@@ -57,16 +56,15 @@ class PdfGenerator {
                   Row(
                     children: [
                       _totaisDisplay(
-                        "Normais: ${totais.horasNormalFeitasFmt}",
-                        "Total - ${totais.horasNormaisReceberFmt}",
+                        "Normais: ${report.horasFeitasNormal}",
+                        "Total - ${report.valorRecNormal}",
                       ),
                       _totaisDisplay(
-                        "Normais: ${totais.horasFeriadoFeitasFmt}",
-                        "Total - ${totais.horasFeriadosReceberFmt}",
+                        "Normais: ${report.horasFeitasDiff}",
+                        "Total - ${report.valorRecDiff}",
                       ),
-                      _totaisDisplay(
-                          "Total no Mês: ${totais.horasFeitasTotalFmt}",
-                          "Total - ${totais.horasReceberTotalFmt}"),
+                      _totaisDisplay("Total no Mês: ${report.horasFeitasTotal}",
+                          "Total - ${report.valorRecDiff}"),
                     ],
                   )
                 ],
@@ -93,22 +91,22 @@ Widget _totaisDisplay(String valor1, String valor2) {
   );
 }
 
-TableRow _horaRowDisplay(Horas h, Locale locale) {
+TableRow _horaRowDisplay(ReportHora h, Locale locale) {
 // 'Data'
 // 'Inicio'
 // 'Termino'
 // 'Horas Feitas'
 // 'Total'
+// '%'
 
   return TableRow(
     children: [
-      TableText(text: formatDateByLocale(h.data, locale)),
-      TableText(text: h.inicio.asString()),
-      TableText(text: h.termino.asString()),
-      TableText(
-          text: TimeOfDayHelper.getTimeOfDayInRange(h.inicio, h.termino)
-              .asString()),
-      TableText(text: CurrencyHelper.formatAmount(0.0)),
+      TableText(text: formatDateByLocale(h.date, locale)),
+      TableText(text: h.from),
+      TableText(text: h.to),
+      TableText(text: h.workedHours),
+      TableText(text: "${h.porc}%"),
+      TableText(text: h.amount),
     ],
   );
 }

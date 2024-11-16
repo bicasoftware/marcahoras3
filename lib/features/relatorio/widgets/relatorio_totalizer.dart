@@ -1,27 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain_layer/models/report/report_model.dart';
+import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
-import '../../../utils/utils.dart';
 import '../../../widgets.dart';
-import '../totalizer.dart';
 import 'relatorio_totalizer_row.dart';
 
-class TotalsContainer extends StatefulWidget {
-  final ReportTotalizer totais;
+class TotalsContainer extends StatelessWidget {
   final ReportModel report;
 
   const TotalsContainer({
-    required this.totais,
     required this.report,
     super.key,
   });
 
-  @override
-  State<TotalsContainer> createState() => _TotalsContainerState();
-}
-
-class _TotalsContainerState extends State<TotalsContainer> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
@@ -43,10 +34,8 @@ class _TotalsContainerState extends State<TotalsContainer> {
           child: Column(
             children: [
               RelatorioTotalizerRow(
-                leftLabel:
-                    "Normais: ${TimeOfDayHelper.formatTimeFromMinutes(widget.totais.horasNormalFeitas)}",
-                endLabel:
-                    "Total - ${CurrencyHelper.formatAmount(widget.totais.horasNormaisReceber)}",
+                leftLabel: "Normais: ${report.horasFeitasNormal}",
+                endLabel: "Total - ${report.valorRecNormal}",
                 icon: Icon(
                   Icons.circle,
                   color: AppColors.porcNormalColor,
@@ -54,10 +43,8 @@ class _TotalsContainerState extends State<TotalsContainer> {
                 ),
               ),
               RelatorioTotalizerRow(
-                leftLabel:
-                    "Feriados: ${TimeOfDayHelper.formatTimeFromMinutes(widget.totais.horasFeriadoFeitas)}",
-                endLabel:
-                    "Total - ${CurrencyHelper.formatAmount(widget.totais.horasFeriadosReceber)}",
+                leftLabel: "Feriados: ${report.horasFeitasDiff}",
+                endLabel: "Total - ${report.valorRecDiff}",
                 icon: Icon(
                   Icons.circle,
                   color: AppColors.porcFeriadosColor,
@@ -65,10 +52,8 @@ class _TotalsContainerState extends State<TotalsContainer> {
                 ),
               ),
               RelatorioTotalizerRow(
-                leftLabel:
-                    "Total no Mês: ${TimeOfDayHelper.formatTimeFromMinutes(widget.totais.horasFeitasTotal)}",
-                endLabel:
-                    "Total - ${CurrencyHelper.formatAmount(widget.totais.horasReceberTotal)}",
+                leftLabel: "Total no Mês: ${report.horasFeitasTotal}",
+                endLabel: "Total - ${report.valorRecTotal}",
                 icon: Icon(
                   Icons.circle,
                   size: 16,

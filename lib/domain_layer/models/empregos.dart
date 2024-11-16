@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/domain_layer/models/report/report_model.dart';
 
 import '../../utils/utils.dart';
 import '../models.dart';

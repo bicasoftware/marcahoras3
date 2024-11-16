@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:marcahoras3/domain_layer/models/report/report_hora.dart';
-import 'package:marcahoras3/utils/utils.dart';
+import 'package:collection/collection.dart';
 
 import '../../domain_layer/models.dart';
-import '../../domain_layer/models/report/report_model.dart';
+import '../../utils/utils.dart';
 
 class ReportPageGenerator {
   final int month;
@@ -28,27 +26,34 @@ class ReportPageGenerator {
 
   ReportModel generate() {
     final horasList = _generateHorasList();
-    final (horasNormais, valorNormais) =
+    final (valorRecNormal, horasFeitasNormal) =
         _sumByHorasType(porc: porcNormal, type: HorasType.normal);
-    final (horasDif, valorDif) =
+    final (valorRecDif, horasFeitasDif) =
         _sumByHorasType(type: HorasType.feriado, porc: porcDiff);
 
-    /// TODO - aplicar valores a receber corretamente
     return ReportModel(
       month: month,
       year: year,
       hours: horasList,
-      totalNormal: horasNormais,
-      amountNormal: horasNormais,
-      totalDiff: valorDif,
-      totalTotal: valorNormais + valorDif,
+      horasFeitasNormal: TimeOfDayHelper.formatTimeFromMinutes(
+        horasFeitasNormal,
+      ),
+      horasFeitasDiff: TimeOfDayHelper.formatTimeFromMinutes(
+        horasFeitasDif,
+      ),
+      horasFeitasTotal: TimeOfDayHelper.formatTimeFromMinutes(
+        horasFeitasNormal + horasFeitasDif,
+      ),
+      valorRecNormal: CurrencyHelper.formatAmount(valorRecNormal),
+      valorRecDiff: CurrencyHelper.formatAmount(valorRecDif),
+      valorRecTotal: CurrencyHelper.formatAmount(valorRecNormal + valorRecDif),
     );
   }
 
   List<ReportHora> _generateHorasList() {
     if (horas.isEmpty) return [];
 
-    return horas.map(
+    return horas.sorted((a, b) => a.data.compareTo(b.data)).map(
       (h) {
         final valor = CalcHelper.calcValorReceber(
           salario: salario?.valor ?? 0.0,
@@ -59,19 +64,20 @@ class ReportPageGenerator {
         );
 
         return ReportHora(
-          date: formatDate(h.data),
+          date: h.data,
           salary: CurrencyHelper.formatAmount(salario?.valor ?? 0.0),
           workedHours: TimeOfDayHelper.formatDayInRange(h.inicio, h.termino),
           from: h.inicio.asString(),
           to: h.termino.asString(),
           type: h.tipoHora,
           amount: CurrencyHelper.formatAmount(valor),
+          porc: h.tipoHora == HorasType.feriado ? porcDiff : porcNormal,
         );
       },
     ).toList();
   }
 
-  (double, String) _sumByHorasType({
+  (double, int) _sumByHorasType({
     required HorasType type,
     required int porc,
   }) {
@@ -89,6 +95,6 @@ class ReportPageGenerator {
       tempo += TimeOfDayHelper.getMinutesBetweenTimes(it.inicio, it.termino);
     });
 
-    return (valor, TimeOfDayHelper.formatTimeFromMinutes(tempo));
+    return (valor, tempo);
   }
 }

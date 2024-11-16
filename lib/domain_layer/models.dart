@@ -6,3 +6,5 @@ export './models/salarios.dart';
 export './models/user.dart';
 export './models/calendar/calendar_item_model.dart';
 export './models/calendar/calendar_page_model.dart';
+export './models/report/report_hora.dart';
+export './models/report/report_model.dart';

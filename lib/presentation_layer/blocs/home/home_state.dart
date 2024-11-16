@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../domain_layer/models/report/report_model.dart';
 import '../../../utils/utils.dart';
 
 class HomeState extends BaseState {

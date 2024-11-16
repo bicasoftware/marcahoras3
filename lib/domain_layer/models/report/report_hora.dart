@@ -1,8 +1,10 @@
 import '../../models.dart';
 
 class ReportHora {
-  final String workedHours, amount, salary, date, from, to;
+  final DateTime date;
+  final String workedHours, amount, salary, from, to;
   final HorasType type;
+  final int porc;
 
   ReportHora({
     required this.workedHours,
@@ -12,5 +14,6 @@ class ReportHora {
     required this.from,
     required this.to,
     required this.type,
+    required this.porc,
   });
 }

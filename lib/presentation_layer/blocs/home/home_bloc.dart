@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain_layer/models.dart';
@@ -274,60 +273,6 @@ class HomeBloc extends Cubit<HomeState> {
       );
     }
   }
-  // Future<void> _updateCalendar(int year, int month) async {
-  //   if (state.currentEmprego == null) return;
-  //   if (state.hasPage(year, month) == -1) {
-  //     try {
-  //       emit(state.copyWith(status: StateLoadingStatus()));
-
-  //       final (initDate, endDate) = getFormatedDateRange(year, month);
-
-  //       final List<Horas> horas = await _horasLoadByRangeUseCase(
-  //         state.currentEmprego!.id!,
-  //         initDate,
-  //         endDate,
-  //       );
-
-  //       final calendarPage = await _calendarPageGeneratorUseCase(
-  //         horas,
-  //         month,
-  //         year,
-  //       );
-
-  //       final allHoras = <Horas>[...state.currentEmprego!.horas, ...horas];
-  //       final pages = [...state.currentEmprego!.calendarPages, calendarPage];
-
-  //       final empregosList = [...state.empregos];
-  //       empregosList[state.empregoPos] = state.currentEmprego!
-  //           .copyWith(horas: allHoras, calendarPages: pages);
-
-  //       emit(
-  //         state.copyWith(
-  //           status: StateSuccessStatus(),
-  //           year: year,
-  //           month: month,
-  //           empregos: empregosList,
-  //         ),
-  //       );
-  //     } on Exception catch (e) {
-  //       emit(
-  //         state.copyWith(
-  //           status: StateErrorStatus(errorMsg: e.toString()),
-  //         ),
-  //       );
-
-  //       rethrow;
-  //     }
-  //   } else {
-  //     emit(
-  //       state.copyWith(
-  //         status: StateSuccessStatus(),
-  //         year: year,
-  //         month: month,
-  //       ),
-  //     );
-  //   }
-  // }
 
   Future<void> insertHora(Horas hora) async {
     if (state.currentEmprego == null) return;
@@ -364,9 +309,31 @@ class HomeBloc extends Cubit<HomeState> {
           .iCopy()
           .iUpdateItem(currentPage, state.currentPage());
 
+      /// Generates a new reportPage
+      final reportPage = await ReportPageGenerator(
+        year: state.year,
+        month: state.month,
+        bancoHoras: state.currentEmprego!.bancoHoras,
+        cargaHoraria: state.currentEmprego!.cargaHoraria,
+        porcNormal: state.currentEmprego!.porcNormal,
+        porcDiff: state.currentEmprego!.porcFeriado,
+        salario: state.getSalarioByVigencia(state.year, state.month),
+        horas: horasList,
+      ).generate();
+
+      /// Clone the [ReportModel]s,
+      /// remove the previous page
+      /// Adds the new page to the model
+      final reports = state.currentEmprego!.reportPages.iCopy();
+      reports
+          .removeWhere((r) => r.year == state.year && r.month == state.month);
+
+      reports.add(reportPage);
+
       final updatedEmprego = state.currentEmprego!.copyWith(
         horas: horasList,
         calendarPages: calendarPages,
+        reportPages: reports,
       );
 
       final empregosList =
@@ -431,9 +398,31 @@ class HomeBloc extends Cubit<HomeState> {
           .iCopy()
           .iUpdateItem(currentPage, state.currentPage());
 
+      /// Generates a new reportPage
+      final reportPage = await ReportPageGenerator(
+        year: state.year,
+        month: state.month,
+        bancoHoras: state.currentEmprego!.bancoHoras,
+        cargaHoraria: state.currentEmprego!.cargaHoraria,
+        porcNormal: state.currentEmprego!.porcNormal,
+        porcDiff: state.currentEmprego!.porcFeriado,
+        salario: state.getSalarioByVigencia(state.year, state.month),
+        horas: horasList,
+      ).generate();
+
+      /// Clone the [ReportModel]s,
+      /// remove the previous page
+      /// Adds the new page to the model
+      final reports = state.currentEmprego!.reportPages.iCopy();
+      reports
+          .removeWhere((r) => r.year == state.year && r.month == state.month);
+
+      reports.add(reportPage);
+
       final updatedEmprego = state.currentEmprego!.copyWith(
         horas: horasList,
         calendarPages: calendarPages,
+        reportPages: reports,
       );
 
       final empregosList =
@@ -490,9 +479,31 @@ class HomeBloc extends Cubit<HomeState> {
           .iCopy()
           .iUpdateItem(currentPage, state.currentPage());
 
+      /// Generates a new reportPage
+      final reportPage = await ReportPageGenerator(
+        year: state.year,
+        month: state.month,
+        bancoHoras: state.currentEmprego!.bancoHoras,
+        cargaHoraria: state.currentEmprego!.cargaHoraria,
+        porcNormal: state.currentEmprego!.porcNormal,
+        porcDiff: state.currentEmprego!.porcFeriado,
+        salario: state.getSalarioByVigencia(state.year, state.month),
+        horas: horasList,
+      ).generate();
+
+      /// Clone the [ReportModel]s,
+      /// remove the previous page
+      /// Adds the new page to the model
+      final reports = state.currentEmprego!.reportPages.iCopy();
+      reports
+          .removeWhere((r) => r.year == state.year && r.month == state.month);
+
+      reports.add(reportPage);
+
       final updatedEmprego = state.currentEmprego!.copyWith(
         horas: horasList,
         calendarPages: calendarPages,
+        reportPages: reports,
       );
 
       final empregosList =
