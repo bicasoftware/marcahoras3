@@ -19,6 +19,17 @@ class TotalsContainer extends StatelessWidget {
 
     return Hero(
       tag: "totais_button",
+      flightShuttleBuilder: (
+        flightContext,
+        animation,
+        flightDirection,
+        fromHeroContext,
+        toHeroContext,
+      ) {
+        return SingleChildScrollView(
+          child: toHeroContext.widget,
+        );
+      },
       child: CardContainer(
         label: Text(
           "Totais",

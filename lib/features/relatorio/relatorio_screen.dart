@@ -18,20 +18,21 @@ class RelatorioScreen extends StatelessWidget {
     final bloc = context.watch<HomeBloc>();
     final locale = Localizations.localeOf(context);
     final reportModel = bloc.state.currentReport();
-    
+    final String vigencia =
+        "${strings.months[bloc.state.month]} de ${bloc.state.year}";
+
     return Scaffold(
       appBar: ShAppBar(
         label: strings.calendario,
         elevation: 0,
-        roundedCorner: false,
-        centerTitle: false,
+        roundedCorner: true,
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () async {
               final data = await PdfGenerator.generate(
                 report: reportModel,
-                title:
-                    "Relatório de Horas de ${strings.months[bloc.state.month]} de ${bloc.state.year}",
+                title: "Relatório de Horas de $vigencia",
                 locale: locale,
               );
 
@@ -39,8 +40,10 @@ class RelatorioScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (_) {
                     return PdfPreviewScreen(
-                      title: "Teste",
+                      title: "PDF - Prévia",
                       pdfData: data,
+                      fileName:
+                          "horas_${vigencia.replaceAll(' ', '_').toLowerCase()}.pdf",
                     );
                   },
                 ),
@@ -56,8 +59,16 @@ class RelatorioScreen extends StatelessWidget {
           report: reportModel,
         ),
       ),
-      body: RelatorioHorasList(
-        horas: reportModel.hours,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.picture_as_pdf, color: AppColors.onSecondary),
+        backgroundColor: AppColors.secondary,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: RelatorioHorasList(
+          horas: reportModel.hours,
+        ),
       ),
     );
   }

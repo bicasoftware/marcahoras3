@@ -103,6 +103,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Hero(
           tag: "totais_button",
+          flightShuttleBuilder: (
+            flightContext,
+            animation,
+            flightDirection,
+            fromHeroContext,
+            toHeroContext,
+          ) {
+            return SingleChildScrollView(
+              child: fromHeroContext.widget,
+            );
+          },
           child: OutlinedButton.icon(
             label: Text(strings.relatorios),
             icon: const Icon(Icons.list_alt),

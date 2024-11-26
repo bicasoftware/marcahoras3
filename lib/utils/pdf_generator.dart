@@ -1,6 +1,6 @@
-import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 
@@ -13,10 +13,24 @@ class PdfGenerator {
     required ReportModel report,
     required Locale locale,
   }) async {
-    final pdf = Document();
+    final pdf = Document(
+      
+      theme: ThemeData.withFont(        
+        base: Font.ttf(
+          await rootBundle.load("assets/fonts/FiraSans-Regular.ttf"),
+        ),
+        bold: Font.ttf(
+          await rootBundle.load("assets/fonts/FiraSans-Bold.ttf"),
+        ),
+        italic: Font.ttf(
+          await rootBundle.load("assets/fonts/FiraSans-Italic.ttf"),
+        ),
+      ),
+    );
 
     pdf.addPage(
       Page(
+        margin: EdgeInsets.only(top: 32, left: 32, right: 32, bottom: 16),
         build: (Context context) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,8 +110,8 @@ TableRow _horaRowDisplay(ReportHora h, Locale locale) {
 // 'Inicio'
 // 'Termino'
 // 'Horas Feitas'
-// 'Total'
 // '%'
+// 'Total'
 
   return TableRow(
     children: [
@@ -123,7 +137,11 @@ Widget TableText({
     padding: padding,
     child: Text(
       text,
-      style: style,
+      style: style ??
+          TextStyle(
+            color: PdfColors.black,
+            fontSize: 14,
+          ),
     ),
   );
 }
@@ -138,6 +156,7 @@ Widget TableHeaderText({
     style: TextStyle(
       color: PdfColors.black,
       fontWeight: FontWeight.bold,
+      fontSize: 16,
     ),
   );
 }
