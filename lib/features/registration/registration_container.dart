@@ -47,7 +47,7 @@ class RegistrationContainer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Image.asset(
-                      MrImages.logoSmall,
+                      AppImages.logoSmall,
                       fit: BoxFit.fitHeight,
                       height: 120,
                     ),
