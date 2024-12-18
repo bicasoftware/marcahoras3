@@ -228,4 +228,60 @@ class EnStrings implements StringsContract {
 
   @override
   String get horasExtras => "Overtime";
+
+  @override
+  String get back => "Go Back";
+
+  @override
+  String get next => "Next";
+
+  @override
+  String get welcomeTitle => 'Welcome to $appName!';
+
+  @override
+  String get welcomeMessage =>
+      'Here you can track and organize your overtime hours.';
+
+  @override
+  String get welcomeJobDescription =>
+      'First, tell me... What do you work with?';
+
+  @override
+  String get welcomeJobDescriptionMessage =>
+      'Give a short description of your current position.';
+
+  @override
+  String get welcomeCargaHoraria => 'What is your monthly working hours?';
+
+  @override
+  String get welcomeCargaHorariaMessage => 'Choose one of the options:';
+
+  @override
+  String get welcomeSalario => 'And how much do you currently earn?';
+
+  @override
+  String get welcomeSalarioMessage => 'Enter the amount, using numbers only.';
+
+  @override
+  String get welcomeAdmissao => 'And what day did you start working?';
+
+  @override
+  String get welcomeAdmissaoMessage =>
+      'Please select a date from the calendar:';
+
+  @override
+  String get welcomePorcNormal =>
+      'What percentage extra do you receive on weekdays?';
+
+  @override
+  String get welcomePorcNormalMessage =>
+      'By law, the minimum is 50%. Please indicate the value in %.';
+
+  @override
+  String get welcomePorcFeriado =>
+      'What percentage extra do you receive on holidays and Sundays?';
+
+  @override
+  String get welcomePorcFeriadoMessage =>
+      'By law, the minimum is 50%. Please indicate the value in %.';
 }

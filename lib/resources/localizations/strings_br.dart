@@ -205,7 +205,55 @@ class BrStrings implements StringsContract {
 
   @override
   String get valorHora => "Valor Hora";
-  
+
   @override
   String get horasExtras => "Horas Extras";
+
+  @override
+  String get back => "Voltar";
+  
+  @override
+  String get next => "Próximo";
+
+  @override
+  String get welcomeTitle => 'Bem-vindo ao $appName!';
+  
+  @override
+  String get welcomeMessage => 'Aqui você pode marcar e organizar suas horas extras';
+  
+  @override
+  String get welcomeJobDescription => 'Primeiro me diz... Com o que você trabalha?';
+  
+  @override
+  String get welcomeJobDescriptionMessage => 'Dê uma descrição curta do seu cargo atual';
+  
+  @override
+  String get welcomeCargaHoraria => 'Qual sua carga horária mensal?';
+
+  @override
+  String get welcomeCargaHorariaMessage => 'Escolha uma das opções:';
+  
+  @override
+  String get welcomeSalario => 'E quanto você ganha atualmente?';
+
+  @override
+  String get welcomeSalarioMessage => 'Digite o valor, usando apenas números.';
+  
+  @override
+  String get welcomeAdmissao => 'E qual dia você começou a trabalhar?';
+  
+  @override
+  String get welcomeAdmissaoMessage => 'Por favor, selecione uma data no calendário:';
+  
+  @override
+  String get welcomePorcNormal => 'Quantos porcento você recebe extra durante dias da semana?';
+  
+  @override
+  String get welcomePorcNormalMessage => 'Por lei, o mínimo permitido é 50%. Por favor, indique o valor em %';
+  
+  @override
+  String get welcomePorcFeriado => 'Quantos porcento você recebe extra durante Feriados e Domingos?';
+
+  @override
+  String get welcomePorcFeriadoMessage => 'Por lei, o mínimo permitido é 100%. Por favor, indique o valor em %';
 }

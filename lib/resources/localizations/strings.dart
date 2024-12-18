@@ -67,7 +67,30 @@ abstract class StringsContract {
   String get feriados;
   String get valorHora;
   String get porcentagem;
+  String get back;
+  String get next;
 
+  /// Strings used on the welcome carousel
+  String get welcomeTitle;
+  String get welcomeMessage;
+
+  String get welcomeJobDescription;
+  String get welcomeJobDescriptionMessage;
+  
+  String get welcomeCargaHoraria;
+  String get welcomeCargaHorariaMessage;
+  
+  String get welcomeSalario;
+  String get welcomeSalarioMessage;
+  
+  String get welcomeAdmissao;
+  String get welcomeAdmissaoMessage;
+  
+  String get welcomePorcNormal;
+  String get welcomePorcNormalMessage;
+
+  String get welcomePorcFeriado;
+  String get welcomePorcFeriadoMessage;
 
   List<String> get weekDays;
   List<String> get months;
