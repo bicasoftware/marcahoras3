@@ -19,13 +19,14 @@ class PresentationEmpregoDescricao extends StatelessWidget {
     final strings = context.strings();
     final theme = Theme.of(context).textTheme;
 
-    return ShTextTile(
+    return ShTextField(      
       controller: controller,
       label: strings.descricaoEmprego,
       hint: strings.descricaoEmprego,
       labelStyle: theme.labelLarge,
-      icon: Icon(Icons.text_fields),
+      // icon: Icon(Icons.text_fields),
       onValueChanged: onTextChanged,
+      isOutlined: false,      
       validator: (s) {
         return MinCharactersValidator.validate(
           controller.text,

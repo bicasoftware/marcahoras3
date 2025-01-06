@@ -20,7 +20,7 @@ class BottomSheetHelper {
     return showModalBottomSheet<T>(
       context: context,
       useRootNavigator: useRootNavigation,
-      barrierColor: barrierColor ?? Colors.black.withOpacity(.7),
+      barrierColor: barrierColor ?? Colors.black.withValues(alpha: .7),
       showDragHandle: true,
       isScrollControlled: true,      
       shape: RoundedRectangleBorder(
