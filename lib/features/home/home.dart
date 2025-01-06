@@ -21,8 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _pages = [
       const EmpregosScreen(),
-      const CalendarScreen(
-      ),
+      const CalendarScreen(),
     ];
   }
 
@@ -37,21 +36,23 @@ class _MyHomePageState extends State<MyHomePage> {
         duration: Duration(milliseconds: 300),
         child: _pages[bloc.state.navigatorPos],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: state.navigatorPos,
-        onTap: bloc.setNavigationbarPosition,
-        backgroundColor: Colors.white,
-        items: [
-          BottomNavigationBarItem(
-            label: strings.empregos,
-            icon: const Icon(Icons.work_outline),
-          ),
-          BottomNavigationBarItem(
-            label: strings.horas,
-            icon: const Icon(Icons.calendar_month),
-          ),
-        ],
-      ),
+      bottomNavigationBar: bloc.state.empregos.isNotEmpty
+          ? BottomNavigationBar(
+              currentIndex: state.navigatorPos,
+              onTap: bloc.setNavigationbarPosition,
+              backgroundColor: Colors.white,
+              items: [
+                BottomNavigationBarItem(
+                  label: strings.empregos,
+                  icon: const Icon(Icons.work_outline),
+                ),
+                BottomNavigationBarItem(
+                  label: strings.horas,
+                  icon: const Icon(Icons.calendar_month),
+                ),
+              ],
+            )
+          : null,
     );
   }
 }

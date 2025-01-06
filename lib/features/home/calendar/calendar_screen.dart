@@ -123,7 +123,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.small(
         heroTag: 'plus_button',
         backgroundColor: AppColors.secondary,
         foregroundColor: AppColors.onSecondary,

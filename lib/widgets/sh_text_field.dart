@@ -5,8 +5,8 @@ import '../resources/colors.dart';
 
 class ShTextField extends StatelessWidget {
   final TextEditingController controller;
-  final String label;
-  final String hint;
+  final String? label;
+  final String? hint;
   final EdgeInsets? padding;
   final String? Function(String?)? validator;
   final TextStyle? labelStyle;
@@ -20,8 +20,8 @@ class ShTextField extends StatelessWidget {
   const ShTextField({
     super.key,
     required this.controller,
-    required this.hint,
-    required this.label,
+    this.hint,
+    this.label,
     this.labelStyle,
     this.validator,
     this.icon,
@@ -73,11 +73,12 @@ class ShTextField extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text(
-          label,
-          style: labelStyle ??
-              theme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
-        ),
+        if (label?.isNotEmpty ?? false)
+          Text(
+            label!,
+            style: labelStyle ??
+                theme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
+          ),
         const SizedBox(height: 4),
         TextFormField(
           controller: controller,

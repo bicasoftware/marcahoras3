@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:marcahoras3/features/presentation/presentation_screen.dart';
 
 import 'app_config.dart';
 import 'bloc_loader.dart';
@@ -71,14 +70,12 @@ class HorasApp extends StatelessWidget {
           Routes.empregos: (_) => const EmpregosScreen(),
           Routes.empregosDetail: (_) => const EmpregosDetailScreen(),
           Routes.relatorio: (_) => const RelatorioScreen(),
-          Routes.presentation: (_) => const PresentationScreen(),
         },
       ),
     );
   }
 
   String _getMainRoute(Vault vault) {
-    return Routes.presentation;
     if (AppConfig.shared.flavor == Flavor.online) {
       return vault.isLoggedIn ? Routes.home : Routes.registration;
     }

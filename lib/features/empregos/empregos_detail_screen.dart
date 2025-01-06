@@ -247,7 +247,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                       const SizedBox(height: 8),
                       ShLabeledTile(
                         value: TimeOfDayHelper.formatTime(state.entrada!),
-                        label: "Horário Entrada",
+                        label: strings.entradaHora,
                         icon: Icons.timelapse_outlined,
                         onTap: () => _selectTime(
                           context: context,
@@ -258,7 +258,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                       const SizedBox(height: 8),
                       ShLabeledTile(
                         value: TimeOfDayHelper.formatTime(bloc.state.saida!),
-                        label: "Horário Saída",
+                        label: strings.saidaHora,
                         icon: Icons.timelapse_outlined,
                         onTap: () => _selectTime(
                           context: context,
@@ -281,7 +281,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                       ),
                       const SizedBox(height: 8),
                       ShSliderPicker(
-                        label: "Porcentagem Dias Normais",
+                        label: strings.porcNormal,
                         value: state.porcNormal ?? 50,
                         onChanged: bloc.setPorcNormal,
                         minValue: 50,
@@ -289,7 +289,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                       ),
                       const SizedBox(height: 8),
                       ShSliderPicker(
-                        label: "Porcentagem Feriados/Domingos",
+                        label: strings.porcFeriado,
                         value: state.porcFeriado ?? 100,
                         onChanged: bloc.setPorcFeriados,
                         minValue: 100,

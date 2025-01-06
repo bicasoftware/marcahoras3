@@ -4,6 +4,8 @@ abstract class StringsContract {
   String get ativo;
   String get inativo;
   String get bancoHoras;
+  String get entradaHora;
+  String get saidaHora;
   String get carregando;
   String get continuar;
   String get defaultErro;
@@ -47,6 +49,8 @@ abstract class StringsContract {
   String get admissao;
   String get porcNormal;
   String get porcFeriado;
+  String get porcentagemNormal;
+  String get porcentagemFeriado;
   String get editar;
   String get recebiAumento;
   String get alterarValor;
@@ -69,28 +73,6 @@ abstract class StringsContract {
   String get porcentagem;
   String get back;
   String get next;
-
-  /// Strings used on the welcome carousel
-  String get welcomeTitle;
-  String get welcomeMessage;
-
-  String get welcomeJobDescription;
-  String get welcomeJobDescriptionMessage;
-  
-  String get welcomeCargaHoraria;
-  String get welcomeCargaHorariaMessage;
-  
-  String get welcomeSalario;
-  String get welcomeSalarioMessage;
-  
-  String get welcomeAdmissao;
-  String get welcomeAdmissaoMessage;
-  
-  String get welcomePorcNormal;
-  String get welcomePorcNormalMessage;
-
-  String get welcomePorcFeriado;
-  String get welcomePorcFeriadoMessage;
 
   List<String> get weekDays;
   List<String> get months;

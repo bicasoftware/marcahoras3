@@ -22,6 +22,12 @@ class EnStrings implements StringsContract {
   String get entradas => "Enter";
 
   @override
+  String get entradaHora => "Shift starting time";
+
+  @override
+  String get saidaHora => "Shift end time";
+
+  @override
   String get horaFeriado => "Holiday overtime";
 
   @override
@@ -118,10 +124,10 @@ class EnStrings implements StringsContract {
   String get carregando => "Wait a moment...";
 
   @override
-  String get adicionarEmprego => "Click here to add";
+  String get adicionarEmprego => "Add Job";
 
   @override
-  String get empregosEmpty => "No Occupation Added";
+  String get empregosEmpty => "No Job added. Please add a new Job";
 
   @override
   String get editarEmprego => "Edit Occupation";
@@ -165,10 +171,10 @@ class EnStrings implements StringsContract {
   String get inativo => "Inactive";
 
   @override
-  String get porcNormal => "% Normal";
+  String get porcNormal => "Regular days %";
 
   @override
-  String get porcFeriado => "% Holidays";
+  String get porcFeriado => "Holidays %";
 
   @override
   String get editar => "Editar";
@@ -222,6 +228,10 @@ class EnStrings implements StringsContract {
 
   @override
   String get porcentagem => "Percentage";
+  @override
+  String get porcentagemNormal => "Overtime Percentage";
+  @override
+  String get porcentagemFeriado => "Overtime on holidays percentage";
 
   @override
   String get valorHora => "Overtime value";
@@ -234,54 +244,4 @@ class EnStrings implements StringsContract {
 
   @override
   String get next => "Next";
-
-  @override
-  String get welcomeTitle => 'Welcome to $appName!';
-
-  @override
-  String get welcomeMessage =>
-      'Here you can track and organize your overtime hours.';
-
-  @override
-  String get welcomeJobDescription =>
-      'First, tell me... What do you work with?';
-
-  @override
-  String get welcomeJobDescriptionMessage =>
-      'Give a short description of your current position.';
-
-  @override
-  String get welcomeCargaHoraria => 'What is your monthly working hours?';
-
-  @override
-  String get welcomeCargaHorariaMessage => 'Choose one of the options:';
-
-  @override
-  String get welcomeSalario => 'And how much do you currently earn?';
-
-  @override
-  String get welcomeSalarioMessage => 'Enter the amount, using numbers only.';
-
-  @override
-  String get welcomeAdmissao => 'And what day did you start working?';
-
-  @override
-  String get welcomeAdmissaoMessage =>
-      'Please select a date from the calendar:';
-
-  @override
-  String get welcomePorcNormal =>
-      'What percentage extra do you receive on weekdays?';
-
-  @override
-  String get welcomePorcNormalMessage =>
-      'By law, the minimum is 50%. Please indicate the value in %.';
-
-  @override
-  String get welcomePorcFeriado =>
-      'What percentage extra do you receive on holidays and Sundays?';
-
-  @override
-  String get welcomePorcFeriadoMessage =>
-      'By law, the minimum is 50%. Please indicate the value in %.';
 }
