@@ -97,20 +97,33 @@ class EmpregosDto extends Equatable {
     return data.map((e) => EmpregosDto.fromJson(e)).toList();
   }
 
-  EmpregosDto copyWithId(String id) {
+  EmpregosDto copyWith({
+    String? id,
+    String? descricao,
+    String? admissao,
+    String? entrada,
+    String? saida,
+    bool? bancoHoras,
+    int? porcNormal,
+    int? porcFeriado,
+    bool? ativo,
+    int? cargaHoraria,
+    List<HorasDto>? horas,
+    List<SalariosDto>? salarios,
+  }) {
     return EmpregosDto(
-      id: id,
-      descricao: this.descricao,
-      admissao: this.admissao,
-      entrada: this.entrada,
-      saida: this.saida,
-      bancoHoras: this.bancoHoras,
-      porcNormal: this.porcNormal,
-      porcFeriado: this.porcFeriado,
-      ativo: this.ativo,
-      cargaHoraria: this.cargaHoraria,
-      horas: this.horas,
-      salarios: this.salarios,
+      id: id ?? this.id,
+      descricao: descricao ?? this.descricao,
+      admissao: admissao ?? this.admissao,
+      entrada: entrada ?? this.entrada,
+      saida: saida ?? this.saida,
+      bancoHoras: bancoHoras ?? this.bancoHoras,
+      porcNormal: porcNormal ?? this.porcNormal,
+      porcFeriado: porcFeriado ?? this.porcFeriado,
+      ativo: ativo ?? this.ativo,
+      cargaHoraria: cargaHoraria ?? this.cargaHoraria,
+      horas: horas ?? this.horas,
+      salarios: salarios ?? this.salarios,
     );
   }
 }
