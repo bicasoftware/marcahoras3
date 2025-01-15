@@ -1,10 +1,9 @@
-import 'package:marcahoras3/data_layer/mappers/horas_mapper.dart';
 import 'package:realm/realm.dart';
 
 import '../../domain_layer/contracts.dart';
 import '../../utils/utils.dart';
 import '../dtos/empregos_dto.dart';
-import '../mappers/emprego_mapper.dart';
+import '../mappers.dart';
 import '../tables/realm_models.dart';
 
 class EmpregosDbProvider implements EmpregosProviderContract {
@@ -47,14 +46,15 @@ class EmpregosDbProvider implements EmpregosProviderContract {
                 h.data!.isSameDayOrAfter(begin!) &&
                 h.data!.isSameDayOfBefore(end!),
           );
-      final empregoDto = e.toDto(false);
-      empregoDto.copyWith(horas: horas.map((h) => h.toDto()).toList());
+      var empregoDto = e.toDto(false);
+      empregoDto = empregoDto.copyWith(
+        horas: horas.map((h) => h.toDto()).toList(),
+        salarios: e.salarios.map((s) => s.toDto()).toList(),
+      );
       empregosList.add(empregoDto);
     });
 
     return empregosList;
-    // final empregos = _realm.all<EmpregosRealm>();
-    // return empregos.map((e) => e.toDto(true)).toList();
   }
 
   @override
