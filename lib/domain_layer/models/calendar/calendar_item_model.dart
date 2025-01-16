@@ -6,12 +6,26 @@ sealed class CalendarItemModel {
   final Horas? horas;
   final DateTime? date;
   final bool? isToday;
+  final bool enabled;
 
   CalendarItemModel({
     required this.horas,
     required this.date,
     required this.isToday,
+    this.enabled = true,
   });
+}
+
+class CalendarItemDisabled extends CalendarItemModel {
+  CalendarItemDisabled(
+    DateTime data,
+    bool isToday,
+  ) : super(
+          date: data,
+          horas: null,
+          isToday: isToday,
+          enabled: false,
+        );
 }
 
 class CalendarItemEmpty extends CalendarItemModel {

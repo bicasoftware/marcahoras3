@@ -25,6 +25,9 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
+  double dragStartPoint = 0.0;
+  final int swipeDistance = 60;
+
   void _showHorasBts({
     required BuildContext context,
     required HomeBloc bloc,
@@ -82,6 +85,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
       actualTask: () => bloc.deleteHora(selectedHora),
     );
   }
+
+  void _addMonth(HomeBloc bloc) => awaitableTask(
+        context: context,
+        actualTask: () async => bloc.incMonth(),
+      );
+
+  void _decMonth(HomeBloc bloc) => awaitableTask(
+        context: context,
+        actualTask: () async => bloc.decMonth(),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -142,60 +155,77 @@ class _CalendarScreenState extends State<CalendarScreen> {
           );
         },
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CalendarioScreenHeader(
-                year: bloc.state.year,
-                month: bloc.state.month,
-                onMonthAdd: () => awaitableTask(
-                  context: context,
-                  actualTask: () async => bloc.incMonth(),
+          child: GestureDetector(
+            onHorizontalDragStart: (details) {
+              /// Store the dragging start point
+              dragStartPoint = details.globalPosition.dx;
+            },
+            onHorizontalDragEnd: (details) {
+              /// Store the dragging end point
+              final dragEndPoint = details.globalPosition.dx;
+
+              final distance = dragStartPoint - dragEndPoint;
+
+              /// If the distance is bigger than [swipeDisance]
+              /// if the starting point and ending point is negative, increase a month in the calendar
+              /// if the starting point and ending point is positive, decrease a month in the calendar
+              if (distance >= swipeDistance || distance <= -swipeDistance) {
+                if (distance.isNegative) {
+                  _addMonth(bloc);
+                } else {
+                  _decMonth(bloc);
+                }
+              }
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                CalendarioScreenHeader(
+                  year: bloc.state.year,
+                  month: bloc.state.month,
+                  onMonthAdd: () => _addMonth(bloc),
+                  onMonthDec: () => _decMonth(bloc),
+                  onYearChanged: (int y) => awaitableTask(
+                    context: context,
+                    actualTask: () async => bloc.setYear(y),
+                  ),
+                  onMonthChanged: (m) => awaitableTask(
+                    context: context,
+                    actualTask: () async => bloc.setMonth(m),
+                  ),
                 ),
-                onMonthDec: () => awaitableTask(
-                  context: context,
-                  actualTask: () async => bloc.decMonth(),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CalendarPage(
+                    page: bloc.state.currentPage(),
+                    onCalendarItemTap: (h, d) async {
+                      _showHorasBts(
+                        context: context,
+                        bloc: bloc,
+                        selectedHora: h,
+                        data: d,
+                        isEdit: h != null,
+                      );
+                    },
+                  ),
                 ),
-                onYearChanged: (int y) => awaitableTask(
-                  context: context,
-                  actualTask: () async => bloc.setYear(y),
-                ),
-                onMonthChanged: (m) => awaitableTask(
-                  context: context,
-                  actualTask: () async => bloc.setMonth(m),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CalendarPage(
-                  page: bloc.state.currentPage(),
-                  onCalendarItemTap: (h, d) async {
+                HorasList(
+                  horas: bloc.state.currentPage().horasList,
+                  onDelete: (h) => _deleteHora(h, bloc),
+                  emprego: bloc.state.currentEmprego!,
+                  onItemTap: (h) {
                     _showHorasBts(
                       context: context,
                       bloc: bloc,
                       selectedHora: h,
-                      data: d,
-                      isEdit: h != null,
+                      data: h.data,
+                      isEdit: true,
                     );
                   },
                 ),
-              ),
-              HorasList(
-                horas: bloc.state.currentPage().horasList,
-                onDelete: (h) => _deleteHora(h, bloc),
-                emprego: bloc.state.currentEmprego!,
-                onItemTap: (h) {
-                  _showHorasBts(
-                    context: context,
-                    bloc: bloc,
-                    selectedHora: h,
-                    data: h.data,
-                    isEdit: true,
-                  );
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -30,6 +30,13 @@ class CalendarPage extends StatelessWidget {
                   switch (it) {
                     case CalendarItemEmpty():
                       return CalendarItem();
+                    case CalendarItemDisabled():
+                      return CalendarItem(
+                        monthDay: it.date!.day,
+                        isToday: it.isToday ?? false,
+                        data: it.date,
+                        enabled: false,
+                      );
                     case CalendarItemDateOnly():
                       return CalendarItem(
                         monthDay: it.date!.day,

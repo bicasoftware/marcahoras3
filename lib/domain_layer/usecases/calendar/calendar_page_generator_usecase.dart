@@ -4,13 +4,19 @@ import '../../../data_layer/providers.dart';
 import '../../models.dart';
 
 class CalendarPageGeneratorUseCase {
-  Future<CalendarPageModel> call(List<Horas> horas, int month, int year) async {
+  Future<CalendarPageModel> call({
+    required List<Horas> horas,
+    required int month,
+    required int year,
+    required DateTime admissao,
+  }) async {
     return await Isolate.run<CalendarPageModel>(
       () {
         return CalendarioPageGenerator.generate(
           horas: horas,
           month: month,
           year: year,
+          admissao: admissao,
         );
       },
     );

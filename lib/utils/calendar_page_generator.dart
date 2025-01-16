@@ -8,6 +8,7 @@ class CalendarioPageGenerator {
     required List<Horas> horas,
     required int month,
     required int year,
+    required DateTime admissao,
   }) {
     /// Get the first date
     /// so by using the first week day
@@ -29,16 +30,26 @@ class CalendarioPageGenerator {
 
     var currentDate = DateTime(year, month);
     while (currentDate.month == initDate.month) {
-      final hora = horas.firstWhereOrNull((h) => h.data.isSameDay(currentDate));
-      calendarDays.add(
-        hora == null
-            ? CalendarItemDateOnly(currentDate, today.isSameDay(currentDate))
-            : CalendarItemComplete(
-                date: currentDate,
-                horas: hora,
-                isToday: today.isSameDay(currentDate),
-              ),
-      );
+      if (currentDate.isBefore(admissao)) {
+        calendarDays.add(
+          CalendarItemDisabled(
+            currentDate,
+            today.isSameDay(currentDate),
+          ),
+        );
+      } else {
+        final hora =
+            horas.firstWhereOrNull((h) => h.data.isSameDay(currentDate));
+        calendarDays.add(
+          hora == null
+              ? CalendarItemDateOnly(currentDate, today.isSameDay(currentDate))
+              : CalendarItemComplete(
+                  date: currentDate,
+                  horas: hora,
+                  isToday: today.isSameDay(currentDate),
+                ),
+        );
+      }
 
       currentDate = currentDate.add(Duration(days: 1));
     }

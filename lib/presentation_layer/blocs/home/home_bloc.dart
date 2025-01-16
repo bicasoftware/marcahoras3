@@ -55,9 +55,10 @@ class HomeBloc extends Cubit<HomeState> {
 
       empregos.forEachIndexed((i, e) async {
         final calendarPage = await _calendarPageGeneratorUseCase(
-          e.horas,
-          state.month,
-          state.year,
+          horas: e.horas,
+          month: state.month,
+          year: state.year,
+          admissao: e.admissao!,
         );
 
         final reportPage = await ReportPageGenerator(
@@ -198,6 +199,11 @@ class HomeBloc extends Cubit<HomeState> {
     if (state.currentEmprego == null) return;
 
     final Empregos currentEmprego = emprego ?? state.currentEmprego!;
+
+    /// If the user tryes to go to a month before the date when they started working
+    /// exit the function, so nothing changes
+    if (!_validNewVigencia(year, month, currentEmprego.admissao!)) return;
+
     final pageIndex = currentEmprego.calendarPages.indexWhere(
       (it) => it.month == month && it.year == year,
     );
@@ -215,9 +221,10 @@ class HomeBloc extends Cubit<HomeState> {
         );
 
         final calendarPage = await _calendarPageGeneratorUseCase(
-          horas,
-          month,
-          year,
+          horas: horas,
+          month: month,
+          year: year,
+          admissao: currentEmprego.admissao!,
         );
 
         /// Generates all overtime information needed to be presented in
@@ -526,5 +533,10 @@ class HomeBloc extends Cubit<HomeState> {
 
       rethrow;
     }
+  }
+
+  bool _validNewVigencia(int year, int month, DateTime admissao) {
+    final newDate = DateTime(year, month, admissao.day);
+    return newDate.isSameDayOrAfter(admissao);
   }
 }

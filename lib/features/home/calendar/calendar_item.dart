@@ -9,6 +9,7 @@ class CalendarItem extends StatelessWidget {
   final bool isToday;
   final DateTime? data;
   final Horas? hora;
+  final bool enabled;
   final void Function(Horas? hora, DateTime? data)? onCalendarItemTap;
 
   const CalendarItem({
@@ -17,6 +18,7 @@ class CalendarItem extends StatelessWidget {
     this.monthDay = -1,
     this.type = HorasType.unknown,
     this.isToday = false,
+    this.enabled = true,
     this.hora,
     this.data,
     super.key,
@@ -25,7 +27,7 @@ class CalendarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         if (onCalendarItemTap != null) {
           onCalendarItemTap!(hora, data);
@@ -38,8 +40,11 @@ class CalendarItem extends StatelessWidget {
           margin: const EdgeInsets.all(2),
           decoration: monthDay > -1
               ? BoxDecoration(
-                  color:
-                      isToday ? AppColors.primaryContainer : AppColors.surface,
+                  color: enabled
+                      ? isToday
+                          ? AppColors.primaryContainer
+                          : AppColors.surface
+                      : AppColors.disabled.withAlpha(20),
                   border: Border.all(
                     color: AppColors.shadow.withAlpha(20),
                   ),
@@ -55,8 +60,8 @@ class CalendarItem extends StatelessWidget {
                     Text(
                       '$monthDay',
                       style: theme.bodyLarge?.copyWith(
-                        color: AppColors.onSurface,
-                        // fontWeight: FontWeight.bold,
+                        color:
+                            enabled ? AppColors.onSurface : AppColors.disabled,
                       ),
                     ),
                     Container(
