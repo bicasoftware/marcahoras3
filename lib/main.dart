@@ -41,7 +41,7 @@ class HorasApp extends StatelessWidget {
         navigatorKey: navigatorKey,
         theme: ThemeData(
           primaryColor: AppConfig.shared.appColor,
-          fontFamily: 'FiraSans',
+          fontFamily: 'Outfit',
           useMaterial3: true,
           colorScheme: lightColorScheme,
           appBarTheme: appBarColorScheme,
