@@ -18,18 +18,28 @@ class CalendarioPageGenerator {
 
     final today = DateTime.now();
 
-    final beginEmptyItems = initDate.weekday == 7
-        ? []
-        : List<CalendarItemModel>.generate(
-            initDate.weekday,
-            (_) => CalendarItemEmpty(),
-            growable: false,
-          );
+    /// Fills the calendar with previous months days, but disabled
+    var beginEmptyItems = <CalendarItemModel>[];
+    if (initDate.weekday < 7) {
+      var prevMonthDate = DateTime(year, month).subtract(Duration(days: 1));
+
+      for (int i = initDate.weekday; i > 0; i--) {
+        beginEmptyItems.add(
+          CalendarItemDisabled(prevMonthDate, false),
+        );
+
+        prevMonthDate = prevMonthDate.subtract(Duration(days: 1));
+      }
+
+      beginEmptyItems = beginEmptyItems.reversed.toList();
+    }
 
     final calendarDays = <CalendarItemModel>[];
 
     var currentDate = DateTime(year, month);
     while (currentDate.month == initDate.month) {
+      /// If the current date is before the day the user started working,
+      /// the calendar item is disabled
       if (currentDate.isBefore(admissao)) {
         calendarDays.add(
           CalendarItemDisabled(
@@ -41,6 +51,8 @@ class CalendarioPageGenerator {
         final hora =
             horas.firstWhereOrNull((h) => h.data.isSameDay(currentDate));
         calendarDays.add(
+          /// If there's no overtime stored for this day, add [CalendarItemDateOnly]
+          /// otherwise adds a [CalendarItemComplete]
           hora == null
               ? CalendarItemDateOnly(currentDate, today.isSameDay(currentDate))
               : CalendarItemComplete(
@@ -54,11 +66,13 @@ class CalendarioPageGenerator {
       currentDate = currentDate.add(Duration(days: 1));
     }
 
-    /// Fills the rest of the calendar items with empty items
-    final endEmptyDays = List<CalendarItemModel>.generate(
-      (7 - currentDate.weekday),
-      (_) => CalendarItemEmpty(),
-    );
+    /// Fills the rest of the calendar items next month days, but disabled
+    var endEmptyDays = <CalendarItemModel>[];
+    while (currentDate.weekday < 7) {
+      endEmptyDays.add(CalendarItemDisabled(currentDate, false));
+
+      currentDate = currentDate.add(Duration(days: 1));
+    }
 
     return CalendarPageModel(
       month: month,
