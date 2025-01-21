@@ -4,6 +4,7 @@ import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
 import '../../../resources/localizations/strings.dart';
 import '../../../utils/utils.dart';
+import '../../../widgets/icon_label_value.dart';
 
 class HorasListTile extends StatelessWidget {
   final Horas hora;
@@ -57,70 +58,38 @@ class HorasListTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _IconLabel(
+                IconLabelValue(
                   icon: Icons.timeline,
                   iconColor: AppColors.primary,
-                  label: "${strings.horasTrabalhadas}: $ht",
+                  label: strings.horasTrabalhadas,
+                  labelColor: AppColors.primary,
+                  value: "$ht",
                 ),
-                _IconLabel(
+                IconLabelValue(
                   icon: Icons.payments_outlined,
                   iconColor: _tipoHoraColor(),
-                  label:
-                      "${strings.valorReceber}: ${CurrencyHelper.formatAmount(vh * ht)}",
+                  label: strings.valorReceber,
+                  value: CurrencyHelper.formatAmount(vh * ht),
+                  labelColor: AppColors.primary,
                 ),
-                _IconLabel(
+                IconLabelValue(
                   icon: Icons.payment,
                   iconColor: AppColors.secondary,
-                  label:
-                      "${strings.salario}: ${CurrencyHelper.formatAmount(_salario())}",
+                  label: strings.salario,
+                  labelColor: AppColors.primary,
+                  value: CurrencyHelper.formatAmount(
+                    _salario(),
+                  ),
                 ),
               ],
             ),
           ),
+          const SizedBox(width: 24),
           Badge(
             backgroundColor: _tipoHoraColor(),
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             label: Text(
               _tipoHoraLabel(strings),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _IconLabel extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final Color? iconColor;
-
-  const _IconLabel({
-    required this.label,
-    required this.icon,
-    this.iconColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
-    return Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(right: 8),
-            child: Icon(
-              icon,
-              size: 16,
-              color: iconColor,
-            ),
-          ),
-          Text(
-            label,
-            style: theme.labelLarge?.copyWith(
-              fontWeight: FontWeight.normal,
-              color: AppColors.onSurface,
             ),
           ),
         ],

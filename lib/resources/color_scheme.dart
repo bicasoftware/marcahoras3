@@ -41,13 +41,13 @@ const appBarColorScheme = AppBarTheme(
   shadowColor: AppColors.onSecondaryContainer,
 );
 
-final baseTextTheme = ThemeData(useMaterial3: true, fontFamily: 'FiraSans').textTheme;
+final baseTextTheme = ThemeData(useMaterial3: true, fontFamily: 'Outfit').textTheme;
 
 final ThemeData mrAppTheme = ThemeData(
   useMaterial3: true,
   colorScheme: lightColorScheme,
   appBarTheme: appBarColorScheme,
-  fontFamily: 'FiraSans',
+  fontFamily: 'Outfit',
   textTheme: baseTextTheme.copyWith(
     labelLarge: baseTextTheme.labelLarge?.copyWith(
       color: Colors.white,

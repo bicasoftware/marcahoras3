@@ -5,6 +5,7 @@ class ReportHora {
   final String workedHours, amount, salary, from, to;
   final HorasType type;
   final int porc;
+  final Horas hora;
 
   ReportHora({
     required this.workedHours,
@@ -15,5 +16,6 @@ class ReportHora {
     required this.to,
     required this.type,
     required this.porc,
+    required this.hora,
   });
 }

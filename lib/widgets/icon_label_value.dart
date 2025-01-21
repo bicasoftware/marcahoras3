@@ -1,0 +1,56 @@
+import 'package:flutter/material.dart';
+
+import '../resources.dart';
+
+class IconLabelValue extends StatelessWidget {
+  final String label;
+  final String value;
+  final IconData icon;
+  final Color? iconColor;
+  final Color labelColor;
+
+  const IconLabelValue({
+    required this.label,
+    required this.value,
+    required this.icon,
+    required this.labelColor,
+    required this.iconColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
+    return Container(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 8),
+            child: Icon(
+              icon,
+              size: 16,
+              color: iconColor,
+            ),
+          ),
+          Text(
+            label,
+            style: theme.labelLarge?.copyWith(
+              fontWeight: FontWeight.normal,
+              color: labelColor,
+            ),
+          ),
+          
+          const Spacer(),
+          /// TODO - mudar a font no theme do app
+          Text(
+            value,
+            style: theme.labelLarge?.copyWith(
+              // fontWeight: FontWeight.bold,
+              color: AppColors.onSurface,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

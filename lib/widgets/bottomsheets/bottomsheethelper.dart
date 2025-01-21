@@ -13,6 +13,7 @@ class BottomSheetHelper {
     Color? barrierColor,
     bool dismissible = false,
     Radius topRadius = const Radius.circular(24),
+    Widget? trailing,
     Widget? leading,
   }) {
     final theme = Theme.of(context).textTheme;
@@ -22,15 +23,16 @@ class BottomSheetHelper {
       useRootNavigator: useRootNavigation,
       barrierColor: barrierColor ?? Colors.black.withValues(alpha: .7),
       showDragHandle: true,
-      isScrollControlled: true,      
+      isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: topRadius,
           topRight: topRadius,
         ),
       ),
-      builder: (context) => Padding(        
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      builder: (context) => Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Material(
           color: bgColor,
           child: Column(
@@ -38,23 +40,25 @@ class BottomSheetHelper {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 8),
+                padding:
+                    const EdgeInsets.only(left: 16.0, right: 16, bottom: 8),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    if (leading != null) leading,
                     if (label != null)
                       Text(
                         label,
                         style: theme.labelLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
-                          color: AppColors.inversePrimary,
+                          color: AppColors.onSurface,
                         ),
                         textAlign: TextAlign.start,
                       ),
-                    if (leading != null) ...[
+                    if (trailing != null) ...[
                       const Spacer(),
-                      leading,
+                      trailing,
                     ],
                     const Divider(),
                   ],

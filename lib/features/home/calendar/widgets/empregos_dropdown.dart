@@ -18,6 +18,8 @@ class EmpregosDropdown extends StatelessWidget {
       child: DropdownButton<Empregos>(
         dropdownColor: AppColors.inversePrimary,
         iconEnabledColor: AppColors.onPrimary,
+        icon: Icon(Icons.arrow_drop_down_rounded),
+        iconSize: 32,
         value: bloc.state.currentEmprego,
         focusColor: AppColors.onPrimary,
         items: bloc.state.empregos
@@ -26,7 +28,8 @@ class EmpregosDropdown extends StatelessWidget {
                 value: e,
                 child: Text(
                   e.descricao,
-                  style: theme.bodyMedium?.copyWith(
+                  textAlign: TextAlign.justify,
+                  style: theme.bodyLarge?.copyWith(
                     color: AppColors.onPrimary,
                     fontWeight: FontWeight.bold,
                   ),

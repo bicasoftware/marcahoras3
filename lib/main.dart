@@ -50,6 +50,7 @@ class HorasApp extends StatelessWidget {
               color: AppColors.primary,
               fontWeight: FontWeight.bold,
               fontSize: 14,
+              fontFamily: 'Outfit'
             ),
           ),
         ),

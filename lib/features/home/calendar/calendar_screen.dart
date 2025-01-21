@@ -40,19 +40,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
     final newHora = await BottomSheetHelper.showModalBts(
       context: context,
       dismissible: true,
-      label: !isEdit
-          ? strings.novahora
-          : strings.editHoraReplace.replaceAll(
-              "{DATA}",
-              formatDateByLocale(data, locale),
-            ),
       leading: isEdit
-          ? IconButton(
-              icon: Icon(Icons.delete_outline, color: AppColors.primary),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the current bts
-                _onDelete(bloc, selectedHora!);
-              },
+          ? Container(
+              margin: EdgeInsets.only(right: 12),
+              child: Icon(Icons.calendar_month),
+            )
+          : null,
+      label: !isEdit ? strings.novahora : formatDateByLocale(data, locale),
+      trailing: isEdit
+          ? OutlinedCard(
+              child: IconButton(
+                icon: Icon(Icons.delete_outline),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the current bts
+                  _onDelete(bloc, selectedHora!);
+                },
+              ),
             )
           : null,
       body: AddHoraBts(
@@ -211,9 +214,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                 ),
                 HorasList(
-                  horas: bloc.state.currentPage().horasList,
+                  // horas: bloc.state.currentPage().horasList,
+                  // emprego: bloc.state.currentEmprego!,
+                  horas: bloc.state.currentReport().hours.take(3).toList(),
                   onDelete: (h) => _deleteHora(h, bloc),
-                  emprego: bloc.state.currentEmprego!,
                   onItemTap: (h) {
                     _showHorasBts(
                       context: context,

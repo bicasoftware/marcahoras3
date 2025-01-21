@@ -1,71 +1,43 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../resources.dart';
-import '../../../utils/utils.dart';
-import '../../../widgets.dart';
-import 'horas_list_tile.dart';
+import '../../../widgets/overtime_list_tile.dart';
 
 class HorasList extends StatelessWidget {
-  final List<Horas> horas;
-  final Empregos emprego;
+  // final List<Horas> horas;
+  // final Empregos emprego;
+  final List<ReportHora> horas;
   final void Function(Horas h) onDelete, onItemTap;
 
   const HorasList({
     required this.horas,
     required this.onDelete,
-    required this.emprego,
+    // required this.emprego,
     required this.onItemTap,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context);
-    final theme = Theme.of(context).textTheme;
-
-    return ListView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.all(8),
-      children: horas.map((h) {
-        return InkWell(
-          onTap: () => onItemTap(h),
-          child: Container(
-            margin: EdgeInsets.only(bottom: 8),
-            child: IndicatorTile(
-              child: CardContainer(
-                label: Text(
-                  formatDateByLocale(h.data, locale),
-                  style: theme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Column(
+        children: horas
+            .map(
+              (h) => Container(
                 margin: EdgeInsets.only(bottom: 8),
-                hasShadow: false,
-                leading: Icon(
-                  Icons.timelapse,
-                  color: h.tipoHora == HorasType.normal
-                      ? AppColors.porcNormalColor
-                      : AppColors.porcFeriadosColor,
-                ),
-                trailing: IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.edit,
-                    color: AppColors.disabled,
-                    size: 16,
-                  ),
-                ),
-                child: HorasListTile(
-                  hora: h,
-                  emprego: emprego,
+                child: OvertimeListTile(
+                  horaType: h.type,
+                  date: h.date,
+                  workedHours: h.workedHours,
+                  amount: h.amount,
+                  salary: h.salary,
+                  onTap: () => onItemTap(h.hora),
                 ),
               ),
-            ),
-          ),
-        );
-      }).toList(),
+            )
+            .toList(),
+      ),
     );
   }
 }

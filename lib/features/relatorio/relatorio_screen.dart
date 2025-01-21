@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
 import '../../resources.dart';
 import '../../utils/pdf_generator.dart';
@@ -11,6 +12,32 @@ import 'widgets/relatorio_totalizer.dart';
 
 class RelatorioScreen extends StatelessWidget {
   const RelatorioScreen({super.key});
+
+  void _showPdfPreview({
+    required BuildContext context,
+    required ReportModel reportModel,
+    required String vigencia,
+    required Locale locale,
+  }) async {
+    final data = await PdfGenerator.generate(
+      report: reportModel,
+      title: "Relatório de Horas de $vigencia",
+      locale: locale,
+    );
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) {
+          return PdfPreviewScreen(
+            title: "PDF - Prévia",
+            pdfData: data,
+            fileName:
+                "horas_${vigencia.replaceAll(' ', '_').toLowerCase()}.pdf",
+          );
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,31 +54,6 @@ class RelatorioScreen extends StatelessWidget {
         elevation: 0,
         roundedCorner: true,
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () async {
-              final data = await PdfGenerator.generate(
-                report: reportModel,
-                title: "Relatório de Horas de $vigencia",
-                locale: locale,
-              );
-
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) {
-                    return PdfPreviewScreen(
-                      title: "PDF - Prévia",
-                      pdfData: data,
-                      fileName:
-                          "horas_${vigencia.replaceAll(' ', '_').toLowerCase()}.pdf",
-                    );
-                  },
-                ),
-              );
-            },
-            icon: Icon(Icons.save_alt),
-          ),
-        ],
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -60,7 +62,14 @@ class RelatorioScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _showPdfPreview(
+            context: context,
+            locale: locale,
+            vigencia: vigencia,
+            reportModel: reportModel,
+          );
+        },
         child: Icon(Icons.picture_as_pdf, color: AppColors.onSecondary),
         backgroundColor: AppColors.secondary,
       ),

@@ -72,6 +72,7 @@ class ReportPageGenerator {
           type: h.tipoHora,
           amount: CurrencyHelper.formatAmount(valor),
           porc: h.tipoHora == HorasType.feriado ? porcDiff : porcNormal,
+          hora: h,
         );
       },
     ).toList();

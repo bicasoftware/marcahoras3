@@ -14,16 +14,12 @@ class PdfGenerator {
     required Locale locale,
   }) async {
     final pdf = Document(
-      
-      theme: ThemeData.withFont(        
+      theme: ThemeData.withFont(
         base: Font.ttf(
-          await rootBundle.load("assets/fonts/FiraSans-Regular.ttf"),
+          await rootBundle.load("assets/fonts/Outfit-Medium.ttf"),
         ),
         bold: Font.ttf(
-          await rootBundle.load("assets/fonts/FiraSans-Bold.ttf"),
-        ),
-        italic: Font.ttf(
-          await rootBundle.load("assets/fonts/FiraSans-Italic.ttf"),
+          await rootBundle.load("assets/fonts/Outfit-Bold.ttf"),
         ),
       ),
     );

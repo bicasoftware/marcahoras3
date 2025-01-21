@@ -95,10 +95,7 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                           margin: EdgeInsets.only(bottom: 8),
                           padding:
                               EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                          onDelete: () {
-                            _onDelete(context, bloc, e);
-                          },
-                          onUpdate: () {
+                          onTap: () {
                             final detailsBloc =
                                 context.read<EmpregosDetailBloc>();
                             detailsBloc.setAsEdit(e);
@@ -106,12 +103,11 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                               Routes.empregosDetail,
                             );
                           },
+                          onDelete: () {
+                            _onDelete(context, bloc, e);
+                          },                          
                           child: EmpregosTile(
-                            descricao: e.descricao,
                             salario: e.getCurrentSalario()!,
-                            status: e.ativo,
-                            porcNormal: e.porcNormal,
-                            porcFeriado: e.porcFeriado,
                             bancoHoras: e.bancoHoras,
                             cargaHoraria: e.cargaHoraria,
                             valorHoraNormal: CalcHelper.calcPorcentagemHora(

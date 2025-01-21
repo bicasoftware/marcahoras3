@@ -6,22 +6,16 @@ import '../../../resources.dart';
 import '../../../widgets.dart';
 
 class EmpregosTile extends StatelessWidget {
-  final String descricao;
-  final bool status;
-  final Salarios salario;
-  final int porcNormal, porcFeriado, cargaHoraria;
+  final int cargaHoraria;
   final double valorHoraNormal, valorHoraFeriados;
-  final bool bancoHoras;
   final DateTime admissao;
+  final Salarios salario;
+  final bool bancoHoras;
 
   const EmpregosTile({
-    required this.descricao,
     required this.salario,
-    required this.status,
     required this.bancoHoras,
     required this.cargaHoraria,
-    required this.porcNormal,
-    required this.porcFeriado,
     required this.valorHoraNormal,
     required this.valorHoraFeriados,
     required this.admissao,
