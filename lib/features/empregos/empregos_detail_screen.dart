@@ -52,8 +52,9 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     EmpregosDetailBloc bloc,
   ) async {
     final date = await DialogHelper.showDateTimeDialog(
-      context,
-      bloc.state.admissao ?? DateTime.now(),
+      context: context,
+      initDate: DateTime.now(),
+      allowFutureDates: true,
     );
 
     if (date != null && date != bloc.state.admissao) {

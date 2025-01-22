@@ -65,6 +65,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         initDate: selectedHora?.data ?? data ?? DateTime.now(),
         empregoEntrada: bloc.state.currentEmprego!.entrada,
         hideDate: (selectedHora?.data != null || data != null),
+        admissao: bloc.state.currentEmprego!.admissao!,
       ),
     );
 

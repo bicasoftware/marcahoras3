@@ -8,6 +8,7 @@ import '../../../widgets.dart';
 
 class AddHoraBts extends StatefulWidget {
   final DateTime initDate;
+  final DateTime admissao;
   final Horas? hora;
   final bool feriado;
   final String empregoId;
@@ -18,6 +19,7 @@ class AddHoraBts extends StatefulWidget {
     required this.initDate,
     required this.empregoId,
     required this.empregoEntrada,
+    required this.admissao,
     this.hideDate = false,
     this.hora,
     this.feriado = false,
@@ -92,8 +94,10 @@ class _AddHoraBtsState extends State<AddHoraBts> {
               label: strings.data,
               onTap: () async {
                 final date = await DialogHelper.showDateTimeDialog(
-                  context,
-                  _date,
+                  context: context,
+                  initDate: _date,
+                  admissao: widget.admissao,
+                  allowFutureDates: true,
                 );
 
                 setState(() => _date = date ?? _date);
