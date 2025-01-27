@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/features/home/calendar/emprego_pages/emprego_pageviewer.dart';
 
 import '../../../app_config.dart';
 import '../../../domain_layer/models.dart';
@@ -50,7 +51,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       trailing: isEdit
           ? OutlinedCard(
               child: IconButton(
-                icon: Icon(Icons.delete_outline),
+                icon: Icon(Icons.delete_outline, color: AppColors.deleteColor),
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the current bts
                   _onDelete(bloc, selectedHora!);
@@ -104,6 +105,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
     final strings = context.strings();
+    final theme = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: ShAppBar(
@@ -112,43 +114,34 @@ class _CalendarScreenState extends State<CalendarScreen> {
         roundedCorner: false,
         centerTitle: false,
         actions: [
-          EmpregosDropdown(),
+          // EmpregosDropdown(),
           if (AppConfig.shared.flavor == Flavor.online) PopupSessionButton(),
         ],
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Hero(
-          tag: "totais_button",
-          flightShuttleBuilder: (
-            flightContext,
-            animation,
-            flightDirection,
-            fromHeroContext,
-            toHeroContext,
-          ) {
-            return SingleChildScrollView(
-              child: fromHeroContext.widget,
-            );
-          },
-          child: OutlinedButton.icon(
-            label: Text(strings.relatorios),
-            icon: const Icon(Icons.list_alt),
-            onPressed: () {
-              Navigator.of(context).pushNamed(Routes.relatorio);
-            },
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          FloatingActionButton.small(
+            heroTag: 'plus_button',
+            backgroundColor: AppColors.secondary,
+            foregroundColor: AppColors.onSecondary,
+            onPressed: () => _showHorasBts(
+              context: context,
+              bloc: bloc,
+            ),
+            child: const Icon(Icons.add),
           ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton.small(
-        heroTag: 'plus_button',
-        backgroundColor: AppColors.secondary,
-        foregroundColor: AppColors.onSecondary,
-        onPressed: () => _showHorasBts(
-          context: context,
-          bloc: bloc,
-        ),
-        child: const Icon(Icons.add),
+          if (bloc.state.currentReport().hours.length > 0)
+            FloatingActionButton(
+              heroTag: "totais_button",
+              child: const Icon(Icons.list_alt, color: AppColors.onPrimary),
+              backgroundColor: AppColors.inversePrimary,
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.relatorio);
+              },
+            ),
+        ],
       ),
       body: BlocHelper<HomeBloc, HomeState>(
         bloc: bloc,
@@ -183,7 +176,43 @@ class _CalendarScreenState extends State<CalendarScreen> {
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Container(
+                  color: AppColors.inversePrimary,
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColors.surface,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: EmpregosDropdown(
+                      onAdd: () async {
+                        final detailsBloc = context.read<EmpregosDetailBloc>();
+                        detailsBloc.reset();
+
+                        await Navigator.of(context).pushNamed(
+                          Routes.empregosDetail,
+                          arguments: true,
+                        );
+                        bloc.load();
+                      },
+                      onEdit: () {
+                        final detailsBloc = context.read<EmpregosDetailBloc>();
+                        detailsBloc.setAsEdit(bloc.state.currentEmprego!);
+                        Navigator.of(context).pushNamed(
+                          Routes.empregosDetail,
+                          arguments: false,
+                        );
+                      },
+                    ),
+                  ),
+                ),
                 CalendarioScreenHeader(
                   year: bloc.state.year,
                   month: bloc.state.month,

@@ -62,6 +62,7 @@ class RelatorioScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "plus_button",
         onPressed: () {
           _showPdfPreview(
             context: context,

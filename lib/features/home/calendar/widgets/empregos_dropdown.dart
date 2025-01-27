@@ -7,7 +7,12 @@ import '../../../../domain_layer/models.dart';
 import '../../../../resources.dart';
 
 class EmpregosDropdown extends StatelessWidget {
-  const EmpregosDropdown({super.key});
+  final VoidCallback onAdd, onEdit;
+
+  const EmpregosDropdown({
+    required this.onAdd,
+    required this.onEdit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +20,21 @@ class EmpregosDropdown extends StatelessWidget {
     final theme = Theme.of(context).textTheme;
 
     return DropdownButtonHideUnderline(
-      child: DropdownButton<Empregos>(
+      child: DropdownButton<Object>(
         dropdownColor: AppColors.inversePrimary,
-        iconEnabledColor: AppColors.onPrimary,
-        icon: Icon(Icons.arrow_drop_down_rounded),
-        iconSize: 32,
+        icon: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton.icon(
+            label: Text("Editar"),
+            icon: Icon(Icons.edit_outlined),
+            onPressed: onEdit,
+          ),
+        ),
         value: bloc.state.currentEmprego,
         focusColor: AppColors.onPrimary,
         items: bloc.state.empregos
             .map(
-              (e) => DropdownMenuItem<Empregos>(
+              (e) => DropdownMenuItem<Object>(
                 value: e,
                 child: Text(
                   e.descricao,
@@ -36,12 +46,27 @@ class EmpregosDropdown extends StatelessWidget {
                 ),
               ),
             )
-            .toList(),
+            .toList()
+          ..add(
+            DropdownMenuItem<Object>(
+              value: null,
+              child: Text(
+                "Novo",
+                textAlign: TextAlign.justify,
+                style: theme.bodyLarge?.copyWith(
+                  color: AppColors.onPrimary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
         onChanged: (e) async {
           if (e != null) {
             await awaitableTask(
                 context: context,
-                actualTask: () async => bloc.setEmpregoPos(e));
+                actualTask: () async => bloc.setEmpregoPos(e as Empregos));
+          } else {
+            onAdd();
           }
         },
       ),

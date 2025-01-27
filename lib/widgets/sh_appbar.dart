@@ -6,6 +6,7 @@ class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double elevation;
   final bool roundedCorner;
   final bool centerTitle;
+  final PreferredSizeWidget? bottom;
 
   const ShAppBar({
     required this.label,
@@ -13,6 +14,7 @@ class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.roundedCorner = true,
     this.centerTitle = true,
     this.actions,
+    this.bottom,
     super.key,
   });
 
@@ -22,7 +24,7 @@ class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       centerTitle: centerTitle,
       title: Text(label),
-      elevation: elevation,
+      elevation: elevation,      
       shape: roundedCorner
           ? const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -32,6 +34,7 @@ class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
             )
           : null,
       actions: actions,
+      bottom: bottom,
     );
   }
 

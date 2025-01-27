@@ -52,7 +52,7 @@ class ContentTile extends StatelessWidget {
                       visualDensity: VisualDensity.compact,
                       icon: Icon(
                         Icons.delete_outline,
-                        color: AppColors.primary,
+                        color: AppColors.deleteColor,
                       ),
                       onPressed: onDelete,
                     ),

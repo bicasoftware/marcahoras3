@@ -13,18 +13,14 @@ import 'salarios/salarios_detail_bts.dart';
 import 'salarios/salarios_tile.dart';
 
 class EmpregosDetailScreen extends StatefulWidget {
-  final bool isInsert;
-
-  const EmpregosDetailScreen({
-    super.key,
-    this.isInsert = true,
-  });
+  const EmpregosDetailScreen();
 
   @override
   State<EmpregosDetailScreen> createState() => _EmpregosDetailScreenState();
 }
 
 class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
+  late final bool isInsert;
   final _formKey = GlobalKey<FormState>();
   final ctrDescricao = TextEditingController();
   final ctrSalarioMasked =
@@ -163,6 +159,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isInsert = ModalRoute.of(context)?.settings.arguments as bool;
     final strings = context.strings();
     final bloc = context.watch<EmpregosDetailBloc>();
     final textTheme = Theme.of(context).textTheme;
@@ -174,9 +171,14 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
       top: false,
       child: Scaffold(
         appBar: ShAppBar(
-          label: widget.isInsert
-              ? strings.adicionarEmprego
-              : strings.editarEmprego,
+          label: isInsert ? strings.adicionarEmprego : strings.editarEmprego,
+          actions: [
+            if (!isInsert)
+              IconButton(
+                icon: Icon(Icons.delete_outline),
+                onPressed: () {},
+              )
+          ],
         ),
         bottomNavigationBar: Container(
           padding: EdgeInsets.symmetric(horizontal: 16),
