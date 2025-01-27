@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
           await bloc.loginIn(emailController.text, passwordController.text);
       Navigator.of(context).pop();
       if (logged && mounted) {
-        Navigator.of(context).pushReplacementNamed(Routes.home);
+        Navigator.of(context).pushReplacementNamed(Routes.calendar);
       }
     }
   }
@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
           onError: (error) {
             setState(() => _errorMsg = error);
             Navigator.of(context).pop();
-            context.showSnackBar(error);            
+            context.showSnackBar(error);
           },
           child: Form(
             key: _formKey,

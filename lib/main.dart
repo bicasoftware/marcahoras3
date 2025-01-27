@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:marcahoras3/features/home/calendar/calendar_screen.dart';
 
 import 'app_config.dart';
 import 'bloc_loader.dart';
@@ -47,11 +48,10 @@ class HorasApp extends StatelessWidget {
           appBarTheme: appBarColorScheme,
           textTheme: TextTheme(
             labelLarge: TextStyle(
-              color: AppColors.primary,
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              fontFamily: 'Outfit'
-            ),
+                color: AppColors.primary,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                fontFamily: 'Outfit'),
           ),
         ),
         localizationsDelegates: const [
@@ -65,12 +65,13 @@ class HorasApp extends StatelessWidget {
         ],
         initialRoute: _getMainRoute(vault),
         routes: {
-          Routes.home: (_) => const MyHomePage(),
+          // Routes.home: (_) => const MyHomePage(),
           Routes.registration: (_) => const RegisterScreen(),
           Routes.login: (_) => const LoginScreen(),
           Routes.empregos: (_) => const EmpregosScreen(),
           Routes.empregosDetail: (_) => const EmpregosDetailScreen(),
           Routes.relatorio: (_) => const RelatorioScreen(),
+          Routes.calendar: (_) => const CalendarScreen(),
         },
       ),
     );
@@ -78,9 +79,9 @@ class HorasApp extends StatelessWidget {
 
   String _getMainRoute(Vault vault) {
     if (AppConfig.shared.flavor == Flavor.online) {
-      return vault.isLoggedIn ? Routes.home : Routes.registration;
+      return vault.isLoggedIn ? Routes.calendar : Routes.registration;
     }
 
-    return Routes.home;
+    return Routes.calendar;
   }
 }

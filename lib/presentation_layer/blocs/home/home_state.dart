@@ -4,7 +4,7 @@ import '../../../domain_layer/models.dart';
 import '../../../utils/utils.dart';
 
 class HomeState extends BaseState {
-  final int navigatorPos;
+  // final int navigatorPos;
   final int empregoPos;
   final UnmodifiableListView<Empregos> empregos;
   final bool isDarkMode;
@@ -15,7 +15,7 @@ class HomeState extends BaseState {
     required super.status,
     this.empregoPos = -1,
     Iterable<Empregos> empregos = const [],
-    this.navigatorPos = 0,
+    // this.navigatorPos = 0,
     this.isDarkMode = false,
     required this.year,
     required this.month,
@@ -23,7 +23,7 @@ class HomeState extends BaseState {
 
   HomeState copyWith({
     StateStatus? status,
-    int? navigatorPos,
+    // int? navigatorPos,
     Iterable<Empregos>? empregos,
     int? empregoPos,
     bool? isDarkMode,
@@ -32,7 +32,7 @@ class HomeState extends BaseState {
   }) {
     final newState = HomeState(
       status: status ?? this.status,
-      navigatorPos: navigatorPos ?? this.navigatorPos,
+      // navigatorPos: navigatorPos ?? this.navigatorPos,
       empregos: empregos ?? this.empregos,
       empregoPos: empregoPos ?? this.empregoPos,
       isDarkMode: isDarkMode ?? this.isDarkMode,
@@ -69,16 +69,10 @@ class HomeState extends BaseState {
   }
 
   @override
-  String toString() {
-    return 'HomeState(navigatorPos: $navigatorPos, empregoPos: $empregoPos, empregos: $empregos, isDarkMode: $isDarkMode, month: $month, year: $year)';
-  }
-
-  @override
   bool operator ==(covariant HomeState other) {
     if (identical(this, other)) return true;
 
-    return other.navigatorPos == navigatorPos &&
-        other.empregoPos == empregoPos &&
+    return other.empregoPos == empregoPos &&
         other.empregos == empregos &&
         other.isDarkMode == isDarkMode &&
         other.month == month &&
@@ -87,8 +81,7 @@ class HomeState extends BaseState {
 
   @override
   int get hashCode {
-    return navigatorPos.hashCode ^
-        empregoPos.hashCode ^
+    return empregoPos.hashCode ^
         empregos.hashCode ^
         isDarkMode.hashCode ^
         month.hashCode ^

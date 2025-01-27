@@ -164,9 +164,9 @@ class HomeBloc extends Cubit<HomeState> {
     await _updateCalendar(state.year, state.month, e, index);
   }
 
-  void setNavigationbarPosition(int pos) {
-    emit(state.copyWith(navigatorPos: pos));
-  }
+  // void setNavigationbarPosition(int pos) {
+  //   emit(state.copyWith(navigatorPos: pos));
+  // }
 
   void toggleDarkMode() => emit(state.copyWith(isDarkMode: !state.isDarkMode));
 
