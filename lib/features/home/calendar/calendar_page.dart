@@ -15,55 +15,49 @@ class CalendarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Column(
-          children: [
-            GridView.count(
-              crossAxisCount: 7,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              childAspectRatio: 1.1,
-              children: page.items.map(
-                (it) {
-                  switch (it) {
-                    case CalendarItemEmpty():
-                      return CalendarItem();
-                    case CalendarItemDisabled():
-                      return CalendarItem(
-                        monthDay: it.date!.day,
-                        isToday: it.isToday ?? false,
-                        data: it.date,
-                        enabled: false,
-                      );
-                    case CalendarItemDateOnly():
-                      return CalendarItem(
-                        monthDay: it.date!.day,
-                        isToday: it.isToday ?? false,
-                        data: it.date,
-                        onCalendarItemTap: onCalendarItemTap,
-                      );
-                    case CalendarItemComplete():
-                      return CalendarItem(
-                        type: it.horaType,
-                        monthDay: it.date?.day ?? -1,
-                        weekDay: it.weekDay,
-                        isToday: it.isToday ?? false,
-                        data: it.date,
-                        hora: it.horas,
-                        onCalendarItemTap: onCalendarItemTap,
-                      );
-                  }
-                },
-              ).toList(),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        )
-      ],
+    return Container(
+      margin: EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
+      child: GridView.count(
+        crossAxisCount: 7,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        childAspectRatio: 1.1,
+        crossAxisSpacing: .5,
+        mainAxisSpacing: .5,
+        padding: EdgeInsets.zero,
+        children: page.items.map(
+          (it) {
+            switch (it) {
+              case CalendarItemEmpty():
+                return CalendarItem();
+              case CalendarItemDisabled():
+                return CalendarItem(
+                  monthDay: it.date!.day,
+                  isToday: it.isToday ?? false,
+                  data: it.date,
+                  enabled: false,
+                );
+              case CalendarItemDateOnly():
+                return CalendarItem(
+                  monthDay: it.date!.day,
+                  isToday: it.isToday ?? false,
+                  data: it.date,
+                  onCalendarItemTap: onCalendarItemTap,
+                );
+              case CalendarItemComplete():
+                return CalendarItem(
+                  type: it.horaType,
+                  monthDay: it.date?.day ?? -1,
+                  weekDay: it.weekDay,
+                  isToday: it.isToday ?? false,
+                  data: it.date,
+                  hora: it.horas,
+                  onCalendarItemTap: onCalendarItemTap,
+                );
+            }
+          },
+        ).toList(),
+      ),
     );
   }
 }

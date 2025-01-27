@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/features/home/calendar/emprego_pages/emprego_pageviewer.dart';
 
-import '../../../app_config.dart';
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
 import '../../../resources.dart';
@@ -11,7 +10,6 @@ import '../../../utils/utils.dart';
 import '../../../widgets.dart';
 import '../horas_list/horas_list.dart';
 import '../widgets/add_hora_bts.dart';
-import '../widgets/popup_session.dart';
 import 'calendar_page.dart';
 import 'calendario_screen_header.dart';
 import 'widgets/empregos_dropdown.dart';
@@ -104,20 +102,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
-    final strings = context.strings();
-    final theme = Theme.of(context).textTheme;
+    final tbarHeight = MediaQuery.of(context).viewPadding.top;
 
     return Scaffold(
-      appBar: ShAppBar(
-        label: strings.calendario,
-        elevation: 0,
-        roundedCorner: false,
-        centerTitle: false,
-        actions: [
-          // EmpregosDropdown(),
-          if (AppConfig.shared.flavor == Flavor.online) PopupSessionButton(),
-        ],
-      ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -143,15 +130,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
             ),
         ],
       ),
-      body: BlocHelper<HomeBloc, HomeState>(
-        bloc: bloc,
-        onError: (e) {
-          showErrorDialog(
-            context: context,
-            errorMsg: e,
-          );
-        },
-        child: SingleChildScrollView(
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark,
+        child: BlocHelper<HomeBloc, HomeState>(
+          bloc: bloc,
+          onError: (e) {
+            showErrorDialog(
+              context: context,
+              errorMsg: e,
+            );
+          },
           child: GestureDetector(
             onHorizontalDragStart: (details) {
               /// Store the dragging start point
@@ -179,6 +167,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Container(
+                  height: tbarHeight,
+                  color: AppColors.inversePrimary,
+                ),
                 Container(
                   color: AppColors.inversePrimary,
                   padding: EdgeInsets.symmetric(horizontal: 12),
@@ -227,36 +219,35 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     actualTask: () async => bloc.setMonth(m),
                   ),
                 ),
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CalendarPage(
-                    page: bloc.state.currentPage(),
-                    onCalendarItemTap: (h, d) async {
-                      _showHorasBts(
-                        context: context,
-                        bloc: bloc,
-                        selectedHora: h,
-                        data: d,
-                        isEdit: h != null,
-                      );
-                    },
-                  ),
-                ),
-                HorasList(
-                  // horas: bloc.state.currentPage().horasList,
-                  // emprego: bloc.state.currentEmprego!,
-                  horas: bloc.state.currentReport().hours.take(3).toList(),
-                  onDelete: (h) => _deleteHora(h, bloc),
-                  onItemTap: (h) {
+                CalendarPage(
+                  page: bloc.state.currentPage(),
+                  onCalendarItemTap: (h, d) async {
                     _showHorasBts(
                       context: context,
                       bloc: bloc,
                       selectedHora: h,
-                      data: h.data,
-                      isEdit: true,
+                      data: d,
+                      isEdit: h != null,
                     );
                   },
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  height: 120,
+                  margin: EdgeInsets.only(left: 12),
+                  child: HorasList(
+                    horas: bloc.state.currentReport().hours.take(3).toList(),
+                    onDelete: (h) => _deleteHora(h, bloc),
+                    onItemTap: (h) {
+                      _showHorasBts(
+                        context: context,
+                        bloc: bloc,
+                        selectedHora: h,
+                        data: h.data,
+                        isEdit: true,
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

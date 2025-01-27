@@ -28,10 +28,10 @@ class EnStrings implements StringsContract {
   String get saidaHora => "Shift end time";
 
   @override
-  String get horaFeriado => "Holiday overtime";
+  String get horaFeriado => "Holiday";
 
   @override
-  String get horaNormal => "Regular days overtime";
+  String get horaNormal => "Regular";
 
   @override
   String get jaTenhoCadastro => "I Already have a login";

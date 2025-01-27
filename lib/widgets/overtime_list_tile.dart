@@ -44,6 +44,7 @@ class OvertimeListTile extends StatelessWidget {
       onTap: onTap,
       child: OutlinedCard(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        margin: EdgeInsets.only(top: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
