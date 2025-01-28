@@ -10,15 +10,11 @@ class CalendarPageGeneratorUseCase {
     required int year,
     required DateTime admissao,
   }) async {
-    return await Isolate.run<CalendarPageModel>(
-      () {
-        return CalendarioPageGenerator.generate(
-          horas: horas,
-          month: month,
-          year: year,
-          admissao: admissao,
-        );
-      },
+    return await CalendarioPageGenerator.generate(
+      horas: horas,
+      month: month,
+      year: year,
+      admissao: admissao,
     );
   }
 }

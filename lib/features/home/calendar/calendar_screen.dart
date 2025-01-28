@@ -99,10 +99,46 @@ class _CalendarScreenState extends State<CalendarScreen> {
         actualTask: () async => bloc.decMonth(),
       );
 
+  Future<void> _showEmpregosScreen({
+    required BuildContext context,
+    required HomeBloc bloc,
+    required bool isInsert,
+  }) async {
+    final detailsBloc = context.read<EmpregosDetailBloc>();
+
+    isInsert
+        ? detailsBloc.reset()
+        : detailsBloc.setAsEdit(bloc.state.currentEmprego!);
+
+    await Navigator.of(context).pushNamed(
+      Routes.empregosDetail,
+      arguments: isInsert,
+    );
+
+    bloc.load();
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
     final tbarHeight = MediaQuery.of(context).viewPadding.top;
+    final strings = context.strings();
+
+    if (bloc.state.empregos.isEmpty) {
+      return Scaffold(
+        body: Center(
+          child: NoDataContainer(
+            contentLabel: strings.empregosEmpty,
+            helperButtonLabel: strings.adicionarEmprego,
+            helperButtonTap: () => _showEmpregosScreen(
+              context: context,
+              bloc: bloc,
+              isInsert: true,
+            ),
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       floatingActionButton: Column(
@@ -140,117 +176,86 @@ class _CalendarScreenState extends State<CalendarScreen> {
               errorMsg: e,
             );
           },
-          child: GestureDetector(
-            onHorizontalDragStart: (details) {
-              /// Store the dragging start point
-              dragStartPoint = details.globalPosition.dx;
-            },
-            onHorizontalDragEnd: (details) {
-              /// Store the dragging end point
-              final dragEndPoint = details.globalPosition.dx;
-
-              final distance = dragStartPoint - dragEndPoint;
-
-              /// If the distance is bigger than [swipeDisance]
-              /// if the starting point and ending point is negative, increase a month in the calendar
-              /// if the starting point and ending point is positive, decrease a month in the calendar
-              if (distance >= swipeDistance || distance <= -swipeDistance) {
-                if (distance.isNegative) {
-                  _addMonth(bloc);
-                } else {
-                  _decMonth(bloc);
-                }
-              }
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  height: tbarHeight,
-                  color: AppColors.inversePrimary,
-                ),
-                Container(
-                  color: AppColors.inversePrimary,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                height: tbarHeight,
+                color: AppColors.inversePrimary,
+              ),
+              Container(
+                color: AppColors.inversePrimary,
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: AppColors.surface,
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppColors.surface,
+                      width: 1,
                     ),
-                    child: EmpregosDropdown(
-                      onAdd: () async {
-                        final detailsBloc = context.read<EmpregosDetailBloc>();
-                        detailsBloc.reset();
-
-                        await Navigator.of(context).pushNamed(
-                          Routes.empregosDetail,
-                          arguments: true,
-                        );
-                        bloc.load();
-                      },
-                      onEdit: () {
-                        final detailsBloc = context.read<EmpregosDetailBloc>();
-                        detailsBloc.setAsEdit(bloc.state.currentEmprego!);
-                        Navigator.of(context).pushNamed(
-                          Routes.empregosDetail,
-                          arguments: false,
-                        );
-                      },
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: EmpregosDropdown(
+                    onAdd: () => _showEmpregosScreen(
+                      context: context,
+                      bloc: bloc,
+                      isInsert: true,
                     ),
+                    onEdit: () => _showEmpregosScreen(
+                      context: context,
+                      bloc: bloc,
+                      isInsert: false,
+                    ),                    
                   ),
                 ),
-                CalendarioScreenHeader(
-                  year: bloc.state.year,
-                  month: bloc.state.month,
-                  onMonthAdd: () => _addMonth(bloc),
-                  onMonthDec: () => _decMonth(bloc),
-                  onYearChanged: (int y) => awaitableTask(
-                    context: context,
-                    actualTask: () async => bloc.setYear(y),
-                  ),
-                  onMonthChanged: (m) => awaitableTask(
-                    context: context,
-                    actualTask: () async => bloc.setMonth(m),
-                  ),
+              ),
+              CalendarioScreenHeader(
+                year: bloc.state.year,
+                month: bloc.state.month,
+                onMonthAdd: () => _addMonth(bloc),
+                onMonthDec: () => _decMonth(bloc),
+                onYearChanged: (int y) => awaitableTask(
+                  context: context,
+                  actualTask: () async => bloc.setYear(y),
                 ),
-                CalendarPage(
-                  page: bloc.state.currentPage(),
-                  onCalendarItemTap: (h, d) async {
+                onMonthChanged: (m) => awaitableTask(
+                  context: context,
+                  actualTask: () async => bloc.setMonth(m),
+                ),
+              ),
+              CalendarPage(
+                page: bloc.state.currentPage(),
+                onCalendarItemTap: (h, d) async {
+                  _showHorasBts(
+                    context: context,
+                    bloc: bloc,
+                    selectedHora: h,
+                    data: d,
+                    isEdit: h != null,
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+              Container(
+                height: 120,
+                margin: EdgeInsets.only(left: 12),
+                child: HorasList(
+                  horas: bloc.state.currentReport().hours.take(3).toList(),
+                  onDelete: (h) => _deleteHora(h, bloc),
+                  onItemTap: (h) {
                     _showHorasBts(
                       context: context,
                       bloc: bloc,
                       selectedHora: h,
-                      data: d,
-                      isEdit: h != null,
+                      data: h.data,
+                      isEdit: true,
                     );
                   },
                 ),
-                const SizedBox(height: 16),
-                Container(
-                  height: 120,
-                  margin: EdgeInsets.only(left: 12),
-                  child: HorasList(
-                    horas: bloc.state.currentReport().hours.take(3).toList(),
-                    onDelete: (h) => _deleteHora(h, bloc),
-                    onItemTap: (h) {
-                      _showHorasBts(
-                        context: context,
-                        bloc: bloc,
-                        selectedHora: h,
-                        data: h.data,
-                        isEdit: true,
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
