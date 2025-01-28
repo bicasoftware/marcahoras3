@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/widgets/dual_action_button.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
@@ -123,6 +124,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     final bloc = context.watch<HomeBloc>();
     final tbarHeight = MediaQuery.of(context).viewPadding.top;
     final strings = context.strings();
+    final theme = Theme.of(context).textTheme;
 
     if (bloc.state.empregos.isEmpty) {
       return Scaffold(
@@ -141,30 +143,70 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }
 
     return Scaffold(
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          FloatingActionButton.small(
-            heroTag: 'plus_button',
-            backgroundColor: AppColors.secondary,
-            foregroundColor: AppColors.onSecondary,
-            onPressed: () => _showHorasBts(
-              context: context,
-              bloc: bloc,
+      // floatingActionButton: Column(
+      //   mainAxisAlignment: MainAxisAlignment.end,
+      //   crossAxisAlignment: CrossAxisAlignment.end,
+      //   children: [
+      //     FloatingActionButton.small(
+      //       heroTag: 'plus_button',
+      //       backgroundColor: AppColors.secondary,
+      //       foregroundColor: AppColors.onSecondary,
+      //       onPressed: () => _showHorasBts(
+      //         context: context,
+      //         bloc: bloc,
+      //       ),
+      //       child: const Icon(Icons.add),
+      //     ),
+      //     if (bloc.state.currentReport().hours.length > 0)
+      //       FloatingActionButton(
+      //         heroTag: "totais_button",
+      //         child: const Icon(Icons.list_alt, color: AppColors.onPrimary),
+      //         backgroundColor: AppColors.inversePrimary,
+      //         onPressed: () {
+      //           Navigator.of(context).pushNamed(Routes.relatorio);
+      //         },
+      //       ),
+      //   ],
+      // ),
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(right: 8),
+        child: DualActionButton(
+          secondHeroTag: 'plus_button',
+          firstHeroTag: "totais_button",
+          firstColor: AppColors.surface,
+          secondColor: AppColors.surface,
+          firstLabel: Text(
+            strings.relatorios,
+            style: theme.bodyMedium!.copyWith(
+              color: AppColors.primary,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
             ),
-            child: const Icon(Icons.add),
           ),
-          if (bloc.state.currentReport().hours.length > 0)
-            FloatingActionButton(
-              heroTag: "totais_button",
-              child: const Icon(Icons.list_alt, color: AppColors.onPrimary),
-              backgroundColor: AppColors.inversePrimary,
-              onPressed: () {
-                Navigator.of(context).pushNamed(Routes.relatorio);
-              },
+          secondLabel: Text(
+            strings.horasExtras,
+            style: theme.bodyMedium!.copyWith(
+              color: AppColors.secondary,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
             ),
-        ],
+          ),
+          firstIcon: Icon(
+            Icons.list_alt,
+            color: AppColors.primary,
+          ),
+          secondIcon: Icon(
+            Icons.add,
+            color: AppColors.secondary,
+          ),
+          onFirstTap: () {
+            Navigator.of(context).pushNamed(Routes.relatorio);
+          },
+          onSecondTap: () => _showHorasBts(
+            context: context,
+            bloc: bloc,
+          ),
+        ),
       ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
@@ -207,7 +249,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       context: context,
                       bloc: bloc,
                       isInsert: false,
-                    ),                    
+                    ),
                   ),
                 ),
               ),
@@ -225,6 +267,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   actualTask: () async => bloc.setMonth(m),
                 ),
               ),
+              const SizedBox(height: 8),
               CalendarPage(
                 page: bloc.state.currentPage(),
                 onCalendarItemTap: (h, d) async {
@@ -237,7 +280,47 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   );
                 },
               ),
-              const SizedBox(height: 16),
+              // Container(
+              //   margin: EdgeInsets.only(right: 8),
+              //   child: DualActionButton(
+              //     secondHeroTag: 'plus_button',
+              //     firstHeroTag: "totais_button",
+              //     firstColor: AppColors.surface,
+              //     secondColor: AppColors.surface,
+              //     firstLabel: Text(
+              //       strings.relatorios,
+              //       style: theme.bodyMedium!.copyWith(
+              //         color: AppColors.primary,
+              //         fontSize: 12,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //     secondLabel: Text(
+              //       strings.novahora,
+              //       style: theme.bodyMedium!.copyWith(
+              //         color: AppColors.secondary,
+              //         fontSize: 12,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //     firstIcon: Icon(
+              //       Icons.list_alt,
+              //       color: AppColors.primary,
+              //     ),
+              //     secondIcon: Icon(
+              //       Icons.add,
+              //       color: AppColors.secondary,
+              //     ),
+              //     onFirstTap: () {
+              //       Navigator.of(context).pushNamed(Routes.relatorio);
+              //     },
+              //     onSecondTap: () => _showHorasBts(
+              //       context: context,
+              //       bloc: bloc,
+              //     ),
+              //   ),
+              // ),
+              const SizedBox(height: 8),
               Container(
                 height: 120,
                 margin: EdgeInsets.only(left: 12),

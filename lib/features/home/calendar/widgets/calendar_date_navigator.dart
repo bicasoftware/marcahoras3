@@ -46,7 +46,7 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
     final theme = Theme.of(context).textTheme;
     final strings = context.strings();
     final hintedYear = today.year.toString();
-    final hintedMonth = strings.months[today.month-1];
+    final hintedMonth = strings.months[today.month - 1];
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -72,6 +72,7 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
                 strings.months[widget.month - 1],
                 style: theme.bodyLarge?.copyWith(
                   color: AppColors.onPrimary,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               onPressed: () async {
@@ -97,6 +98,7 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
                 "${widget.year}",
                 style: theme.bodyLarge?.copyWith(
                   color: AppColors.onPrimary,
+                  fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.end,
               ),
