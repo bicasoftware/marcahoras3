@@ -4,6 +4,7 @@ import '../../../domain_layer/models.dart';
 import '../../../widgets/overtime_list_tile.dart';
 
 class HorasList extends StatefulWidget {
+  final bool isList;
   final List<ReportHora> horas;
   final void Function(Horas h) onDelete, onItemTap;
 
@@ -11,6 +12,7 @@ class HorasList extends StatefulWidget {
     required this.horas,
     required this.onDelete,
     required this.onItemTap,
+    this.isList = false,
     super.key,
   });
 
@@ -19,30 +21,15 @@ class HorasList extends StatefulWidget {
 }
 
 class _HorasListState extends State<HorasList> {
-  late final PageController controller;
-
-  @override
-  void initState() {
-    controller = PageController(
-      initialPage: 0,
-      viewportFraction: .8,
-    );
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      controller: controller,
-      padEnds: false,
+    return ListView(
+      shrinkWrap: true,
+      padding: EdgeInsets.symmetric(vertical: 8),
       children: widget.horas
           .map(
             (h) => Padding(
-              padding: EdgeInsets.only(
-                right: 16,
-                left: 1,
-                bottom: 1,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: OvertimeListTile(
                 horaType: h.type,
                 date: h.date,

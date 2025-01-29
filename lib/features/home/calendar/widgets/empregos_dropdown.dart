@@ -18,27 +18,20 @@ class EmpregosDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.read<HomeBloc>();
     final theme = Theme.of(context).textTheme;
+    final strings = context.strings();
 
     return DropdownButtonHideUnderline(
       child: DropdownButton<Object>(
         dropdownColor: AppColors.inversePrimary,
-        icon: IconButton(
-          icon: Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: AppColors.onPrimary.withAlpha(220),
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
-              ),
-            ),
-            child: Icon(
-              Icons.edit_outlined,
-              color: AppColors.onSurface.withAlpha(140),
-              size: 20,
+        icon: TextButton(
+          child: Text(
+            strings.editar,
+            style: theme.bodyMedium!.copyWith(
+              color: Colors.white70,
             ),
           ),
           onPressed: onEdit,
-        ),        
+        ),
         value: bloc.state.currentEmprego,
         focusColor: AppColors.onPrimary,
         items: bloc.state.empregos

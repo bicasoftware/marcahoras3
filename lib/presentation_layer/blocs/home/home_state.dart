@@ -58,6 +58,8 @@ class HomeState extends BaseState {
     );
   }
 
+  bool hasReportData() => this.currentReport().hours.isNotEmpty;
+
   Salarios? getSalarioByVigencia(int year, int month) {
     return currentEmprego?.getSalarioByVigencia(year, month);
   }

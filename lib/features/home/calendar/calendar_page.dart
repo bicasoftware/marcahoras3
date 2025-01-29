@@ -16,7 +16,7 @@ class CalendarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 0),
+      margin: EdgeInsets.only(left: 8, right: 8, bottom: 4, top: 0),
       child: GridView.count(
         crossAxisCount: 7,
         shrinkWrap: true,
