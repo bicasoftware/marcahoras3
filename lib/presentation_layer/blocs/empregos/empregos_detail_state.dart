@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../domain_layer/models.dart';
-import '../../../../utils/utils.dart';
+import '../../../domain_layer/models.dart';
+import '../../../utils/utils.dart';
 
 class EmpregosDetailState extends BaseState implements Equatable {
   final Empregos emprego;

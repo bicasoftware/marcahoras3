@@ -42,16 +42,6 @@ class _BlocLoaderState extends State<BlocLoader> {
       providers: [
         if (AppConfig.shared.flavor == Flavor.online) _buildRegistrationBloc(),
         BlocProvider(
-          create: (_) => EmpregosBloc(
-            empregoDataLoadUseCase: EmpregoDataLoadUseCase(
-              empregoRepo,
-            ),
-            deleteUseCase: EmpregoDeleteUseCase(
-              empregoRepo,
-            ),
-          ),
-        ),
-        BlocProvider(
           create: (_) => HomeBloc(
             month: _initialDate.month,
             year: _initialDate.year,

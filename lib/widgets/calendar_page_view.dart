@@ -109,8 +109,6 @@ class _CarouselIndicatorBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.strings();
-
     return SizedBox(
       height: 60.0,
       child: Stack(

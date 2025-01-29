@@ -41,7 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       Navigator.of(context).pop();
       if (logged && mounted) {
-        Navigator.of(context).pushReplacementNamed(Routes.empregos);
+        Navigator.of(context).pushReplacementNamed(Routes.calendar);
       }
     }
   }

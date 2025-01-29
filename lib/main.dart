@@ -6,9 +6,7 @@ import 'package:marcahoras3/features/home/calendar/calendar_screen.dart';
 
 import 'app_config.dart';
 import 'bloc_loader.dart';
-import 'features/empregos/empregos/empregos_screen.dart';
 import 'features/empregos/empregos_detail_screen.dart';
-import 'features/home/home.dart';
 import 'features/registration/login/login_screen.dart';
 import 'features/registration/register/register_screen.dart';
 import 'features/relatorio/relatorio_screen.dart';
@@ -65,10 +63,8 @@ class HorasApp extends StatelessWidget {
         ],
         initialRoute: _getMainRoute(vault),
         routes: {
-          // Routes.home: (_) => const MyHomePage(),
           Routes.registration: (_) => const RegisterScreen(),
           Routes.login: (_) => const LoginScreen(),
-          Routes.empregos: (_) => const EmpregosScreen(),
           Routes.empregosDetail: (_) => const EmpregosDetailScreen(),
           Routes.relatorio: (_) => const RelatorioScreen(),
           Routes.calendar: (_) => const CalendarScreen(),
