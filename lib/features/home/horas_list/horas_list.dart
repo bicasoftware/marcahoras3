@@ -36,6 +36,8 @@ class _HorasListState extends State<HorasList> {
                 workedHours: h.workedHours,
                 amount: h.amount,
                 salary: h.salary,
+                from: h.from,
+                to: h.to,
                 onTap: () => widget.onItemTap(h.hora),
               ),
             ),

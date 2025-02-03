@@ -22,8 +22,8 @@ class CalendarPage extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         childAspectRatio: 1.1,
-        crossAxisSpacing: .5,
-        mainAxisSpacing: .5,
+        crossAxisSpacing: 2,
+        mainAxisSpacing: 2,
         padding: EdgeInsets.zero,
         children: page.items.map(
           (it) {

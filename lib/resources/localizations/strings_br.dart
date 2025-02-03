@@ -223,4 +223,7 @@ class BrStrings implements StringsContract {
 
   @override
   String get next => "Próximo";
+
+  @override
+  String get totais => "Totais";
 }

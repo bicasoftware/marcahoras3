@@ -13,6 +13,7 @@ class OvertimeListTile extends StatelessWidget {
   final String workedHours;
   final String amount;
   final String salary;
+  final String from, to;
   final VoidCallback onTap;
 
   const OvertimeListTile({
@@ -22,6 +23,8 @@ class OvertimeListTile extends StatelessWidget {
     required this.amount,
     required this.salary,
     required this.onTap,
+    required this.from,
+    required this.to,
     super.key,
   });
 
@@ -83,10 +86,10 @@ class OvertimeListTile extends StatelessWidget {
               labelColor: AppColors.primary,
             ),
             IconLabelValue(
-              icon: Icons.payment,
-              iconColor: AppColors.secondary,
-              label: strings.salario,
-              value: salary,
+              icon: Icons.timelapse,
+              iconColor: AppColors.porcFeriadosColor,
+              label: "Horário",
+              value: "Das ${from}, Até: ${to}",
               labelColor: AppColors.primary,
             ),
           ],

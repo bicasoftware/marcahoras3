@@ -244,4 +244,7 @@ class EnStrings implements StringsContract {
 
   @override
   String get next => "Next";
+
+  @override
+  String get totais => "Totals";
 }

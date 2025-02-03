@@ -143,170 +143,149 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }
 
     return Scaffold(
-      // floatingActionButton: Column(
-      //   mainAxisAlignment: MainAxisAlignment.end,
-      //   crossAxisAlignment: CrossAxisAlignment.end,
-      //   children: [
-      //     FloatingActionButton.small(
-      //       heroTag: 'plus_button',
-      //       backgroundColor: AppColors.secondary,
-      //       foregroundColor: AppColors.onSecondary,
-      //       onPressed: () => _showHorasBts(
-      //         context: context,
-      //         bloc: bloc,
-      //       ),
-      //       child: const Icon(Icons.add),
-      //     ),
-      //     if (bloc.state.currentReport().hours.length > 0)
-      //       FloatingActionButton(
-      //         heroTag: "totais_button",
-      //         child: const Icon(Icons.list_alt, color: AppColors.onPrimary),
-      //         backgroundColor: AppColors.inversePrimary,
-      //         onPressed: () {
-      //           Navigator.of(context).pushNamed(Routes.relatorio);
-      //         },
-      //       ),
-      //   ],
-      // ),
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.dark,
-        child: BlocHelper<HomeBloc, HomeState>(
-          bloc: bloc,
-          onError: (e) {
-            showErrorDialog(
-              context: context,
-              errorMsg: e,
-            );
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                height: tbarHeight,
-                color: AppColors.inversePrimary,
-              ),
-              Container(
-                color: AppColors.inversePrimary,
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                child: Container(
+      body: SafeArea(
+        bottom: true,
+        top: false,
+        child: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.dark,
+          child: BlocHelper<HomeBloc, HomeState>(
+            bloc: bloc,
+            onError: (e) {
+              showErrorDialog(
+                context: context,
+                errorMsg: e,
+              );
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: tbarHeight == 0.0 ? 8.0 : tbarHeight,
+                  color: AppColors.inversePrimary,
+                ),
+                Container(
+                  color: AppColors.inversePrimary,
                   padding: EdgeInsets.symmetric(horizontal: 12),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: AppColors.surface,
-                      width: 1,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColors.surface,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    child: EmpregosDropdown(
+                      onAdd: () => _showEmpregosScreen(
+                        context: context,
+                        bloc: bloc,
+                        isInsert: true,
+                      ),
+                      onEdit: () => _showEmpregosScreen(
+                        context: context,
+                        bloc: bloc,
+                        isInsert: false,
+                      ),
+                    ),
                   ),
-                  child: EmpregosDropdown(
-                    onAdd: () => _showEmpregosScreen(
-                      context: context,
-                      bloc: bloc,
-                      isInsert: true,
-                    ),
-                    onEdit: () => _showEmpregosScreen(
-                      context: context,
-                      bloc: bloc,
-                      isInsert: false,
-                    ),
-                  ),
                 ),
-              ),
-              CalendarioScreenHeader(
-                year: bloc.state.year,
-                month: bloc.state.month,
-                onMonthAdd: () => _addMonth(bloc),
-                onMonthDec: () => _decMonth(bloc),
-                onYearChanged: (int y) => awaitableTask(
-                  context: context,
-                  actualTask: () async => bloc.setYear(y),
-                ),
-                onMonthChanged: (m) => awaitableTask(
-                  context: context,
-                  actualTask: () async => bloc.setMonth(m),
-                ),
-              ),
-              const SizedBox(height: 8),
-              CalendarPage(
-                page: bloc.state.currentPage(),
-                onCalendarItemTap: (h, d) async {
-                  _showHorasBts(
+                CalendarioScreenHeader(
+                  year: bloc.state.year,
+                  month: bloc.state.month,
+                  onMonthAdd: () => _addMonth(bloc),
+                  onMonthDec: () => _decMonth(bloc),
+                  onYearChanged: (int y) => awaitableTask(
                     context: context,
-                    bloc: bloc,
-                    selectedHora: h,
-                    data: d,
-                    isEdit: h != null,
-                  );
-                },
-              ),
-              DualActionButton(
-                secondHeroTag: 'plus_button',
-                firstHeroTag: "totais_button",
-                firstColor: AppColors.inversePrimary,
-                secondColor: AppColors.secondary,
-                firstLabel: Text(
-                  strings.relatorios,
-                  style: theme.bodyMedium!.copyWith(
-                    color: bloc.state.hasReportData()
-                        ? AppColors.onPrimary
-                        : AppColors.disabled,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
+                    actualTask: () async => bloc.setYear(y),
+                  ),
+                  onMonthChanged: (m) => awaitableTask(
+                    context: context,
+                    actualTask: () async => bloc.setMonth(m),
                   ),
                 ),
-                secondLabel: Text(
-                  strings.horasExtras,
-                  style: theme.bodyMedium!.copyWith(
-                    color: AppColors.onPrimary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                firstIcon: Icon(
-                  Icons.list,
-                  color: bloc.state.hasReportData()
-                      ? AppColors.onPrimary
-                      : AppColors.disabled,
-                ),
-                secondIcon: Icon(
-                  Icons.add,
-                  color: AppColors.onSecondary,
-                ),
-                onFirstTap: () {
-                  if (bloc.state.hasReportData())
-                    Navigator.of(context).pushNamed(Routes.relatorio);
-                },
-                onSecondTap: () => _showHorasBts(
-                  context: context,
-                  bloc: bloc,
-                ),
-              ),
-              const SizedBox(height: 12),
-              const Divider(
-                endIndent: 12,
-                indent: 12,
-                thickness: .5,
-                height: 1,
-                color: Colors.black26,
-              ),
-              Expanded(
-                child: HorasList(
-                  isList: true,
-                  horas: bloc.state.currentReport().hours.take(3).toList(),
-                  onDelete: (h) => _deleteHora(h, bloc),
-                  onItemTap: (h) {
+                const SizedBox(height: 8),
+                CalendarPage(
+                  page: bloc.state.currentPage(),
+                  onCalendarItemTap: (h, d) async {
                     _showHorasBts(
                       context: context,
                       bloc: bloc,
                       selectedHora: h,
-                      data: h.data,
-                      isEdit: true,
+                      data: d,
+                      isEdit: h != null,
                     );
                   },
                 ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                const Divider(
+                  endIndent: 12,
+                  indent: 12,
+                  thickness: .5,
+                  height: 1,
+                  color: Colors.black26,
+                ),
+                Expanded(
+                  child: HorasList(
+                    isList: true,
+                    horas: bloc.state.currentReport().hours.take(3).toList(),
+                    onDelete: (h) => _deleteHora(h, bloc),
+                    onItemTap: (h) {
+                      _showHorasBts(
+                        context: context,
+                        bloc: bloc,
+                        selectedHora: h,
+                        data: h.data,
+                        isEdit: true,
+                      );
+                    },
+                  ),
+                ),
+                DualActionButton(
+                  secondHeroTag: 'plus_button',
+                  firstHeroTag: "totais_button",
+                  firstColor: AppColors.inversePrimary,
+                  secondColor: AppColors.secondary,
+                  firstLabel: Text(
+                    strings.relatorios,
+                    style: theme.bodyMedium!.copyWith(
+                      color: bloc.state.hasReportData()
+                          ? AppColors.onPrimary
+                          : AppColors.disabled,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  secondLabel: Text(
+                    strings.horasExtras,
+                    style: theme.bodyMedium!.copyWith(
+                      color: AppColors.onPrimary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  firstIcon: Icon(
+                    Icons.list,
+                    color: bloc.state.hasReportData()
+                        ? AppColors.onPrimary
+                        : AppColors.disabled,
+                  ),
+                  secondIcon: Icon(
+                    Icons.add,
+                    color: AppColors.onSecondary,
+                  ),
+                  onFirstTap: () {
+                    if (bloc.state.hasReportData())
+                      Navigator.of(context).pushNamed(Routes.relatorio);
+                  },
+                  onSecondTap: () => _showHorasBts(
+                    context: context,
+                    bloc: bloc,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

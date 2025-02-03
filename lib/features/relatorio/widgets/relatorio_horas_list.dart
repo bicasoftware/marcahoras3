@@ -24,6 +24,8 @@ class RelatorioHorasList extends StatelessWidget {
             workedHours: h.workedHours,
             amount: h.amount,
             salary: h.salary,
+            from: h.from,
+            to: h.to,
             onTap: () {},
           ),
         );

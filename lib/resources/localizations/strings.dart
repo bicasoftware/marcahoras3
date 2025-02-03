@@ -73,6 +73,7 @@ abstract class StringsContract {
   String get porcentagem;
   String get back;
   String get next;
+  String get totais;
 
   List<String> get weekDays;
   List<String> get months;

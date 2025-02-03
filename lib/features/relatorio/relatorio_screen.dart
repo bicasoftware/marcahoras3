@@ -43,6 +43,7 @@ class RelatorioScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = context.strings();
     final bloc = context.watch<HomeBloc>();
+    final theme = Theme.of(context).textTheme;
     final locale = Localizations.localeOf(context);
     final reportModel = bloc.state.currentReport();
     final String vigencia =
@@ -50,16 +51,13 @@ class RelatorioScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: ShAppBar(
-        label: strings.calendario,
+        label: "${strings.relatorios}",
         elevation: 0,
         roundedCorner: true,
         centerTitle: true,
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TotalsContainer(
-          report: reportModel,
-        ),
+      bottomNavigationBar: TotalsContainer(
+        report: reportModel,
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: "plus_button",
@@ -74,11 +72,34 @@ class RelatorioScreen extends StatelessWidget {
         child: Icon(Icons.picture_as_pdf, color: AppColors.onSecondary),
         backgroundColor: AppColors.secondary,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: RelatorioHorasList(
-          horas: reportModel.hours,
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              left: 12,
+              right: 12,
+              top: 16,
+            ),
+            child: Text(
+              vigencia,
+              style: theme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppColors.onSurfaceVariant,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          const Divider(
+            indent: 12,
+            endIndent: 12,
+          ),
+          Expanded(
+            child: RelatorioHorasList(
+              horas: reportModel.hours,
+            ),
+          ),
+        ],
       ),
     );
   }

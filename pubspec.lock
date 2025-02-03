@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "16e298750b6d0af7ce8a3ba7c18c69c3785d11b15ec83f6dcd0ad2a0009b3cab"
+      sha256: f6dbf021f4b214d85c79822912c5fcd142a2c4869f01222ad371bc51f9f1c356
       url: "https://pub.dev"
     source: hosted
-    version: "76.0.0"
+    version: "74.0.0"
   _macros:
     dependency: transitive
     description: dart
@@ -18,10 +18,10 @@ packages:
     dependency: transitive
     description:
       name: analyzer
-      sha256: "1f14db053a8c23e260789e9b0980fa27f2680dd640932cae5e1137cce0e46e1e"
+      sha256: f7e8caf82f2d3190881d81012606effdf8a38e6c1ab9e30947149733065f817c
       url: "https://pub.dev"
     source: hosted
-    version: "6.11.0"
+    version: "6.9.0"
   ansicolor:
     dependency: transitive
     description:
@@ -806,34 +806,34 @@ packages:
     dependency: "direct main"
     description:
       name: realm
-      sha256: f6d6f592b17067451b4af3e55c5e54b97181090bbfb3f7ac769e360ef43b1082
+      sha256: d596be4432e2911a42fb22c8f1802e44d09204331d1378d55e7282d7bfcf8808
       url: "https://pub.dev"
     source: hosted
-    version: "20.0.0"
+    version: "20.0.1"
   realm_common:
     dependency: transitive
     description:
       name: realm_common
-      sha256: "2695723e6b928921c18b0b6bdab9b913b9ae6479f82bb339df435a99e2f821d2"
+      sha256: "8c70f2e0a2182c28ca886112e50eccb190be348278a7dd18ac80afa7d491e5b8"
       url: "https://pub.dev"
     source: hosted
-    version: "20.0.0"
+    version: "20.0.1"
   realm_dart:
     dependency: transitive
     description:
       name: realm_dart
-      sha256: ed43c59783e2913caae7ac165b383571f416bceeefeff3363d90b742a0a50009
+      sha256: "8fc341c5befb2a5147bd76789c36b14c3999f83d05e5c9aad616d88f597b1a79"
       url: "https://pub.dev"
     source: hosted
-    version: "20.0.0"
+    version: "20.0.1"
   realm_generator:
     dependency: transitive
     description:
       name: realm_generator
-      sha256: f0bf7ba7a5adc356be995ba130ea33af1c44c1e0fd8e13485a6d93a98850e50c
+      sha256: "39fcf7d88a4b3a66de7898261377bf5aec103bff47d60b7282416b2626323ddc"
       url: "https://pub.dev"
     source: hosted
-    version: "20.0.0"
+    version: "20.0.1"
   sane_uuid:
     dependency: transitive
     description:

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/domain_layer/models/horas.dart';
 
+import '../../../domain_layer/models/horas.dart';
 import '../../../resources.dart';
 
 class CalendarItem extends StatelessWidget {
@@ -33,51 +33,46 @@ class CalendarItem extends StatelessWidget {
           onCalendarItemTap!(hora, data);
         }
       },
-      child: AspectRatio(
-        aspectRatio: 1.1,
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          margin: const EdgeInsets.all(2),
-          decoration: monthDay > -1
-              ? BoxDecoration(
-                  color: enabled
-                      ? isToday
-                          ? AppColors.primaryContainer
-                          : AppColors.surface
-                      : AppColors.disabled.withAlpha(20),
-                  border: Border.all(
-                    color: AppColors.shadow.withAlpha(20),
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                )
-              : null,
-          child: monthDay == -1 && weekDay == -1
-              ? Container()
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      '$monthDay',
-                      style: theme.bodyLarge?.copyWith(
-                        color:
-                            enabled ? AppColors.onSurface : AppColors.disabled,
-                      ),
-                    ),
-                    Container(
-                      height: 4,
-                      margin: const EdgeInsets.symmetric(horizontal: 12),
-                      decoration: type != HorasType.unknown
-                          ? BoxDecoration(
-                              color: Color(type.colorHex),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8)),
-                            )
-                          : null,
-                    )
-                  ],
+      child: Container(
+        decoration: monthDay > -1
+            ? BoxDecoration(
+                color: enabled
+                    ? isToday
+                        ? AppColors.primaryContainer
+                        : AppColors.surface
+                    : AppColors.disabled.withAlpha(20),
+                border: Border.all(
+                  color: AppColors.shadow.withAlpha(20),
                 ),
-        ),
+                borderRadius: BorderRadius.circular(8),
+              )
+            : null,
+        child: monthDay == -1 && weekDay == -1
+            ? Container()
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '$monthDay',
+                    style: theme.bodyLarge?.copyWith(
+                      color: enabled ? AppColors.onSurface : AppColors.disabled,
+                    ),
+                  ),
+                  Container(
+                    height: 4,
+                    width: 10,
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: type != HorasType.unknown
+                        ? BoxDecoration(
+                            color: Color(type.colorHex),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8)),
+                          )
+                        : null,
+                  )
+                ],
+              ),
       ),
     );
   }
