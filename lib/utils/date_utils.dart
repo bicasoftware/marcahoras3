@@ -16,6 +16,20 @@ DateTime? parseDate(String? dateStr, {bool withTime = false}) {
   return _fmtServer.parse(dateStr);
 }
 
+String parseDateFromMillis(int millis) {
+  if (millis > 0) {
+    final date = DateTime.fromMillisecondsSinceEpoch(millis);
+
+    return formatDate(date, true);
+  }
+
+  return '';
+}
+
+DateTime? getDateFromMillis(int millis) {
+  return DateTime.fromMillisecondsSinceEpoch(millis);
+}
+
 DateTime? parseTime(String? dateStr) {
   if (dateStr == null || dateStr.isEmpty) return null;
   return _timeFmt.parse(dateStr);

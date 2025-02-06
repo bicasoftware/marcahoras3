@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:marcahoras3/utils/utils.dart';
 
 import '../dtos.dart';
 
@@ -30,7 +31,7 @@ class EmpregosDto extends Equatable {
     this.ativo,
     this.cargaHoraria,
     this.horas = const [],
-    this.salarios = const[],
+    this.salarios = const [],
   });
 
   @override
@@ -75,7 +76,9 @@ class EmpregosDto extends Equatable {
     final emprego = EmpregosDto(
       id: map['id'],
       descricao: map['descricao'],
-      admissao: map['admissao'],
+      admissao: map['admissao'] is int
+          ? parseDateFromMillis(map['admissao'])
+          : map['admissao'] as String,
       entrada: map['entrada'],
       saida: map['saida'],
       bancoHoras:

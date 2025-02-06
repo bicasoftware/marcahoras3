@@ -41,7 +41,9 @@ class HorasDto {
     return HorasDto(
       id: map['id'] != null ? map['id'] as String : "",
       empregoId: map['emprego_id'] != null ? map['emprego_id'] as String : "",
-      data: parseDate(map['data']),
+      data: map['data'] is int
+          ? getDateFromMillis(map['data'])
+          : parseDate(map['data']),
       inicio: map['inicio'] != null ? map['inicio'] as String : null,
       termino: map['termino'] != null ? map['termino'] as String : null,
       tipoHora: map['tipo_hora'] != null ? map['tipo_hora'] as String : null,

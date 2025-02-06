@@ -1,7 +1,9 @@
+import 'package:drift/drift.dart';
 import 'package:realm/realm.dart';
 
 import '../../domain_layer/models.dart';
 import '../../utils/date_utils.dart';
+import '../database/db_connector_drift.dart';
 import '../dtos.dart';
 import '../tables/realm_models.dart';
 
@@ -23,6 +25,16 @@ extension SalariosMapper on SalariosDto {
       valor: valor?.toDouble(),
       vigencia: vigencia,
       empregoId: empregoId,
+    );
+  }
+
+  DbSalariosCompanion toCompanion({String? newId}) {
+    return DbSalariosCompanion(
+      id: Value(newId ?? id!),
+      empregoId: Value(empregoId!),
+      vigencia: Value(vigencia!),
+      valor: Value(valor?.toDouble() ?? 0.0),
+      ativo: Value(ativo ?? false),
     );
   }
 }

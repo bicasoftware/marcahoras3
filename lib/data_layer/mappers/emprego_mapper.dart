@@ -1,8 +1,10 @@
+import 'package:drift/drift.dart';
 import 'package:intl/intl.dart';
 import 'package:realm/realm.dart';
 
 import '../../domain_layer/models.dart';
 import '../../utils/utils.dart';
+import '../database/db_connector_drift.dart';
 import '../dtos.dart';
 import '../tables/realm_models.dart';
 import 'horas_mapper.dart';
@@ -38,6 +40,21 @@ extension EmpregoMapper on EmpregosDto {
       porcNormal: porcNormal ?? 0,
       cargaHoraria: cargaHoraria ?? 220,
       ativo: ativo ?? false,
+    );
+  }
+
+  DbEmpregosCompanion toCompanion({String? newId}) {
+    return DbEmpregosCompanion(
+      id: Value(newId ?? id!),
+      descricao: Value(descricao!),
+      admissao: Value(parseDate(admissao)!),
+      entrada: Value(entrada!),
+      saida: Value(saida!),
+      bancoHoras: Value(bancoHoras ?? false),
+      porcFeriado: Value(porcFeriado ?? 0),
+      porcNormal: Value(porcNormal ?? 0),
+      cargaHoraria: Value(cargaHoraria ?? 220),
+      ativo: Value(ativo ?? false),
     );
   }
 }
