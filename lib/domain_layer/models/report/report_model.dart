@@ -17,4 +17,22 @@ class ReportModel {
     required this.horasFeitasDiff,
     required this.horasFeitasTotal,
   });
+
+  @override
+  String toString() {
+    return """
+
+    year: $year, 
+    month: $month, 
+    hours: $hours, 
+    valorRecNormal: $valorRecNormal, 
+    valorRecDiff: $valorRecDiff, 
+    valorRecTotal: $valorRecTotal, 
+    horasFeitasNormal: $horasFeitasNormal, 
+    horasFeitasDiff: $horasFeitasDiff, 
+    horasFeitasTotal: $horasFeitasTotal,   
+
+
+    """;
+  }
 }

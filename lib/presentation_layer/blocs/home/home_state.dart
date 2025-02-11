@@ -53,9 +53,11 @@ class HomeState extends BaseState {
   }
 
   ReportModel currentReport() {
-    return currentEmprego!.reportPages.firstWhere(
+    final page = currentEmprego!.reportPages.firstWhere(
       (p) => p.month == this.month && p.year == this.year,
     );
+
+    return page;
   }
 
   bool hasReportData() => this.currentReport().hours.isNotEmpty;

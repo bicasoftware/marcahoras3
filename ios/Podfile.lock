@@ -11,9 +11,6 @@ PODS:
     - Flutter
   - realm (20.0.1):
     - Flutter
-  - sqflite_darwin (0.0.4):
-    - Flutter
-    - FlutterMacOS
   - sqlite3 (3.48.0):
     - sqlite3/common (= 3.48.0)
   - sqlite3/common (3.48.0)
@@ -41,7 +38,6 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - printing (from `.symlinks/plugins/printing/ios`)
   - realm (from `.symlinks/plugins/realm/ios`)
-  - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - sqlite3_flutter_libs (from `.symlinks/plugins/sqlite3_flutter_libs/darwin`)
 
 SPEC REPOS:
@@ -61,8 +57,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/printing/ios"
   realm:
     :path: ".symlinks/plugins/realm/ios"
-  sqflite_darwin:
-    :path: ".symlinks/plugins/sqflite_darwin/darwin"
   sqlite3_flutter_libs:
     :path: ".symlinks/plugins/sqlite3_flutter_libs/darwin"
 
@@ -73,7 +67,6 @@ SPEC CHECKSUMS:
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   printing: 233e1b73bd1f4a05615548e9b5a324c98588640b
   realm: 088fb3f6ea5fb9898bec8c909716bb930f1504a2
-  sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
   sqlite3: 3da10a59910c809fb584a93aa46a3f05b785e12e
   sqlite3_flutter_libs: 5f386339eccc9516a12ab10e4aa925cbef5f2dcf
 

@@ -30,8 +30,8 @@ class DbEmpregos extends Table {
   TextColumn get id => text().unique()();
   TextColumn get descricao => text()();
   DateTimeColumn get admissao => dateTime()();
-  TextColumn get entrada => text().withLength(min: 8, max: 8)();
-  TextColumn get saida => text().withLength(min: 8, max: 8)();
+  TextColumn get entrada => text().withLength(min: 5, max: 5)();
+  TextColumn get saida => text().withLength(min: 5, max: 5)();
   @JsonKey('banco_horas')
   BoolColumn get bancoHoras => boolean()();
   @JsonKey('porc_normal')

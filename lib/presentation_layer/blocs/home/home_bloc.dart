@@ -164,10 +164,6 @@ class HomeBloc extends Cubit<HomeState> {
     await _updateCalendar(state.year, state.month, e, index);
   }
 
-  // void setNavigationbarPosition(int pos) {
-  //   emit(state.copyWith(navigatorPos: pos));
-  // }
-
   void toggleDarkMode() => emit(state.copyWith(isDarkMode: !state.isDarkMode));
 
   void incMonth() async {
@@ -196,89 +192,164 @@ class HomeBloc extends Cubit<HomeState> {
     Empregos? emprego,
     int? empregoPos,
   ]) async {
-    if (state.currentEmprego == null) return;
+    emit(
+      state.copyWith(
+        status: StateLoadingStatus(),
+        empregoPos: empregoPos,
+      ),
+    );
 
-    final Empregos currentEmprego = emprego ?? state.currentEmprego!;
+    if (state.currentEmprego == null) return;
+    final currentEmprego = emprego ?? state.currentEmprego!;
 
     /// If the user tryes to go to a month before the date when they started working
     /// exit the function, so nothing changes
     if (!_validNewVigencia(year, month, currentEmprego.admissao!)) return;
 
-    final pageIndex = currentEmprego.calendarPages.indexWhere(
-      (it) => it.month == month && it.year == year,
-    );
+    try {
+      final pageIndex = currentEmprego.calendarPages.indexWhere(
+        (it) => it.month == month && it.year == year,
+      );
 
-    if (pageIndex == -1) {
-      try {
-        emit(state.copyWith(status: StateLoadingStatus()));
+      final reportIndex = currentEmprego.reportPages.indexWhere(
+        (it) => it.month == month && it.year == year,
+      );
 
-        final (initDate, endDate) = getFormatedDateRange(year, month);
+      final (initDate, endDate) = getFormatedDateRange(year, month);
 
-        final List<Horas> horas = await _horasLoadByRangeUseCase(
-          currentEmprego.id!,
-          initDate,
-          endDate,
-        );
+      final List<Horas> horas = await _horasLoadByRangeUseCase(
+        currentEmprego.id!,
+        initDate,
+        endDate,
+      );
 
-        final calendarPage = await _calendarPageGeneratorUseCase(
-          horas: horas,
-          month: month,
-          year: year,
-          admissao: currentEmprego.admissao!,
-        );
+      final CalendarPageModel? calendarPage = pageIndex == -1
+          ? await _calendarPageGeneratorUseCase(
+              horas: horas,
+              month: month,
+              year: year,
+              admissao: currentEmprego.admissao!,
+            )
+          : null;
 
-        /// Generates all overtime information needed to be presented in
-        /// [RelatorioScreen] and in the pdf generation routine
-        final reportPage = await ReportPageGenerator(
-          year: year,
-          month: month,
-          bancoHoras: currentEmprego.bancoHoras,
-          cargaHoraria: currentEmprego.cargaHoraria,
-          porcNormal: currentEmprego.porcNormal,
-          porcDiff: currentEmprego.porcFeriado,
-          salario: state.getSalarioByVigencia(year, month),
-          horas: horas,
-        ).generate();
+      final ReportModel? reportPage = reportIndex == -1
+          ? await ReportPageGenerator(
+              year: year,
+              month: month,
+              bancoHoras: currentEmprego.bancoHoras,
+              cargaHoraria: currentEmprego.cargaHoraria,
+              porcNormal: currentEmprego.porcNormal,
+              porcDiff: currentEmprego.porcFeriado,
+              salario: state.getSalarioByVigencia(year, month),
+              horas: horas,
+            ).generate()
+          : null;
 
-        final allHoras = <Horas>[...currentEmprego.horas, ...horas];
-        final pages = [...currentEmprego.calendarPages, calendarPage];
-        final reportPages = [...currentEmprego.reportPages, reportPage];
+      final calendarPages = calendarPage != null
+          ? [...currentEmprego.calendarPages, calendarPage]
+          : [...currentEmprego.calendarPages];
 
-        final empregosList = [...state.empregos];
-        empregosList[empregoPos ?? state.empregoPos] = currentEmprego.copyWith(
-          horas: allHoras,
-          calendarPages: pages,
-          reportPages: reportPages,
-        );
+      final reportPages = reportPage != null
+          ? [...currentEmprego.reportPages, reportPage]
+          : [...currentEmprego.reportPages];
 
-        emit(
-          state.copyWith(
-            status: StateSuccessStatus(),
-            year: year,
-            month: month,
-            empregos: empregosList,
-            empregoPos: empregoPos ?? state.empregoPos,
-          ),
-        );
-      } on Exception catch (e) {
-        emit(
-          state.copyWith(
-            status: StateErrorStatus(errorMsg: e.toString()),
-          ),
-        );
+      final empregosList = [...state.empregos];
+      empregosList[empregoPos ?? state.empregoPos] = currentEmprego.copyWith(
+        horas: [...currentEmprego.horas, ...horas],
+        calendarPages: calendarPages,
+        reportPages: reportPages,
+      );
 
-        rethrow;
-      }
-    } else {
       emit(
         state.copyWith(
           status: StateSuccessStatus(),
           year: year,
           month: month,
+          empregos: empregosList,
           empregoPos: empregoPos ?? state.empregoPos,
         ),
       );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(errorMsg: e.toString()),
+        ),
+      );
+
+      rethrow;
     }
+
+    // if (pageIndex == -1 || reportIndex == -1) {
+    //   try {
+    //     emit(state.copyWith(status: StateLoadingStatus()));
+    //     // TODO
+    //     final (initDate, endDate) = getFormatedDateRange(year, month);
+
+    //     final List<Horas> horas = await _horasLoadByRangeUseCase(
+    //       currentEmprego.id!,
+    //       initDate,
+    //       endDate,
+    //     );
+
+    //     final calendarPage = await _calendarPageGeneratorUseCase(
+    //       horas: horas,
+    //       month: month,
+    //       year: year,
+    //       admissao: currentEmprego.admissao!,
+    //     );
+
+    //     /// Generates all overtime information needed to be presented in
+    //     /// [RelatorioScreen] and in the pdf generation routine
+    //     final reportPage = await ReportPageGenerator(
+    //       year: year,
+    //       month: month,
+    //       bancoHoras: currentEmprego.bancoHoras,
+    //       cargaHoraria: currentEmprego.cargaHoraria,
+    //       porcNormal: currentEmprego.porcNormal,
+    //       porcDiff: currentEmprego.porcFeriado,
+    //       salario: state.getSalarioByVigencia(year, month),
+    //       horas: horas,
+    //     ).generate();
+
+    //     final allHoras = <Horas>[...currentEmprego.horas, ...horas];
+    //     final pages = [...currentEmprego.calendarPages, calendarPage];
+    //     final reportPages = [...currentEmprego.reportPages, reportPage];
+
+    //     final empregosList = [...state.empregos];
+    //     empregosList[empregoPos ?? state.empregoPos] = currentEmprego.copyWith(
+    //       horas: allHoras,
+    //       calendarPages: pages,
+    //       reportPages: reportPages,
+    //     );
+
+    //     emit(
+    //       state.copyWith(
+    //         status: StateSuccessStatus(),
+    //         year: year,
+    //         month: month,
+    //         empregos: empregosList,
+    //         empregoPos: empregoPos ?? state.empregoPos,
+    //       ),
+    //     );
+    //   } on Exception catch (e) {
+    //     emit(
+    //       state.copyWith(
+    //         status: StateErrorStatus(errorMsg: e.toString()),
+    //       ),
+    //     );
+
+    //     rethrow;
+    //   }
+    // } else {
+    //   emit(
+    //     state.copyWith(
+    //       status: StateSuccessStatus(),
+    //       year: year,
+    //       month: month,
+    //       empregoPos: empregoPos ?? state.empregoPos,
+    //     ),
+    //   );
+    // }
   }
 
   Future<void> insertHora(Horas hora) async {
