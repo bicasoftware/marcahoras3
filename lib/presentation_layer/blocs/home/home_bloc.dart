@@ -64,12 +64,12 @@ class HomeBloc extends Cubit<HomeState> {
         final reportPage = await ReportPageGenerator(
           year: state.year,
           month: state.month,
-          bancoHoras: state.currentEmprego!.bancoHoras,
-          cargaHoraria: state.currentEmprego!.cargaHoraria,
-          porcNormal: state.currentEmprego!.porcNormal,
-          porcDiff: state.currentEmprego!.porcFeriado,
+          bancoHoras: e.bancoHoras,
+          cargaHoraria: e.cargaHoraria,
+          porcNormal: e.porcNormal,
+          porcDiff: e.porcFeriado,
           salario: state.getSalarioByVigencia(state.year, state.month),
-          horas: state.currentEmprego!.horas,
+          horas: e.horas,
         ).generate();
 
         empregos[i] = empregos[i].copyWith(
@@ -161,7 +161,23 @@ class HomeBloc extends Cubit<HomeState> {
 
   void setEmpregoPos(Empregos e) async {
     final index = state.empregos.indexOf(e);
-    await _updateCalendar(state.year, state.month, e, index);
+    final nextEmprego = state.empregos[index];
+
+    final validDate = DateTime(
+      state.year,
+      state.month,
+      nextEmprego.admissao!.day,
+    );
+    int year = state.year;
+    int month = state.month;
+
+    if (validDate.isBefore(nextEmprego.admissao!)) {
+      final today = DateTime.now();
+      year = today.year;
+      month = today.month;
+    }
+
+    await _updateCalendar(year, month, e, index);
   }
 
   void toggleDarkMode() => emit(state.copyWith(isDarkMode: !state.isDarkMode));

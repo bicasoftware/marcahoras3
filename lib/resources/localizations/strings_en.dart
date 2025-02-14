@@ -247,4 +247,6 @@ class EnStrings implements StringsContract {
 
   @override
   String get totais => "Totals";
+  @override
+  String get total => "Total";
 }

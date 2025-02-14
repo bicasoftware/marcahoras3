@@ -1,44 +1,90 @@
 import 'package:flutter/material.dart';
 
+import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
-import '../../../widgets.dart';
+import '../../../resources/localizations/strings.dart';
 
 class RelatorioTotalizerRow extends StatelessWidget {
-  final String leftLabel, endLabel;
-  final Icon icon;
-  final EdgeInsets padding;
+  final HorasType tipoHora;
+  final String horasTrab;
+  final String valor;
 
   const RelatorioTotalizerRow({
-    required this.leftLabel,
-    required this.endLabel,
-    required this.icon,
-    this.padding = const EdgeInsets.only(bottom: 8.0),
+    required this.tipoHora,
+    required this.horasTrab,
+    required this.valor,
   });
+
+  String getLabel(StringsContract strings) {
+    switch (tipoHora) {
+      case HorasType.normal:
+        return strings.normais;
+      case HorasType.feriado:
+        return strings.feriados;
+      default:
+        return strings.totais;
+    }
+  }
+
+  Color getIconColor(StringsContract strings) {
+    switch (tipoHora) {
+      case HorasType.normal:
+        return AppColors.porcNormalColor;
+      case HorasType.feriado:
+        return AppColors.porcFeriadosColor;
+      default:
+        return AppColors.onPrimary;
+    }
+  }
+
+  TextStyle _baseStyle(TextTheme theme) {
+    return theme.labelLarge!.copyWith(
+      fontWeight: FontWeight.bold,
+      color: AppColors.onPrimary,
+      fontSize: 14,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final strings = context.strings();
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
+        spacing: 8,
         children: [
+          Icon(
+            Icons.circle,
+            color: getIconColor(strings),
+            size: 16,
+          ),
           Expanded(
-            flex: 5,
-            child: IconLabel(
-              label: leftLabel,
-              icon: icon,
-              labelColor: AppColors.onPrimary,              
-            ),
-          ),         
-          Expanded(
-            flex: 5,
+            flex: 3,
             child: Text(
-              endLabel,
+              "${getLabel(strings)}",
+              style: _baseStyle(theme),
+              textAlign: TextAlign.start,
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              horasTrab,
+              style: _baseStyle(theme),
+              textAlign: TextAlign.start,
+            ),
+          ),
+          Expanded(
+            flex: 6,
+            child: Text(
+              "${strings.total} - ${valor}",
               textAlign: TextAlign.end,
               style: theme.labelLarge?.copyWith(
                 fontWeight: FontWeight.bold,
+                fontSize: 14,
                 color: AppColors.onPrimary,
               ),
             ),

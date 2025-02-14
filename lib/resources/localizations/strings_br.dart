@@ -30,7 +30,7 @@ class BrStrings implements StringsContract {
   @override
   String get horaNormal => 'Normal';
   @override
-  String get horaFeriado => 'Feriado/Domingo';
+  String get horaFeriado => 'Diferencial';
   @override
   String get tipoHora => 'Tipo de Hora';
   @override
@@ -56,7 +56,7 @@ class BrStrings implements StringsContract {
   @override
   String get valueCantBeEmpty => 'O texto não pode estar vazio!';
   @override
-  String get feriado => 'Feriado';
+  String get feriado => 'Diferencial';
   @override
   String get valueAtLeastNCharacter =>
       'O texto precisa ter ao menos {N} letras!';
@@ -148,7 +148,7 @@ class BrStrings implements StringsContract {
   String get porcNormal => "Extra Normal";
 
   @override
-  String get porcFeriado => "Extra Feriado";
+  String get porcFeriado => "Extra Diferencial";
 
   @override
   String get editar => "Editar";
@@ -199,7 +199,7 @@ class BrStrings implements StringsContract {
   String get valorReceber => "Valor a receber";
 
   @override
-  String get feriados => "Feriados";
+  String get feriados => "Diferenciais";
 
   @override
   String get normais => "Normais";
@@ -209,8 +209,9 @@ class BrStrings implements StringsContract {
 
   @override
   String get porcentagemNormal => "Porcentagem Normal";
+
   @override
-  String get porcentagemFeriado => "Porcentagem Domingos/Feriados";
+  String get porcentagemFeriado => "Porcentagem Diferencial";
 
   @override
   String get valorHora => "Valor Hora";
@@ -226,4 +227,7 @@ class BrStrings implements StringsContract {
 
   @override
   String get totais => "Totais";
+
+  @override
+  String get total => "Total";
 }

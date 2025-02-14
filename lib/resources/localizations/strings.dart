@@ -74,6 +74,7 @@ abstract class StringsContract {
   String get back;
   String get next;
   String get totais;
+  String get total;
 
   List<String> get weekDays;
   List<String> get months;
