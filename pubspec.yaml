@@ -5,7 +5,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.5.0 <4.0.0'
+  sdk: '>=3.7.0 <4.0.0'
 
 dependencies:
   flutter:    
@@ -23,21 +23,20 @@ dependencies:
   awesome_dio_interceptor: ^1.2.0
   flutter_slidable: ^3.1.1
   flutter_dotenv: ^5.2.1
-  realm: ^20.0.1
   pdf: ^3.11.1
   printing: ^5.13.4
   path: ^1.9.0
   path_provider: ^2.1.5
   flutter_native_splash: ^2.4.3
-  drift: ^2.24.0
+  drift: ^2.25.1
   drift_flutter: ^0.2.4
   sane_uuid: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^2.4.13
-  drift_dev: ^2.24.0
+  build_runner: ^2.4.15
+  drift_dev: ^2.25.2
 
 flutter:
 

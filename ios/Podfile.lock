@@ -9,23 +9,21 @@ PODS:
     - FlutterMacOS
   - printing (1.0.0):
     - Flutter
-  - realm (20.0.1):
-    - Flutter
-  - sqlite3 (3.48.0):
-    - sqlite3/common (= 3.48.0)
-  - sqlite3/common (3.48.0)
-  - sqlite3/dbstatvtab (3.48.0):
+  - sqlite3 (3.49.0):
+    - sqlite3/common (= 3.49.0)
+  - sqlite3/common (3.49.0)
+  - sqlite3/dbstatvtab (3.49.0):
     - sqlite3/common
-  - sqlite3/fts5 (3.48.0):
+  - sqlite3/fts5 (3.49.0):
     - sqlite3/common
-  - sqlite3/perf-threadsafe (3.48.0):
+  - sqlite3/perf-threadsafe (3.49.0):
     - sqlite3/common
-  - sqlite3/rtree (3.48.0):
+  - sqlite3/rtree (3.49.0):
     - sqlite3/common
   - sqlite3_flutter_libs (0.0.1):
     - Flutter
     - FlutterMacOS
-    - sqlite3 (~> 3.48.0)
+    - sqlite3 (~> 3.49.0)
     - sqlite3/dbstatvtab
     - sqlite3/fts5
     - sqlite3/perf-threadsafe
@@ -37,7 +35,6 @@ DEPENDENCIES:
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - printing (from `.symlinks/plugins/printing/ios`)
-  - realm (from `.symlinks/plugins/realm/ios`)
   - sqlite3_flutter_libs (from `.symlinks/plugins/sqlite3_flutter_libs/darwin`)
 
 SPEC REPOS:
@@ -55,21 +52,18 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   printing:
     :path: ".symlinks/plugins/printing/ios"
-  realm:
-    :path: ".symlinks/plugins/realm/ios"
   sqlite3_flutter_libs:
     :path: ".symlinks/plugins/sqlite3_flutter_libs/darwin"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_native_splash: e8a1e01082d97a8099d973f919f57904c925008a
-  flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
-  printing: 233e1b73bd1f4a05615548e9b5a324c98588640b
-  realm: 088fb3f6ea5fb9898bec8c909716bb930f1504a2
-  sqlite3: 3da10a59910c809fb584a93aa46a3f05b785e12e
-  sqlite3_flutter_libs: 5f386339eccc9516a12ab10e4aa925cbef5f2dcf
+  flutter_native_splash: 6cad9122ea0fad137d23137dd14b937f3e90b145
+  flutter_secure_storage: 1ed9476fba7e7a782b22888f956cce43e2c62f13
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  printing: 54ff03f28fe9ba3aa93358afb80a8595a071dd07
+  sqlite3: 4922312598b67e1825c6a6c821296dcbf6783046
+  sqlite3_flutter_libs: 3c323550ef3b928bc0aa9513c841e45a7d242832
 
-PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+PODFILE CHECKSUM: 4305caec6b40dde0ae97be1573c53de1882a07e5
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

@@ -53,14 +53,24 @@ String formatVigenciaDate(DateTime vigencia, [Locale? locale, String? mask]) {
   return DateFormat(mask ?? 'yyyy-MM', locale?.languageCode).format(vigencia);
 }
 
+String formatVigencia(int year, int month, [Locale? locale, String? mask]) {
+  return DateFormat(
+    mask ?? 'yyyy MMM',
+    locale?.languageCode,
+  ).format(DateTime(year, month, 1));
+}
+
 DateTime getVigencia(DateTime date) {
   return DateTime(date.year, date.month, date.day, 0, 0, 0, 0, 0);
 }
 
 (String, String) getFormatedDateRange(int year, int month) {
   final vigencia = DateTime(year, month, 1);
-  final endDate =
-      DateTime(vigencia.year, vigencia.month + 1, 1).add(Duration(days: -1));
+  final endDate = DateTime(
+    vigencia.year,
+    vigencia.month + 1,
+    1,
+  ).add(Duration(days: -1));
 
   final fInitDate = formatDate(vigencia, true);
   final fEndDate = formatDate(endDate, true);

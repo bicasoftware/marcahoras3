@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/utils/string_utils.dart';
+import 'package:marcahoras3/utils/utils.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
@@ -47,7 +49,12 @@ class RelatorioScreen extends StatelessWidget {
     final locale = Localizations.localeOf(context);
     final reportModel = bloc.state.currentReport();
     final String vigencia =
-        "${strings.months[bloc.state.month]} de ${bloc.state.year}";
+        formatVigencia(
+          bloc.state.year,
+          bloc.state.month,
+          locale,
+          'MMMM/yyyy',
+        ).toCamelCase();
 
     return Scaffold(
       appBar: ShAppBar(
@@ -56,9 +63,7 @@ class RelatorioScreen extends StatelessWidget {
         roundedCorner: true,
         centerTitle: true,
       ),
-      bottomNavigationBar: TotalsContainer(
-        report: reportModel,
-      ),
+      bottomNavigationBar: TotalsContainer(report: reportModel),
       floatingActionButton: FloatingActionButton(
         heroTag: "plus_button",
         onPressed: () {
@@ -76,11 +81,7 @@ class RelatorioScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: EdgeInsets.only(
-              left: 12,
-              right: 12,
-              top: 16,
-            ),
+            padding: EdgeInsets.only(left: 12, right: 12, top: 16),
             child: Text(
               vigencia,
               style: theme.bodyLarge?.copyWith(
@@ -90,15 +91,8 @@ class RelatorioScreen extends StatelessWidget {
               ),
             ),
           ),
-          const Divider(
-            indent: 12,
-            endIndent: 12,
-          ),
-          Expanded(
-            child: RelatorioHorasList(
-              horas: reportModel.hours,
-            ),
-          ),
+          const Divider(indent: 12, endIndent: 12),
+          Expanded(child: RelatorioHorasList(horas: reportModel.hours)),
         ],
       ),
     );
