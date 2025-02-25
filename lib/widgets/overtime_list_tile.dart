@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/widgets/icon_label_value.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
-import '../../../resources/localizations/strings.dart';
-import '../../../utils/utils.dart';
 import '../../../widgets.dart';
+import '../utils.dart';
+import 'icon_label_value.dart';
 
 class OvertimeListTile extends StatelessWidget {
   final HorasType horaType;
@@ -28,19 +27,8 @@ class OvertimeListTile extends StatelessWidget {
     super.key,
   });
 
-  Color _tipoHoraColor() {
-    return Color(horaType.colorHex);
-  }
-
-  String _tipoHoraLabel(StringsContract strings) {
-    return horaType == HorasType.normal
-        ? strings.horaNormal
-        : strings.horaFeriado;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final strings = context.strings();
     final locale = Localizations.localeOf(context);
 
     return GestureDetector(
@@ -61,11 +49,15 @@ class OvertimeListTile extends StatelessWidget {
                   ),
                 ),
                 Badge(
-                  backgroundColor: _tipoHoraColor(),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  backgroundColor: Color(horaType.colorHex),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   label: Text(
-                    _tipoHoraLabel(strings),
+                    horaType == HorasType.normal
+                        ? Localiza.find('horaNormal')
+                        : Localiza.find('horaFeriado'),
                   ),
                 ),
               ],
@@ -74,14 +66,14 @@ class OvertimeListTile extends StatelessWidget {
             IconLabelValue(
               icon: Icons.timeline,
               iconColor: AppColors.primary,
-              label: strings.horasTrabalhadas,
+              label: Localiza.find('horasTrabalhadas'),
               value: workedHours,
               labelColor: AppColors.primary,
             ),
             IconLabelValue(
               icon: Icons.payments_outlined,
-              iconColor: _tipoHoraColor(),
-              label: strings.valorReceber,
+              iconColor: Color(horaType.colorHex),
+              label: Localiza.find('valorReceber'),
               value: amount,
               labelColor: AppColors.primary,
             ),

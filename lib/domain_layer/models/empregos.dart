@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/utils.dart';
+import '../../utils.dart';
 import '../models.dart';
 
 @immutable

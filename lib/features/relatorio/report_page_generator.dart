@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 
 import '../../domain_layer/models.dart';
-import '../../utils/utils.dart';
+import '../../utils.dart';
 
 class ReportPageGenerator {
   final int month;

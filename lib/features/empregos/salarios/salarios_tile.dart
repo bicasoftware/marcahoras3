@@ -6,7 +6,7 @@ import 'package:marcahoras3/features/empregos/salarios/salarios_tile_item.dart';
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/validators/validators.dart';
 import '../../../resources.dart';
-import '../../../utils/utils.dart';
+import '../../../utils.dart';
 import '../../../widgets.dart';
 import 'salarios_action_type.dart';
 
@@ -37,7 +37,6 @@ class SalariosTile extends StatefulWidget {
 class _SalariosTileState extends State<SalariosTile> {
   @override
   Widget build(BuildContext context) {
-    final strings = context.strings();
     final theme = Theme.of(context).textTheme;
     final locale = Localizations.localeOf(context);
 
@@ -49,7 +48,7 @@ class _SalariosTileState extends State<SalariosTile> {
               title: Container(
                 margin: EdgeInsets.only(bottom: 10),
                 child: Text(
-                  strings.salario,
+                  Localiza.find('salario'),
                   style: theme.labelLarge,
                 ),
               ),
@@ -90,7 +89,7 @@ class _SalariosTileState extends State<SalariosTile> {
           )
         : ShTextTile(
             controller: widget.controller,
-            label: strings.salario,
+            label: Localiza.find('salario'),
             hint: CurrencyHelper.formatAmount(1000),
             labelStyle: theme.labelLarge,
             icon: Icon(Icons.monetization_on),
@@ -99,7 +98,7 @@ class _SalariosTileState extends State<SalariosTile> {
               if (widget.controller.numberValue <= 0.0) {
                 return "Salário deve ser preenchido corretamente";
               }
-              return MinCharactersValidator.validate(s, 6, strings);
+              return MinCharactersValidator.validate(s, 6);
             },
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,

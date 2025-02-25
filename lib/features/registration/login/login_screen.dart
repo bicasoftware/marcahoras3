@@ -5,6 +5,7 @@ import '../../../presentation_layer/blocs.dart';
 import '../../../presentation_layer/validators/validators.dart';
 import '../../../resources.dart';
 import '../../../routes.dart';
+import '../../../utils.dart';
 import '../../../widgets.dart';
 import '../registration_container.dart';
 
@@ -31,8 +32,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _validateForm(RegistrationBloc bloc, BuildContext ctx) async {
     if (_formKey.currentState?.validate() ?? false) {
       showLoadingDialog(context: ctx);
-      final logged =
-          await bloc.loginIn(emailController.text, passwordController.text);
+      final logged = await bloc.loginIn(
+        emailController.text,
+        passwordController.text,
+      );
       Navigator.of(context).pop();
       if (logged && mounted) {
         Navigator.of(context).pushReplacementNamed(Routes.calendar);
@@ -49,7 +52,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final theme = Theme.of(context).textTheme;
 
     final bloc = context.read<RegistrationBloc>();
-    final strings = context.strings();
     return Scaffold(
       body: RedGradientContainer(
         child: BlocHelper<RegistrationBloc, RegistrationState>(
@@ -62,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Form(
             key: _formKey,
             child: RegistrationContainer(
-              changeRegisterLabel: strings.naoTenhoCadastro,
+              changeRegisterLabel: Localiza.find('naoTenhoCadastro'),
               onChangeRegisterPressed: () => _goToRegistration(context),
               onContinuePressed: () => _validateForm(bloc, context),
               errorMsg: _errorMsg,
@@ -70,22 +72,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   ShTextField(
                     controller: emailController,
-                    label: strings.typeEmail,
-                    hint: strings.email,
+                    label: Localiza.find('typeEmail'),
+                    hint: Localiza.find('email'),
                     isOutlined: true,
                     labelStyle: theme.labelLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: AppColors.onPrimary,
                     ),
                     validator: (String? s) {
-                      return EmailValidator.validate(s, strings);
+                      return EmailValidator.validate(s);
                     },
                   ),
                   const SizedBox(height: 8),
                   ShTextField(
                     controller: passwordController,
-                    label: strings.password,
-                    hint: strings.password,
+                    label: Localiza.find('password'),
+                    hint: Localiza.find('password'),
                     isOutlined: true,
                     labelStyle: theme.labelLarge?.copyWith(
                       fontWeight: FontWeight.bold,
@@ -95,7 +97,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       return MinCharactersValidator.validate(
                         passwordController.text,
                         6,
-                        strings,
                       );
                     },
                   ),

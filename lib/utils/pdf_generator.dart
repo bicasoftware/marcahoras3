@@ -5,7 +5,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 
 import '../domain_layer/models.dart';
-import 'utils.dart';
+import '../utils.dart';
 
 class PdfGenerator {
   static Future<Uint8List> generate({

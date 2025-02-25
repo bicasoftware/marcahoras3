@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../resources.dart';
+import '../../utils.dart';
 
 class TipoHoraSegment extends StatefulWidget {
   final String initialValue;
@@ -35,14 +35,11 @@ class _TipoHoraSegmentState extends State<TipoHoraSegment> {
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.strings();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(strings.tipoHora),
-        const SizedBox(
-          height: 8,
-        ),
+        Text(Localiza.find('tipoHora')),
+        const SizedBox(height: 8),
         Theme(
           data: ThemeData(
             colorScheme: ColorScheme.fromSeed(
@@ -57,11 +54,11 @@ class _TipoHoraSegmentState extends State<TipoHoraSegment> {
             segments: [
               ButtonSegment<String>(
                 value: types.first,
-                label: Text(strings.horaNormal),
+                label: Text(Localiza.find('horaNormal')),
               ),
               ButtonSegment(
                 value: types.last,
-                label: Text(strings.horaFeriado),
+                label: Text(Localiza.find('horaFeriado')),
               ),
             ],
             selected: value,

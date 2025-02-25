@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../resources.dart';
+import '../../../../utils/localiza/localiza.dart';
 import '../../../../widgets/bottomsheets/bottomsheethelper.dart';
 
 class CalendarDateNavigator extends StatefulWidget
@@ -44,90 +45,91 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    final strings = context.strings();
     final hintedYear = today.year.toString();
-    final hintedMonth = strings.months[today.month - 1];
+    final hintedMonth = Localiza.findList('months')[today.month - 1];
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
       color: AppColors.inversePrimary,
-      child: Row(children: [
-        Expanded(
-          flex: 2,
-          child: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: AppColors.onPrimary,
-              size: 16,
-            ),
-            onPressed: widget.onMonthDec,
-          ),
-        ),
-        Expanded(
-          flex: 4,
-          child: Container(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              child: Text(
-                strings.months[widget.month - 1],
-                style: theme.bodyLarge?.copyWith(
-                  color: AppColors.onPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: AppColors.onPrimary,
+                size: 16,
               ),
-              onPressed: () async {
-                await BottomSheetHelper.showGridBts(
-                  axisCount: 3,
-                  context: context,
-                  items: strings.months,
-                  hintedItem: hintedMonth,
-                  onItemSelected: (pos) {
-                    widget.onMonthChanged(pos);
-                  },
-                );
-              },
+              onPressed: widget.onMonthDec,
             ),
           ),
-        ),
-        Expanded(
-          flex: 4,
-          child: Container(
-            alignment: Alignment.centerLeft,
-            child: TextButton(
-              child: Text(
-                "${widget.year}",
-                style: theme.bodyLarge?.copyWith(
-                  color: AppColors.onPrimary,
-                  fontWeight: FontWeight.bold,
+          Expanded(
+            flex: 4,
+            child: Container(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                child: Text(
+                  Localiza.findList('months')[widget.month - 1],
+                  style: theme.bodyLarge?.copyWith(
+                    color: AppColors.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                textAlign: TextAlign.end,
+                onPressed: () async {
+                  await BottomSheetHelper.showGridBts(
+                    axisCount: 3,
+                    context: context,
+                    items: Localiza.findList('months'),
+                    hintedItem: hintedMonth,
+                    onItemSelected: (pos) {
+                      widget.onMonthChanged(pos);
+                    },
+                  );
+                },
               ),
-              onPressed: () async {
-                BottomSheetHelper.showGridBts(
-                  context: context,
-                  axisCount: 3,
-                  items: _yearList,
-                  hintedItem: hintedYear,
-                  onItemSelected: (pos) {
-                    widget.onYearChanged(int.parse(_yearList[pos]));
-                  },
-                );
-              },
             ),
           ),
-        ),
-        Expanded(
-          flex: 2,
-          child: IconButton(
-            icon: Icon(
-              Icons.arrow_forward_ios,
-              color: AppColors.onPrimary,
-              size: 16,
+          Expanded(
+            flex: 4,
+            child: Container(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                child: Text(
+                  "${widget.year}",
+                  style: theme.bodyLarge?.copyWith(
+                    color: AppColors.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.end,
+                ),
+                onPressed: () async {
+                  BottomSheetHelper.showGridBts(
+                    context: context,
+                    axisCount: 3,
+                    items: _yearList,
+                    hintedItem: hintedYear,
+                    onItemSelected: (pos) {
+                      widget.onYearChanged(int.parse(_yearList[pos]));
+                    },
+                  );
+                },
+              ),
             ),
-            onPressed: widget.onMonthAdd,
           ),
-        ),
-      ]),
+          Expanded(
+            flex: 2,
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_forward_ios,
+                color: AppColors.onPrimary,
+                size: 16,
+              ),
+              onPressed: widget.onMonthAdd,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

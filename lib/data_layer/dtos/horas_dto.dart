@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../utils/utils.dart';
+import '../../utils.dart';
 
 @immutable
 class HorasDto {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../resources.dart';
+import '../../utils.dart';
 
 Future<bool> showConfirmationDialog({
   required BuildContext context,
@@ -9,7 +9,6 @@ Future<bool> showConfirmationDialog({
   String? okLabel,
   String? cancelLabel,
 }) async {
-  final strings = context.strings();
   bool response = false;
 
   await showDialog<bool>(
@@ -23,14 +22,14 @@ Future<bool> showConfirmationDialog({
               Navigator.of(context).pop();
               response = true;
             },
-            child: Text(okLabel ?? strings.confirmar),
+            child: Text(okLabel ?? Localiza.find('confirmar')),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
               response = false;
             },
-            child: Text(cancelLabel ?? strings.cancelar),
+            child: Text(cancelLabel ?? Localiza.find('cancelar')),
           ),
         ],
         content: Container(

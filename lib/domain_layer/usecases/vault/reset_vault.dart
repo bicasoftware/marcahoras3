@@ -1,4 +1,4 @@
-import '../../../utils/utils.dart';
+import '../../../utils.dart';
 import '../../../utils/vault/vault_keys.dart';
 
 class ResetVaultUseCase {

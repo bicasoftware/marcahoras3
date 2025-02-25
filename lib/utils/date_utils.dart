@@ -41,8 +41,8 @@ String formatDate(DateTime date, [bool forServer = false]) {
 
 String formatDateByLocale(DateTime? date, Locale locale) {
   if (date == null) return '';
-  final fmt = DateFormat.yMd(locale.toString());
-  return fmt.format(date);
+  final pattern = locale.countryCode == "US" ? 'MMMM dd, yyyy' : 'dd/MM/yyyy';
+  return DateFormat(pattern).format(date);
 }
 
 DateTime parseVigencia(String vigencia) {

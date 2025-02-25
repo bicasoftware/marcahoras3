@@ -44,6 +44,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/app/.cxx
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
@@ -88,6 +89,11 @@ app.*.map.json
 # Linux
 **/linux/*
 
+# MacOS
+**/macos/*
+
+# MacOS
+**/web/*
 
 # Coverage
 coverage/
@@ -106,7 +112,4 @@ coverage/
 assets/.env
 .vscode/launch.json
 *.g.dart
-*.realm.dart
-default.realm.lock
 .metadata
-default.realm

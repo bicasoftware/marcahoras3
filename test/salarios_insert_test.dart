@@ -5,7 +5,7 @@ import 'package:marcahoras3/data_layer/providers.dart';
 import 'package:marcahoras3/data_layer/repositories/salarios_repository.dart';
 import 'package:marcahoras3/data_layer/web.dart';
 import 'package:marcahoras3/domain_layer/usecases.dart';
-import 'package:marcahoras3/utils/utils.dart';
+import 'package:marcahoras3/utils.dart';
 
 void main() {
   final String fakeToken =

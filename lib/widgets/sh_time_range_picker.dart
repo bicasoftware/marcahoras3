@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../resources.dart';
-import '../utils/utils.dart';
+import '../utils.dart';
 import '../widgets.dart';
 
 class ShTimeRangePicker extends StatefulWidget {
@@ -32,7 +31,6 @@ class _ShTimeRangePickerState extends State<ShTimeRangePicker> {
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.strings();
 
     return Row(
       children: [
@@ -40,7 +38,7 @@ class _ShTimeRangePickerState extends State<ShTimeRangePicker> {
           flex: 5,
           child: ShLabeledTile(
             value: TimeOfDayHelper.formatTime(_entrada),
-            label: strings.das,
+            label: Localiza.find('das'),
             icon: Icons.timelapse,
             onTap: () async {
               final time = await DialogHelper.showTimeDialog(
@@ -60,7 +58,7 @@ class _ShTimeRangePickerState extends State<ShTimeRangePicker> {
           flex: 5,
           child: ShLabeledTile(
             value: TimeOfDayHelper.formatTime(_saida),
-            label: strings.ate,
+            label: Localiza.find('ate'),
             icon: Icons.timelapse,
             onTap: () async {
               final time = await DialogHelper.showTimeDialog(

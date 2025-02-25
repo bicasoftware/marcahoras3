@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain_layer/models.dart';
 import '../../../domain_layer/usecases.dart';
 import '../../../features/relatorio/report_page_generator.dart';
-import '../../../utils/utils.dart';
+import '../../../utils.dart';
 import 'home_state.dart';
 
 /// Class that holds presentation data to be shown in the first screen the app renders

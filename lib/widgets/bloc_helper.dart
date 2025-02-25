@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/utils/utils.dart';
+import 'package:marcahoras3/utils.dart';
 import 'package:marcahoras3/widgets.dart';
 
 class BlocHelper<B extends StateStreamable<S>, S extends BaseState>

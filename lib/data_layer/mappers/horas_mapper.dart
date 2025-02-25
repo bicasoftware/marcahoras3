@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 
 import '../../domain_layer/models.dart';
-import '../../utils/utils.dart';
+import '../../utils.dart';
 import '../database/db_connector_drift.dart';
 import '../dtos.dart';
 

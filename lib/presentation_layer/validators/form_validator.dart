@@ -1,11 +1,11 @@
-import '../../resources/localizations/strings.dart';
+import '../../utils/localiza/localiza.dart';
 
 class EmailValidator {
-  static String? validate(String? email, StringsContract strings) {
+  static String? validate(String? email) {
     if (email != null || email!.isNotEmpty) {
       final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
       if (!emailRegex.hasMatch(email)) {
-        return "* ${strings.emailInvalid}";
+        return "* ${Localiza.find("emailInvalid")}";
       }
     }
 
@@ -14,14 +14,16 @@ class EmailValidator {
 }
 
 class MinCharactersValidator {
-  static String? validate(String? value, int minChar, StringsContract strings) {
+  static String? validate(String? value, int minChar) {
     String? error;
 
     if (value?.isEmpty == true) {
-      error = strings.valueCantBeEmpty;
+      error = Localiza.find("valueCantBeEmpty");
     } else {
       if ((value?.length ?? 0) < minChar) {
-        error = strings.valueAtLeastNCharacter.replaceAll("{N}", "$minChar");
+        error = Localiza.find(
+          "valueAtLeastNCharacter",
+        ).replaceAll("{N}", "$minChar");
       }
     }
 

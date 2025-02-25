@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:marcahoras3/features/home/calendar/calendar_screen.dart';
@@ -12,16 +13,20 @@ import 'features/registration/register/register_screen.dart';
 import 'features/relatorio/relatorio_screen.dart';
 import 'resources.dart';
 import 'routes.dart';
-import 'utils/utils.dart';
+import 'utils.dart';
 
 void main() async {
+  final mySystemTheme = SystemUiOverlayStyle.light.copyWith(
+    systemNavigationBarColor: Colors.white,
+  );
+  SystemChrome.setSystemUIOverlayStyle(mySystemTheme);
+
   WidgetsFlutterBinding.ensureInitialized();
+
   await dotenv.load(fileName: "assets/.env");
   await VaultManager.buildVaultData();
 
-  runApp(
-    const HorasApp(),
-  );
+  runApp(const HorasApp());
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -46,10 +51,11 @@ class HorasApp extends StatelessWidget {
           appBarTheme: appBarColorScheme,
           textTheme: TextTheme(
             labelLarge: TextStyle(
-                color: AppColors.primary,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                fontFamily: 'Outfit'),
+              color: AppColors.primary,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              fontFamily: 'Outfit',
+            ),
           ),
         ),
         localizationsDelegates: const [
@@ -57,10 +63,7 @@ class HorasApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: const [
-          Locale('pt', 'BR'),
-          Locale('en', 'US'),
-        ],
+        supportedLocales: const [Locale('pt', 'BR'), Locale('en', 'US')],
         initialRoute: _getMainRoute(vault),
         routes: {
           Routes.registration: (_) => const RegisterScreen(),

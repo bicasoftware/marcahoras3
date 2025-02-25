@@ -1,0 +1,273 @@
+appName:
+  pt_BR: MarcaHora
+  en_US: MarcaHora
+appDescription:
+  pt_BR: Organizador de Horas Extras
+  en_US: Overtime organizer
+continuar:
+  pt_BR: Continuar
+  en_US: Continue
+empregos:
+  pt_BR: Empregos
+  en_US: Jobs
+horas:
+  pt_BR: Horas
+  en_US: Hours
+jaTenhoCadastro:
+  pt_BR: Já Tem uma conta? Clique para entrar.
+  en_US: Already have an account? Click to enter.
+naoTenhoCadastro:
+  pt_BR: Não Tem uma conta? Clique para criar.
+  en_US: Do not have an account? Click to create.
+tentar:
+  pt_BR: Tentar novamente
+  en_US: Try again
+entradaHora:
+  pt_BR: Horário entrada
+  en_US: Shift start
+saidaHora:
+  pt_BR: Horário Saída
+  en_US: Shift end
+relatorios:
+  pt_BR: Relatórios
+  en_US: Reports
+horaNormal:
+  pt_BR: Normal
+  en_US: Regular
+horaFeriado:
+  pt_BR: Diferencial
+  en_US: Holidays
+tipoHora:
+  pt_BR: Tipo de Hora
+  en_US: Overtime type
+verTodas:
+  pt_BR: Ver Horas
+  en_US: See overtime
+email:
+  pt_BR: Email  
+  en_US: E-mail
+password:
+  pt_BR: Senha  
+  en_US: Password 
+repeatPassword:
+  pt_BR: Digite a senha novamente  
+  en_US: Type your password again
+typeEmail:
+  pt_BR: Digite seu email
+  en_US: Type your email
+typePass:
+  pt_BR: Digite sua senha 
+  en_US: Type your password
+typeConfirmPass:
+  pt_BR: Confirme sua senha
+  en_US: Confirm your password
+emailInvalid:
+  pt_BR: Email adicionado é inválido!  
+  en_US: Invalid email
+passwordMustMatch:
+  pt_BR: As senhas devem ser iguais!  
+  en_US: Passwords need to match
+passwordMustNotBeEmpty:
+  pt_BR: As senhas não podem estar em branco!  
+  en_US: Password can't be empty
+valueCantBeEmpty:
+  pt_BR: O texto não pode estar vazio!  
+  en_US: Value can't be empty
+feriado:
+  pt_BR: Diferencial  
+  en_US: Holiday
+valueAtLeastNCharacter:
+  pt_BR: O texto precisa ter ao menos {N} letras!    
+  en_US: The value need to have at least {N} characters
+defaultErro:
+  pt_BR: Erro
+  en_US: Error
+fechar:
+  pt_BR: Fechar
+  en_US: Close
+carregando:
+  pt_BR: Um momento...
+  en_US: Please wait...    
+empregosEmpty:
+  pt_BR: Por favor, adicione um novo Emprego
+  en_US: Please add a new Job
+adicionarEmprego:
+  pt_BR: Adicionar
+  en_US: Add    
+editarEmprego:
+  pt_BR: Editar Emprego
+  en_US: Edit job
+editarSalario:
+  pt_BR: Editar Salário
+  en_US: Edit Salary
+novoEmprego:
+  pt_BR: Novo Emprego
+  en_US: New Job
+descricaoEmprego:
+  pt_BR: Descrição
+  en_US: Description
+emprego:
+  pt_BR: Emprego
+  en_US: Job
+bancoHoras:
+  pt_BR: Banco de Horas
+  en_US: Unpaid overtime
+salario:
+  pt_BR: Salário
+  en_US: Salary
+valorSalario:
+  pt_BR: Valor Salário
+  en_US: Salary amount
+salvar:
+  pt_BR: Salvar
+  en_US: Save
+cargaHoraria:
+  pt_BR: Carga Horária Mensal
+  en_US: Monthly Working hours
+cargaHorariaAbrev:
+  pt_BR: C. Horária
+  en_US: W. Hours
+admissao:
+  pt_BR: Admissão
+  en_US: Admission
+ativo:
+  pt_BR: Ativo
+  en_US: Active
+inativo:
+  pt_BR: Inativo
+  en_US: Inactive
+porcNormal:
+  pt_BR: Extra Normal
+  en_US: Regular overtime
+porcFeriado:
+  pt_BR: Extra Diferencial
+  en_US: Holiday overtime
+editar:
+  pt_BR: Editar
+  en_US: Edit
+recebiAumento:
+  pt_BR: Recebi um Aumento
+  en_US: Got a raise
+alterarValor:
+  pt_BR: Alterar Valor
+  en_US: Change Value
+vigencia:
+  pt_BR: Vigencia
+  en_US: Validity
+addAumento:
+  pt_BR: Adicionar Aumento
+  en_US: Add raise
+cancelar:
+  pt_BR: Cancelar
+  en_US: Cancel
+confirmar:
+  pt_BR: Confirmar
+  en_US: Confirm
+calendario:
+  pt_BR: Calendário
+  en_US: Calendar
+ate:
+  pt_BR: Até
+  en_US: Until
+das:
+  pt_BR: Das
+  en_US: From
+data:
+  pt_BR: Data
+  en_US: Date
+editHoraReplace:
+  pt_BR: Hora Extra Dia {DATA}  
+  en_US: Overtime at {DATA}
+    
+novahora:
+  pt_BR: Nova Hora Extra
+  en_US: Add Overtime
+pagas:
+  pt_BR: Pagas
+  en_US: Paid
+horasTrabalhadas:
+  pt_BR: Horas Trabalhadas
+  en_US: Worked Hours
+valorReceber:
+  pt_BR: Valor a receber
+  en_US: Amount to be received
+feriados:
+  pt_BR: Diferenciais
+  en_US: On Holidays
+normais:
+  pt_BR: Normais
+  en_US: Overtime
+porcentagem:
+  pt_BR: Porcentagem
+  en_US: Percentage
+porcentagemNormal:
+  pt_BR: Porcentagem Normal
+  en_US: Regular Percentage
+porcentagemFeriado:
+  pt_BR: Porcentagem Diferencial
+  en_US: Holiday overtime
+valorHora:
+  pt_BR: Valor Hora
+  en_US: Overtime value
+horasExtras:
+  pt_BR: Horas Extras
+  en_US: Overtime
+back:
+  pt_BR: Voltar  
+  en_US: Go back
+next:
+  pt_BR: Próximo  
+  en_US: Next
+totais:
+  pt_BR: Totais  
+  en_US: Totals
+total:
+  pt_BR: Total
+  en_US: Total
+novo:
+  pt_BR: Novo
+  en_US: New
+months:
+  pt_BR:
+    - Janeiro
+    - Fevereiro
+    - Março
+    - Abril
+    - Maio
+    - Junho
+    - Julho
+    - Agosto
+    - Setembro
+    - Outubro
+    - Novembro
+    - Dezembro
+  en_US:
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - Ouctober
+    - November
+    - December
+weekDays:
+  pt_BR:
+    - DOM
+    - SEG
+    - TER
+    - QUA
+    - QUI
+    - SEX
+    - SAB
+  en_US: 
+    - SUN
+    - MON
+    - TUE
+    - WEN
+    - THU
+    - FRY
+    - SAT

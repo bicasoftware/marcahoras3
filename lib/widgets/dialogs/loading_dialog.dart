@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../resources.dart';
 
-Future<void> showLoadingDialog({
-  required BuildContext context,
-}) async {
+import '../../utils.dart';
+
+Future<void> showLoadingDialog({required BuildContext context}) async {
   showDialog(
     context: context,
     barrierDismissible: true,
     builder: (BuildContext context) {
-      final strings = context.strings();
       return AlertDialog(
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -17,7 +15,7 @@ Future<void> showLoadingDialog({
             SizedBox(height: 20),
             CircularProgressIndicator(),
             SizedBox(height: 20),
-            Text(strings.carregando),
+            Text(Localiza.find('carregando')),
           ],
         ),
       );

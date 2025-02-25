@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../domain_layer/usecases.dart';
-import '../../../utils/utils.dart';
+import '../../../utils.dart';
 import 'empregos_detail_state.dart';
 
 class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {

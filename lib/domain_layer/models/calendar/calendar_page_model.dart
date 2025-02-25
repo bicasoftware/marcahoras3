@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../utils/utils.dart';
+import '../../../utils.dart';
 import '../../models.dart';
 
 class CalendarPageModel extends Equatable {

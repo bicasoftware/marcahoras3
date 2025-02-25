@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/widgets/sh_time_range_picker.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../resources.dart';
-import '../../../utils/utils.dart';
+import '../../../utils.dart';
 import '../../../widgets.dart';
 
 class AddHoraBts extends StatefulWidget {
@@ -77,7 +75,6 @@ class _AddHoraBtsState extends State<AddHoraBts> {
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context);
-    final strings = context.strings();
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 8),
       child: Column(
@@ -87,11 +84,8 @@ class _AddHoraBtsState extends State<AddHoraBts> {
         children: [
           if (!widget.hideDate) ...[
             ShLabeledTile(
-              value: formatDateByLocale(
-                _date,
-                locale,
-              ),
-              label: strings.data,
+              value: formatDateByLocale(_date, locale),
+              label: Localiza.find('data'),
               onTap: () async {
                 final date = await DialogHelper.showDateTimeDialog(
                   context: context,
@@ -119,7 +113,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
           const SizedBox(height: 8),
           ShSwitchTile(
             value: _feriado,
-            label: strings.feriado,
+            label: Localiza.find('feriado'),
             onTap: (_) {
               setState(() => _feriado = !_feriado);
             },
@@ -128,10 +122,8 @@ class _AddHoraBtsState extends State<AddHoraBts> {
           OutlinedButton.icon(
             onPressed: _onSave,
             icon: Icon(Icons.save_outlined),
-            label: Text(
-              strings.salvar,
-            ),
-          )
+            label: Text(Localiza.find('salvar')),
+          ),
         ],
       ),
     );

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../presentation_layer/validators/validators.dart';
-import '../../../resources.dart';
+import '../../../utils/localiza/localiza.dart';
 import '../../../widgets.dart';
 import '../../../widgets/bottomsheets/bts_container.dart';
 
@@ -42,7 +42,6 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.strings();
     final theme = Theme.of(context).textTheme;
 
     return BtsContainer(
@@ -53,7 +52,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
         children: [
           ShTextTile(
             controller: amountController,
-            label: strings.salario,
+            label: Localiza.find("salario"),
             hint: "R\$ 1000,00",
             labelStyle: theme.labelLarge,
             icon: Icon(Icons.monetization_on),
@@ -61,16 +60,14 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
               if (amountController.numberValue <= 0.0) {
                 return "Salário deve ser preenchido corretamente";
               }
-              return MinCharactersValidator.validate(s, 6, strings);
+              return MinCharactersValidator.validate(s, 6);
             },
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-            ],
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 16),
           ShCustomLabelTile(
-            label: strings.vigencia,
+            label: Localiza.find("vigencia"),
             icon: Icons.calendar_month,
             child: Container(
               padding: EdgeInsets.all(8),
@@ -81,12 +78,10 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
                   children: [
                     Expanded(
                       child: ShScrollablePicker<String>(
-                        items: strings.months,
-                        selectedItem: strings.months[month - 1],
+                        items: Localiza.findList("months"),
+                        selectedItem: Localiza.find("months")[month - 1],
                         onItemSelected: (int pos) {
-                          setState(
-                            () => month = pos + 1,
-                          );
+                          setState(() => month = pos + 1);
                         },
                       ),
                     ),
@@ -115,7 +110,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
                 );
               },
               icon: Icon(Icons.save_outlined),
-              label: Text(strings.salvar),
+              label: Text(Localiza.find("salvar")),
             ),
           ),
         ],

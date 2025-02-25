@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
-import '../../../resources/localizations/strings.dart';
+import '../../../utils.dart';
 
 class RelatorioTotalizerRow extends StatelessWidget {
   final HorasType tipoHora;
@@ -15,18 +15,18 @@ class RelatorioTotalizerRow extends StatelessWidget {
     required this.valor,
   });
 
-  String getLabel(StringsContract strings) {
+  String getLabel() {
     switch (tipoHora) {
       case HorasType.normal:
-        return strings.normais;
+        return Localiza.find('normais');
       case HorasType.feriado:
-        return strings.feriados;
+        return Localiza.find('feriados');
       default:
-        return strings.totais;
+        return Localiza.find('totais');
     }
   }
 
-  Color getIconColor(StringsContract strings) {
+  Color getIconColor() {
     switch (tipoHora) {
       case HorasType.normal:
         return AppColors.porcNormalColor;
@@ -48,7 +48,6 @@ class RelatorioTotalizerRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    final strings = context.strings();
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
@@ -56,15 +55,11 @@ class RelatorioTotalizerRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         spacing: 8,
         children: [
-          Icon(
-            Icons.circle,
-            color: getIconColor(strings),
-            size: 16,
-          ),
+          Icon(Icons.circle, color: getIconColor(), size: 16),
           Expanded(
             flex: 3,
             child: Text(
-              "${getLabel(strings)}",
+              getLabel(),
               style: _baseStyle(theme),
               textAlign: TextAlign.start,
             ),
@@ -80,7 +75,7 @@ class RelatorioTotalizerRow extends StatelessWidget {
           Expanded(
             flex: 6,
             child: Text(
-              "${strings.total} - ${valor}",
+              "${Localiza.find('total')} - ${valor}",
               textAlign: TextAlign.end,
               style: theme.labelLarge?.copyWith(
                 fontWeight: FontWeight.bold,

@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../presentation_layer/blocs.dart';
 import '../../../presentation_layer/validators/validators.dart';
-import '../../../routes.dart';
-import '../../../widgets.dart';
 import '../../../resources.dart';
+import '../../../routes.dart';
+import '../../../utils/localiza/localiza.dart';
+import '../../../widgets.dart';
 import '../registration_container.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -53,7 +54,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<RegistrationBloc>();
-    final strings = context.strings();
     final theme = Theme.of(context).textTheme;
 
     return Scaffold(
@@ -62,10 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           bloc: bloc,
           onError: (error) {
             SnackBar(
-              content: Text(
-                error,
-                style: theme.labelLarge,
-              ),
+              content: Text(error, style: theme.labelLarge),
               elevation: 2,
               backgroundColor: AppColors.onPrimary,
             );
@@ -73,32 +70,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Form(
             key: _formKey,
             child: RegistrationContainer(
-              changeRegisterLabel: strings.jaTenhoCadastro,
+              changeRegisterLabel: Localiza.find("jaTenhoCadastro"),
               onChangeRegisterPressed: () => _goToLogin(context),
               onContinuePressed: () => _register(bloc, context),
               child: Column(
                 children: [
                   ShTextField(
                     controller: emailController,
-                    label: strings.typeEmail,
-                    hint: strings.email,
+                    label: Localiza.find("typeEmail"),
+                    hint: Localiza.find("email"),
                     isOutlined: true,
                     labelStyle: theme.labelLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: AppColors.onPrimary,
                     ),
                     validator: (s) {
-                      return EmailValidator.validate(
-                        emailController.text,
-                        strings,
-                      );
+                      return EmailValidator.validate(emailController.text);
                     },
                   ),
                   const SizedBox(height: 8),
                   ShTextField(
                     controller: passwordController,
-                    label: strings.password,
-                    hint: strings.password,
+                    label: Localiza.find("password"),
+                    hint: Localiza.find("password"),
                     isOutlined: true,
                     labelStyle: theme.labelLarge?.copyWith(
                       fontWeight: FontWeight.bold,
@@ -110,13 +104,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       error = MinCharactersValidator.validate(
                         passwordConfirmController.text,
                         6,
-                        strings,
                       );
 
                       error ??= PasswordMatchValidator.validate(
                         passwordController.text,
                         passwordConfirmController.text,
-                        strings,
                       );
 
                       return error;
@@ -125,8 +117,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(height: 8),
                   ShTextField(
                     controller: passwordConfirmController,
-                    label: strings.typeConfirmPass,
-                    hint: strings.password,
+                    label: Localiza.find("typeConfirmPass"),
+                    hint: Localiza.find("password"),
                     isOutlined: true,
                     labelStyle: theme.labelLarge?.copyWith(
                       fontWeight: FontWeight.bold,
@@ -137,13 +129,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       error = MinCharactersValidator.validate(
                         passwordController.text,
                         6,
-                        strings,
                       );
 
                       error ??= PasswordMatchValidator.validate(
                         passwordController.text,
                         passwordConfirmController.text,
-                        strings,
                       );
 
                       return error;

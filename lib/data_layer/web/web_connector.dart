@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:marcahoras3/utils/utils.dart';
+import 'package:marcahoras3/utils.dart';
 
 import 'web.dart';
 

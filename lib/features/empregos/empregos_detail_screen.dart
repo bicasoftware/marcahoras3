@@ -5,8 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
 import '../../presentation_layer/validators/validators.dart';
-import '../../resources.dart';
-import '../../utils/utils.dart';
+import '../../utils.dart';
 import '../../widgets.dart';
 import 'salarios/salarios_action_type.dart';
 import 'salarios/salarios_detail_bts.dart';
@@ -23,8 +22,10 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
   late final bool isInsert;
   final _formKey = GlobalKey<FormState>();
   final ctrDescricao = TextEditingController();
-  final ctrSalarioMasked =
-      MoneyMaskedTextController(leftSymbol: "R\$", initialValue: 0.0);
+  final ctrSalarioMasked = MoneyMaskedTextController(
+    leftSymbol: "R\$",
+    initialValue: 0.0,
+  );
 
   late final Empregos editableEmprego;
 
@@ -109,13 +110,12 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
   }
 
   void _updateSalario(Salarios salario, EmpregosDetailBloc bloc) async {
-    final strings = context.strings();
     await BottomSheetHelper.showModalBts(
       context: context,
       body: SalariosDetailBts(
         value: salario.valor,
         vigencia: salario.vigencia,
-        title: strings.editarSalario,
+        title: Localiza.find("editarSalario"),
         onSave: (valor, vigencia) async {
           showLoadingDialog(context: context);
           await bloc.updateSalario(
@@ -133,14 +133,13 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     SalariosActionType action,
     EmpregosDetailBloc bloc,
   ) async {
-    final strings = context.strings();
     if (action == SalariosActionType.aumento) {
       await BottomSheetHelper.showModalBts(
         context: context,
         body: SalariosDetailBts(
           value: 0.0,
           vigencia: DateTime.now(),
-          title: strings.addAumento,
+          title: Localiza.find("addAumento"),
           onSave: (valor, vigencia) async {
             showLoadingDialog(context: context);
 
@@ -160,7 +159,6 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final isInsert = ModalRoute.of(context)?.settings.arguments as bool;
-    final strings = context.strings();
     final bloc = context.watch<EmpregosDetailBloc>();
     final textTheme = Theme.of(context).textTheme;
     final state = bloc.state;
@@ -168,34 +166,25 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
 
     return Scaffold(
       appBar: ShAppBar(
-        label: isInsert ? strings.adicionarEmprego : strings.editarEmprego,
+        label:
+            isInsert
+                ? Localiza.find("adicionarEmprego")
+                : Localiza.find("editarEmprego"),
         actions: [
           if (!isInsert)
-            IconButton(
-              icon: Icon(Icons.delete_outline),
-              onPressed: () {},
-            ),
+            IconButton(icon: Icon(Icons.delete_outline), onPressed: () {}),
         ],
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          bottom: 24,
-        ),
+        padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
         child: OutlinedButton.icon(
           onPressed: () => _validate(bloc),
           icon: Icon(Icons.save_outlined),
-          label: Text(
-            strings.salvar,
-          ),
+          label: Text(Localiza.find("salvar")),
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 8,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: SingleChildScrollView(
           child: BlocHelper<EmpregosDetailBloc, EmpregosDetailState>(
             bloc: bloc,
@@ -214,8 +203,8 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                   children: [
                     ShTextTile(
                       controller: ctrDescricao,
-                      label: strings.descricaoEmprego,
-                      hint: strings.descricaoEmprego,
+                      label: Localiza.find("descricaoEmprego"),
+                      hint: Localiza.find("descricaoEmprego"),
                       labelStyle: textTheme.labelLarge,
                       icon: Icon(Icons.text_fields),
                       onValueChanged: bloc.setDescricao,
@@ -223,7 +212,6 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                         return MinCharactersValidator.validate(
                           ctrDescricao.text,
                           6,
-                          strings,
                         );
                       },
                     ),
@@ -233,7 +221,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                         state.admissao ?? DateTime.now(),
                         locale,
                       ),
-                      label: strings.admissao,
+                      label: Localiza.find("admissao"),
                       onTap: () => _selectDate(context, bloc),
                       icon: Icons.calendar_month,
                     ),
@@ -254,27 +242,25 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                     const SizedBox(height: 8),
                     ShLabeledTile(
                       value: TimeOfDayHelper.formatTime(state.entrada!),
-                      label: strings.entradaHora,
+                      label: Localiza.find("entradaHora"),
                       icon: Icons.timelapse_outlined,
-                      onTap: () => _selectTime(
-                        context: context,
-                        bloc: bloc,
-                        isEntrada: true,
-                      ),
+                      onTap:
+                          () => _selectTime(
+                            context: context,
+                            bloc: bloc,
+                            isEntrada: true,
+                          ),
                     ),
                     const SizedBox(height: 8),
                     ShLabeledTile(
                       value: TimeOfDayHelper.formatTime(bloc.state.saida!),
-                      label: strings.saidaHora,
+                      label: Localiza.find("saidaHora"),
                       icon: Icons.timelapse_outlined,
-                      onTap: () => _selectTime(
-                        context: context,
-                        bloc: bloc,
-                      ),
+                      onTap: () => _selectTime(context: context, bloc: bloc),
                     ),
                     const SizedBox(height: 8),
                     ShDropDownButton(
-                      label: strings.cargaHoraria,
+                      label: Localiza.find("cargaHoraria"),
                       value: state.cargaHoraria,
                       options: [160, 180, 200, 220],
                       onChanged: bloc.setCargaHoraria,
@@ -283,12 +269,12 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                     const SizedBox(height: 8),
                     ShSwitchTile(
                       value: state.bancoHoras,
-                      label: strings.bancoHoras,
+                      label: Localiza.find("bancoHoras"),
                       onTap: (_) => bloc.toggleBancoHoras(),
                     ),
                     const SizedBox(height: 8),
                     ShSliderPicker(
-                      label: strings.porcNormal,
+                      label: Localiza.find("porcNormal"),
                       value: state.porcNormal ?? 50,
                       onChanged: bloc.setPorcNormal,
                       minValue: 50,
@@ -296,7 +282,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
                     ),
                     const SizedBox(height: 8),
                     ShSliderPicker(
-                      label: strings.porcFeriado,
+                      label: Localiza.find("porcFeriado"),
                       value: state.porcFeriado ?? 100,
                       onChanged: bloc.setPorcFeriados,
                       minValue: 100,

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
-import 'package:marcahoras3/utils/utils.dart';
+import 'package:marcahoras3/utils.dart';
 
 import '../dtos.dart';
 

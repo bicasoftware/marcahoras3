@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../resources.dart';
+import '../../../utils/localiza/localiza.dart';
 
 class SalariosTileItem extends StatefulWidget {
   final String vigencia;
@@ -32,8 +33,6 @@ class _SalariosTileItemState extends State<SalariosTileItem>
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.strings();
-
     return Slidable(
       controller: controller,
       child: SizedBox(
@@ -70,9 +69,9 @@ class _SalariosTileItemState extends State<SalariosTileItem>
                         children: [
                           Row(
                             children: <Widget>[
-                              _LabelText(strings.valorSalario),
+                              _LabelText(Localiza.find('valorSalario')),
                               const Spacer(),
-                              _LabelText(strings.vigencia),
+                              _LabelText(Localiza.find('vigencia')),
                               const SizedBox(width: 12),
                             ],
                           ),
@@ -127,9 +126,7 @@ class _SalariosTileItemState extends State<SalariosTileItem>
 class _LabelText extends StatelessWidget {
   final String label;
 
-  const _LabelText(
-    String label,
-  ) : label = label;
+  const _LabelText(String label) : label = label;
 
   @override
   Widget build(BuildContext context) {
@@ -146,17 +143,12 @@ class _LabelText extends StatelessWidget {
 class _ValueText extends StatelessWidget {
   final String label;
 
-  const _ValueText(
-    String label,
-  ) : label = label;
+  const _ValueText(String label) : label = label;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
 
-    return Text(
-      label,
-      style: theme.labelMedium,
-    );
+    return Text(label, style: theme.labelMedium);
   }
 }

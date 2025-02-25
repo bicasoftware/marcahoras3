@@ -7,7 +7,7 @@ import 'data_layer/respositories.dart';
 import 'data_layer/web.dart';
 import 'domain_layer/usecases.dart';
 import 'presentation_layer/blocs.dart';
-import 'utils/utils.dart';
+import 'utils.dart';
 
 class BlocLoader extends StatefulWidget {
   final Widget child;

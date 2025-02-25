@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../resources.dart';
+import '../../utils.dart';
 
 class RegistrationContainer extends StatelessWidget {
   final Widget child;
@@ -22,7 +23,6 @@ class RegistrationContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    final strings = context.strings();
 
     return Scaffold(
       body: Container(
@@ -30,10 +30,7 @@ class RegistrationContainer extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomRight,
-            colors: [
-              Colors.red,
-              Colors.red.shade900,
-            ],
+            colors: [Colors.red, Colors.red.shade900],
           ),
         ),
         child: Center(
@@ -51,21 +48,13 @@ class RegistrationContainer extends StatelessWidget {
                       fit: BoxFit.fitHeight,
                       height: 120,
                     ),
-                    const Divider(
-                      color: Colors.white24,
-                      height: 32,
-                    ),
+                    const Divider(color: Colors.white24, height: 32),
                     Text(
-                      strings.appDescription,
+                      Localiza.find('appDescription'),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
                     ),
-                    const SizedBox(
-                      height: 16,
-                    ),
+                    const SizedBox(height: 16),
                     // The child should contain all the text inputs required to login/register
                     child,
                     if (showErrorMsg && (errorMsg?.isNotEmpty ?? false))
@@ -83,9 +72,7 @@ class RegistrationContainer extends StatelessWidget {
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: onContinuePressed,
-                      child: Text(
-                        strings.continuar,
-                      ),
+                      child: Text(Localiza.find('continuar')),
                     ),
                     const SizedBox(height: 8),
                     TextButton(

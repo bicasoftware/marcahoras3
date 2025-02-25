@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:intl/intl.dart';
 
 import '../../domain_layer/models.dart';
-import '../../utils/utils.dart';
+import '../../utils.dart';
 import '../database/db_connector_drift.dart';
 import '../dtos.dart';
 import 'horas_mapper.dart';

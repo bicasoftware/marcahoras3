@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data_layer/web/web_exception.dart';
 import '../../../domain_layer/usecases.dart';
-import '../../../utils/utils.dart';
+import '../../../utils.dart';
 import 'registration_state.dart';
 
 class RegistrationBloc extends Cubit<RegistrationState> {

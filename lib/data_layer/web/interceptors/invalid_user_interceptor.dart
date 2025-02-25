@@ -7,7 +7,7 @@ import 'package:marcahoras3/widgets.dart';
 
 import '../../../routes.dart';
 import '../../../routes_dta.dart';
-import '../../../utils/utils.dart';
+import '../../../utils.dart';
 
 class InvalidUserInterceptor extends Interceptor {
   @override

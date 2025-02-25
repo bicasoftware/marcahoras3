@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
+import '../../../utils.dart';
 import 'relatorio_totalizer_row.dart';
 
 class TotalsContainer extends StatelessWidget {
@@ -15,7 +16,6 @@ class TotalsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    final strings = context.strings();
 
     return Hero(
       tag: "totais_button",
@@ -52,7 +52,7 @@ class TotalsContainer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              strings.totais,
+              Localiza.find('totais'),
               style: theme.bodyLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: AppColors.onPrimary,

@@ -1,4 +1,4 @@
-import '../../../utils/utils.dart';
+import '../../../utils.dart';
 
 class RegistrationState extends BaseState {
   RegistrationState({
