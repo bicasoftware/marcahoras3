@@ -14,10 +14,6 @@ class TimeOfDayHelper {
     return TimeOfDay(hour: values[0], minute: values[1]);
   }
 
-  static String formatTimeFromDate(DateTime date) {
-    return "${date.hour}:${date.minute}:00";
-  }
-
   static String formatTimeFromMinutes(int minutes) {
     final time = getTimeOfDayFromMinutes(minutes);
     return formatTime(time);

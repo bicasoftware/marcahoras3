@@ -1,4 +1,4 @@
-import 'package:marcahoras3/domain_layer/models/report/report_hora.dart';
+import 'report_hora.dart';
 
 class ReportModel {
   final int year, month;

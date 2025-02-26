@@ -25,38 +25,37 @@ class CalendarPage extends StatelessWidget {
         crossAxisSpacing: 2,
         mainAxisSpacing: 2,
         padding: EdgeInsets.zero,
-        children: page.items.map(
-          (it) {
-            switch (it) {
-              case CalendarItemEmpty():
-                return CalendarItem();
-              case CalendarItemDisabled():
-                return CalendarItem(
-                  monthDay: it.date!.day,
-                  isToday: it.isToday ?? false,
-                  data: it.date,
-                  enabled: false,
-                );
-              case CalendarItemDateOnly():
-                return CalendarItem(
-                  monthDay: it.date!.day,
-                  isToday: it.isToday ?? false,
-                  data: it.date,
-                  onCalendarItemTap: onCalendarItemTap,
-                );
-              case CalendarItemComplete():
-                return CalendarItem(
-                  type: it.horaType,
-                  monthDay: it.date?.day ?? -1,
-                  weekDay: it.weekDay,
-                  isToday: it.isToday ?? false,
-                  data: it.date,
-                  hora: it.horas,
-                  onCalendarItemTap: onCalendarItemTap,
-                );
-            }
-          },
-        ).toList(),
+        children:
+            page.items.map((it) {
+              switch (it) {
+                case CalendarItemEmpty():
+                  return CalendarItem();
+                case CalendarItemDisabled():
+                  return CalendarItem(
+                    monthDay: it.date!.day,
+                    isToday: it.isToday ?? false,
+                    data: it.date,
+                    enabled: false,
+                  );
+                case CalendarItemDateOnly():
+                  return CalendarItem(
+                    monthDay: it.date!.day,
+                    isToday: it.isToday ?? false,
+                    data: it.date,
+                    onCalendarItemTap: onCalendarItemTap,
+                  );
+                case CalendarItemComplete():
+                  return CalendarItem(
+                    type: it.horaType,
+                    monthDay: it.date?.day ?? -1,
+                    weekDay: it.weekDay,
+                    isToday: it.isToday ?? false,
+                    data: it.date,
+                    hora: it.horas,
+                    onCalendarItemTap: onCalendarItemTap,
+                  );
+              }
+            }).toList(),
       ),
     );
   }

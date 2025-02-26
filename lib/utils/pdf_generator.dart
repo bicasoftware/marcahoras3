@@ -15,12 +15,8 @@ class PdfGenerator {
   }) async {
     final pdf = Document(
       theme: ThemeData.withFont(
-        base: Font.ttf(
-          await rootBundle.load("assets/fonts/Outfit-Medium.ttf"),
-        ),
-        bold: Font.ttf(
-          await rootBundle.load("assets/fonts/Outfit-Bold.ttf"),
-        ),
+        base: Font.ttf(await rootBundle.load("assets/fonts/Outfit-Medium.ttf")),
+        bold: Font.ttf(await rootBundle.load("assets/fonts/Outfit-Bold.ttf")),
       ),
     );
 
@@ -33,10 +29,7 @@ class PdfGenerator {
             children: [
               Text(
                 title,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 8),
@@ -55,7 +48,7 @@ class PdfGenerator {
                   ),
                   ...report.hours
                       .map((h) => _horaRowDisplay(h, locale))
-                      .toList()
+                      .toList(),
                 ],
               ),
               Spacer(),
@@ -73,10 +66,12 @@ class PdfGenerator {
                         "Normais: ${report.horasFeitasDiff}",
                         "Total - ${report.valorRecDiff}",
                       ),
-                      _totaisDisplay("Total no Mês: ${report.horasFeitasTotal}",
-                          "Total - ${report.valorRecDiff}"),
+                      _totaisDisplay(
+                        "Total no Mês: ${report.horasFeitasTotal}",
+                        "Total - ${report.valorRecDiff}",
+                      ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ],
@@ -93,22 +88,12 @@ Widget _totaisDisplay(String valor1, String valor2) {
   return Expanded(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        TableText(text: valor1),
-        TableText(text: valor2),
-      ],
+      children: [TableText(text: valor1), TableText(text: valor2)],
     ),
   );
 }
 
 TableRow _horaRowDisplay(ReportHora h, Locale locale) {
-// 'Data'
-// 'Inicio'
-// 'Termino'
-// 'Horas Feitas'
-// '%'
-// 'Total'
-
   return TableRow(
     children: [
       TableText(text: formatDateByLocale(h.date, locale)),
@@ -123,21 +108,14 @@ TableRow _horaRowDisplay(ReportHora h, Locale locale) {
 
 Widget TableText({
   required String text,
-  EdgeInsets padding = const EdgeInsets.symmetric(
-    horizontal: 8,
-    vertical: 4,
-  ),
+  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
   TextStyle? style,
 }) {
   return Padding(
     padding: padding,
     child: Text(
       text,
-      style: style ??
-          TextStyle(
-            color: PdfColors.black,
-            fontSize: 14,
-          ),
+      style: style ?? TextStyle(color: PdfColors.black, fontSize: 14),
     ),
   );
 }

@@ -33,7 +33,7 @@ void main() {
   test('should insert data via EmpregosProvider', () async {
     try {
       final provider = EmpregosProvider(connector);
-      final result = await provider.append(empregoDto);
+      final result = await provider.create(empregoDto);
       assert(result.id != '');
     } catch (e) {
       print("error $e");
@@ -44,7 +44,7 @@ void main() {
     final provider = EmpregosProvider(connector);
     final repo = EmpregoRepository(provider);
 
-    final result = await repo.append(empregoModel);
+    final result = await repo.create(empregoModel);
 
     assert(result.id != '');
   });

@@ -16,8 +16,8 @@ class EmpregoRepository implements EmpregosContract {
   }
 
   @override
-  Future<Empregos> append(Empregos e) async {
-    final newEmprego = await _provider.append(e.toEmpregoDto());
+  Future<Empregos> create(Empregos e) async {
+    final newEmprego = await _provider.create(e.toEmpregoDto());
     return newEmprego.toEmprego();
   }
 

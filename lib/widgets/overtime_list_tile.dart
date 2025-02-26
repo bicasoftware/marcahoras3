@@ -4,7 +4,6 @@ import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
 import '../../../widgets.dart';
 import '../utils.dart';
-import 'icon_label_value.dart';
 
 class OvertimeListTile extends StatelessWidget {
   final HorasType horaType;

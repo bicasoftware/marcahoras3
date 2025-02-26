@@ -32,7 +32,7 @@ class EmpregosProvider implements EmpregosProviderContract {
     }
   }
 
-  Future<EmpregosDto> append(EmpregosDto e) async {
+  Future<EmpregosDto> create(EmpregosDto e) async {
     try {
       final response = await _connector.request(
         EndPoints.empregos,

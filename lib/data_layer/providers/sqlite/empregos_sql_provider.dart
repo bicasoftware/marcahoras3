@@ -15,7 +15,7 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
   const EmpregosSqlProvider({required AppDatabase db}) : _db = db;
 
   @override
-  Future<EmpregosDto> append(EmpregosDto e) async {
+  Future<EmpregosDto> create(EmpregosDto e) async {
     final newId = Uuid.v4().toString();
     await _table.create((it) => e.toCompanion(newId: newId));
     return e.copyWith(id: newId);

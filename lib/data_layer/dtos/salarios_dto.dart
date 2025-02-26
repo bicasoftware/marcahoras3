@@ -48,12 +48,6 @@ class SalariosDto {
     return salarioMap;
   }
 
-  // Override toString for easy debugging
-  @override
-  String toString() {
-    return 'Salario{id: $id, empregoId: $empregoId, vigencia: $vigencia, valor: $valor, ativo: $ativo}';
-  }
-
   SalariosDto copyWith({String? id, String? empregoId}) {
     return SalariosDto(
       id: id ?? this.id,

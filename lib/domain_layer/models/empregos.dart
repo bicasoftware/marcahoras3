@@ -42,10 +42,10 @@ class Empregos extends Equatable {
     Iterable<Salarios> salarios = const [],
     Iterable<CalendarPageModel> calendarPages = const [],
     Iterable<ReportModel> reportPages = const [],
-  })  : horas = UnmodifiableListView(horas),
-        salarios = UnmodifiableListView(salarios),
-        calendarPages = UnmodifiableListView(calendarPages),
-        reportPages = UnmodifiableListView(reportPages);
+  }) : horas = UnmodifiableListView(horas),
+       salarios = UnmodifiableListView(salarios),
+       calendarPages = UnmodifiableListView(calendarPages),
+       reportPages = UnmodifiableListView(reportPages);
 
   Empregos copyWith({
     String? id,

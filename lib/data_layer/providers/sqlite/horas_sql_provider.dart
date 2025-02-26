@@ -18,8 +18,9 @@ class HorasSqlProvider implements HorasProviderContract {
   Future<HorasDto> create(HorasDto hora) async {
     final id = Uuid.v4().toString();
 
-    final int h =
-        await _db.into(_db.dbHoras).insert(hora.toCompanion(newId: id));
+    final int h = await _db
+        .into(_db.dbHoras)
+        .insert(hora.toCompanion(newId: id));
     return hora.copyWithId("$h");
   }
 
@@ -30,22 +31,17 @@ class HorasSqlProvider implements HorasProviderContract {
   }
 
   @override
-  Future<HorasDto> findOne(String horaId) async {
-    final h = await _table.filter((h) => h.id.equals(horaId)).getSingle();
-    return HorasDto.fromJson(h.toJson());
-  }
-
-  @override
   Future<List<HorasDto>> list(String empregoId, String from, String to) async {
     final fromDate = parseDate(from);
     final toDate = parseDate(to);
-    final horas = await _table
-        .filter(
-          (h) =>
-              h.empregoId.id.equals(empregoId) &
-              h.data.isBetween(fromDate!, toDate!),
-        )
-        .get();
+    final horas =
+        await _table
+            .filter(
+              (h) =>
+                  h.empregoId.id.equals(empregoId) &
+                  h.data.isBetween(fromDate!, toDate!),
+            )
+            .get();
 
     return horas.map((h) => HorasDto.fromJson(h.toJson())).toList();
   }

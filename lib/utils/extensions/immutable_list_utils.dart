@@ -43,16 +43,4 @@ extension ImmutableListHelpers<T> on List<T> {
     newList.removeAt(this.indexOf(toDeleteItem));
     return newList;
   }
-
-  /// Returns a hard copy, with the updated item
-  List<T> iDeleteWhere({
-    required T newItem,
-    required bool Function(T) where,
-  }) {
-    final index = this.indexWhere(where);
-    final newList = this.iCopy();
-    newList[index] = newItem;
-
-    return newList;
-  }
 }

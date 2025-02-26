@@ -57,11 +57,6 @@ class HorasDto {
     return list.map<HorasDto>((h) => HorasDto.fromJson(h)).toList();
   }
 
-  @override
-  String toString() {
-    return 'HorasDto(id: $id, empregoId: $empregoId, data: $data, inicio: $inicio, termino: $termino, tipoHora: $tipoHora, bancoHoras: $bancoHoras)';
-  }
-
   HorasDto copyWithId(String id) {
     return HorasDto(
       id: id,

@@ -16,23 +16,13 @@ class SalariosSqlProvider implements SalariosProviderContract {
   Future<SalariosDto> create(SalariosDto salario) async {
     final newId = Uuid.v4().toString();
 
-    await _table.create(
-      (s) => salario.toCompanion(newId: newId),
-    );
+    await _table.create((s) => salario.toCompanion(newId: newId));
     return salario.copyWith(id: newId);
   }
 
   @override
   Future<void> delete(String salarioId) async {
     await _table.filter((s) => s.id.equals(salarioId)).delete();
-  }
-
-  @override
-  Future<List<SalariosDto>> list(String empregoId) async {
-    final salarios =
-        await _table.filter((s) => s.empregoId.id.equals(empregoId)).get();
-
-    return salarios.map((s) => SalariosDto.fromJson(s.toJson())).toList();
   }
 
   @override

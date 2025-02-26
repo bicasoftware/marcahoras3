@@ -1,4 +1,4 @@
-import '../../../data_layer/providers.dart';
+import '../../../utils/calendar_page_generator.dart';
 import '../../models.dart';
 
 class CalendarPageGeneratorUseCase {

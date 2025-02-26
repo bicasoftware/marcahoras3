@@ -6,5 +6,5 @@ class EmpregoInsertUseCase {
 
   const EmpregoInsertUseCase(EmpregoRepository repository) : _repo = repository;
 
-  Future<Empregos> call(Empregos e) => _repo.append(e);
+  Future<Empregos> call(Empregos e) => _repo.create(e);
 }

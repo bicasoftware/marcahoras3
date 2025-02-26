@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../utils.dart';
-import '../../models.dart';
+import '../../../../domain_layer/models.dart';
+import '../../../../utils.dart';
 
 class CalendarPageModel extends Equatable {
   final int month;
@@ -15,16 +15,16 @@ class CalendarPageModel extends Equatable {
     required this.year,
     Iterable<CalendarItemModel> items = const [],
     Iterable<Horas> horas = const [],
-  })  : items = UnmodifiableListView(items),
-        horas = UnmodifiableListView(
-          horas.sorted((a, b) => a.data.compareTo(b.data)),
-        ),
-        _normais = UnmodifiableListView(
-          horas.where((h) => h.tipoHora == HorasType.normal),
-        ),
-        _feriados = UnmodifiableListView(
-          horas.where((h) => h.tipoHora == HorasType.feriado),
-        );
+  }) : items = UnmodifiableListView(items),
+       horas = UnmodifiableListView(
+         horas.sorted((a, b) => a.data.compareTo(b.data)),
+       ),
+       _normais = UnmodifiableListView(
+         horas.where((h) => h.tipoHora == HorasType.normal),
+       ),
+       _feriados = UnmodifiableListView(
+         horas.where((h) => h.tipoHora == HorasType.feriado),
+       );
 
   @override
   List<Object> get props => [month, year, items, horas];

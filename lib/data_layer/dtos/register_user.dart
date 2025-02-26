@@ -25,7 +25,4 @@ class RegisterUser extends Equatable {
       password: json['password'] as String,
     );
   }
-
-  @override
-  bool get stringify => true;
 }

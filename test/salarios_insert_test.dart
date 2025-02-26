@@ -27,20 +27,6 @@ void main() {
 
   final salario = salarioDto.toSalario();
 
-  test('should list Salarios', () async {
-    try {
-      final provider = SalariosProvider(connector: connector);
-      final result = await provider.list(empregoId);
-
-      assert(result.length >= 1);
-      result.forEach((e) => print(e));
-
-      // assert(result.id != '');
-    } catch (e) {
-      print(e);
-    }
-  });
-
   test('should insert Salario from provider', () async {
     try {
       final provider = SalariosProvider(connector: connector);

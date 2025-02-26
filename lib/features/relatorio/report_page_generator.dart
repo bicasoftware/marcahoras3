@@ -26,10 +26,14 @@ class ReportPageGenerator {
 
   ReportModel generate() {
     final horasList = _generateHorasList();
-    final (valorRecNormal, horasFeitasNormal) =
-        _sumByHorasType(porc: porcNormal, type: HorasType.normal);
-    final (valorRecDif, horasFeitasDif) =
-        _sumByHorasType(type: HorasType.feriado, porc: porcDiff);
+    final (valorRecNormal, horasFeitasNormal) = _sumByHorasType(
+      porc: porcNormal,
+      type: HorasType.normal,
+    );
+    final (valorRecDif, horasFeitasDif) = _sumByHorasType(
+      type: HorasType.feriado,
+      porc: porcDiff,
+    );
 
     return ReportModel(
       month: month,
@@ -38,9 +42,7 @@ class ReportPageGenerator {
       horasFeitasNormal: TimeOfDayHelper.formatTimeFromMinutes(
         horasFeitasNormal,
       ),
-      horasFeitasDiff: TimeOfDayHelper.formatTimeFromMinutes(
-        horasFeitasDif,
-      ),
+      horasFeitasDiff: TimeOfDayHelper.formatTimeFromMinutes(horasFeitasDif),
       horasFeitasTotal: TimeOfDayHelper.formatTimeFromMinutes(
         horasFeitasNormal + horasFeitasDif,
       ),
@@ -53,35 +55,30 @@ class ReportPageGenerator {
   List<ReportHora> _generateHorasList() {
     if (horas.isEmpty) return [];
 
-    return horas.sorted((a, b) => a.data.compareTo(b.data)).map(
-      (h) {
-        final valor = CalcHelper.calcValorReceber(
-          salario: salario?.valor ?? 0.0,
-          from: h.inicio,
-          to: h.termino,
-          cargaHoraria: cargaHoraria,
-          porcentagem: h.tipoHora == HorasType.feriado ? porcDiff : porcNormal,
-        );
+    return horas.sorted((a, b) => a.data.compareTo(b.data)).map((h) {
+      final valor = CalcHelper.calcValorReceber(
+        salario: salario?.valor ?? 0.0,
+        from: h.inicio,
+        to: h.termino,
+        cargaHoraria: cargaHoraria,
+        porcentagem: h.tipoHora == HorasType.feriado ? porcDiff : porcNormal,
+      );
 
-        return ReportHora(
-          date: h.data,
-          salary: CurrencyHelper.formatAmount(salario?.valor ?? 0.0),
-          workedHours: TimeOfDayHelper.formatDayInRange(h.inicio, h.termino),
-          from: h.inicio.asString(),
-          to: h.termino.asString(),
-          type: h.tipoHora,
-          amount: CurrencyHelper.formatAmount(valor),
-          porc: h.tipoHora == HorasType.feriado ? porcDiff : porcNormal,
-          hora: h,
-        );
-      },
-    ).toList();
+      return ReportHora(
+        date: h.data,
+        salary: CurrencyHelper.formatAmount(salario?.valor ?? 0.0),
+        workedHours: TimeOfDayHelper.formatDayInRange(h.inicio, h.termino),
+        from: h.inicio.asString(),
+        to: h.termino.asString(),
+        type: h.tipoHora,
+        amount: CurrencyHelper.formatAmount(valor),
+        porc: h.tipoHora == HorasType.feriado ? porcDiff : porcNormal,
+        hora: h,
+      );
+    }).toList();
   }
 
-  (double, int) _sumByHorasType({
-    required HorasType type,
-    required int porc,
-  }) {
+  (double, int) _sumByHorasType({required HorasType type, required int porc}) {
     double valor = 0.0;
     int tempo = 0;
     horas.where((h) => h.tipoHora == type).forEach((it) {

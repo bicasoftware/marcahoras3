@@ -21,12 +21,6 @@ class HorasRepository implements HorasContract {
   }
 
   @override
-  Future<Horas> findOne(String horaId) async {
-    final hora = await _provider.findOne(horaId);
-    return hora.toHoras();
-  }
-
-  @override
   Future<List<Horas>> list(String empregoId, String from, String to) async {
     final horas = await _provider.list(empregoId, from, to);
     return horas.map((h) => h.toHoras()).toList();

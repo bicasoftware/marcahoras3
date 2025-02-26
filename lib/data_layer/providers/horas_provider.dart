@@ -26,19 +26,6 @@ class HorasProvider implements HorasProviderContract {
   }
 
   @override
-  Future<HorasDto> findOne(String horaId) async {
-    final result = await _connector.request(
-      _route,
-      method: WebMethod.get,
-      queryParams: {
-        "id": horaId,
-      },
-    );
-
-    return HorasDto.fromJson(result.data);
-  }
-
-  @override
   Future<HorasDto> create(HorasDto hora) async {
     final result = await _connector.request(
       EndPoints.horas,

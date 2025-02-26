@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../models.dart';
+import '../../../../domain_layer/models.dart';
 
 sealed class CalendarItemModel {
   final Horas? horas;
@@ -17,15 +17,8 @@ sealed class CalendarItemModel {
 }
 
 class CalendarItemDisabled extends CalendarItemModel {
-  CalendarItemDisabled(
-    DateTime data,
-    bool isToday,
-  ) : super(
-          date: data,
-          horas: null,
-          isToday: isToday,
-          enabled: false,
-        );
+  CalendarItemDisabled(DateTime data, bool isToday)
+    : super(date: data, horas: null, isToday: isToday, enabled: false);
 }
 
 class CalendarItemEmpty extends CalendarItemModel {
@@ -33,14 +26,8 @@ class CalendarItemEmpty extends CalendarItemModel {
 }
 
 class CalendarItemDateOnly extends CalendarItemModel {
-  CalendarItemDateOnly(
-    DateTime data,
-    bool isToday,
-  ) : super(
-          date: data,
-          horas: null,
-          isToday: isToday,
-        );
+  CalendarItemDateOnly(DateTime data, bool isToday)
+    : super(date: data, horas: null, isToday: isToday);
 }
 
 class CalendarItemComplete extends CalendarItemModel implements Equatable {

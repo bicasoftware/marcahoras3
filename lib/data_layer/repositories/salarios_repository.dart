@@ -1,14 +1,12 @@
-import 'package:marcahoras3/domain_layer/models/salarios.dart';
-
 import '../../data_layer/mappers/salarios_mapper.dart';
 import '../../domain_layer/contracts.dart';
+import '../../domain_layer/models/salarios.dart';
 
 class SalariosRepository implements SalariosContract {
   final SalariosProviderContract _provider;
 
-  SalariosRepository({
-    required SalariosProviderContract provider,
-  }) : _provider = provider;
+  SalariosRepository({required SalariosProviderContract provider})
+    : _provider = provider;
 
   @override
   Future<Salarios> create(Salarios salario) async {
@@ -20,12 +18,6 @@ class SalariosRepository implements SalariosContract {
   Future<Salarios> update(Salarios salario) async {
     final newSalario = await _provider.update(salario.toSalarioDto());
     return newSalario.toSalario();
-  }
-
-  @override
-  Future<List<Salarios>> list(String empregoId) async {
-    final salarios = await _provider.list(empregoId);
-    return salarios.map((s) => s.toSalario()).toList();
   }
 
   @override
