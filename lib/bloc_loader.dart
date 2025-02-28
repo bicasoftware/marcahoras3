@@ -54,7 +54,7 @@ class _BlocLoaderState extends State<BlocLoader> {
           )..load(),
         ),
         BlocProvider(
-          create: (_) => EmpregosDetailBloc(
+          create: (_) => EmpregosBloc(
             insertUseCase: EmpregoInsertUseCase(
               empregoRepo,
             ),

@@ -4,16 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain_layer/models.dart';
 import '../../../domain_layer/usecases.dart';
 import '../../../utils.dart';
-import 'empregos_detail_state.dart';
+import 'empregos_state.dart';
 
-class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
+class EmpregosBloc extends Cubit<EmpregosState> {
   final EmpregoInsertUseCase _insertUseCase;
   final EmpregoUpdateUseCase _updateUseCase;
   final SalarioCreateUseCase _salariosCreateUseCase;
   final SalarioUpdateUseCase _salariosUpdateUseCase;
   final SalarioDeleteUseCase _salariosDeleteUseCase;
 
-  EmpregosDetailBloc({
+  EmpregosBloc({
     required EmpregoInsertUseCase insertUseCase,
     required EmpregoUpdateUseCase updateUseCase,
     required SalarioCreateUseCase salariosCreateUseCase,
@@ -25,7 +25,7 @@ class EmpregosDetailBloc extends Cubit<EmpregosDetailState> {
         _salariosCreateUseCase = salariosCreateUseCase,
         _salariosDeleteUseCase = salariosDeleteUseCase,
         super(
-          EmpregosDetailState(
+          EmpregosState(
             emprego: Empregos(),
             status: StateSuccessStatus(),
           ),

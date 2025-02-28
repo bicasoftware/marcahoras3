@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
@@ -11,22 +14,19 @@ import 'salarios/salarios_action_type.dart';
 import 'salarios/salarios_detail_bts.dart';
 import 'salarios/salarios_tile.dart';
 
-class EmpregosDetailScreen extends StatefulWidget {
-  const EmpregosDetailScreen();
+class EmpregosScreen extends StatefulWidget {
+  const EmpregosScreen();
 
   @override
-  State<EmpregosDetailScreen> createState() => _EmpregosDetailScreenState();
+  State<EmpregosScreen> createState() => _EmpregosScreenState();
 }
 
-class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
+class _EmpregosScreenState extends State<EmpregosScreen> {
   late final bool isInsert;
   final _formKey = GlobalKey<FormState>();
   final ctrDescricao = TextEditingController();
-  final ctrSalarioMasked = MoneyMaskedTextController(
-    leftSymbol: "R\$",
-    initialValue: 0.0,
-  );
 
+  late final MoneyMaskedTextController ctrSalarioMasked;
   late final Empregos editableEmprego;
 
   @override
@@ -38,16 +38,20 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
 
   @override
   void initState() {
-    final bloc = context.read<EmpregosDetailBloc>();
+    final bloc = context.read<EmpregosBloc>();
     ctrDescricao.text = bloc.state.descricao ?? '';
-    ctrSalarioMasked.text = bloc.state.salario.toString();
+
+    if (!mounted) return;
+    var format = NumberFormat.simpleCurrency(locale: Platform.localeName);
+    ctrSalarioMasked = MoneyMaskedTextController(
+      leftSymbol: format.currencySymbol,
+      initialValue: bloc.state.salario,
+    );
+
     super.initState();
   }
 
-  Future<void> _selectDate(
-    BuildContext context,
-    EmpregosDetailBloc bloc,
-  ) async {
+  Future<void> _selectDate(BuildContext context, EmpregosBloc bloc) async {
     final date = await DialogHelper.showDateTimeDialog(
       context: context,
       initDate: DateTime.now(),
@@ -61,7 +65,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
 
   Future<void> _selectTime({
     required BuildContext context,
-    required EmpregosDetailBloc bloc,
+    required EmpregosBloc bloc,
     bool isEntrada = false,
   }) async {
     final initValue = isEntrada ? bloc.state.entrada : bloc.state.saida;
@@ -75,7 +79,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     }
   }
 
-  Future<void> _validate(EmpregosDetailBloc bloc) async {
+  Future<void> _validate(EmpregosBloc bloc) async {
     final valid = _formKey.currentState?.validate() ?? false;
     if (valid) {
       if (bloc.validate()) {
@@ -92,7 +96,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     }
   }
 
-  void _deleteSalario(Salarios salario, EmpregosDetailBloc bloc) async {
+  void _deleteSalario(Salarios salario, EmpregosBloc bloc) async {
     final bool shouldDelete = await showConfirmationDialog(
       context: context,
       titleMsg: "Apagar Salário",
@@ -109,7 +113,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     }
   }
 
-  void _updateSalario(Salarios salario, EmpregosDetailBloc bloc) async {
+  void _updateSalario(Salarios salario, EmpregosBloc bloc) async {
     await BottomSheetHelper.showModalBts(
       context: context,
       body: SalariosDetailBts(
@@ -129,10 +133,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
     );
   }
 
-  void _handleAumento(
-    SalariosActionType action,
-    EmpregosDetailBloc bloc,
-  ) async {
+  void _handleAumento(SalariosActionType action, EmpregosBloc bloc) async {
     if (action == SalariosActionType.aumento) {
       await BottomSheetHelper.showModalBts(
         context: context,
@@ -159,7 +160,7 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final isInsert = ModalRoute.of(context)?.settings.arguments as bool;
-    final bloc = context.watch<EmpregosDetailBloc>();
+    final bloc = context.watch<EmpregosBloc>();
     final textTheme = Theme.of(context).textTheme;
     final state = bloc.state;
     final locale = Localizations.localeOf(context);
@@ -186,14 +187,14 @@ class _EmpregosDetailScreenState extends State<EmpregosDetailScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: SingleChildScrollView(
-          child: BlocHelper<EmpregosDetailBloc, EmpregosDetailState>(
+          child: BlocHelper<EmpregosBloc, EmpregosState>(
             bloc: bloc,
             onError: (error) {
               context.showSnackBar(error);
             },
             child: Form(
               key: _formKey,
-              child: BlocHelper<EmpregosDetailBloc, EmpregosDetailState>(
+              child: BlocHelper<EmpregosBloc, EmpregosState>(
                 bloc: bloc,
                 onError: (err) async {
                   showErrorDialog(context: context, errorMsg: err);

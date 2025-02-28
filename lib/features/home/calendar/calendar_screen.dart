@@ -106,7 +106,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     required HomeBloc bloc,
     required bool isInsert,
   }) async {
-    final detailsBloc = context.read<EmpregosDetailBloc>();
+    final detailsBloc = context.read<EmpregosBloc>();
 
     isInsert
         ? detailsBloc.reset()

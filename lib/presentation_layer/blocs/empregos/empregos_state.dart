@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import '../../../domain_layer/models.dart';
 import '../../../utils.dart';
 
-class EmpregosDetailState extends BaseState implements Equatable {
+class EmpregosState extends BaseState implements Equatable {
   final Empregos emprego;
 
   final bool isEditing;
 
-  EmpregosDetailState({
+  EmpregosState({
     required Empregos emprego,
     this.isEditing = false,
     required super.status,
@@ -28,7 +28,7 @@ class EmpregosDetailState extends BaseState implements Equatable {
   List<Salarios> get salarios => emprego.salarios;
 
   @override
-  bool operator ==(covariant EmpregosDetailState other) {
+  bool operator ==(covariant EmpregosState other) {
     if (identical(this, other)) return true;
 
     return other.emprego == emprego;
@@ -37,7 +37,7 @@ class EmpregosDetailState extends BaseState implements Equatable {
   @override
   int get hashCode => emprego.hashCode;
 
-  EmpregosDetailState copyWith({
+  EmpregosState copyWith({
     String? id,
     String? descricao,
     DateTime? admissao,
@@ -67,14 +67,14 @@ class EmpregosDetailState extends BaseState implements Equatable {
               salario: salario ?? this.emprego.salario,
             );
 
-    return EmpregosDetailState(
+    return EmpregosState(
       emprego: updtEmprego,
       status: status ?? this.status,
       isEditing: isEditing ?? this.isEditing,
     );
   }
 
-  EmpregosDetailState emitLoading() => this.copyWith(
+  EmpregosState emitLoading() => this.copyWith(
         status: StateLoadingStatus(),
       );
 }

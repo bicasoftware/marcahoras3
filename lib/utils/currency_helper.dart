@@ -1,13 +1,9 @@
-import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
+import 'dart:io';
 
-import '../main.dart';
+import 'package:intl/intl.dart';
 
 class CurrencyHelper {
   static String formatAmount(double amount) {
-    final _loc = Localizations.localeOf(navigatorKey.currentState!.context);
-    return NumberFormat.currency(locale: _loc.toLanguageTag())
-        .format(amount)
-        .replaceAll("BRL", "R\$");
+    return NumberFormat.simpleCurrency(locale: Platform.localeName).format(amount);
   }
 }
