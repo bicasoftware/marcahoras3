@@ -83,9 +83,11 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
-  Future<void> deleteEmprego(Empregos emprego) async {
+  Future<void> deleteCurrentEmprego() async {
     try {
       emit(state.copyWith(status: StateLoadingStatus()));
+      final emprego = state.currentEmprego;
+      if (emprego == null) throw (Localiza.find('expt_emprego_null'));
 
       /// Deletes [Emprego] from server
       await _empregoDeleteUseCase(emprego.id!);
@@ -96,7 +98,11 @@ class HomeBloc extends Cubit<HomeState> {
 
       /// Finally emits a new state with the new [Salarios] list
       emit(
-        state.copyWith(status: StateSuccessStatus(), empregos: empregosList),
+        state.copyWith(
+          status: StateSuccessStatus(),
+          empregos: empregosList,
+          empregoPos: empregosList.isNotEmpty ? 0 : -1,
+        ),
       );
     } on Exception catch (e) {
       emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
@@ -243,78 +249,6 @@ class HomeBloc extends Cubit<HomeState> {
 
       rethrow;
     }
-
-    // if (pageIndex == -1 || reportIndex == -1) {
-    //   try {
-    //     emit(state.copyWith(status: StateLoadingStatus()));
-    //     // TODO
-    //     final (initDate, endDate) = getFormatedDateRange(year, month);
-
-    //     final List<Horas> horas = await _horasLoadByRangeUseCase(
-    //       currentEmprego.id!,
-    //       initDate,
-    //       endDate,
-    //     );
-
-    //     final calendarPage = await _calendarPageGeneratorUseCase(
-    //       horas: horas,
-    //       month: month,
-    //       year: year,
-    //       admissao: currentEmprego.admissao!,
-    //     );
-
-    //     /// Generates all overtime information needed to be presented in
-    //     /// [RelatorioScreen] and in the pdf generation routine
-    //     final reportPage = await ReportPageGenerator(
-    //       year: year,
-    //       month: month,
-    //       bancoHoras: currentEmprego.bancoHoras,
-    //       cargaHoraria: currentEmprego.cargaHoraria,
-    //       porcNormal: currentEmprego.porcNormal,
-    //       porcDiff: currentEmprego.porcFeriado,
-    //       salario: state.getSalarioByVigencia(year, month),
-    //       horas: horas,
-    //     ).generate();
-
-    //     final allHoras = <Horas>[...currentEmprego.horas, ...horas];
-    //     final pages = [...currentEmprego.calendarPages, calendarPage];
-    //     final reportPages = [...currentEmprego.reportPages, reportPage];
-
-    //     final empregosList = [...state.empregos];
-    //     empregosList[empregoPos ?? state.empregoPos] = currentEmprego.copyWith(
-    //       horas: allHoras,
-    //       calendarPages: pages,
-    //       reportPages: reportPages,
-    //     );
-
-    //     emit(
-    //       state.copyWith(
-    //         status: StateSuccessStatus(),
-    //         year: year,
-    //         month: month,
-    //         empregos: empregosList,
-    //         empregoPos: empregoPos ?? state.empregoPos,
-    //       ),
-    //     );
-    //   } on Exception catch (e) {
-    //     emit(
-    //       state.copyWith(
-    //         status: StateErrorStatus(errorMsg: e.toString()),
-    //       ),
-    //     );
-
-    //     rethrow;
-    //   }
-    // } else {
-    //   emit(
-    //     state.copyWith(
-    //       status: StateSuccessStatus(),
-    //       year: year,
-    //       month: month,
-    //       empregoPos: empregoPos ?? state.empregoPos,
-    //     ),
-    //   );
-    // }
   }
 
   Future<void> insertHora(Horas hora) async {

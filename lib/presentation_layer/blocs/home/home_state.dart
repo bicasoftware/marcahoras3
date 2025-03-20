@@ -32,7 +32,6 @@ class HomeState extends BaseState {
   }) {
     final newState = HomeState(
       status: status ?? this.status,
-      // navigatorPos: navigatorPos ?? this.navigatorPos,
       empregos: empregos ?? this.empregos,
       empregoPos: empregoPos ?? this.empregoPos,
       isDarkMode: isDarkMode ?? this.isDarkMode,

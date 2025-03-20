@@ -57,7 +57,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop(); // Close the current bts
-                    _onDelete(bloc, selectedHora!);
+                    _onDeleteHora(bloc, selectedHora!);
                   },
                 ),
               )
@@ -85,7 +85,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }
   }
 
-  Future<void> _onDelete(HomeBloc bloc, Horas selectedHora) async {
+  Future<void> _onDeleteHora(HomeBloc bloc, Horas selectedHora) async {
     await awaitableTask(
       context: context,
       requireConfirmation: true,
@@ -117,6 +117,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
     ).pushNamed(Routes.empregosDetail, arguments: isInsert);
 
     bloc.load();
+  }
+
+  void _showOnDeleteDialog(HomeBloc bloc) async {
+    await awaitableTask(
+      context: context,
+      requireConfirmation: true,
+      confirmationTitle: Localiza.findAndReplace(
+        stringKey: 'deleteDialogTitle',
+        findString: '{value}',
+        replaceWithKey: 'emprego',
+      ),
+      confirmationMessage: Localiza.find('deleteDialogMsg'),
+      actualTask: () => bloc.deleteCurrentEmprego(),
+    );
   }
 
   @override
@@ -225,6 +239,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           bloc: bloc,
                           isInsert: false,
                         ),
+                    onDelete: () => _showOnDeleteDialog(bloc),
                   ),
                 ),
               ),

@@ -99,8 +99,16 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
   void _deleteSalario(Salarios salario, EmpregosBloc bloc) async {
     final bool shouldDelete = await showConfirmationDialog(
       context: context,
-      titleMsg: "Apagar Salário",
-      descriptionText: "Você realmente deseja apagar o Salário?",
+      titleMsg: Localiza.findAndReplace(
+        stringKey: 'deleteDialogTitle',
+        findString: '{value}',
+        replaceWithKey: 'salario',
+      ),
+      descriptionText: Localiza.findAndReplace(
+        stringKey: 'deleteDialogMsg',
+        findString: '{value}',
+        replaceWithKey: 'salario',
+      ),
     );
 
     if (shouldDelete) {

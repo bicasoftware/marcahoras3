@@ -7,9 +7,13 @@ import '../../../../resources.dart';
 import '../../../../utils.dart';
 
 class EmpregosDropdown extends StatelessWidget {
-  final VoidCallback onAdd, onEdit;
+  final VoidCallback onAdd, onEdit, onDelete;
 
-  const EmpregosDropdown({required this.onAdd, required this.onEdit});
+  const EmpregosDropdown({
+    required this.onAdd,
+    required this.onEdit,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +23,35 @@ class EmpregosDropdown extends StatelessWidget {
     return DropdownButtonHideUnderline(
       child: DropdownButton<Object>(
         dropdownColor: AppColors.inversePrimary,
-        icon: ElevatedButton(
-          child: Text(
-            Localiza.find("editar"),
-            textAlign: TextAlign.end,
-            style: theme.bodyMedium!.copyWith(
-              color: AppColors.primary,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          onPressed: onEdit,
+        icon: PopupMenuButton(
+          color: AppColors.inversePrimary,
+          icon: Icon(Icons.more_vert, color: AppColors.onPrimary),
+          itemBuilder: (context) {
+            return <PopupMenuItem>[
+              PopupMenuItem(
+                onTap: onEdit,
+                child: Text(
+                  Localiza.find('editar'),
+                  textAlign: TextAlign.justify,
+                  style: theme.bodyLarge?.copyWith(
+                    color: AppColors.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              PopupMenuItem(
+                onTap: onDelete,
+                child: Text(
+                  Localiza.find('apagar'),
+                  textAlign: TextAlign.justify,
+                  style: theme.bodyLarge?.copyWith(
+                    color: AppColors.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ];
+          },
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(16)),

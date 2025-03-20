@@ -145,6 +145,9 @@ porcFeriado:
 editar:
   pt_BR: Editar
   en_US: Edit
+apagar:
+  pt_BR: Apagar
+  en_US: Delete
 recebiAumento:
   pt_BR: Recebi um Aumento
   en_US: Got a raise
@@ -227,6 +230,12 @@ total:
 novo:
   pt_BR: Novo
   en_US: New
+deleteDialogTitle:
+  pt_BR: Apagar {value}
+  en_US: Delete {value}
+deleteDialogMsg:
+  pt_BR: Você realmente deseja apagar?
+  en_US: Do you really want to delete?
 months:
   pt_BR:
     - Janeiro
@@ -271,3 +280,8 @@ weekDays:
     - THU
     - FRY
     - SAT
+
+# Exceptions
+expt_emprego_null:
+  pt_BR: Emprego não encontrado
+  en_US: Job not found
