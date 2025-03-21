@@ -36,13 +36,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
     final newHora = await BottomSheetHelper.showModalBts(
       context: context,
       dismissible: true,
-      leading:
-          isEdit
-              ? Container(
-                margin: EdgeInsets.only(right: 12),
-                child: Icon(Icons.calendar_month),
-              )
-              : null,
+      leading: Container(
+        margin: EdgeInsets.only(right: 12),
+        child: Icon(Icons.calendar_month),
+      ),
       label:
           !isEdit
               ? Localiza.find("novahora")

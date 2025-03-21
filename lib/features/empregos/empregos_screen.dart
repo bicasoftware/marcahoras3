@@ -179,10 +179,6 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
             isInsert
                 ? Localiza.find("adicionarEmprego")
                 : Localiza.find("editarEmprego"),
-        actions: [
-          if (!isInsert)
-            IconButton(icon: Icon(Icons.delete_outline), onPressed: () {}),
-        ],
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),

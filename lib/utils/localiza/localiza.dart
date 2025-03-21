@@ -19,9 +19,15 @@ class Localiza {
   }
 
   static String find(String stringName) {
+    try {
     return _parsedYaml.containsKey(stringName)
         ? _parsedYaml[stringName][_locale]
         : stringName;
+
+    } on Exception {
+      print("Erro ao ler string $stringName");
+      return '';
+    }
   }
 
   static String findAndReplace({

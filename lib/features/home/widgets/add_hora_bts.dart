@@ -81,6 +81,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        spacing: 8,
         children: [
           if (!widget.hideDate) ...[
             ShLabeledTile(
@@ -98,7 +99,6 @@ class _AddHoraBtsState extends State<AddHoraBts> {
               },
               icon: Icons.calendar_month,
             ),
-            const SizedBox(height: 8),
           ],
           ShTimeRangePicker(
             initTime: _entrada,
@@ -110,7 +110,6 @@ class _AddHoraBtsState extends State<AddHoraBts> {
               setState(() => _saida = time);
             },
           ),
-          const SizedBox(height: 8),
           ShSwitchTile(
             value: _feriado,
             label: Localiza.find('feriado'),
@@ -118,12 +117,12 @@ class _AddHoraBtsState extends State<AddHoraBts> {
               setState(() => _feriado = !_feriado);
             },
           ),
-          const SizedBox(height: 8),
           OutlinedButton.icon(
             onPressed: _onSave,
             icon: Icon(Icons.save_outlined),
             label: Text(Localiza.find('salvar')),
           ),
+          const SizedBox(height: 8),
         ],
       ),
     );

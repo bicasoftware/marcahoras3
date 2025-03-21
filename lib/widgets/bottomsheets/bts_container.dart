@@ -4,11 +4,7 @@ class BtsContainer extends StatelessWidget {
   final Widget child;
   final String title;
 
-  const BtsContainer({
-    required this.child,
-    super.key,
-    required this.title,
-  });
+  const BtsContainer({required this.child, super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +30,6 @@ class BtsContainer extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Spacer(),
-                Center(
-                  child: IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                )
               ],
             ),
             child,

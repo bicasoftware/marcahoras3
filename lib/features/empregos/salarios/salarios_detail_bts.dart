@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import '../../../presentation_layer/validators/validators.dart';
 import '../../../utils/localiza/localiza.dart';
 import '../../../widgets.dart';
-import '../../../widgets/bottomsheets/bts_container.dart';
 
 class SalariosDetailBts extends StatefulWidget {
   final double value;
@@ -43,13 +42,19 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final months = Localiza.findList("months");
 
-    return BtsContainer(
-      title: widget.title,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 8,
         children: [
+          Text(
+            widget.title,
+            style: theme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          ),
           ShTextTile(
             controller: amountController,
             label: Localiza.find("salario"),
@@ -65,7 +70,6 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             keyboardType: TextInputType.number,
           ),
-          const SizedBox(height: 16),
           ShCustomLabelTile(
             label: Localiza.find("vigencia"),
             icon: Icons.calendar_month,
@@ -78,8 +82,8 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
                   children: [
                     Expanded(
                       child: ShScrollablePicker<String>(
-                        items: Localiza.findList("months"),
-                        selectedItem: Localiza.find("months")[month - 1],
+                        items: months,
+                        selectedItem: months[month - 1],
                         onItemSelected: (int pos) {
                           setState(() => month = pos + 1);
                         },
@@ -101,6 +105,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            margin: EdgeInsets.only(bottom: 16),
             child: OutlinedButton.icon(
               onPressed: () {
                 Navigator.of(context).pop();

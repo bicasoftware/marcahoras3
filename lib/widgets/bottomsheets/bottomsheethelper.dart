@@ -22,7 +22,6 @@ class BottomSheetHelper {
       context: context,
       useRootNavigator: useRootNavigation,
       barrierColor: barrierColor ?? Colors.black.withValues(alpha: .7),
-      showDragHandle: true,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -30,44 +29,36 @@ class BottomSheetHelper {
           topRight: topRadius,
         ),
       ),
-      builder: (context) => Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: Material(
-          color: bgColor,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 16.0, right: 16, bottom: 8),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (leading != null) leading,
-                    if (label != null)
-                      Text(
-                        label,
-                        style: theme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: AppColors.onSurface,
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
-                    if (trailing != null) ...[
-                      const Spacer(),
-                      trailing,
-                    ],
-                    const Divider(),
-                  ],
-                ),
-              ),
-              body,
-            ],
+      builder: (context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (leading != null) leading,
+                if (label != null)
+                  Text(
+                    label,
+                    style: theme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: AppColors.onSurface,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                if (trailing != null) ...[
+                  const Spacer(),
+                  trailing,
+                ],
+                const Divider(),
+              ],
+            ),
           ),
-        ),
+          body,
+        ],
       ),
     );
   }
