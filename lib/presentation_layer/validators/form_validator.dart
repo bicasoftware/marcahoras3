@@ -53,13 +53,11 @@ class TimeRangeValidator {
     required TimeOfDay endTime,
   }) {
     switch (initTime.compareTo(endTime)) {
-      case 0:
+      case 0: // 0 indica que horas são iguais
         return Localiza.find('horaInicioIgualHoraFim');
-      case 1:
-        return Localiza.find('horaInicioDepoisHoraFim');
-      case -1:
-        return Localiza.find('horaFimAntesHoraInicio');
-      default:
+      case 1: // 1 indica que hora inicial é maior que hora final
+        return Localiza.find('horaInicioDepoisHoraFim');      
+      default: // -1 indicaria que tá ok, então deixo cair no default
         return null;
     }
   }

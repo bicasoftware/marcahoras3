@@ -4,13 +4,14 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:marcahoras3/widgets/forms/label_form_field.dart';
+import 'package:marcahoras3/widgets/sh_togglable_tile.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
 import '../../presentation_layer/validators/validators.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
-import '../../widgets/forms/label_form_field.dart';
 import 'salarios/salarios_action_type.dart';
 import 'salarios/salarios_detail_bts.dart';
 import 'salarios/salarios_tile.dart';
@@ -284,14 +285,14 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                       validator: (t) {
                         return TimeRangeValidator.validate(
                           initTime: bloc.state.entrada!,
-                          endTime: bloc.state.saida!
+                          endTime: bloc.state.saida!,
                         );
                       },
                     ),
-                    ShDropDownButton(
+                    ShTogglableTile(
                       label: Localiza.find("cargaHoraria"),
                       value: state.cargaHoraria,
-                      options: [160, 180, 200, 220],
+                      options: [220, 200, 180, 160],
                       onChanged: bloc.setCargaHoraria,
                       icon: Icon(Icons.list),
                     ),
