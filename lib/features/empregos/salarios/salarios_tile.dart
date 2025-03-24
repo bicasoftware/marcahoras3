@@ -96,7 +96,7 @@ class _SalariosTileState extends State<SalariosTile> {
             onValueChanged: widget.onSalarioValueChanged,
             validator: (s) {
               if (widget.controller.numberValue <= 0.0) {
-                return "Salário deve ser preenchido corretamente";
+                return Localiza.find('salarioInvalido');
               }
               return MinCharactersValidator.validate(s, 6);
             },

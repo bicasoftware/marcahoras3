@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../../utils/localiza/localiza.dart';
 
 class EmailValidator {
@@ -28,6 +30,38 @@ class MinCharactersValidator {
     }
 
     return error;
+  }
+}
+
+class DateValidator {
+  static String? validate(
+    DateTime? date,
+    String onEmptyKey,
+    String onInvalidKey,
+  ) {
+    if (date == null) {
+      return "${Localiza.find(onEmptyKey)}";
+    }
+
+    return null;
+  }
+}
+
+class TimeRangeValidator {
+  static String? validate({
+    required TimeOfDay initTime,
+    required TimeOfDay endTime,
+  }) {
+    switch (initTime.compareTo(endTime)) {
+      case 0:
+        return Localiza.find('horaInicioIgualHoraFim');
+      case 1:
+        return Localiza.find('horaInicioDepoisHoraFim');
+      case -1:
+        return Localiza.find('horaFimAntesHoraInicio');
+      default:
+        return null;
+    }
   }
 }
 

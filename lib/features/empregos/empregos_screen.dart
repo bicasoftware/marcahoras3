@@ -10,6 +10,7 @@ import '../../presentation_layer/blocs.dart';
 import '../../presentation_layer/validators/validators.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
+import '../../widgets/forms/label_form_field.dart';
 import 'salarios/salarios_action_type.dart';
 import 'salarios/salarios_detail_bts.dart';
 import 'salarios/salarios_tile.dart';
@@ -42,7 +43,7 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
     ctrDescricao.text = bloc.state.descricao ?? '';
 
     if (!mounted) return;
-    var format = NumberFormat.simpleCurrency(locale: Platform.localeName);
+    final format = NumberFormat.simpleCurrency(locale: Platform.localeName);
     ctrSalarioMasked = MoneyMaskedTextController(
       leftSymbol: format.currencySymbol,
       initialValue: bloc.state.salario,
@@ -205,6 +206,7 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                   Navigator.of(context).pop();
                 },
                 child: Column(
+                  spacing: 4,
                   children: [
                     ShTextTile(
                       controller: ctrDescricao,
@@ -220,17 +222,23 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                         );
                       },
                     ),
-                    const SizedBox(height: 8),
-                    ShLabeledTile(
-                      value: formatDateByLocale(
-                        state.admissao ?? DateTime.now(),
-                        locale,
-                      ),
+                    LabelFormField<String>(
                       label: Localiza.find("admissao"),
-                      onTap: () => _selectDate(context, bloc),
+                      initialValue:
+                          state.admissao != null
+                              ? formatDateByLocale(state.admissao, locale)
+                              : Localiza.find('preencherAdmissao'),
+                      valueFormatter: (s) => s,
                       icon: Icons.calendar_month,
+                      onTap: () => _selectDate(context, bloc),
+                      validator: (s) {
+                        return DateValidator.validate(
+                          state.admissao,
+                          "admissaoVazia",
+                          "dataInvalida",
+                        );
+                      },
                     ),
-                    const SizedBox(height: 8),
                     SalariosTile(
                       controller: ctrSalarioMasked,
                       isEditing: bloc.state.isEditing,
@@ -244,26 +252,42 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                       onEdit: (s) => _updateSalario(s, bloc),
                       onDelete: (s) => _deleteSalario(s, bloc),
                     ),
-                    const SizedBox(height: 8),
-                    ShLabeledTile(
-                      value: TimeOfDayHelper.formatTime(state.entrada!),
+                    LabelFormField<TimeOfDay>(
                       label: Localiza.find("entradaHora"),
+                      initialValue:
+                          state.entrada ?? TimeOfDay(hour: 8, minute: 00),
+                      valueFormatter: (t) => TimeOfDayHelper.formatTime(t),
                       icon: Icons.timelapse_outlined,
-                      onTap:
-                          () => _selectTime(
-                            context: context,
-                            bloc: bloc,
-                            isEntrada: true,
-                          ),
+                      onTap: () {
+                        _selectTime(
+                          context: context,
+                          bloc: bloc,
+                          isEntrada: true,
+                        );
+                      },
+                      validator: (t) {
+                        return TimeRangeValidator.validate(
+                          initTime: bloc.state.entrada!,
+                          endTime: bloc.state.saida!,
+                        );
+                      },
                     ),
-                    const SizedBox(height: 8),
-                    ShLabeledTile(
-                      value: TimeOfDayHelper.formatTime(bloc.state.saida!),
+                    LabelFormField<TimeOfDay>(
                       label: Localiza.find("saidaHora"),
+                      initialValue:
+                          bloc.state.saida ?? TimeOfDay(hour: 18, minute: 00),
+                      valueFormatter: (t) {
+                        return TimeOfDayHelper.formatTime(t);
+                      },
                       icon: Icons.timelapse_outlined,
                       onTap: () => _selectTime(context: context, bloc: bloc),
+                      validator: (t) {
+                        return TimeRangeValidator.validate(
+                          initTime: bloc.state.entrada!,
+                          endTime: bloc.state.saida!
+                        );
+                      },
                     ),
-                    const SizedBox(height: 8),
                     ShDropDownButton(
                       label: Localiza.find("cargaHoraria"),
                       value: state.cargaHoraria,
@@ -271,13 +295,13 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                       onChanged: bloc.setCargaHoraria,
                       icon: Icon(Icons.list),
                     ),
-                    const SizedBox(height: 8),
+
                     ShSwitchTile(
                       value: state.bancoHoras,
                       label: Localiza.find("bancoHoras"),
                       onTap: (_) => bloc.toggleBancoHoras(),
                     ),
-                    const SizedBox(height: 8),
+
                     ShSliderPicker(
                       label: Localiza.find("porcNormal"),
                       value: state.porcNormal ?? 50,
@@ -285,7 +309,7 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                       minValue: 50,
                       maxValue: 250,
                     ),
-                    const SizedBox(height: 8),
+
                     ShSliderPicker(
                       label: Localiza.find("porcFeriado"),
                       value: state.porcFeriado ?? 100,

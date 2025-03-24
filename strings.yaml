@@ -19,6 +19,30 @@ jaTenhoCadastro:
 naoTenhoCadastro:
   pt_BR: Não Tem uma conta? Clique para criar.
   en_US: Do not have an account? Click to create.
+salarioInvalido:
+  pt_BR: Salário deve ser preenchido corretamente
+  en_US: Amount must be not be empty
+dataInvalida:
+  pt_BR: Data deve ser preenchida corretamente
+  en_US: Date must be not be empty
+horarioInvalido:
+  pt_BR: Hora inicial deve ser antes da hora de termino
+  en_US: Start time must be before end time
+preencherAdmissao:
+  pt_BR: Toque para adicionar a data de admissão
+  en_US: Tap to add admission date
+admissaoVazia:
+  pt_BR: Admissão não pode ser vazia
+  en_US: Admission date can't be empty
+horaInicioDepoisHoraFim:
+  pt_BR: Hora de início não pode ser depois da hora de término
+  en_US: Start time can't be after end time
+horaFimAntesHoraInicio:
+  pt_BR: Hora de término não pode ser antes da hora de início
+  en_US: End time can't be before start time
+horaInicioIgualHoraFim:
+  pt_BR: Hora de início não pode ser igual a hora de término
+  en_US: Start time can't be the same as end time
 tentar:
   pt_BR: Tentar novamente
   en_US: Try again
