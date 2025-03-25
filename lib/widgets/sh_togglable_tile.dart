@@ -28,7 +28,7 @@ class _ShTogglableTileState extends State<ShTogglableTile> {
   @override
   void initState() {
     super.initState();
-    _selected = widget.options[widget.value];
+    _selected = widget.value;
     _items = widget.options.map((it) => it == _selected).toList();
   }
 

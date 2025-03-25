@@ -5,12 +5,14 @@ import '../resources.dart';
 class ShScrollablePicker<T> extends StatefulWidget {
   final List<T> items;
   final T selectedItem;
+  final String Function<T>(T item) valueFormatter;
   final void Function(int pos) onItemSelected;
 
   const ShScrollablePicker({
     required this.items,
     required this.selectedItem,
     required this.onItemSelected,
+    required this.valueFormatter,
     super.key,
   });
 
@@ -57,6 +59,7 @@ class _ShScrollablePickerState<T> extends State<ShScrollablePicker> {
           return _PickerItem<T>(
             value: widget.items[i],
             isSelected: _isSelectedItem(i),
+            valueFormatter: widget.valueFormatter,
           );
         },
       ),
@@ -67,10 +70,12 @@ class _ShScrollablePickerState<T> extends State<ShScrollablePicker> {
 class _PickerItem<T> extends StatelessWidget {
   final T value;
   final bool isSelected;
+  final String Function<T>(T item) valueFormatter;
 
   const _PickerItem({
     required this.value,
     required this.isSelected,
+    required this.valueFormatter,
   });
 
   @override
@@ -81,10 +86,9 @@ class _PickerItem<T> extends StatelessWidget {
       margin: EdgeInsets.all(2),
       child: Center(
         child: Text(
-          "$value",
+          valueFormatter(value),
           textAlign: TextAlign.center,
           style: theme.titleSmall?.copyWith(
-            // fontWeight: FontWeight.bold,
             color: isSelected ? AppColors.secondary : AppColors.onSurface,
           ),
         ),

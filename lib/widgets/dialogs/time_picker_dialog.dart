@@ -9,7 +9,7 @@ Future<DateTime?> datePickerDialog({
   return await showDatePicker(
     context: context,
     initialDate: initialDate ?? DateTime.now(),
-    firstDate: admissao ?? DateTime(2020, 1,1),
+    firstDate: admissao ?? DateTime(2020, 1, 1),
     lastDate: allowFutureDate ? DateTime(2100) : DateTime.now(),
   );
 }
@@ -21,5 +21,12 @@ Future<TimeOfDay?> timePickerDialog({
   return await showTimePicker(
     context: context,
     initialTime: time ?? TimeOfDay(hour: 09, minute: 09),
+    initialEntryMode: TimePickerEntryMode.inputOnly,
+    builder: (context, child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+        child: child!,
+      );
+    },
   );
 }

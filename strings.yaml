@@ -43,6 +43,9 @@ horaFimAntesHoraInicio:
 horaInicioIgualHoraFim:
   pt_BR: Hora de início não pode ser igual a hora de término
   en_US: Start time can't be the same as end time
+selecionarHorario:
+  pt_BR: Selecione um horário
+  en_US: Select a time
 tentar:
   pt_BR: Tentar novamente
   en_US: Try again
@@ -73,6 +76,12 @@ email:
 password:
   pt_BR: Senha  
   en_US: Password 
+hora:
+  pt_BR: Hora  
+  en_US: Hour
+minuto:
+  pt_BR: Minuto  
+  en_US: Minute
 repeatPassword:
   pt_BR: Digite a senha novamente  
   en_US: Type your password again

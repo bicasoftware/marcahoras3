@@ -84,6 +84,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
                       child: ShScrollablePicker<String>(
                         items: months,
                         selectedItem: months[month - 1],
+                        valueFormatter: <int>(item) => item.toString(),
                         onItemSelected: (int pos) {
                           setState(() => month = pos + 1);
                         },
@@ -93,6 +94,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
                       child: ShScrollablePicker<int>(
                         items: yearList,
                         selectedItem: year,
+                        valueFormatter: <int>(item) => item.toString(),
                         onItemSelected: (int selection) {
                           setState(() => year = yearList[selection]);
                         },

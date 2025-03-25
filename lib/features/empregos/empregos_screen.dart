@@ -4,6 +4,7 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:marcahoras3/widgets/dialogs/scrollable_time_picker.dart';
 import 'package:marcahoras3/widgets/forms/label_form_field.dart';
 import 'package:marcahoras3/widgets/sh_togglable_tile.dart';
 
@@ -65,19 +66,24 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
     }
   }
 
-  Future<void> _selectTime({
+  void _showHorasBts({
     required BuildContext context,
     required EmpregosBloc bloc,
-    bool isEntrada = false,
+    required TimeOfDay time,
+    required bool isEntrada,
   }) async {
-    final initValue = isEntrada ? bloc.state.entrada : bloc.state.saida;
-    final picked = await DialogHelper.showTimeDialog(
+    final newTime = await BottomSheetHelper.showModalBts(
       context: context,
-      time: initValue!,
+      dismissible: true,
+      leading: Container(
+        margin: EdgeInsets.only(right: 12),
+        child: Icon(Icons.av_timer_sharp),
+      ),
+      label: Localiza.find("selecionarHorario"),
+      body: ScrollableTimePickerBody(timeOfDay: time),
     );
-
-    if (picked != null && picked != initValue) {
-      isEntrada ? bloc.setEntrada(picked) : bloc.setSaida(picked);
+    if (newTime != null && newTime != time) {
+      isEntrada ? bloc.setEntrada(newTime) : bloc.setSaida(newTime);
     }
   }
 
@@ -259,11 +265,12 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                           state.entrada ?? TimeOfDay(hour: 8, minute: 00),
                       valueFormatter: (t) => TimeOfDayHelper.formatTime(t),
                       icon: Icons.timelapse_outlined,
-                      onTap: () {
-                        _selectTime(
+                      onTap: () async {
+                        _showHorasBts(
                           context: context,
                           bloc: bloc,
                           isEntrada: true,
+                          time: bloc.state.entrada!,
                         );
                       },
                       validator: (t) {
@@ -281,7 +288,14 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                         return TimeOfDayHelper.formatTime(t);
                       },
                       icon: Icons.timelapse_outlined,
-                      onTap: () => _selectTime(context: context, bloc: bloc),
+                      onTap: () {
+                        _showHorasBts(
+                          context: context,
+                          bloc: bloc,
+                          isEntrada: false,
+                          time: bloc.state.saida!,
+                        );
+                      },
                       validator: (t) {
                         return TimeRangeValidator.validate(
                           initTime: bloc.state.entrada!,
