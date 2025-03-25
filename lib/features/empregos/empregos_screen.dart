@@ -4,7 +4,7 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:marcahoras3/widgets/dialogs/scrollable_time_picker.dart';
+import 'package:marcahoras3/widgets/dialogs/scrollable_time_picker_dialog.dart';
 import 'package:marcahoras3/widgets/forms/label_form_field.dart';
 import 'package:marcahoras3/widgets/sh_togglable_tile.dart';
 
@@ -72,16 +72,13 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
     required TimeOfDay time,
     required bool isEntrada,
   }) async {
-    final newTime = await BottomSheetHelper.showModalBts(
+    final newTime = await showScrollableTimePickerDialog(
       context: context,
-      dismissible: true,
-      leading: Container(
-        margin: EdgeInsets.only(right: 12),
-        child: Icon(Icons.av_timer_sharp),
-      ),
-      label: Localiza.find("selecionarHorario"),
-      body: ScrollableTimePickerBody(timeOfDay: time),
+      titleMsg: Localiza.find('selecionarHorario'),
+      descriptionText: '',
+      timeOfDay: time,
     );
+
     if (newTime != null && newTime != time) {
       isEntrada ? bloc.setEntrada(newTime) : bloc.setSaida(newTime);
     }

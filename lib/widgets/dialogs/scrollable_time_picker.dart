@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../resources.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
 
 class ScrollableTimePickerBody extends StatefulWidget {
   final TimeOfDay? timeOfDay;
+  final Function(TimeOfDay t) onTimeSet;
 
-  const ScrollableTimePickerBody({super.key, this.timeOfDay});
+  const ScrollableTimePickerBody({
+    super.key,
+    this.timeOfDay,
+    required this.onTimeSet,
+  });
 
   @override
   State<ScrollableTimePickerBody> createState() =>
@@ -33,9 +39,8 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
     super.initState();
   }
 
-  void _onSave() {
-    final resultHora = TimeOfDay(hour: _selectedHour, minute: _selectedMinute);
-    Navigator.of(context).pop(resultHora);
+  TimeOfDay get getTime {
+    return TimeOfDay(hour: _selectedHour, minute: _selectedMinute);
   }
 
   @override
@@ -52,30 +57,6 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      Localiza.find('hora'),
-                      textAlign: TextAlign.center,
-                      style: theme.labelLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      Localiza.find('minuto'),
-                      textAlign: TextAlign.center,
-                      style: theme.labelLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               SizedBox(
                 height: 100,
                 child: Row(
@@ -83,27 +64,36 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
                   children: [
                     Expanded(
                       child: Container(
-                        color: Colors.grey[100],
+                        color: Colors.grey[50],
                         child: ShScrollablePicker<int>(
                           items: hoursOfDay,
                           selectedItem: _selectedHour,
                           valueFormatter: <int>(i) => "$i".padLeft(2, '0'),
                           onItemSelected: (int pos) {
                             setState(() => _selectedHour = pos);
+                            widget.onTimeSet(getTime);
                           },
                         ),
                       ),
                     ),
-                    Text(":", style: theme.displayLarge,),
+                    Center(
+                      child: Container(
+                        child: Text(
+                          ":",
+                          style: theme.bodyLarge!.copyWith(fontSize: 40),
+                        ),
+                      ),
+                    ),
                     Expanded(
                       child: Container(
-                        color: Colors.grey[100],
+                        color: Colors.grey[50],
                         child: ShScrollablePicker<int>(
                           items: hoursOfDay,
                           selectedItem: _selectedMinute,
                           valueFormatter: <int>(i) => "$i".padLeft(2, '0'),
                           onItemSelected: (int pos) {
                             setState(() => _selectedMinute = pos);
+                            widget.onTimeSet(getTime);
                           },
                         ),
                       ),
@@ -111,14 +101,33 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
                   ],
                 ),
               ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      Localiza.find('hora'),
+                      textAlign: TextAlign.start,
+                      style: theme.labelLarge!.copyWith(
+                        color: AppColors.onSurface,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      Localiza.find('minuto'),
+                      textAlign: TextAlign.start,
+                      style: theme.labelLarge!.copyWith(
+                        color: AppColors.onSurface,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
-          OutlinedButton.icon(
-            onPressed: _onSave,
-            icon: Icon(Icons.save_outlined),
-            label: Text(Localiza.find('salvar')),
-          ),
-          const SizedBox(height: 8),
         ],
       ),
     );

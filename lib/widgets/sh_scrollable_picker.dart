@@ -51,7 +51,7 @@ class _ShScrollablePickerState<T> extends State<ShScrollablePicker> {
       magnification: 1.1,
       onSelectedItemChanged: setSelectedItem,
       physics: FixedExtentScrollPhysics(),
-      overAndUnderCenterOpacity: 0.5,
+      overAndUnderCenterOpacity: 0.3,
       controller: _controller,
       childDelegate: ListWheelChildBuilderDelegate(
         childCount: widget.items.length,
@@ -84,13 +84,11 @@ class _PickerItem<T> extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.all(2),
-      child: Center(
-        child: Text(
-          valueFormatter(value),
-          textAlign: TextAlign.center,
-          style: theme.titleSmall?.copyWith(
-            color: isSelected ? AppColors.secondary : AppColors.onSurface,
-          ),
+      child: Text(
+        valueFormatter(value),
+        style: theme.titleSmall?.copyWith(
+          color: isSelected ? AppColors.onSurface : AppColors.onSurface,
+          fontSize: isSelected ? 25 : 20
         ),
       ),
     );
