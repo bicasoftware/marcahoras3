@@ -91,6 +91,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
                 final date = await DialogHelper.showDateTimeDialog(
                   context: context,
                   initDate: _date,
+                  endDate: getLastDayOfMonth(_date),
                   admissao: widget.admissao,
                   allowFutureDates: true,
                 );

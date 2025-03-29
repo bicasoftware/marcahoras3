@@ -64,6 +64,14 @@ DateTime getVigencia(DateTime date) {
   return DateTime(date.year, date.month, date.day, 0, 0, 0, 0, 0);
 }
 
+DateTime getLastDayOfMonth(DateTime date) {
+  return DateTime(
+    date.year,
+    date.month + 1,
+    0,
+  );
+}
+
 (String, String) getFormatedDateRange(int year, int month) {
   final vigencia = DateTime(year, month, 1);
   final endDate = DateTime(

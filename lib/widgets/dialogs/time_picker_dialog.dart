@@ -4,13 +4,13 @@ Future<DateTime?> datePickerDialog({
   required BuildContext context,
   DateTime? admissao,
   DateTime? initialDate,
-  bool allowFutureDate = false,
+  DateTime? endDate,
 }) async {
   return await showDatePicker(
     context: context,
     initialDate: initialDate ?? DateTime.now(),
     firstDate: admissao ?? DateTime(2020, 1, 1),
-    lastDate: allowFutureDate ? DateTime(2100) : DateTime.now(),
+    lastDate: endDate ?? DateTime(2100, 12, 31),
   );
 }
 
