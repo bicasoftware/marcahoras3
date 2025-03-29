@@ -5,12 +5,15 @@ import '../../utils.dart';
 import '../../widgets.dart';
 
 class ScrollableTimePickerBody extends StatefulWidget {
-  final TimeOfDay? timeOfDay;
+  final TimeOfDay timeOfDay;
+  final TimeOfDay? startAt, endAt;
   final Function(TimeOfDay t) onTimeSet;
 
   const ScrollableTimePickerBody({
     super.key,
-    this.timeOfDay,
+    required this.timeOfDay,
+    this.startAt,
+    this.endAt,
     required this.onTimeSet,
   });
 
@@ -20,27 +23,27 @@ class ScrollableTimePickerBody extends StatefulWidget {
 }
 
 class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
-  final hoursOfDay = List<int>.generate(24, (i) => i);
-  final minutes = List<int>.generate(60, (i) => i);
-  int _selectedMinute = 0;
-  int _selectedHour = 0;
+  final _minutes = List<int>.generate(60, (i) => i);
+  var _hours = <int>[];
+  late int _minutePos;
+  late int _hourPos;
 
   @override
   void initState() {
-    if (widget.timeOfDay != null) {
-      _selectedHour = widget.timeOfDay!.hour;
-      _selectedMinute = widget.timeOfDay!.minute;
-    } else {
-      final now = DateTime.now();
-      _selectedHour = now.hour;
-      _selectedMinute = now.minute;
+    final startHour = widget.startAt?.hour ?? 0;
+    final endHour = widget.endAt?.hour ?? 24;
+    for (int i = startHour; i <= endHour; i++) {
+      _hours.add(i);
     }
+
+    _hourPos = _hours.indexWhere((h) => h == widget.timeOfDay.hour);
+    _minutePos = _minutes.indexWhere((m) => m == widget.timeOfDay.minute);
 
     super.initState();
   }
 
   TimeOfDay get getTime {
-    return TimeOfDay(hour: _selectedHour, minute: _selectedMinute);
+    return TimeOfDay(hour: _hours[_hourPos], minute: _minutes[_minutePos]);
   }
 
   @override
@@ -66,11 +69,11 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
                       child: Container(
                         color: Colors.grey[50],
                         child: ShScrollablePicker<int>(
-                          items: hoursOfDay,
-                          selectedItem: _selectedHour,
+                          items: _hours,
+                          selectedItem: _hours[_hourPos],
                           valueFormatter: <int>(i) => "$i".padLeft(2, '0'),
                           onItemSelected: (int pos) {
-                            setState(() => _selectedHour = pos);
+                            setState(() => _hourPos = pos);
                             widget.onTimeSet(getTime);
                           },
                         ),
@@ -88,11 +91,11 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
                       child: Container(
                         color: Colors.grey[50],
                         child: ShScrollablePicker<int>(
-                          items: hoursOfDay,
-                          selectedItem: _selectedMinute,
+                          items: _minutes,
+                          selectedItem: _minutePos,
                           valueFormatter: <int>(i) => "$i".padLeft(2, '0'),
                           onItemSelected: (int pos) {
-                            setState(() => _selectedMinute = pos);
+                            setState(() => _minutePos = pos);
                             widget.onTimeSet(getTime);
                           },
                         ),

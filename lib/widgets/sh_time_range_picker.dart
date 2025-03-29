@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marcahoras3/widgets/dialogs/scrollable_time_picker_dialog.dart';
 
 import '../utils.dart';
 import '../widgets.dart';
@@ -31,8 +32,8 @@ class _ShTimeRangePickerState extends State<ShTimeRangePicker> {
 
   @override
   Widget build(BuildContext context) {
-
     return Row(
+      spacing: 8,
       children: [
         Expanded(
           flex: 5,
@@ -41,9 +42,11 @@ class _ShTimeRangePickerState extends State<ShTimeRangePicker> {
             label: Localiza.find('das'),
             icon: Icons.timelapse,
             onTap: () async {
-              final time = await DialogHelper.showTimeDialog(
+              final time = await showScrollableTimePickerDialog(
                 context: context,
-                time: _entrada,
+                titleMsg: Localiza.find('selecionarHorario'),
+                descriptionText: '',
+                timeOfDay: _entrada,
               );
 
               if (time != null && time != _entrada) {
@@ -53,7 +56,6 @@ class _ShTimeRangePickerState extends State<ShTimeRangePicker> {
             },
           ),
         ),
-        const SizedBox(width: 8),
         Expanded(
           flex: 5,
           child: ShLabeledTile(
@@ -61,11 +63,13 @@ class _ShTimeRangePickerState extends State<ShTimeRangePicker> {
             label: Localiza.find('ate'),
             icon: Icons.timelapse,
             onTap: () async {
-              final time = await DialogHelper.showTimeDialog(
+              final time = await showScrollableTimePickerDialog(
                 context: context,
-                time: _saida,
+                titleMsg: Localiza.find('selecionarHorario'),
+                descriptionText: '',
+                timeOfDay: _saida,
+                startAt: _entrada,
               );
-
               if (time != null && time != _saida) {
                 setState(() => _saida = time);
                 widget.onSaidaChanged(time);

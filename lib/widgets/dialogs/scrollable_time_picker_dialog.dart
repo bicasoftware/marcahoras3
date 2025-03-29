@@ -10,6 +10,8 @@ Future<TimeOfDay?> showScrollableTimePickerDialog({
   required TimeOfDay timeOfDay,
   String? okLabel,
   String? cancelLabel,
+  TimeOfDay? startAt,
+  TimeOfDay? endAt,
 }) async {
   TimeOfDay? response = timeOfDay;
 
@@ -37,6 +39,8 @@ Future<TimeOfDay?> showScrollableTimePickerDialog({
         content: ScrollableTimePickerBody(
           timeOfDay: timeOfDay,
           onTimeSet: (t) => response = t,
+          startAt: startAt,
+          endAt: TimeOfDay(hour: 23, minute: 59),
         ),
       );
     },

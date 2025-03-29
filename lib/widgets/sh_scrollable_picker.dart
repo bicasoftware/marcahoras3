@@ -5,7 +5,7 @@ import '../resources.dart';
 class ShScrollablePicker<T> extends StatefulWidget {
   final List<T> items;
   final T selectedItem;
-  final String Function<T>(T item) valueFormatter;
+  final String Function(T item) valueFormatter;
   final void Function(int pos) onItemSelected;
 
   const ShScrollablePicker({
@@ -17,11 +17,12 @@ class ShScrollablePicker<T> extends StatefulWidget {
   });
 
   @override
-  State<ShScrollablePicker> createState() => _ShScrollablePickerState();
+  State<ShScrollablePicker> createState() => _ShScrollablePickerState<T>();
 }
 
 class _ShScrollablePickerState<T> extends State<ShScrollablePicker> {
   late T _selectedItem = widget.selectedItem;
+  late T _lastSelectedItem = widget.selectedItem;
 
   late final _controller = FixedExtentScrollController(
     initialItem: widget.items.indexOf(widget.selectedItem),
@@ -38,7 +39,6 @@ class _ShScrollablePickerState<T> extends State<ShScrollablePicker> {
 
   @override
   void initState() {
-    _selectedItem = widget.selectedItem;
     super.initState();
   }
 
@@ -49,13 +49,17 @@ class _ShScrollablePickerState<T> extends State<ShScrollablePicker> {
       useMagnifier: true,
       diameterRatio: 2,
       magnification: 1.1,
-      onSelectedItemChanged: setSelectedItem,
+      onSelectedItemChanged: (pos) {
+        if (_lastSelectedItem != pos) {
+          setSelectedItem(pos);
+        }
+      },
       physics: FixedExtentScrollPhysics(),
       overAndUnderCenterOpacity: 0.3,
       controller: _controller,
       childDelegate: ListWheelChildBuilderDelegate(
         childCount: widget.items.length,
-        builder: (c, i) {
+        builder: (_, int i) {
           return _PickerItem<T>(
             value: widget.items[i],
             isSelected: _isSelectedItem(i),
@@ -70,7 +74,7 @@ class _ShScrollablePickerState<T> extends State<ShScrollablePicker> {
 class _PickerItem<T> extends StatelessWidget {
   final T value;
   final bool isSelected;
-  final String Function<T>(T item) valueFormatter;
+  final String Function(T item) valueFormatter;
 
   const _PickerItem({
     required this.value,
@@ -88,7 +92,7 @@ class _PickerItem<T> extends StatelessWidget {
         valueFormatter(value),
         style: theme.titleSmall?.copyWith(
           color: isSelected ? AppColors.onSurface : AppColors.onSurface,
-          fontSize: isSelected ? 25 : 20
+          fontSize: isSelected ? 25 : 20,
         ),
       ),
     );
