@@ -9,13 +9,13 @@ class ReportModel {
   ReportModel({
     required this.year,
     required this.month,
-    required this.hours,
-    required this.valorRecNormal,
-    required this.valorRecDiff,
-    required this.valorRecTotal,
-    required this.horasFeitasNormal,
-    required this.horasFeitasDiff,
-    required this.horasFeitasTotal,
+    this.hours = const [],
+    this.valorRecNormal = "0.0",
+    this.valorRecDiff = "0.0",
+    this.valorRecTotal = "0.0",
+    this.horasFeitasNormal = "0.0",
+    this.horasFeitasDiff = "0.0",
+    this.horasFeitasTotal = "0.0",
   });
 
   @override

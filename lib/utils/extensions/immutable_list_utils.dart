@@ -39,7 +39,7 @@ extension ImmutableListHelpers<T> on List<T> {
   }
 
   List<T> iDelete(T toDeleteItem) {
-    final newList = this.iCopy();
+    final newList = [...this];
     newList.removeAt(this.indexOf(toDeleteItem));
     return newList;
   }

@@ -23,9 +23,6 @@ class Empregos extends Equatable {
   final UnmodifiableListView<Horas> horas;
   final UnmodifiableListView<Salarios> salarios;
 
-  final UnmodifiableListView<CalendarPageModel> calendarPages;
-  final UnmodifiableListView<ReportModel> reportPages;
-
   Empregos({
     this.id,
     this.descricao = '',
@@ -40,12 +37,8 @@ class Empregos extends Equatable {
     this.salario = 0.0,
     Iterable<Horas> horas = const [],
     Iterable<Salarios> salarios = const [],
-    Iterable<CalendarPageModel> calendarPages = const [],
-    Iterable<ReportModel> reportPages = const [],
   }) : horas = UnmodifiableListView(horas),
-       salarios = UnmodifiableListView(salarios),
-       calendarPages = UnmodifiableListView(calendarPages),
-       reportPages = UnmodifiableListView(reportPages);
+       salarios = UnmodifiableListView(salarios);
 
   Empregos copyWith({
     String? id,
@@ -61,8 +54,6 @@ class Empregos extends Equatable {
     double? salario,
     Iterable<Horas>? horas,
     Iterable<Salarios>? salarios,
-    Iterable<CalendarPageModel>? calendarPages,
-    Iterable<ReportModel>? reportPages,
   }) {
     return Empregos(
       id: id ?? this.id,
@@ -78,8 +69,6 @@ class Empregos extends Equatable {
       horas: horas ?? this.horas,
       salarios: salarios ?? this.salarios,
       salario: salario ?? this.salario,
-      calendarPages: calendarPages ?? this.calendarPages,
-      reportPages: reportPages ?? this.reportPages,
     );
   }
 
@@ -99,18 +88,16 @@ class Empregos extends Equatable {
       salario,
       horas,
       salarios,
-      calendarPages,
-      reportPages,
     ];
   }
 
-  Salarios getSalarioByVigencia(int year, int month) {
+  Salarios? getSalarioByVigencia(int year, int month) {
     if (salarios.length == 1) return salarios.first;
     final _vig = DateTime(year, month, 1);
     return salarios
         .sorted((a, b) => a.vigencia.compareTo(b.vigencia))
         .reversed
-        .firstWhere((s) => s.vigencia.isSameDayOfBefore(_vig));
+        .firstWhereOrNull((s) => s.vigencia.isSameDayOfBefore(_vig));
   }
 
   Salarios? getCurrentSalario() {

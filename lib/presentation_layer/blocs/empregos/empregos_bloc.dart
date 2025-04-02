@@ -52,7 +52,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   bool validate() {
     final result = [
       state.descricao?.isNotEmpty ?? false,
-      (state.admissao != null && state.admissao!.isBefore(DateTime.now())),
+      state.admissao != null,
       state.entrada != null,
       state.saida != null,
       state.porcFeriado != null,

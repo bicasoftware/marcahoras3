@@ -153,7 +153,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
       );
     }
-
     return Scaffold(
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: reachBarHeight),
@@ -190,8 +189,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
           secondIcon: Icon(Icons.add, color: AppColors.onSecondary),
           onFirstTap: () {
-            if (bloc.state.hasReportData())
+            if (bloc.state.hasReportData()) {
               Navigator.of(context).pushNamed(Routes.relatorio);
+            }
           },
           onSecondTap: () => _showHorasBts(context: context, bloc: bloc),
         ),
@@ -258,7 +258,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ),
               const SizedBox(height: 8),
               CalendarPage(
-                page: bloc.state.currentPage(),
+                page: bloc.state.getCalendarPage(),
                 onCalendarItemTap: (h, d) async {
                   _showHorasBts(
                     context: context,
@@ -280,7 +280,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               Expanded(
                 child: HorasList(
                   isList: true,
-                  horas: bloc.state.currentReport().hours.take(3).toList(),
+                  horas: bloc.state.reportPage.hours.take(3).toList(),
                   onDelete: (h) => _deleteHora(h, bloc),
                   onItemTap: (h) {
                     _showHorasBts(

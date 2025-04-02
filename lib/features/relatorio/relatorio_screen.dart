@@ -44,7 +44,7 @@ class RelatorioScreen extends StatelessWidget {
     final bloc = context.watch<HomeBloc>();
     final theme = Theme.of(context).textTheme;
     final locale = Localizations.localeOf(context);
-    final reportModel = bloc.state.currentReport();
+    final reportModel = bloc.state.getReportPage();
     final String vigencia =
         formatVigencia(
           bloc.state.year,

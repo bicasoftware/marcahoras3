@@ -30,24 +30,36 @@ class EmpregosDropdown extends StatelessWidget {
             return <PopupMenuItem>[
               PopupMenuItem(
                 onTap: onEdit,
-                child: Text(
-                  Localiza.find('editar'),
-                  textAlign: TextAlign.justify,
-                  style: theme.bodyLarge?.copyWith(
-                    color: AppColors.onPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: Row(
+                  spacing: 8,
+                  children: [
+                    Icon(Icons.edit, color: AppColors.onPrimary),
+                    Text(
+                      Localiza.find('editar'),
+                      textAlign: TextAlign.justify,
+                      style: theme.bodyLarge?.copyWith(
+                        color: AppColors.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),                
               ),
               PopupMenuItem(
                 onTap: onDelete,
-                child: Text(
-                  Localiza.find('apagar'),
-                  textAlign: TextAlign.justify,
-                  style: theme.bodyLarge?.copyWith(
-                    color: AppColors.onPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Row(
+                  spacing: 8,
+                  children: [
+                    Icon(Icons.delete, color: AppColors.onPrimary),
+                    Text(
+                      Localiza.find('apagar'),
+                      textAlign: TextAlign.justify,
+                      style: theme.bodyLarge?.copyWith(
+                        color: AppColors.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ];

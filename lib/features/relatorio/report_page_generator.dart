@@ -24,7 +24,7 @@ class ReportPageGenerator {
     required this.horas,
   });
 
-  ReportModel generate() {
+  Future<ReportModel> generate() async {
     final horasList = _generateHorasList();
     final (valorRecNormal, horasFeitasNormal) = _sumByHorasType(
       porc: porcNormal,

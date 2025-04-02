@@ -65,11 +65,7 @@ DateTime getVigencia(DateTime date) {
 }
 
 DateTime getLastDayOfMonth(DateTime date) {
-  return DateTime(
-    date.year,
-    date.month + 1,
-    0,
-  );
+  return DateTime(date.year, date.month + 1, 0);
 }
 
 (String, String) getFormatedDateRange(int year, int month) {
@@ -85,6 +81,17 @@ DateTime getLastDayOfMonth(DateTime date) {
   return (fInitDate, fEndDate);
 }
 
+(DateTime, DateTime) getDateRangeByVigencia(int year, int month) {
+  final initDate = DateTime(year, month, 1);
+  final endDate = DateTime(
+    initDate.year,
+    initDate.month + 1,
+    1,
+  ).add(Duration(days: -1));
+
+  return (initDate, endDate);
+}
+
 extension DateHelper on DateTime {
   bool isSameDay(DateTime date) {
     return this.year == date.year &&
@@ -98,5 +105,9 @@ extension DateHelper on DateTime {
 
   bool isSameDayOfBefore(DateTime date) {
     return this.isSameDay(date) || this.isBefore(date);
+  }
+
+  bool isBetween(DateTime initDate, DateTime endDate) {
+    return this.isSameDayOrAfter(initDate) && this.isSameDayOfBefore(endDate);
   }
 }

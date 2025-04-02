@@ -4,31 +4,34 @@ import '../../../domain_layer/models.dart';
 import '../../../utils.dart';
 
 class HomeState extends BaseState {
-  // final int navigatorPos;
   final int empregoPos;
   final UnmodifiableListView<Empregos> empregos;
   final bool isDarkMode;
   final int month;
   final int year;
+  final CalendarPageModel calendarPage;
+  final ReportModel reportPage;
 
   HomeState({
-    required super.status,
-    this.empregoPos = -1,
-    Iterable<Empregos> empregos = const [],
-    // this.navigatorPos = 0,
-    this.isDarkMode = false,
     required this.year,
     required this.month,
+    this.empregoPos = -1,
+    Iterable<Empregos> empregos = const [],
+    this.isDarkMode = false,
+    required this.calendarPage,
+    required this.reportPage,
+    required super.status,
   }) : empregos = UnmodifiableListView(empregos);
 
   HomeState copyWith({
     StateStatus? status,
-    // int? navigatorPos,
     Iterable<Empregos>? empregos,
     int? empregoPos,
     bool? isDarkMode,
     int? year,
     int? month,
+    CalendarPageModel? calendarPage,
+    ReportModel? reportPage,
   }) {
     final newState = HomeState(
       status: status ?? this.status,
@@ -37,6 +40,8 @@ class HomeState extends BaseState {
       isDarkMode: isDarkMode ?? this.isDarkMode,
       year: year ?? this.year,
       month: month ?? this.month,
+      calendarPage: calendarPage ?? this.calendarPage,
+      reportPage: reportPage ?? this.reportPage,
     );
 
     return newState;
@@ -45,30 +50,14 @@ class HomeState extends BaseState {
   Empregos? get currentEmprego =>
       empregoPos == -1 ? null : empregos[empregoPos];
 
-  CalendarPageModel currentPage() {
-    return currentEmprego!.calendarPages.firstWhere(
-      (p) => p.month == this.month && p.year == this.year,
-    );
-  }
+  ReportModel getReportPage() => reportPage;
 
-  ReportModel currentReport() {
-    final page = currentEmprego!.reportPages.firstWhere(
-      (p) => p.month == this.month && p.year == this.year,
-    );
+  CalendarPageModel getCalendarPage() => calendarPage;
 
-    return page;
-  }
-
-  bool hasReportData() => this.currentReport().hours.isNotEmpty;
+  bool hasReportData() => reportPage.hours.isNotEmpty;
 
   Salarios? getSalarioByVigencia(int year, int month) {
     return currentEmprego?.getSalarioByVigencia(year, month);
-  }
-
-  int? hasPage(int year, int month) {
-    return currentEmprego?.calendarPages.indexWhere(
-      (it) => it.month == month && it.year == year,
-    );
   }
 
   @override

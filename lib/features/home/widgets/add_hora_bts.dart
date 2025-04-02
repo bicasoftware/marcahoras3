@@ -72,6 +72,10 @@ class _AddHoraBtsState extends State<AddHoraBts> {
     Navigator.of(context).pop(resultHora);
   }
 
+   DateTime _validDate() {
+    return _date.isBefore(widget.admissao) ? widget.admissao : _date;
+  }
+
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context);
@@ -85,12 +89,12 @@ class _AddHoraBtsState extends State<AddHoraBts> {
         children: [
           if (!widget.hideDate) ...[
             ShLabeledTile(
-              value: formatDateByLocale(_date, locale),
+              value: formatDateByLocale(_validDate(), locale),
               label: Localiza.find('data'),
               onTap: () async {
                 final date = await DialogHelper.showDateTimeDialog(
                   context: context,
-                  initDate: _date,
+                  initDate: _validDate(),
                   endDate: getLastDayOfMonth(_date),
                   admissao: widget.admissao,
                   allowFutureDates: true,

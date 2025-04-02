@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:marcahoras3/features/home/calendar/calendar_screen.dart';
 
@@ -14,20 +12,6 @@ import 'features/relatorio/relatorio_screen.dart';
 import 'resources.dart';
 import 'routes.dart';
 import 'utils.dart';
-
-void main() async {
-  final mySystemTheme = SystemUiOverlayStyle.light.copyWith(
-    systemNavigationBarColor: Colors.white,
-  );
-  SystemChrome.setSystemUIOverlayStyle(mySystemTheme);
-
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await dotenv.load(fileName: "assets/.env");
-  await VaultManager.buildVaultData();
-
-  runApp(const HorasApp());
-}
 
 final navigatorKey = GlobalKey<NavigatorState>();
 

@@ -21,7 +21,10 @@ naoTenhoCadastro:
   en_US: Do not have an account? Click to create.
 salarioInvalido:
   pt_BR: Salário deve ser preenchido corretamente
-  en_US: Amount must be not be empty
+  en_US: Amount must be filled correctly
+salarioMenor:
+  pt_BR: Salário não pode ser menor que {valor}
+  en_US: Amount can't be less than {valor}
 dataInvalida:
   pt_BR: Data deve ser preenchida corretamente
   en_US: Date must be not be empty
@@ -293,9 +296,36 @@ months:
     - July
     - August
     - September
-    - Ouctober
+    - October
     - November
     - December
+monthsAbrev:
+  pt_BR:
+    - Jan
+    - Fev
+    - Mar
+    - Abr
+    - Mai
+    - Jun
+    - Jul
+    - Ago
+    - Set
+    - Out
+    - Nov
+    - Dez
+  en_US:
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
 weekDays:
   pt_BR:
     - DOM

@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/widgets/dialogs/scrollable_time_picker_body.dart';
+import 'package:marcahoras3/widgets/dialogs/vigencia_picker_dialog_body.dart';
 
 import '../../utils.dart';
 
-Future<TimeOfDay?> showScrollableTimePickerDialog({
+Future<(int, int)?> showVigenciaPickerDialog({
   required BuildContext context,
   required String titleMsg,
   required String descriptionText,
-  required TimeOfDay timeOfDay,
+  required int ano,
+  required int mes,
   String? okLabel,
   String? cancelLabel,
   TimeOfDay? startAt,
   TimeOfDay? endAt,
 }) async {
-  TimeOfDay? response = timeOfDay;
+  (int, int)? vigencia;
 
-  await showDialog<TimeOfDay?>(
+  await showDialog<(int, int)?>(
     context: context,
     barrierDismissible: false,
     builder: (context) {
@@ -24,27 +25,24 @@ Future<TimeOfDay?> showScrollableTimePickerDialog({
         actions: [
           TextButton(
             onPressed: () {
-              response = null;
+              vigencia = null;
               Navigator.of(context).pop(null);
             },
             child: Text(cancelLabel ?? Localiza.find('cancelar')),
           ),
           TextButton(
             child: Text(okLabel ?? Localiza.find('confirmar')),
-            onPressed: () {
-              Navigator.of(context).pop(response);
-            },
+            onPressed: () => Navigator.of(context).pop(vigencia),
           ),
         ],
-        content: ScrollableTimePickerBody(
-          timeOfDay: timeOfDay,
-          onTimeSet: (t) => response = t,
-          startAt: startAt,
-          endAt: TimeOfDay(hour: 23, minute: 59),
+        content: VigenciaPickerBody(
+          ano: ano,
+          mes: mes,
+          onVigenciaSet: (v) => vigencia = v,
         ),
       );
     },
   );
 
-  return response;
+  return vigencia;
 }

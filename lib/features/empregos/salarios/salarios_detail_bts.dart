@@ -1,22 +1,24 @@
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:marcahoras3/utils/currency_helper.dart';
+import 'package:marcahoras3/utils/date_utils.dart';
+import 'package:marcahoras3/widgets/dialogs/vigencia_picker_dialog.dart';
 
-import '../../../presentation_layer/validators/validators.dart';
 import '../../../utils/localiza/localiza.dart';
 import '../../../widgets.dart';
 
 class SalariosDetailBts extends StatefulWidget {
   final double value;
-  final DateTime? vigencia;
+  final DateTime vigencia;
   final String title;
   final void Function(double value, DateTime vigencia) onSave;
 
   const SalariosDetailBts({
     required this.title,
     required this.onSave,
+    required this.vigencia,
     this.value = 0.0,
-    this.vigencia,
     super.key,
   });
 
@@ -26,101 +28,95 @@ class SalariosDetailBts extends StatefulWidget {
 
 class _SalariosDetailBtsState extends State<SalariosDetailBts> {
   late final MoneyMaskedTextController amountController;
-  DateTime _vigencia = DateTime.now();
-  late int year, month;
-  final yearList = List<int>.generate(6, (i) => 2019 + i);
+  late int _year, _month;
   final controller = FixedExtentScrollController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     amountController = MoneyMaskedTextController(initialValue: widget.value);
-    year = widget.vigencia?.year ?? _vigencia.year;
-    month = widget.vigencia?.month ?? _vigencia.month;
+
+    _year = widget.vigencia.year;
+    _month = widget.vigencia.month;
+
     super.initState();
+  }
+
+  void _validate() {
+    if (_formKey.currentState?.validate() ?? false) {
+      Navigator.of(context).pop();
+      widget.onSave(amountController.numberValue, DateTime(_year, _month, 1));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    final months = Localiza.findList("months");
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 8,
-        children: [
-          Text(
-            widget.title,
-            style: theme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          ShTextTile(
-            controller: amountController,
-            label: Localiza.find("salario"),
-            hint: "R\$ 1000,00",
-            labelStyle: theme.labelLarge,
-            icon: Icon(Icons.monetization_on),
-            validator: (s) {
-              if (amountController.numberValue <= 0.0) {
-                return "Salário deve ser preenchido corretamente";
-              }
-              return MinCharactersValidator.validate(s, 6);
-            },
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            keyboardType: TextInputType.number,
-          ),
-          ShCustomLabelTile(
-            label: Localiza.find("vigencia"),
-            icon: Icons.calendar_month,
-            child: Container(
-              padding: EdgeInsets.all(8),
-              child: SizedBox(
-                height: 100,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: ShScrollablePicker<String>(
-                        items: months,
-                        selectedItem: months[month - 1],
-                        valueFormatter: <int>(item) => item.toString(),
-                        onItemSelected: (int pos) {
-                          setState(() => month = pos + 1);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: ShScrollablePicker<int>(
-                        items: yearList,
-                        selectedItem: year,
-                        valueFormatter: <int>(item) => item.toString(),
-                        onItemSelected: (int selection) {
-                          setState(() => year = yearList[selection]);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: 8,
+          children: [
+            Text(
+              widget.title,
+              style: theme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            ShTextTile(
+              controller: amountController,
+              label: Localiza.find("salario"),
+              hint: CurrencyHelper.formatAmount(1000),
+              labelStyle: theme.labelLarge,
+              icon: Icon(Icons.monetization_on),
+              validator: (_) {
+                final amount = amountController.numberValue;
+                if (amount <= 0.0) {
+                  return Localiza.find('salarioInvalido');
+                } else if (amount < widget.value) {
+                  return Localiza.find('salarioMenor');
+                }
+
+                return null;
+              },
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.number,
+            ),
+            ShLabeledTile(
+              value: formatVigencia(_year, _month),
+              label: Localiza.find("vigencia"),
+              icon: Icons.calendar_month,
+              onTap: () async {
+                final newVig = await showVigenciaPickerDialog(
+                  context: context,
+                  titleMsg: Localiza.find('vigencia'),
+                  descriptionText: '',
+                  ano: widget.vigencia.year,
+                  mes: widget.vigencia.month,
+                );
+
+                if (newVig != null) {
+                  setState(() {
+                    _year = newVig.$1;
+                    _month = newVig.$2;
+                  });
+                }
+              },
+            ),
+
+            Container(
+              margin: EdgeInsets.only(bottom: 16),
+              child: OutlinedButton.icon(
+                onPressed: _validate,
+                icon: Icon(Icons.save_outlined),
+                label: Text(Localiza.find("salvar")),
               ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            margin: EdgeInsets.only(bottom: 16),
-            child: OutlinedButton.icon(
-              onPressed: () {
-                Navigator.of(context).pop();
-                widget.onSave(
-                  amountController.numberValue,
-                  DateTime(year, month, 1),
-                );
-              },
-              icon: Icon(Icons.save_outlined),
-              label: Text(Localiza.find("salvar")),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
