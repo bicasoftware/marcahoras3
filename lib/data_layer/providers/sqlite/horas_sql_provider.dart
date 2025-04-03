@@ -17,10 +17,11 @@ class HorasSqlProvider implements HorasProviderContract {
   @override
   Future<HorasDto> create(HorasDto hora) async {
     final id = Uuid.v4().toString();
+    final createdAt = DateTime.now();
 
     final int h = await _db
         .into(_db.dbHoras)
-        .insert(hora.toCompanion(newId: id));
+        .insert(hora.toCompanion(newId: id, createdAt: createdAt));
     return hora.copyWithId("$h");
   }
 
@@ -48,9 +49,10 @@ class HorasSqlProvider implements HorasProviderContract {
 
   @override
   Future<HorasDto> update(HorasDto hora) async {
+    final createdAt = DateTime.now();
     await _table
         .filter((h) => h.id.equals(hora.id))
-        .update((e) => hora.toCompanion());
+        .update((e) => hora.toCompanion(createdAt: createdAt));
 
     return hora;
   }

@@ -23,6 +23,7 @@ class BottomSheetHelper {
       useRootNavigator: useRootNavigation,
       barrierColor: barrierColor ?? Colors.black.withValues(alpha: .7),
       isScrollControlled: true,
+      showDragHandle: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: topRadius,

@@ -13,16 +13,21 @@ extension SalariosMapper on SalariosDto {
       vigencia: parseVigencia(vigencia!),
       valor: valor?.toDouble() ?? 0.0,
       ativo: ativo ?? false,
+      createdAt: createdAt ?? DateTime(1970, 1, 1),
     );
   }
 
-  DbSalariosCompanion toCompanion({String? newId}) {
+  DbSalariosCompanion toCompanion({
+    String? newId,
+    required DateTime createdAt,
+  }) {
     return DbSalariosCompanion(
       id: Value(newId ?? id!),
       empregoId: Value(empregoId!),
       vigencia: Value(vigencia!),
       valor: Value(valor?.toDouble() ?? 0.0),
       ativo: Value(ativo ?? false),
+      createdAt: Value(createdAt),
     );
   }
 }

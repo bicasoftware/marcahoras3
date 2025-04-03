@@ -17,6 +17,7 @@ class Empregos extends Equatable {
   final int porcNormal;
   final int cargaHoraria;
   final bool ativo;
+  final DateTime? createdAt;
 
   final double salario;
 
@@ -35,6 +36,7 @@ class Empregos extends Equatable {
     this.cargaHoraria = 220,
     this.ativo = true,
     this.salario = 0.0,
+    this.createdAt,
     Iterable<Horas> horas = const [],
     Iterable<Salarios> salarios = const [],
   }) : horas = UnmodifiableListView(horas),
@@ -69,6 +71,7 @@ class Empregos extends Equatable {
       horas: horas ?? this.horas,
       salarios: salarios ?? this.salarios,
       salario: salario ?? this.salario,
+      createdAt: createdAt,
     );
   }
 
@@ -88,6 +91,7 @@ class Empregos extends Equatable {
       salario,
       horas,
       salarios,
+      createdAt,
     ];
   }
 

@@ -26,6 +26,7 @@ void main() {
     inicio: TimeOfDayHelper.parseString("18:00"),
     termino: TimeOfDayHelper.parseString("19:00"),
     tipoHora: HorasType.normal,
+    createdAt: DateTime.now()
   );
 
   test('should list horas or be empty', () {});

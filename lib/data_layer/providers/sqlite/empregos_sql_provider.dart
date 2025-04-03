@@ -19,7 +19,10 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
   @override
   Future<EmpregosDto> create(EmpregosDto e) async {
     final newId = Uuid.v4().toString();
-    await _table.create((it) => e.toCompanion(newId: newId));
+    final createdAt = DateTime.now();
+    await _table.create(
+      (it) => e.toCompanion(newId: newId, createdAt: createdAt),
+    );
     return e.copyWith(id: newId);
   }
 
@@ -65,9 +68,10 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
 
   @override
   Future<EmpregosDto> update(EmpregosDto emprego) async {
+    final createdAt = DateTime.now();
     await _table
         .filter((e) => e.id.equals(emprego.id))
-        .update((_) => emprego.toCompanion());
+        .update((_) => emprego.toCompanion(createdAt: createdAt));
 
     return emprego;
   }

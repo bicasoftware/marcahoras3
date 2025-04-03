@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../../utils/date_utils.dart';
+
 @immutable
 class SalariosDto {
   final String? id;
@@ -7,10 +9,12 @@ class SalariosDto {
   final String? vigencia;
   final num? valor;
   final bool? ativo;
+  final DateTime? createdAt;
 
   const SalariosDto({
     this.id,
     this.empregoId,
+    this.createdAt,
     required this.vigencia,
     required this.valor,
     required this.ativo,
@@ -24,6 +28,10 @@ class SalariosDto {
       vigencia: json['vigencia'],
       valor: json['valor'] as num,
       ativo: json['ativo'] as bool,
+      createdAt:
+          json['created_at'] is int
+              ? getDateFromMillis(json['created_at'])
+              : parseDate(json['created_at']),
     );
   }
 
@@ -55,6 +63,7 @@ class SalariosDto {
       empregoId: empregoId ?? this.empregoId,
       valor: valor,
       vigencia: vigencia,
+      createdAt: createdAt,
     );
   }
 }

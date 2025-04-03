@@ -60,6 +60,21 @@ class HomeState extends BaseState {
     return currentEmprego?.getSalarioByVigencia(year, month);
   }
 
+  List<ReportHora> reportShortData() {
+    reportPage.hours.forEach(
+      (h) => print("hora: ${h.hora} - createdAt ${h.hora.createdAt}"),
+    );
+    final horas =
+        reportPage.hours
+            .sorted((a, b) {
+              return a.hora.createdAt.compareTo(b.hora.createdAt);
+            })
+            .reversed
+            .toList();
+
+    return horas.take(3).toList();
+  }
+
   @override
   bool operator ==(covariant HomeState other) {
     if (identical(this, other)) return true;

@@ -15,8 +15,11 @@ class SalariosSqlProvider implements SalariosProviderContract {
   @override
   Future<SalariosDto> create(SalariosDto salario) async {
     final newId = Uuid.v4().toString();
+    final createdAt = DateTime.now();
 
-    await _table.create((s) => salario.toCompanion(newId: newId));
+    await _table.create(
+      (s) => salario.toCompanion(newId: newId, createdAt: createdAt),
+    );
     return salario.copyWith(id: newId);
   }
 
@@ -27,9 +30,10 @@ class SalariosSqlProvider implements SalariosProviderContract {
 
   @override
   Future<SalariosDto> update(SalariosDto salario) async {
+    final createdAt = DateTime.now();
     await _table
         .filter((s) => s.id.equals(salario.id))
-        .update((s) => salario.toCompanion());
+        .update((s) => salario.toCompanion(createdAt: createdAt));
 
     return salario;
   }

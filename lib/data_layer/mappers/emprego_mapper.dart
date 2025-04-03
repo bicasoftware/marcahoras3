@@ -23,10 +23,11 @@ extension EmpregoMapper on EmpregosDto {
       ativo: ativo ?? false,
       salarios: salarios.map((s) => s.toSalario()).toList(),
       horas: horas.map((h) => h.toHoras()).toList(),
+      createdAt: createdAt ?? DateTime.now(),
     );
   }
 
-  DbEmpregosCompanion toCompanion({String? newId}) {
+  DbEmpregosCompanion toCompanion({String? newId, required DateTime createdAt}) {
     return DbEmpregosCompanion(
       id: Value(newId ?? id!),
       descricao: Value(descricao!),
@@ -38,6 +39,7 @@ extension EmpregoMapper on EmpregosDto {
       porcNormal: Value(porcNormal ?? 0),
       cargaHoraria: Value(cargaHoraria ?? 220),
       ativo: Value(ativo ?? false),
+      createdAt: Value(createdAt),
     );
   }
 }

@@ -10,6 +10,7 @@ class Horas extends Equatable {
   final TimeOfDay termino;
   final HorasType tipoHora;
   final bool bancoHoras;
+  final DateTime createdAt;
 
   const Horas({
     this.id,
@@ -19,6 +20,7 @@ class Horas extends Equatable {
     required this.termino,
     required this.tipoHora,
     required this.bancoHoras,
+    required this.createdAt,
   });
 
   @override
@@ -31,6 +33,7 @@ class Horas extends Equatable {
       termino,
       tipoHora,
       bancoHoras,
+      createdAt,
     ];
   }
 
@@ -51,6 +54,7 @@ class Horas extends Equatable {
       termino: termino ?? this.termino,
       tipoHora: tipoHora ?? this.tipoHora,
       bancoHoras: bancoHoras ?? this.bancoHoras,
+      createdAt: createdAt,
     );
   }
 }

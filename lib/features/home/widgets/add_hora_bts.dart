@@ -66,6 +66,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
         data: _date,
         tipoHora: _feriado == true ? HorasType.feriado : HorasType.normal,
         bancoHoras: false,
+        createdAt: DateTime.now(),
       );
     }
 

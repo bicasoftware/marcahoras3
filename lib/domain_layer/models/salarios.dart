@@ -8,6 +8,7 @@ class Salarios extends Equatable {
   final DateTime vigencia;
   final double valor;
   final bool ativo;
+  final DateTime createdAt;
 
   const Salarios({
     this.id,
@@ -15,17 +16,12 @@ class Salarios extends Equatable {
     required this.vigencia,
     required this.valor,
     required this.ativo,
+    required this.createdAt,
   });
 
   @override
   List<Object?> get props {
-    return [
-      id,
-      empregoId,
-      vigencia,
-      valor,
-      ativo,
-    ];
+    return [id, empregoId, vigencia, valor, ativo, createdAt];
   }
 
   Salarios copyWith({
@@ -41,6 +37,7 @@ class Salarios extends Equatable {
       vigencia: vigencia ?? this.vigencia,
       valor: valor ?? this.valor,
       ativo: ativo ?? this.ativo,
+      createdAt: this.createdAt,
     );
   }
 }

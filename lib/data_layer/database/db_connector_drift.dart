@@ -15,6 +15,8 @@ class DbHoras extends Table {
   TextColumn get tipoHora => text().withLength(max: 1)();
   @JsonKey('banco_horas')
   BoolColumn get bancoHoras => boolean()();
+  @JsonKey('created_at')
+  DateTimeColumn get createdAt => dateTime()();
 }
 
 class DbSalarios extends Table {
@@ -24,6 +26,8 @@ class DbSalarios extends Table {
   TextColumn get vigencia => text().withLength(min: 7, max: 7)();
   RealColumn get valor => real()();
   BoolColumn get ativo => boolean()();
+  @JsonKey('created_at')
+  DateTimeColumn get createdAt => dateTime()();
 }
 
 class DbEmpregos extends Table {
@@ -41,6 +45,8 @@ class DbEmpregos extends Table {
   BoolColumn get ativo => boolean().withDefault(const Constant(false))();
   @JsonKey('carga_horaria')
   IntColumn get cargaHoraria => integer().withDefault(const Constant(220))();
+  @JsonKey('created_at')
+  DateTimeColumn get createdAt => dateTime()();
 }
 
 @DriftDatabase(tables: [DbHoras, DbSalarios, DbEmpregos])
