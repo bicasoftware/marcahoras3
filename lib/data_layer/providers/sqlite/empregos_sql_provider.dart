@@ -1,3 +1,5 @@
+import 'package:drift/drift.dart';
+import 'package:marcahoras3/utils/date_utils.dart';
 import 'package:sane_uuid/uuid.dart';
 
 import '../../../domain_layer/contracts.dart';
@@ -37,24 +39,26 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
     final empregos = await _table.get();
     final empregosDtoList = <EmpregosDto>[];
 
-    final horas = await _tableHoras.get();
+    final horas =
+        await _tableHoras
+            .filter((h) => h.data.isBetween(parseDate(from)!, parseDate(to)!))
+            .get();
+
     final horasDto = horas.map((h) => HorasDto.fromJson(h.toJson())).toList();
 
     final salarios = await _tableSalarios.get();
     final salariosDto =
         salarios.map((s) => SalariosDto.fromJson(s.toJson())).toList();
 
-    empregos.forEach(
-      (e) {
-        final empregoDto = EmpregosDto.fromJson(e.toJson());
-        empregosDtoList.add(
-          empregoDto.copyWith(
-            horas: horasDto.where((h) => h.empregoId == e.id).toList(),
-            salarios: salariosDto.where((s) => s.empregoId == e.id).toList(),
-          ),
-        );
-      },
-    );
+    empregos.forEach((e) {
+      final empregoDto = EmpregosDto.fromJson(e.toJson());
+      empregosDtoList.add(
+        empregoDto.copyWith(
+          horas: horasDto.where((h) => h.empregoId == e.id).toList(),
+          salarios: salariosDto.where((s) => s.empregoId == e.id).toList(),
+        ),
+      );
+    });
 
     return empregosDtoList;
   }

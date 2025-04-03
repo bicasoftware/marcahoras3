@@ -71,11 +71,23 @@ class HomeBloc extends Cubit<HomeState> {
     return (calendarPage, reportPage);
   }
 
+  Future<List<Horas>> _listHoras({
+    required int year,
+    required int month,
+    required String empregoId,
+  }) async {
+    final (initDate, endDate) = getFormatedDateRange(year, month);
+    return await _horasLoadByRangeUseCase(
+      state.currentEmprego!.id!,
+      initDate,
+      endDate,
+    );
+  }
+
   Future<void> load() async {
     try {
       emit(state.copyWith(status: StateLoadingStatus()));
 
-      /// ToDO - verificar pq está carregando as horas dos mes seguintes
       final (from, to) = getFormatedDateRange(state.year, state.month);
       final empregos = await _loadEmpregos(from, to);
 
@@ -206,24 +218,22 @@ class HomeBloc extends Cubit<HomeState> {
     if (!_validNewVigencia(year, month, currentEmprego.admissao!)) return;
 
     try {
-      final (initDate, endDate) = getFormatedDateRange(year, month);
-
-      final List<Horas> horas = await _horasLoadByRangeUseCase(
-        currentEmprego.id!,
-        initDate,
-        endDate,
+      final horasList = await _listHoras(
+        year: year,
+        month: month,
+        empregoId: currentEmprego.id!,
       );
 
       final (calendarPage, reportPage) = await _buildPages(
         emprego: currentEmprego,
         ano: year,
         mes: month,
-        horas: horas,
+        horas: horasList,
       );
 
       final empregosList = [...state.empregos];
       empregosList[empregoPos ?? state.empregoPos] = currentEmprego.copyWith(
-        horas: [...currentEmprego.horas, ...horas],
+        horas: [...currentEmprego.horas, ...horasList],
       );
 
       emit(
@@ -251,16 +261,12 @@ class HomeBloc extends Cubit<HomeState> {
       emit(state.copyWith(status: StateLoadingStatus()));
 
       /// Insert the new [Horas] model
-      final newHora = await _horasCreateUsecase(hora);
+      await _horasCreateUsecase(hora);
 
-      /// Generates a new list based in the current [Emprego] on state
-      // final horasList = state.currentEmprego!.horas.iAdd(newHora);
-
-      final (initDate, endDate) = getFormatedDateRange(state.year, state.month);
-      final List<Horas> horasList = await _horasLoadByRangeUseCase(
-        state.currentEmprego!.id!,
-        initDate,
-        endDate,
+      final horasList = await _listHoras(
+        year: state.year,
+        month: state.month,
+        empregoId: state.currentEmprego!.id!,
       );
 
       final (calendarPage, reportPage) = await _buildPages(
@@ -299,19 +305,12 @@ class HomeBloc extends Cubit<HomeState> {
       emit(state.copyWith(status: StateLoadingStatus()));
 
       /// Update the previous [Horas] model
-      final updatedHora = await _horasUpdateUseCase(hora);
+      await _horasUpdateUseCase(hora);
 
-      // /// Generates a new list based in the current [Emprego] on state
-      // final horasList = state.currentEmprego!.horas.iUpdateWhere(
-      //   where: (Horas h) => h.id == hora.id!,
-      //   newItem: updatedHora,
-      // );
-
-      final (initDate, endDate) = getFormatedDateRange(state.year, state.month);
-      final List<Horas> horasList = await _horasLoadByRangeUseCase(
-        state.currentEmprego!.id!,
-        initDate,
-        endDate,
+      final horasList = await _listHoras(
+        year: state.year,
+        month: state.month,
+        empregoId: state.currentEmprego!.id!,
       );
 
       final (calendarPage, reportPage) = await _buildPages(
@@ -323,7 +322,7 @@ class HomeBloc extends Cubit<HomeState> {
 
       final updatedEmprego = state.currentEmprego!.copyWith(horas: horasList);
 
-      final empregosList = state.empregos.iCopy().iUpdateAt(
+      final empregosList = state.empregos.iUpdateAt(
         updatedEmprego,
         state.empregoPos,
       );
@@ -350,11 +349,10 @@ class HomeBloc extends Cubit<HomeState> {
       /// Update the previous [Horas] model
       await _horasDeleteUseCase(hora);
 
-      final (initDate, endDate) = getFormatedDateRange(state.year, state.month);
-      final List<Horas> horasList = await _horasLoadByRangeUseCase(
-        state.currentEmprego!.id!,
-        initDate,
-        endDate,
+      final horasList = await _listHoras(
+        year: state.year,
+        month: state.month,
+        empregoId: state.currentEmprego!.id!,
       );
 
       final (calendarPage, reportPage) = await _buildPages(
