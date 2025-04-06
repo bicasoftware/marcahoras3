@@ -21,7 +21,7 @@ class EmpregosDropdown extends StatelessWidget {
     final theme = Theme.of(context).textTheme;
 
     return DropdownButtonHideUnderline(
-      child: DropdownButton<Object>(
+      child: DropdownButton<Empregos>(
         dropdownColor: AppColors.inversePrimary,
         icon: PopupMenuButton(
           color: AppColors.inversePrimary,
@@ -75,7 +75,7 @@ class EmpregosDropdown extends StatelessWidget {
         items:
             bloc.state.empregos
                 .map(
-                  (e) => DropdownMenuItem<Object>(
+                  (e) => DropdownMenuItem<Empregos>(
                     value: e,
                     child: Text(
                       e.descricao,
@@ -89,7 +89,7 @@ class EmpregosDropdown extends StatelessWidget {
                 )
                 .toList()
               ..add(
-                DropdownMenuItem<Object>(
+                DropdownMenuItem<Empregos>(
                   value: null,
                   child: Chip(
                     label: Text(
@@ -110,7 +110,7 @@ class EmpregosDropdown extends StatelessWidget {
           if (e != null) {
             await awaitableTask(
               context: context,
-              actualTask: () async => bloc.setEmpregoPos(e as Empregos),
+              actualTask: () async => bloc.setEmpregoPos(e),
             );
           } else {
             onAdd();

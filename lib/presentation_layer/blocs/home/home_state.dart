@@ -61,9 +61,6 @@ class HomeState extends BaseState {
   }
 
   List<ReportHora> reportShortData() {
-    reportPage.hours.forEach(
-      (h) => print("hora: ${h.hora} - createdAt ${h.hora.createdAt}"),
-    );
     final horas =
         reportPage.hours
             .sorted((a, b) {

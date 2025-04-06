@@ -280,7 +280,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               Expanded(
                 child: HorasList(
                   isList: true,
-                  horas: bloc.state.reportPage.hours.take(3).toList(),
+                  horas: bloc.state.reportShortData(),
                   onDelete: (h) => _deleteHora(h, bloc),
                   onItemTap: (h) {
                     _showHorasBts(

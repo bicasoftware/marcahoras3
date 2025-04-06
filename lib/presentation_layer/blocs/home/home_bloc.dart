@@ -78,7 +78,7 @@ class HomeBloc extends Cubit<HomeState> {
   }) async {
     final (initDate, endDate) = getFormatedDateRange(year, month);
     return await _horasLoadByRangeUseCase(
-      state.currentEmprego!.id!,
+      empregoId,
       initDate,
       endDate,
     );
