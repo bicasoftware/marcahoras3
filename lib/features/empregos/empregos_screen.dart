@@ -313,22 +313,23 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                       label: Localiza.find("bancoHoras"),
                       onTap: (_) => bloc.toggleBancoHoras(),
                     ),
+                    if (!state.bancoHoras) ...[
+                      ShSliderPicker(
+                        label: Localiza.find("porcNormal"),
+                        value: state.porcNormal ?? 50,
+                        onChanged: bloc.setPorcNormal,
+                        minValue: 50,
+                        maxValue: 250,
+                      ),
 
-                    ShSliderPicker(
-                      label: Localiza.find("porcNormal"),
-                      value: state.porcNormal ?? 50,
-                      onChanged: bloc.setPorcNormal,
-                      minValue: 50,
-                      maxValue: 250,
-                    ),
-
-                    ShSliderPicker(
-                      label: Localiza.find("porcFeriado"),
-                      value: state.porcFeriado ?? 100,
-                      onChanged: bloc.setPorcFeriados,
-                      minValue: 100,
-                      maxValue: 300,
-                    ),
+                      ShSliderPicker(
+                        label: Localiza.find("porcFeriado"),
+                        value: state.porcFeriado ?? 100,
+                        onChanged: bloc.setPorcFeriados,
+                        minValue: 100,
+                        maxValue: 300,
+                      ),
+                    ],
                   ],
                 ),
               ),

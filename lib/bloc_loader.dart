@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/data_layer/repositories/diferenciais_repository.dart';
+import 'package:marcahoras3/data_layer/repositories/hora_fixo_repository.dart';
 
 import 'app_config.dart';
 import 'data_layer/providers.dart';
@@ -12,10 +14,7 @@ import 'utils.dart';
 class BlocLoader extends StatefulWidget {
   final Widget child;
 
-  const BlocLoader({
-    required this.child,
-    super.key,
-  });
+  const BlocLoader({required this.child, super.key});
 
   @override
   State<BlocLoader> createState() => _BlocLoaderState();
@@ -28,9 +27,7 @@ class _BlocLoaderState extends State<BlocLoader> {
 
   @override
   Widget build(BuildContext context) {
-    final empregoRepo = EmpregoRepository(
-      AppConfig.shared.empregosProvider!,
-    );
+    final empregoRepo = EmpregoRepository(AppConfig.shared.empregosProvider!);
     final salarioRepo = SalariosRepository(
       provider: AppConfig.shared.salariosProvider!,
     );
@@ -38,31 +35,45 @@ class _BlocLoaderState extends State<BlocLoader> {
       provider: AppConfig.shared.horasProvider!,
     );
 
+    final difRepo = DiferenciaisRepository(
+      provider: AppConfig.shared.diferenciaisProvider!,
+    );
+
+    final fixoRepo = HoraFixoRepository(
+      provider: AppConfig.shared.fixoProvider!,
+    );
+
     return MultiBlocProvider(
       providers: [
         if (AppConfig.shared.flavor == Flavor.online) _buildRegistrationBloc(),
         BlocProvider(
-          create: (_) => HomeBloc(
-            month: _initialDate.month,
-            year: _initialDate.year,
-            empregoDataLoadUseCase: EmpregoDataLoadUseCase(empregoRepo),
-            empregoDeleteUseCase: EmpregoDeleteUseCase(empregoRepo),
-            horasLoadByRangeUseCase: HorasLoadByRangeUseCase(horasRepo),
-            horasCreateUsecase: HorasCreateUseCase(repo: horasRepo),
-            horasDeleteUseCase: HorasDeleteUseCase(repo: horasRepo),
-            horasUpdateUseCase: HorasUpdateUseCase(repo: horasRepo),
-          )..load(),
+          create:
+              (_) => HomeBloc(
+                month: _initialDate.month,
+                year: _initialDate.year,
+                empregoDataLoadUseCase: EmpregoDataLoadUseCase(empregoRepo),
+                empregoDeleteUseCase: EmpregoDeleteUseCase(empregoRepo),
+                horasLoadByRangeUseCase: HorasLoadByRangeUseCase(horasRepo),
+                horasCreateUsecase: HorasCreateUseCase(repo: horasRepo),
+                horasDeleteUseCase: HorasDeleteUseCase(repo: horasRepo),
+                horasUpdateUseCase: HorasUpdateUseCase(repo: horasRepo),
+              )..load(),
         ),
         BlocProvider(
-          create: (_) => EmpregosBloc(
-            insertUseCase: EmpregoInsertUseCase(
-              empregoRepo,
-            ),
-            updateUseCase: EmpregoUpdateUseCase(empregoRepo),
-            salariosCreateUseCase: SalarioCreateUseCase(salarioRepo),
-            salariosUpdateUseCase: SalarioUpdateUseCase(salarioRepo),
-            salariosDeleteUseCase: SalarioDeleteUseCase(salarioRepo),
-          ),
+          create:
+              (_) => EmpregosBloc(
+                insertUseCase: EmpregoInsertUseCase(empregoRepo),
+                updateUseCase: EmpregoUpdateUseCase(empregoRepo),
+                salariosCreateUseCase: SalarioCreateUseCase(salarioRepo),
+                salariosUpdateUseCase: SalarioUpdateUseCase(salarioRepo),
+                salariosDeleteUseCase: SalarioDeleteUseCase(salarioRepo),
+                diferencialDeleteUseCase: DiferencialDeleteUseCase(difRepo),
+                diferencialSaveUseCase: DiferencialSaveUseCase(difRepo),
+                diferencialUpdateUseCase: DiferencialUpdateUseCase(difRepo),
+                horaFixoDeleteUseCase: HoraFixoDeleteUseCase(fixoRepo),
+                horaFixoSaveUseCase: HoraFixoSaveUseCase(fixoRepo),
+                horaFixoUpdateUseCase: HoraFixoUpdateUseCase(fixoRepo),
+              ),
         ),
       ],
       child: widget.child,
@@ -74,9 +85,7 @@ class _BlocLoaderState extends State<BlocLoader> {
   BlocProvider _buildRegistrationBloc() {
     final connector = WebConnector();
 
-    connector.addInterceptor(
-      InvalidUserInterceptor(),
-    );
+    connector.addInterceptor(InvalidUserInterceptor());
 
     final vault = Vault();
     connector.token = vault.token;
@@ -85,12 +94,13 @@ class _BlocLoaderState extends State<BlocLoader> {
       provider: RegistrationProvider(connector: connector),
     );
     return BlocProvider(
-      create: (_) => RegistrationBloc(
-        registerUserUseCase: RegisterUserUsecase(repo: registerRepo),
-        loginUserUseCase: LoginUserUsecase(repo: registerRepo),
-        setVaultDataUseCase: SetVaultDataUsecase(),
-        resetVault: ResetVaultUseCase(),
-      ),
+      create:
+          (_) => RegistrationBloc(
+            registerUserUseCase: RegisterUserUsecase(repo: registerRepo),
+            loginUserUseCase: LoginUserUsecase(repo: registerRepo),
+            setVaultDataUseCase: SetVaultDataUsecase(),
+            resetVault: ResetVaultUseCase(),
+          ),
     );
   }
 }

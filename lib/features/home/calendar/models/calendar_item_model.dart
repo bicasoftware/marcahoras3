@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../domain_layer/models.dart';
+import '../../../../resources/colors.dart';
 
 sealed class CalendarItemModel {
   final Horas? horas;
@@ -28,6 +29,26 @@ class CalendarItemEmpty extends CalendarItemModel {
 class CalendarItemDateOnly extends CalendarItemModel {
   CalendarItemDateOnly(DateTime data, bool isToday)
     : super(date: data, horas: null, isToday: isToday);
+}
+
+class CalendarItemBancoHoras extends CalendarItemModel implements Equatable {
+  CalendarItemBancoHoras({
+    required Horas horas,
+    required DateTime date,
+    required bool isToday,
+  }) : super(horas: horas, date: date, isToday: isToday);
+
+  HorasType get horaType => horas?.tipoHora ?? HorasType.unknown;
+
+  int get horaColor => AppColors.secondary.toARGB32();
+
+  int get weekDay => horas?.data.weekday ?? -1;
+
+  @override
+  List<Object?> get props => [horas, date, isToday];
+
+  @override
+  bool? get stringify => true;
 }
 
 class CalendarItemComplete extends CalendarItemModel implements Equatable {

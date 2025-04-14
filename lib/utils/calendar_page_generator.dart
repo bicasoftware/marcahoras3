@@ -9,6 +9,7 @@ class CalendarioPageGenerator {
     required int month,
     required int year,
     required DateTime admissao,
+    required bool bancoHoras,
   }) {
     /// Get the first date
     /// so by using the first week day
@@ -24,9 +25,7 @@ class CalendarioPageGenerator {
       var prevMonthDate = DateTime(year, month).subtract(Duration(days: 1));
 
       for (int i = initDate.weekday; i > 0; i--) {
-        beginEmptyItems.add(
-          CalendarItemDisabled(prevMonthDate, false),
-        );
+        beginEmptyItems.add(CalendarItemDisabled(prevMonthDate, false));
 
         prevMonthDate = prevMonthDate.subtract(Duration(days: 1));
       }
@@ -42,25 +41,32 @@ class CalendarioPageGenerator {
       /// the calendar item is disabled
       if (currentDate.isBefore(admissao)) {
         calendarDays.add(
-          CalendarItemDisabled(
-            currentDate,
-            today.isSameDay(currentDate),
-          ),
+          CalendarItemDisabled(currentDate, today.isSameDay(currentDate)),
         );
       } else {
-        final hora =
-            horas.firstWhereOrNull((h) => h.data.isSameDay(currentDate));
-        calendarDays.add(
-          /// If there's no overtime stored for this day, add [CalendarItemDateOnly]
-          /// otherwise adds a [CalendarItemComplete]
-          hora == null
-              ? CalendarItemDateOnly(currentDate, today.isSameDay(currentDate))
-              : CalendarItemComplete(
+        final hora = horas.firstWhereOrNull(
+          (h) => h.data.isSameDay(currentDate),
+        );
+
+        if (hora != null) {
+          calendarDays.add(
+            bancoHoras
+                ? CalendarItemBancoHoras(
+                  date: currentDate,
+                  horas: hora,
+                  isToday: today.isSameDay(currentDate),
+                )
+                : CalendarItemComplete(
                   date: currentDate,
                   horas: hora,
                   isToday: today.isSameDay(currentDate),
                 ),
-        );
+          );
+        } else {
+          calendarDays.add(
+            CalendarItemDateOnly(currentDate, today.isSameDay(currentDate)),
+          );
+        }
       }
 
       currentDate = currentDate.add(Duration(days: 1));

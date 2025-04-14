@@ -148,6 +148,9 @@ emprego:
 bancoHoras:
   pt_BR: Banco de Horas
   en_US: Unpaid overtime
+bancoHorasAbrev:
+  pt_BR: B. Horas
+  en_US: U. vertime
 salario:
   pt_BR: Salário
   en_US: Salary

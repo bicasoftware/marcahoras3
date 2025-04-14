@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:marcahoras3/data_layer/providers/sqlite/diferenciais_sql_provider.dart';
 import 'package:yaml/yaml.dart';
 
 import 'app_config.dart';
@@ -39,6 +40,8 @@ void main() async {
     salariosProvider: SalariosSqlProvider(db: database),
     horasProvider: HorasSqlProvider(db: database),
     empregosProvider: EmpregosSqlProvider(db: database),
+    diferenciaisProvider: DiferenciaisSqlProvider(db: database),
+    fixoProvider: HoraFixoProvider(db: database),
   );
 
   FlutterNativeSplash.remove();

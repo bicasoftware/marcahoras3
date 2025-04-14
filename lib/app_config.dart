@@ -12,6 +12,8 @@ class AppConfig {
   HorasProviderContract? horasProvider;
   EmpregosProviderContract? empregosProvider;
   SalariosProviderContract? salariosProvider;
+  DiferenciaisProviderContract? diferenciaisProvider;
+  HoraFixoProviderContract? fixoProvider;
 
   static AppConfig shared = AppConfig.create();
 
@@ -23,6 +25,8 @@ class AppConfig {
     HorasProviderContract? horasProvider,
     EmpregosProviderContract? empregosProvider,
     SalariosProviderContract? salariosProvider,
+    DiferenciaisProviderContract? diferenciaisProvider,
+    HoraFixoProviderContract? fixoProvider,
   }) {
     return shared = AppConfig(
       appName,
@@ -32,6 +36,8 @@ class AppConfig {
       empregosProvider,
       salariosProvider,
       horasProvider,
+      diferenciaisProvider,
+      fixoProvider,
     );
   }
 
@@ -43,5 +49,7 @@ class AppConfig {
     this.empregosProvider,
     this.salariosProvider,
     this.horasProvider,
+    this.diferenciaisProvider,
+    this.fixoProvider,
   );
 }

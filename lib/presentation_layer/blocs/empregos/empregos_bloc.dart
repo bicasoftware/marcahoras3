@@ -12,6 +12,12 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   final SalarioCreateUseCase _salariosCreateUseCase;
   final SalarioUpdateUseCase _salariosUpdateUseCase;
   final SalarioDeleteUseCase _salariosDeleteUseCase;
+  final DiferencialDeleteUseCase _diferencialDeleteUseCase;
+  final DiferencialSaveUseCase _diferencialSaveUseCase;
+  final DiferencialUpdateUseCase _diferencialUpdateUseCase;
+  final HoraFixoDeleteUseCase _horaFixoDeleteUseCase;
+  final HoraFixoSaveUseCase _horaFixoSaveUseCase;
+  final HoraFixoUpdateUseCase _horaFixoUpdateUseCase;
 
   EmpregosBloc({
     required EmpregoInsertUseCase insertUseCase,
@@ -19,34 +25,31 @@ class EmpregosBloc extends Cubit<EmpregosState> {
     required SalarioCreateUseCase salariosCreateUseCase,
     required SalarioUpdateUseCase salariosUpdateUseCase,
     required SalarioDeleteUseCase salariosDeleteUseCase,
-  })  : _insertUseCase = insertUseCase,
-        _updateUseCase = updateUseCase,
-        _salariosUpdateUseCase = salariosUpdateUseCase,
-        _salariosCreateUseCase = salariosCreateUseCase,
-        _salariosDeleteUseCase = salariosDeleteUseCase,
-        super(
-          EmpregosState(
-            emprego: Empregos(),
-            status: StateSuccessStatus(),
-          ),
-        );
+    required DiferencialDeleteUseCase diferencialDeleteUseCase,
+    required DiferencialSaveUseCase diferencialSaveUseCase,
+    required DiferencialUpdateUseCase diferencialUpdateUseCase,
+    required HoraFixoDeleteUseCase horaFixoDeleteUseCase,
+    required HoraFixoSaveUseCase horaFixoSaveUseCase,
+    required HoraFixoUpdateUseCase horaFixoUpdateUseCase,
+  }) : _insertUseCase = insertUseCase,
+       _updateUseCase = updateUseCase,
+       _salariosUpdateUseCase = salariosUpdateUseCase,
+       _salariosCreateUseCase = salariosCreateUseCase,
+       _salariosDeleteUseCase = salariosDeleteUseCase,
+       _diferencialDeleteUseCase = diferencialDeleteUseCase,
+       _diferencialSaveUseCase = diferencialSaveUseCase,
+       _diferencialUpdateUseCase = diferencialUpdateUseCase,
+       _horaFixoDeleteUseCase = horaFixoDeleteUseCase,
+       _horaFixoSaveUseCase = horaFixoSaveUseCase,
+       _horaFixoUpdateUseCase = horaFixoUpdateUseCase,
+       super(EmpregosState(emprego: Empregos(), status: StateSuccessStatus()));
 
   void reset() {
-    emit(
-      state.copyWith(
-        emprego: Empregos(),
-        isEditing: false,
-      ),
-    );
+    emit(state.copyWith(emprego: Empregos(), isEditing: false));
   }
 
   void setAsEdit(Empregos emprego) {
-    emit(
-      state.copyWith(
-        emprego: emprego,
-        isEditing: true,
-      ),
-    );
+    emit(state.copyWith(emprego: emprego, isEditing: true));
   }
 
   bool validate() {
@@ -58,16 +61,14 @@ class EmpregosBloc extends Cubit<EmpregosState> {
       state.porcFeriado != null,
       state.porcNormal != null,
       state.ativo != null,
-      ((state.salario != 0.0) || state.emprego.salarios.isNotEmpty)
+      ((state.salario != 0.0) || state.emprego.salarios.isNotEmpty),
     ].every((it) => it);
 
     return result;
   }
 
   void setDescricao(String descricao) {
-    emit(
-      state.copyWith(descricao: descricao),
-    );
+    emit(state.copyWith(descricao: descricao));
   }
 
   void setSalario(double salario) {
@@ -75,45 +76,31 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   }
 
   void setAdmissao(DateTime admissao) {
-    emit(
-      state.copyWith(admissao: admissao),
-    );
+    emit(state.copyWith(admissao: admissao));
   }
 
   void setEntrada(TimeOfDay entrada) {
-    emit(
-      state.copyWith(entrada: entrada),
-    );
+    emit(state.copyWith(entrada: entrada));
   }
 
   void setSaida(TimeOfDay saida) {
-    emit(
-      state.copyWith(saida: saida),
-    );
+    emit(state.copyWith(saida: saida));
   }
 
   void setPorcNormal(int porc) {
-    emit(
-      state.copyWith(porcNormal: porc),
-    );
+    emit(state.copyWith(porcNormal: porc));
   }
 
   void setPorcFeriados(int porc) {
-    emit(
-      state.copyWith(porcFeriado: porc),
-    );
+    emit(state.copyWith(porcFeriado: porc));
   }
 
   void setCargaHoraria(int carga) {
-    emit(
-      state.copyWith(cargaHoraria: carga),
-    );
+    emit(state.copyWith(cargaHoraria: carga));
   }
 
   void toggleBancoHoras() {
-    emit(
-      state.copyWith(bancoHoras: !state.bancoHoras),
-    );
+    emit(state.copyWith(bancoHoras: !state.bancoHoras));
   }
 
   Future<void> save() async {
@@ -123,9 +110,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   /// Insert a new Emprego, Insert a new [Salarios] and returns an [Emprego] model
   Future<void> insert() async {
     try {
-      emit(
-        state.emitLoading(),
-      );
+      emit(state.emitLoading());
 
       /// Calls [Empregos] Post endpoint
       final newEmprego = await _insertUseCase(state.emprego);
@@ -146,19 +131,10 @@ class EmpregosBloc extends Cubit<EmpregosState> {
 
       /// Finally we emit a new state
       emit(
-        state.copyWith(
-          emprego: updatedEmprego,
-          status: StateSuccessStatus(),
-        ),
+        state.copyWith(emprego: updatedEmprego, status: StateSuccessStatus()),
       );
     } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          status: StateErrorStatus(
-            errorMsg: e.toString(),
-          ),
-        ),
-      );
+      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
 
       rethrow;
     }
@@ -174,19 +150,10 @@ class EmpregosBloc extends Cubit<EmpregosState> {
 
       /// Finally emits a new state
       emit(
-        state.copyWith(
-          emprego: updatedEmprego,
-          status: StateSuccessStatus(),
-        ),
+        state.copyWith(emprego: updatedEmprego, status: StateSuccessStatus()),
       );
     } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          status: StateErrorStatus(
-            errorMsg: e.toString(),
-          ),
-        ),
-      );
+      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
 
       rethrow;
     }
@@ -195,16 +162,15 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   /// Updates a [Salarios] instance
   Future<void> updateSalario(Salarios salario) async {
     try {
-      emit(
-        state.emitLoading(),
-      );
+      emit(state.emitLoading());
 
       /// Calls the Patch [Salarios] endpoint which return the updated data
       final newSalario = await _salariosUpdateUseCase(salario);
 
       /// Find in the current [Salarios] list the related [Salarios] index
-      final index =
-          state.emprego.salarios.indexWhere((s) => s.id == salario.id);
+      final index = state.emprego.salarios.indexWhere(
+        (s) => s.id == salario.id,
+      );
 
       /// Generates a new list from the old [Salarios] list
       final salariosList = [...state.emprego.salarios];
@@ -220,13 +186,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
         ),
       );
     } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          status: StateErrorStatus(
-            errorMsg: e.toString(),
-          ),
-        ),
-      );
+      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
 
       rethrow;
     }
@@ -239,9 +199,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
     required String empregoId,
   }) async {
     try {
-      emit(
-        state.emitLoading(),
-      );
+      emit(state.emitLoading());
 
       /// Calls the Patch [Salarios] endpoint which return the updated data
       final newSalario = await _salariosCreateUseCase(
@@ -250,7 +208,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
           ativo: true,
           valor: valor,
           vigencia: vigencia,
-          createdAt: DateTime.now()
+          createdAt: DateTime.now(),
         ),
       );
 
@@ -268,26 +226,16 @@ class EmpregosBloc extends Cubit<EmpregosState> {
         ),
       );
     } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          status: StateErrorStatus(
-            errorMsg: e.toString(),
-          ),
-        ),
-      );
+      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
 
       rethrow;
     }
   }
 
   /// Creates delete the [Salarios] model by its id
-  Future<void> deleteSalario({
-    required Salarios salario,
-  }) async {
+  Future<void> deleteSalario({required Salarios salario}) async {
     try {
-      emit(
-        state.emitLoading(),
-      );
+      emit(state.emitLoading());
 
       /// Calls the Delete [Salarios] endpoint which return only 200 response code
       await _salariosDeleteUseCase(salario.id!);
@@ -304,13 +252,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
         ),
       );
     } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          status: StateErrorStatus(
-            errorMsg: e.toString(),
-          ),
-        ),
-      );
+      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
 
       rethrow;
     }

@@ -67,6 +67,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         empregoEntrada: bloc.state.currentEmprego!.entrada,
         hideDate: (selectedHora?.data != null || data != null),
         admissao: bloc.state.currentEmprego!.admissao!,
+        bancoHoras: bloc.state.currentEmprego?.bancoHoras ?? false,
       ),
     );
 
@@ -280,6 +281,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               Expanded(
                 child: HorasList(
                   isList: true,
+                  bancoHoras: bloc.state.bancoHoras,
                   horas: bloc.state.reportShortData(),
                   onDelete: (h) => _deleteHora(h, bloc),
                   onItemTap: (h) {

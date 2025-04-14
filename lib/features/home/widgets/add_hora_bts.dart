@@ -12,12 +12,14 @@ class AddHoraBts extends StatefulWidget {
   final String empregoId;
   final TimeOfDay empregoEntrada;
   final bool hideDate;
+  final bool bancoHoras;
 
   const AddHoraBts({
     required this.initDate,
     required this.empregoId,
     required this.empregoEntrada,
     required this.admissao,
+    required this.bancoHoras,
     this.hideDate = false,
     this.hora,
     this.feriado = false,
@@ -73,7 +75,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
     Navigator.of(context).pop(resultHora);
   }
 
-   DateTime _validDate() {
+  DateTime _validDate() {
     return _date.isBefore(widget.admissao) ? widget.admissao : _date;
   }
 
@@ -116,13 +118,14 @@ class _AddHoraBtsState extends State<AddHoraBts> {
               setState(() => _saida = time);
             },
           ),
-          ShSwitchTile(
-            value: _feriado,
-            label: Localiza.find('feriado'),
-            onTap: (_) {
-              setState(() => _feriado = !_feriado);
-            },
-          ),
+          if (!widget.bancoHoras)
+            ShSwitchTile(
+              value: _feriado,
+              label: Localiza.find('feriado'),
+              onTap: (_) {
+                setState(() => _feriado = !_feriado);
+              },
+            ),
           OutlinedButton.icon(
             onPressed: _onSave,
             icon: Icon(Icons.save_outlined),

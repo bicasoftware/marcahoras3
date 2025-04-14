@@ -26,6 +26,19 @@ class OvertimeListTile extends StatelessWidget {
     super.key,
   });
 
+  bool get bancoHoras => horaType == HorasType.banco;
+
+  String getBadgeLabel() {
+    switch (horaType) {
+      case HorasType.banco:
+        return Localiza.find('bancoHorasAbrev');
+      case HorasType.feriado:
+        return Localiza.find('horaFeriado');
+      default:
+        return Localiza.find('horaNormal');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context);
@@ -53,11 +66,7 @@ class OvertimeListTile extends StatelessWidget {
                     horizontal: 8,
                     vertical: 4,
                   ),
-                  label: Text(
-                    horaType == HorasType.normal
-                        ? Localiza.find('horaNormal')
-                        : Localiza.find('horaFeriado'),
-                  ),
+                  label: Text(getBadgeLabel()),
                 ),
               ],
             ),
@@ -69,13 +78,14 @@ class OvertimeListTile extends StatelessWidget {
               value: workedHours,
               labelColor: AppColors.primary,
             ),
-            IconLabelValue(
-              icon: Icons.payments_outlined,
-              iconColor: Color(horaType.colorHex),
-              label: Localiza.find('valorReceber'),
-              value: amount,
-              labelColor: AppColors.primary,
-            ),
+            if (!bancoHoras)
+              IconLabelValue(
+                icon: Icons.payments_outlined,
+                iconColor: Color(horaType.colorHex),
+                label: Localiza.find('valorReceber'),
+                value: amount,
+                labelColor: AppColors.primary,
+              ),
             IconLabelValue(
               icon: Icons.timelapse,
               iconColor: AppColors.porcFeriadosColor,

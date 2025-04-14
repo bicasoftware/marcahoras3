@@ -54,6 +54,17 @@ class CalendarPage extends StatelessWidget {
                     hora: it.horas,
                     onCalendarItemTap: onCalendarItemTap,
                   );
+                case CalendarItemBancoHoras():
+                  return CalendarItem(
+                    bancoHoras: true,
+                    monthDay: it.date?.day ?? -1,
+                    weekDay: it.weekDay,
+                    isToday: it.isToday ?? false,
+                    data: it.date,
+                    hora: it.horas,
+                    onCalendarItemTap: onCalendarItemTap,
+                    type: HorasType.banco,
+                  );
               }
             }).toList(),
       ),

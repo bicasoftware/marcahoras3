@@ -49,7 +49,25 @@ class DbEmpregos extends Table {
   DateTimeColumn get createdAt => dateTime()();
 }
 
-@DriftDatabase(tables: [DbHoras, DbSalarios, DbEmpregos])
+class DbDiferenciais extends Table {
+  TextColumn get id => text().unique()();
+  @JsonKey('id_emprego')
+  TextColumn get idEmprego => text().references(DbEmpregos, #id)();
+  IntColumn get weekday => integer()();
+  IntColumn get percentage => integer()();
+}
+
+class DbHoraFixo extends Table {
+  TextColumn get id => text().unique()();
+  @JsonKey('id_emprego')
+  TextColumn get idEmprego => text().references(DbEmpregos, #id)();
+  RealColumn get value => real()();
+  TextColumn get vigencia => text()();
+}
+
+@DriftDatabase(
+  tables: [DbHoras, DbSalarios, DbEmpregos, DbDiferenciais, DbHoraFixo],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 

@@ -54,6 +54,7 @@ class HomeBloc extends Cubit<HomeState> {
       month: mes,
       year: ano,
       admissao: emprego.admissao!,
+      bancoHoras: emprego.bancoHoras,
     );
 
     final reportPage =
@@ -77,11 +78,7 @@ class HomeBloc extends Cubit<HomeState> {
     required String empregoId,
   }) async {
     final (initDate, endDate) = getFormatedDateRange(year, month);
-    return await _horasLoadByRangeUseCase(
-      empregoId,
-      initDate,
-      endDate,
-    );
+    return await _horasLoadByRangeUseCase(empregoId, initDate, endDate);
   }
 
   Future<void> load() async {

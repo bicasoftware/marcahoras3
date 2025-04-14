@@ -60,6 +60,8 @@ class HomeState extends BaseState {
     return currentEmprego?.getSalarioByVigencia(year, month);
   }
 
+  bool get bancoHoras => currentEmprego?.bancoHoras ?? false;
+
   List<ReportHora> reportShortData() {
     final horas =
         reportPage.hours

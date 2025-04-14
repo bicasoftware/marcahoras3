@@ -11,6 +11,7 @@ class CalendarItem extends StatelessWidget {
   final Horas? hora;
   final bool enabled;
   final void Function(Horas? hora, DateTime? data)? onCalendarItemTap;
+  final bool bancoHoras;
 
   const CalendarItem({
     this.onCalendarItemTap,
@@ -19,6 +20,7 @@ class CalendarItem extends StatelessWidget {
     this.type = HorasType.unknown,
     this.isToday = false,
     this.enabled = true,
+    this.bancoHoras = false,
     this.hora,
     this.data,
     super.key,
@@ -34,45 +36,49 @@ class CalendarItem extends StatelessWidget {
         }
       },
       child: Container(
-        decoration: monthDay > -1
-            ? BoxDecoration(
-                color: enabled
-                    ? isToday
-                        ? AppColors.primaryContainer
-                        : AppColors.surface
-                    : AppColors.disabled.withAlpha(20),
-                border: Border.all(
-                  color: AppColors.shadow.withAlpha(20),
-                ),
-                borderRadius: BorderRadius.circular(8),
-              )
-            : null,
-        child: monthDay == -1 && weekDay == -1
-            ? Container()
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '$monthDay',
-                    style: theme.bodyLarge?.copyWith(
-                      color: enabled ? AppColors.onSurface : AppColors.disabled,
+        decoration:
+            monthDay > -1
+                ? BoxDecoration(
+                  color:
+                      enabled
+                          ? isToday
+                              ? AppColors.primaryContainer
+                              : AppColors.surface
+                          : AppColors.disabled.withAlpha(20),
+                  border: Border.all(color: AppColors.shadow.withAlpha(20)),
+                  borderRadius: BorderRadius.circular(8),
+                )
+                : null,
+        child:
+            monthDay == -1 && weekDay == -1
+                ? Container()
+                : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '$monthDay',
+                      style: theme.bodyLarge?.copyWith(
+                        color:
+                            enabled ? AppColors.onSurface : AppColors.disabled,
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 4,
-                    width: 10,
-                    margin: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: type != HorasType.unknown
-                        ? BoxDecoration(
-                            color: Color(type.colorHex),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8)),
-                          )
-                        : null,
-                  )
-                ],
-              ),
+                    Container(
+                      height: 4,
+                      width: 10,
+                      margin: const EdgeInsets.symmetric(horizontal: 12),
+                      decoration:
+                          type != HorasType.unknown
+                              ? BoxDecoration(
+                                color: Color(type.colorHex),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                              )
+                              : null,
+                    ),
+                  ],
+                ),
       ),
     );
   }
