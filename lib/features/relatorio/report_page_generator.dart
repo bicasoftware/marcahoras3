@@ -25,11 +25,14 @@ class ReportPageGenerator {
   });
 
   Future<ReportModel> generate() async {
-    final horasList = _generateHorasList();
+    final horasList =
+        bancoHoras ? _generateBancoHorasList() : _generateHorasList();
+
     final (valorRecNormal, horasFeitasNormal) = _sumByHorasType(
       porc: porcNormal,
       type: HorasType.normal,
     );
+
     final (valorRecDif, horasFeitasDif) = _sumByHorasType(
       type: HorasType.feriado,
       porc: porcDiff,
@@ -39,6 +42,7 @@ class ReportPageGenerator {
       month: month,
       year: year,
       hours: horasList,
+      bancoHoras: bancoHoras,
       horasFeitasNormal: TimeOfDayHelper.formatTimeFromMinutes(
         horasFeitasNormal,
       ),
@@ -49,6 +53,13 @@ class ReportPageGenerator {
       valorRecNormal: CurrencyHelper.formatAmount(valorRecNormal),
       valorRecDiff: CurrencyHelper.formatAmount(valorRecDif),
       valorRecTotal: CurrencyHelper.formatAmount(valorRecNormal + valorRecDif),
+
+      horasBanco: TimeOfDayHelper.formatTimeFromMinutes(
+        _sumTimeByHorasStatus(HoraStatus.active),
+      ),
+      horasCompensadas: TimeOfDayHelper.formatTimeFromMinutes(
+        _sumTimeByHorasStatus(HoraStatus.burned),
+      ),
     );
   }
 
@@ -78,6 +89,24 @@ class ReportPageGenerator {
     }).toList();
   }
 
+  List<ReportHora> _generateBancoHorasList() {
+    if (horas.isEmpty) return [];
+
+    return horas.sorted((a, b) => a.data.compareTo(b.data)).map((h) {
+      return ReportHora(
+        date: h.data,
+        salary: CurrencyHelper.formatAmount(salario?.valor ?? 0.0),
+        workedHours: TimeOfDayHelper.formatDayInRange(h.inicio, h.termino),
+        from: h.inicio.asString(),
+        to: h.termino.asString(),
+        type: HorasType.banco,
+        amount: CurrencyHelper.formatAmount(0.0),
+        porc: 0,
+        hora: h,
+      );
+    }).toList();
+  }
+
   (double, int) _sumByHorasType({required HorasType type, required int porc}) {
     double valor = 0.0;
     int tempo = 0;
@@ -94,5 +123,16 @@ class ReportPageGenerator {
     });
 
     return (valor, tempo);
+  }
+
+  int _sumTimeByHorasStatus(HoraStatus status) {
+    return horas
+        .where((h) => h.horaStatus == status)
+        .fold(
+          0,
+          (total, h) =>
+              total +
+              TimeOfDayHelper.getMinutesBetweenTimes(h.inicio, h.termino),
+        );
   }
 }

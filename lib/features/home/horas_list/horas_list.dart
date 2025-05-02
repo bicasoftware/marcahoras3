@@ -34,7 +34,9 @@ class _HorasListState extends State<HorasList> {
                 (h) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: OvertimeListTile(
-                    horaType: widget.bancoHoras ? HorasType.banco : h.type,
+                    horaType: h.type,
+                    horaStatus: h.hora.horaStatus,
+                    bancoHoras: widget.bancoHoras,
                     date: h.date,
                     workedHours: h.workedHours,
                     amount: h.amount,

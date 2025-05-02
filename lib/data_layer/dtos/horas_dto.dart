@@ -10,8 +10,8 @@ class HorasDto {
   final String? inicio;
   final String? termino;
   final String? tipoHora;
-  final bool? bancoHoras;
   final DateTime? createdAt;
+  final String? horaStatus;
 
   const HorasDto({
     this.id,
@@ -20,8 +20,8 @@ class HorasDto {
     this.inicio,
     this.termino,
     this.tipoHora,
-    this.bancoHoras,
     this.createdAt,
+    this.horaStatus
   });
 
   JsonObj toJson() {
@@ -31,7 +31,7 @@ class HorasDto {
       'inicio': inicio,
       'termino': termino,
       'tipo_hora': tipoHora,
-      'banco_horas': bancoHoras,
+      'hora_status': horaStatus,
     };
 
     if (id != null) map['id'] = id;
@@ -50,8 +50,7 @@ class HorasDto {
       inicio: map['inicio'] != null ? map['inicio'] as String : null,
       termino: map['termino'] != null ? map['termino'] as String : null,
       tipoHora: map['tipo_hora'] != null ? map['tipo_hora'] as String : null,
-      bancoHoras:
-          map['banco_horas'] != null ? map['banco_horas'] as bool : null,
+      horaStatus: map['status_hora'] != null ? map['status_hora'] as String : null,      
       createdAt:
           map['created_at'] is int
               ? getDateFromMillis(map['created_at'])
@@ -72,7 +71,7 @@ class HorasDto {
       inicio: this.inicio,
       termino: this.termino,
       tipoHora: this.tipoHora,
-      bancoHoras: this.bancoHoras,
+      horaStatus: this.horaStatus,
     );
   }
 }

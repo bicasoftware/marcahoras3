@@ -14,7 +14,7 @@ extension HorasMapper on HorasDto {
       inicio: TimeOfDayHelper.parseString(inicio!),
       termino: TimeOfDayHelper.parseString(termino!),
       tipoHora: HorasType.fromLetter(tipoHora),
-      bancoHoras: bancoHoras ?? false,
+      horaStatus: HoraStatus.fromLetter(horaStatus),
       createdAt: createdAt ?? DateTime(1970, 1, 1),
     );
   }
@@ -26,7 +26,7 @@ extension HorasMapper on HorasDto {
       inicio: Value(inicio!),
       termino: Value(termino!),
       tipoHora: Value(tipoHora!),
-      bancoHoras: Value(bancoHoras ?? false),
+      statusHora: Value(horaStatus!),
       empregoId: Value(empregoId!),
       createdAt: Value(createdAt),
     );
@@ -36,12 +36,12 @@ extension HorasMapper on HorasDto {
 extension HorasDtoMapper on Horas {
   HorasDto toHorasDto() {
     return HorasDto(
-      bancoHoras: bancoHoras,
       data: data,
       empregoId: empregoId,
       inicio: TimeOfDayHelper.formatTime(inicio, true),
       termino: TimeOfDayHelper.formatTime(termino, true),
       tipoHora: tipoHora.letter,
+      horaStatus: horaStatus.letter,
       id: id,
     );
   }

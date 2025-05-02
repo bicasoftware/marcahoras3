@@ -17,6 +17,7 @@ export 'widgets/outlined_card.dart';
 export 'widgets/overtime_list_tile.dart';
 export 'widgets/red_gradient_container.dart';
 export 'widgets/sh_appbar.dart';
+export 'widgets/sh_checkbox_tile.dart';
 export 'widgets/sh_custom_label_tile.dart';
 export 'widgets/sh_drop_down.dart';
 export 'widgets/sh_labeled_tile.dart';

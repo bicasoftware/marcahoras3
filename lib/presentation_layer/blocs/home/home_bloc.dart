@@ -381,6 +381,10 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
+  Future<void> burnHora(Horas hora) async {
+    return await updateHora(hora.copyWith(horaStatus: HoraStatus.burned));
+  }
+
   bool _validNewVigencia(int year, int month, DateTime admissao) {
     final newDate = DateTime(year, month, admissao.day);
     return newDate.isSameDayOrAfter(admissao);

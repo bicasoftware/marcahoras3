@@ -12,9 +12,11 @@ class DbHoras extends Table {
   TextColumn get inicio => text().withLength(min: 8, max: 8)();
   TextColumn get termino => text().withLength(min: 8, max: 8)();
   @JsonKey('tipo_hora')
-  TextColumn get tipoHora => text().withLength(max: 1)();
-  @JsonKey('banco_horas')
-  BoolColumn get bancoHoras => boolean()();
+  TextColumn get tipoHora =>
+      text().withLength(max: 1).withDefault(Constant('n'))();
+  @JsonKey('status_hora')
+  TextColumn get statusHora =>
+      text().withLength(max: 1).withDefault(Constant('a'))();
   @JsonKey('created_at')
   DateTimeColumn get createdAt => dateTime()();
 }
@@ -47,6 +49,10 @@ class DbEmpregos extends Table {
   IntColumn get cargaHoraria => integer().withDefault(const Constant(220))();
   @JsonKey('created_at')
   DateTimeColumn get createdAt => dateTime()();
+
+  @JsonKey('status_emprego')
+  TextColumn get statusHora =>
+      text().withLength(max: 1).withDefault(Constant('a'))();
 }
 
 class DbDiferenciais extends Table {

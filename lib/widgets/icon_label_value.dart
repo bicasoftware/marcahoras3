@@ -41,7 +41,6 @@ class IconLabelValue extends StatelessWidget {
           ),
           
           const Spacer(),
-          /// TODO - mudar a font no theme do app
           Text(
             value,
             style: theme.labelLarge?.copyWith(

@@ -92,7 +92,12 @@ class RelatorioScreen extends StatelessWidget {
               ),
             ),
             const Divider(indent: 12, endIndent: 12),
-            Expanded(child: RelatorioHorasList(horas: reportModel.hours)),
+            Expanded(
+              child: RelatorioHorasList(
+                horas: reportModel.hours,
+                bancoHoras: reportModel.bancoHoras,
+              ),
+            ),
           ],
         ),
       ),

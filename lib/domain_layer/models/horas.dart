@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../resources.dart';
-
 @immutable
 class Horas extends Equatable {
   final String? id;
@@ -11,7 +9,7 @@ class Horas extends Equatable {
   final TimeOfDay inicio;
   final TimeOfDay termino;
   final HorasType tipoHora;
-  final bool bancoHoras;
+  final HoraStatus horaStatus;
   final DateTime createdAt;
 
   const Horas({
@@ -21,8 +19,8 @@ class Horas extends Equatable {
     required this.inicio,
     required this.termino,
     required this.tipoHora,
-    required this.bancoHoras,
     required this.createdAt,
+    required this.horaStatus,
   });
 
   @override
@@ -34,8 +32,8 @@ class Horas extends Equatable {
       inicio,
       termino,
       tipoHora,
-      bancoHoras,
       createdAt,
+      horaStatus,
     ];
   }
 
@@ -46,7 +44,7 @@ class Horas extends Equatable {
     TimeOfDay? inicio,
     TimeOfDay? termino,
     HorasType? tipoHora,
-    bool? bancoHoras,
+    HoraStatus? horaStatus,
   }) {
     return Horas(
       id: id ?? this.id,
@@ -55,7 +53,7 @@ class Horas extends Equatable {
       inicio: inicio ?? this.inicio,
       termino: termino ?? this.termino,
       tipoHora: tipoHora ?? this.tipoHora,
-      bancoHoras: bancoHoras ?? this.bancoHoras,
+      horaStatus: horaStatus ?? this.horaStatus,
       createdAt: createdAt,
     );
   }
@@ -76,7 +74,31 @@ enum HorasType {
   static fromLetter(String? letter) {
     if (letter == null) return HorasType.unknown;
 
-    return values.firstWhere((HorasType it) => it.letter == letter,
-        orElse: () => HorasType.unknown);
+    return values.firstWhere(
+      (HorasType it) => it.letter == letter,
+      orElse: () => HorasType.unknown,
+    );
+  }
+}
+
+enum HoraStatus {
+  active('a', 0xFF29BDFC),
+  burned('b', 0xFFFF847D),
+  received('r', 0xFF5FB800),
+  partial('p', 0xFF5FB800),
+  unknown('u', 0xFF5FB800);
+
+  final String letter;
+  final int color;
+
+  const HoraStatus(this.letter, this.color);
+
+  static fromLetter(String? letter) {
+    if (letter == null) return HoraStatus.unknown;
+
+    return values.firstWhere(
+      (HoraStatus it) => it.letter == letter,
+      orElse: () => HoraStatus.unknown,
+    );
   }
 }

@@ -1,41 +1,22 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
 import '../../../utils.dart';
 
 class RelatorioTotalizerRow extends StatelessWidget {
-  final HorasType tipoHora;
   final String horasTrab;
   final String valor;
+  final String label;
+  final Color color;
+  final bool hideTotal;
 
   const RelatorioTotalizerRow({
-    required this.tipoHora,
+    required this.label,
+    required this.color,
     required this.horasTrab,
     required this.valor,
+    required this.hideTotal,
   });
-
-  String getLabel() {
-    switch (tipoHora) {
-      case HorasType.normal:
-        return Localiza.find('normais');
-      case HorasType.feriado:
-        return Localiza.find('feriados');
-      default:
-        return Localiza.find('totais');
-    }
-  }
-
-  Color getIconColor() {
-    switch (tipoHora) {
-      case HorasType.normal:
-        return AppColors.porcNormalColor;
-      case HorasType.feriado:
-        return AppColors.porcFeriadosColor;
-      default:
-        return AppColors.onPrimary;
-    }
-  }
 
   TextStyle _baseStyle(TextTheme theme) {
     return theme.labelLarge!.copyWith(
@@ -55,11 +36,11 @@ class RelatorioTotalizerRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         spacing: 8,
         children: [
-          Icon(Icons.circle, color: getIconColor(), size: 16),
+          Icon(Icons.circle, color: color, size: 16),
           Expanded(
             flex: 3,
             child: Text(
-              getLabel(),
+              label,
               style: _baseStyle(theme),
               textAlign: TextAlign.start,
             ),
@@ -72,18 +53,19 @@ class RelatorioTotalizerRow extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
           ),
-          Expanded(
-            flex: 6,
-            child: Text(
-              "${Localiza.find('total')} - ${valor}",
-              textAlign: TextAlign.end,
-              style: theme.labelLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                color: AppColors.onPrimary,
+          if (!hideTotal)
+            Expanded(
+              flex: 6,
+              child: Text(
+                "${Localiza.find('total')} - ${valor}",
+                textAlign: TextAlign.end,
+                style: theme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: AppColors.onPrimary,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

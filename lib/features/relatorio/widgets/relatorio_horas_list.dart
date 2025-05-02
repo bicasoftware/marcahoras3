@@ -5,8 +5,13 @@ import '../../../widgets/overtime_list_tile.dart';
 
 class RelatorioHorasList extends StatelessWidget {
   final List<ReportHora> horas;
+  final bool bancoHoras;
 
-  const RelatorioHorasList({required this.horas, super.key});
+  const RelatorioHorasList({
+    required this.horas,
+    required this.bancoHoras,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +23,8 @@ class RelatorioHorasList extends StatelessWidget {
               margin: EdgeInsets.only(bottom: 8),
               child: OvertimeListTile(
                 horaType: h.type,
+                horaStatus: h.hora.horaStatus,
+                bancoHoras: bancoHoras,
                 date: h.date,
                 workedHours: h.workedHours,
                 amount: h.amount,

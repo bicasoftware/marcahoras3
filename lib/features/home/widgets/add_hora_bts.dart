@@ -33,17 +33,19 @@ class AddHoraBts extends StatefulWidget {
 class _AddHoraBtsState extends State<AddHoraBts> {
   late DateTime _date;
   bool _feriado = false;
+  bool _compensada = false;
   late TimeOfDay _entrada, _saida;
 
   @override
   void initState() {
+    _date = widget.initDate;
+
     if (widget.hora != null) {
-      _date = widget.initDate;
       _feriado = widget.hora!.tipoHora == HorasType.feriado;
       _entrada = widget.hora!.inicio;
       _saida = widget.hora!.termino;
+      _compensada = widget.hora!.horaStatus == HoraStatus.burned;
     } else {
-      _date = widget.initDate;
       _feriado = widget.feriado;
       _entrada = widget.empregoEntrada;
       _saida = TimeOfDayHelper.addHours(widget.empregoEntrada, 1);
@@ -59,6 +61,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
         inicio: _entrada,
         termino: _saida,
         tipoHora: _feriado == true ? HorasType.feriado : HorasType.normal,
+        horaStatus: _getHoraStatus(),
       );
     } else {
       resultHora = Horas(
@@ -67,12 +70,20 @@ class _AddHoraBtsState extends State<AddHoraBts> {
         termino: _saida,
         data: _date,
         tipoHora: _feriado == true ? HorasType.feriado : HorasType.normal,
-        bancoHoras: false,
+        horaStatus: _getHoraStatus(),
         createdAt: DateTime.now(),
       );
     }
 
     Navigator.of(context).pop(resultHora);
+  }
+
+  HoraStatus _getHoraStatus() {
+    if (widget.bancoHoras && _compensada) {
+      return HoraStatus.burned;
+    }
+
+    return HoraStatus.active;
   }
 
   DateTime _validDate() {
@@ -90,7 +101,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         spacing: 8,
         children: [
-          if (!widget.hideDate) ...[
+          if (!widget.hideDate)
             ShLabeledTile(
               value: formatDateByLocale(_validDate(), locale),
               label: Localiza.find('data'),
@@ -107,7 +118,6 @@ class _AddHoraBtsState extends State<AddHoraBts> {
               },
               icon: Icons.calendar_month,
             ),
-          ],
           ShTimeRangePicker(
             initTime: _entrada,
             endTime: _saida,
@@ -118,14 +128,22 @@ class _AddHoraBtsState extends State<AddHoraBts> {
               setState(() => _saida = time);
             },
           ),
-          if (!widget.bancoHoras)
-            ShSwitchTile(
-              value: _feriado,
-              label: Localiza.find('feriado'),
-              onTap: (_) {
-                setState(() => _feriado = !_feriado);
-              },
-            ),
+          widget.bancoHoras
+              ? ShCheckBoxTile(
+                value: _compensada,
+                label: Localiza.find('compensada'),
+                onTap: (_) {
+                  setState(() => _compensada = !_compensada);
+                },
+              )
+              : ShSwitchTile(
+                value: _feriado,
+                label: Localiza.find('feriado'),
+                onTap: (_) {
+                  setState(() => _feriado = !_feriado);
+                },
+              ),
+
           OutlinedButton.icon(
             onPressed: _onSave,
             icon: Icon(Icons.save_outlined),

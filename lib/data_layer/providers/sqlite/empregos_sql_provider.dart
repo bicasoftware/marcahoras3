@@ -20,9 +20,7 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
   Future<EmpregosDto> create(EmpregosDto e) async {
     final newId = Uuid.v4().toString();
     final createdAt = DateTime.now();
-    await _table.create(
-      (it) => e.toCompanion(newId: newId, createdAt: createdAt),
-    );
+    await _table.create((it) => e.toCompanion(newId: newId, createdAt: createdAt));
     return e.copyWith(id: newId);
   }
 
@@ -30,9 +28,7 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
   Future<void> delete(String empregoId) async {
     await _tableHoras.filter((h) => h.empregoId.id.equals(empregoId)).delete();
 
-    await _tableSalarios
-        .filter((s) => s.empregoId.id.equals(empregoId))
-        .delete();
+    await _tableSalarios.filter((s) => s.empregoId.id.equals(empregoId)).delete();
 
     await _table.filter((e) => e.id.equals(empregoId)).delete();
   }
@@ -42,16 +38,12 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
     final empregos = await _table.get();
     final empregosDtoList = <EmpregosDto>[];
 
-    final horas =
-        await _tableHoras
-            .filter((h) => h.data.isBetween(parseDate(from)!, parseDate(to)!))
-            .get();
+    final horas = await _tableHoras.filter((h) => h.data.isBetween(parseDate(from)!, parseDate(to)!)).get();
 
     final horasDto = horas.map((h) => HorasDto.fromJson(h.toJson())).toList();
 
     final salarios = await _tableSalarios.get();
-    final salariosDto =
-        salarios.map((s) => SalariosDto.fromJson(s.toJson())).toList();
+    final salariosDto = salarios.map((s) => SalariosDto.fromJson(s.toJson())).toList();
 
     empregos.forEach((e) {
       final empregoDto = EmpregosDto.fromJson(e.toJson());
@@ -69,9 +61,7 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
   @override
   Future<EmpregosDto> update(EmpregosDto emprego) async {
     final createdAt = DateTime.now();
-    await _table
-        .filter((e) => e.id.equals(emprego.id))
-        .update((_) => emprego.toCompanion(createdAt: createdAt));
+    await _table.filter((e) => e.id.equals(emprego.id)).update((_) => emprego.toCompanion(createdAt: createdAt));
 
     return emprego;
   }

@@ -42,12 +42,17 @@ class PdfGenerator {
                       TableHeaderText(text: 'Inicio'),
                       TableHeaderText(text: 'Termino'),
                       TableHeaderText(text: 'Horas Feitas'),
-                      TableHeaderText(text: '%'),
-                      TableHeaderText(text: 'Total'),
+                      if (report.bancoHoras) ...[
+                        TableHeaderText(text: Localiza.find('status')),
+                      ],
+                      if (!report.bancoHoras) ...[
+                        TableHeaderText(text: '%'),
+                        TableHeaderText(text: 'Total'),
+                      ],
                     ],
                   ),
                   ...report.hours
-                      .map((h) => _horaRowDisplay(h, locale))
+                      .map((h) => _horaRowDisplay(h, locale, report.bancoHoras))
                       .toList(),
                 ],
               ),
@@ -58,18 +63,30 @@ class PdfGenerator {
                   Divider(),
                   Row(
                     children: [
-                      _totaisDisplay(
-                        "Normais: ${report.horasFeitasNormal}",
-                        "Total - ${report.valorRecNormal}",
-                      ),
-                      _totaisDisplay(
-                        "Normais: ${report.horasFeitasDiff}",
-                        "Total - ${report.valorRecDiff}",
-                      ),
-                      _totaisDisplay(
-                        "Total no Mês: ${report.horasFeitasTotal}",
-                        "Total - ${report.valorRecDiff}",
-                      ),
+                      if (report.bancoHoras) ...[
+                        _totaisDisplay("Banco Horas:", report.horasBanco),
+                        _totaisDisplay(
+                          "Horas Compensadas:",
+                          report.horasCompensadas,
+                        ),
+                        _totaisDisplay(
+                          "Total no Mês: ",
+                          report.horasFeitasTotal,
+                        ),
+                      ] else ...[
+                        _totaisDisplay(
+                          "Normais: ${report.horasFeitasNormal}",
+                          "Total - ${report.valorRecNormal}",
+                        ),
+                        _totaisDisplay(
+                          "Feriados: ${report.horasFeitasDiff}",
+                          "Total - ${report.valorRecDiff}",
+                        ),
+                        _totaisDisplay(
+                          "Total no Mês: ${report.horasFeitasTotal}",
+                          "Total - ${report.valorRecDiff}",
+                        ),
+                      ],
                     ],
                   ),
                 ],
@@ -93,15 +110,24 @@ Widget _totaisDisplay(String valor1, String valor2) {
   );
 }
 
-TableRow _horaRowDisplay(ReportHora h, Locale locale) {
+TableRow _horaRowDisplay(ReportHora h, Locale locale, bool bancoHoras) {
   return TableRow(
     children: [
       TableText(text: formatDateByLocale(h.date, locale)),
       TableText(text: h.from),
       TableText(text: h.to),
       TableText(text: h.workedHours),
-      TableText(text: "${h.porc}%"),
-      TableText(text: h.amount),
+      if (bancoHoras) ...[
+        TableText(
+          text:
+              h.hora.horaStatus == HoraStatus.burned
+                  ? Localiza.find('compensada')
+                  : Localiza.find('bancoHorasAbrev'),
+        ),
+      ] else ...[
+        TableText(text: "${h.porc}%"),
+        TableText(text: h.amount),
+      ],
     ],
   );
 }

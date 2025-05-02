@@ -26,6 +26,8 @@ class CalendarItem extends StatelessWidget {
     super.key,
   });
 
+  bool get _isBurned => hora?.horaStatus == HoraStatus.burned;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
@@ -58,10 +60,7 @@ class CalendarItem extends StatelessWidget {
                   children: [
                     Text(
                       '$monthDay',
-                      style: theme.bodyLarge?.copyWith(
-                        color:
-                            enabled ? AppColors.onSurface : AppColors.disabled,
-                      ),
+                      style: theme.bodyLarge?.copyWith(color: enabled ? AppColors.onSurface : AppColors.disabled),
                     ),
                     Container(
                       height: 4,
@@ -70,10 +69,8 @@ class CalendarItem extends StatelessWidget {
                       decoration:
                           type != HorasType.unknown
                               ? BoxDecoration(
-                                color: Color(type.colorHex),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(8),
-                                ),
+                                color: _getIndicatorColor(),
+                                borderRadius: const BorderRadius.all(Radius.circular(8)),
                               )
                               : null,
                     ),
@@ -81,5 +78,9 @@ class CalendarItem extends StatelessWidget {
                 ),
       ),
     );
+  }
+
+  Color _getIndicatorColor() {
+    return _isBurned ? AppColors.porcFeriadosColor : Color(type.colorHex);
   }
 }

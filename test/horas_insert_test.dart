@@ -20,12 +20,12 @@ void main() {
   v.setVaultData(token: fakeToken, refreshToken: '');
 
   final hora = Horas(
-    bancoHoras: false,
     data: DateTime.now(),
     empregoId: empregoId,
     inicio: TimeOfDayHelper.parseString("18:00"),
     termino: TimeOfDayHelper.parseString("19:00"),
     tipoHora: HorasType.normal,
+    horaStatus: HoraStatus.active,
     createdAt: DateTime.now()
   );
 

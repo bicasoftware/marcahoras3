@@ -7,6 +7,8 @@ import '../utils.dart';
 
 class OvertimeListTile extends StatelessWidget {
   final HorasType horaType;
+  final HoraStatus horaStatus;
+  final bool bancoHoras;
   final DateTime date;
   final String workedHours;
   final String amount;
@@ -16,7 +18,9 @@ class OvertimeListTile extends StatelessWidget {
 
   const OvertimeListTile({
     required this.horaType,
+    required this.horaStatus,
     required this.date,
+    required this.bancoHoras,
     required this.workedHours,
     required this.amount,
     required this.salary,
@@ -26,17 +30,20 @@ class OvertimeListTile extends StatelessWidget {
     super.key,
   });
 
-  bool get bancoHoras => horaType == HorasType.banco;
-
   String getBadgeLabel() {
-    switch (horaType) {
-      case HorasType.banco:
-        return Localiza.find('bancoHorasAbrev');
-      case HorasType.feriado:
-        return Localiza.find('horaFeriado');
-      default:
-        return Localiza.find('horaNormal');
+    if (bancoHoras) {
+      return horaStatus == HoraStatus.burned
+          ? Localiza.find('compensada')
+          : Localiza.find('bancoHorasAbrev');
     }
+
+    return horaType == HorasType.feriado
+        ? Localiza.find('horaFeriado')
+        : Localiza.find('horaNormal');
+  }
+
+  Color _getBadgeColor() {
+    return bancoHoras ? Color(horaStatus.color) : Color(horaType.colorHex);
   }
 
   @override
@@ -61,7 +68,7 @@ class OvertimeListTile extends StatelessWidget {
                   ),
                 ),
                 Badge(
-                  backgroundColor: Color(horaType.colorHex),
+                  backgroundColor: _getBadgeColor(),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,

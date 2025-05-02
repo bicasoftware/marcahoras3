@@ -85,6 +85,9 @@ hora:
 minuto:
   pt_BR: Minuto  
   en_US: Minute
+status:
+  pt_BR: Situação
+  en_US: Status
 repeatPassword:
   pt_BR: Digite a senha novamente  
   en_US: Type your password again
@@ -149,8 +152,8 @@ bancoHoras:
   pt_BR: Banco de Horas
   en_US: Unpaid overtime
 bancoHorasAbrev:
-  pt_BR: B. Horas
-  en_US: U. vertime
+  pt_BR: Banco
+  en_US: Stored
 salario:
   pt_BR: Salário
   en_US: Salary
@@ -269,12 +272,18 @@ total:
 novo:
   pt_BR: Novo
   en_US: New
+compensada:
+  pt_BR: Compensada
+  en_US: Compensated
 deleteDialogTitle:
   pt_BR: Apagar {value}
   en_US: Delete {value}
 deleteDialogMsg:
   pt_BR: Você realmente deseja apagar?
   en_US: Do you really want to delete?
+burnHoraDialogMsg:
+  pt_BR: Você realmente deseja marcar essa hora como Compensada?
+  en_US: Do you really want to mark this entry as Compensated?
 months:
   pt_BR:
     - Janeiro

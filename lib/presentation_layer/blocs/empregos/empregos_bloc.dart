@@ -12,12 +12,12 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   final SalarioCreateUseCase _salariosCreateUseCase;
   final SalarioUpdateUseCase _salariosUpdateUseCase;
   final SalarioDeleteUseCase _salariosDeleteUseCase;
-  final DiferencialDeleteUseCase _diferencialDeleteUseCase;
-  final DiferencialSaveUseCase _diferencialSaveUseCase;
-  final DiferencialUpdateUseCase _diferencialUpdateUseCase;
-  final HoraFixoDeleteUseCase _horaFixoDeleteUseCase;
-  final HoraFixoSaveUseCase _horaFixoSaveUseCase;
-  final HoraFixoUpdateUseCase _horaFixoUpdateUseCase;
+  // final DiferencialDeleteUseCase _diferencialDeleteUseCase;
+  // final DiferencialSaveUseCase _diferencialSaveUseCase;
+  // final DiferencialUpdateUseCase _diferencialUpdateUseCase;
+  // final HoraFixoDeleteUseCase _horaFixoDeleteUseCase;
+  // final HoraFixoSaveUseCase _horaFixoSaveUseCase;
+  // final HoraFixoUpdateUseCase _horaFixoUpdateUseCase;
 
   EmpregosBloc({
     required EmpregoInsertUseCase insertUseCase,
@@ -36,12 +36,13 @@ class EmpregosBloc extends Cubit<EmpregosState> {
        _salariosUpdateUseCase = salariosUpdateUseCase,
        _salariosCreateUseCase = salariosCreateUseCase,
        _salariosDeleteUseCase = salariosDeleteUseCase,
-       _diferencialDeleteUseCase = diferencialDeleteUseCase,
-       _diferencialSaveUseCase = diferencialSaveUseCase,
-       _diferencialUpdateUseCase = diferencialUpdateUseCase,
-       _horaFixoDeleteUseCase = horaFixoDeleteUseCase,
-       _horaFixoSaveUseCase = horaFixoSaveUseCase,
-       _horaFixoUpdateUseCase = horaFixoUpdateUseCase,
+       /// Descomentar quando tiver aplicando essa funcionalidade
+      //  _diferencialDeleteUseCase = diferencialDeleteUseCase,
+      //  _diferencialSaveUseCase = diferencialSaveUseCase,
+      //  _diferencialUpdateUseCase = diferencialUpdateUseCase,
+      //  _horaFixoDeleteUseCase = horaFixoDeleteUseCase,
+      //  _horaFixoSaveUseCase = horaFixoSaveUseCase,
+      //  _horaFixoUpdateUseCase = horaFixoUpdateUseCase,
        super(EmpregosState(emprego: Empregos(), status: StateSuccessStatus()));
 
   void reset() {

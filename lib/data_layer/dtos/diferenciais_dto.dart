@@ -14,7 +14,7 @@ class DiferenciaisDTO {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'id_emprego': idEmprego,
+      'emprego_id': idEmprego,
       'weekday': weekday,
       'percentage': percentage,
     };
@@ -23,7 +23,7 @@ class DiferenciaisDTO {
   factory DiferenciaisDTO.fromJson(Map<String, dynamic> json) {
     return DiferenciaisDTO(
       id: json['id'],
-      idEmprego: json['id_emprego'],
+      idEmprego: json['emprego_id'],
       weekday: json['weekday'],
       percentage: json['percentage'],
     );
