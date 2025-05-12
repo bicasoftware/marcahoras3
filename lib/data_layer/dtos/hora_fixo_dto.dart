@@ -1,13 +1,18 @@
-class HoraFixoDTO {
-  final String id;
-  final String idEmprego;
-  final double value;
-  final String vigencia;
+import 'package:flutter/foundation.dart';
 
-  HoraFixoDTO({
+@immutable
+class HoraFixoDto {
+  final String? id;
+  final String? idEmprego;
+  final double? valorNormal;
+  final double? valorFeriado;
+  final String? vigencia;
+
+  HoraFixoDto({
     required this.id,
     required this.idEmprego,
-    required this.value,
+    required this.valorNormal,
+    required this.valorFeriado,
     required this.vigencia,
   });
 
@@ -15,30 +20,40 @@ class HoraFixoDTO {
     return {
       'id': id,
       'id_emprego': idEmprego,
-      'value': value,
+      'valor_normal': valorNormal,
+      'valor_feriado': valorFeriado,
       'vigencia': vigencia,
     };
   }
 
-  factory HoraFixoDTO.fromJson(Map<String, dynamic> json) {
-    return HoraFixoDTO(
+  factory HoraFixoDto.fromJson(Map<String, dynamic> json) {
+    return HoraFixoDto(
       id: json['id'],
       idEmprego: json['id_emprego'],
-      value: json['value'],
+      valorNormal: json['valor_normal'],
+      valorFeriado: json['valor_feriado'],
       vigencia: json['vigencia'],
     );
-  }  
+  }
 
-  HoraFixoDTO copyWith({
+  static List<HoraFixoDto> fromJsonList(List<dynamic> jsonList) {
+    return jsonList
+        .map((json) => HoraFixoDto.fromJson(json as Map<String, dynamic>))
+        .toList();
+  }
+
+  HoraFixoDto copyWith({
     String? id,
     String? idEmprego,
-    double? value,
+    double? valorNormal,
+    double? valorFeriado,
     String? vigencia,
   }) {
-    return HoraFixoDTO(
+    return HoraFixoDto(
       id: id ?? this.id,
       idEmprego: idEmprego ?? this.idEmprego,
-      value: value ?? this.value,
+      valorNormal: valorNormal ?? this.valorNormal,
+      valorFeriado: valorFeriado ?? this.valorFeriado,
       vigencia: vigencia ?? this.vigencia,
     );
   }

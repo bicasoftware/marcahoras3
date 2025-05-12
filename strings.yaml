@@ -182,8 +182,17 @@ porcNormal:
   pt_BR: Extra Normal
   en_US: Regular overtime
 porcFeriado:
-  pt_BR: Extra Diferencial
+  pt_BR: Extra Feriado
   en_US: Holiday overtime
+valorFixoNormal:
+  pt_BR: Valor Normal
+  en_US: Regular amount
+valorFixoFeriados:
+  pt_BR: Valor Feriados
+  en_US: Holidays amount
+valoresFixos:
+  pt_BR: Hora Extra com valor Fixado
+  en_US: Fixed amount overtime
 editar:
   pt_BR: Editar
   en_US: Edit
@@ -275,6 +284,12 @@ novo:
 compensada:
   pt_BR: Compensada
   en_US: Compensated
+valorInvalido:
+  pt_BR: Valor deve ser preenchido
+  en_US: Value must be filled
+porcentagensExtras:
+  pt_BR: Porcentagens Extras
+  en_US: Overtime percentages
 deleteDialogTitle:
   pt_BR: Apagar {value}
   en_US: Delete {value}

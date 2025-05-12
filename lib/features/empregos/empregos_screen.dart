@@ -4,6 +4,7 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:marcahoras3/features/empregos/porcentagens/porcentagens_tile.dart';
 import 'package:marcahoras3/widgets/dialogs/scrollable_time_picker_dialog.dart';
 import 'package:marcahoras3/widgets/forms/label_form_field.dart';
 import 'package:marcahoras3/widgets/sh_togglable_tile.dart';
@@ -211,6 +212,7 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                 },
                 child: Column(
                   spacing: 4,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ShTextTile(
                       controller: ctrDescricao,
@@ -244,9 +246,10 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                       },
                     ),
                     SalariosTile(
+                      salarios: state.emprego.salarios,
+                      horaFixoList: state.emprego.horaFixoList,
                       controller: ctrSalarioMasked,
                       isEditing: bloc.state.isEditing,
-                      salarios: state.emprego.salarios,
                       onOptionSelected: (action) {
                         _handleAumento(action, bloc);
                       },
@@ -307,29 +310,32 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                       onChanged: bloc.setCargaHoraria,
                       icon: Icon(Icons.list),
                     ),
-
+                    Container(
+                      padding: EdgeInsets.only(top: 16),
+                      child: Text(
+                        Localiza.find("porcentagensExtras"),
+                        textAlign: TextAlign.start,
+                        style: textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                     ShSwitchTile(
                       value: state.bancoHoras,
                       label: Localiza.find("bancoHoras"),
                       onTap: (_) => bloc.toggleBancoHoras(),
                     ),
-                    if (!state.bancoHoras) ...[
-                      ShSliderPicker(
-                        label: Localiza.find("porcNormal"),
-                        value: state.porcNormal ?? 50,
-                        onChanged: bloc.setPorcNormal,
-                        minValue: 50,
-                        maxValue: 250,
-                      ),
-
-                      ShSliderPicker(
-                        label: Localiza.find("porcFeriado"),
-                        value: state.porcFeriado ?? 100,
-                        onChanged: bloc.setPorcFeriados,
-                        minValue: 100,
-                        maxValue: 300,
-                      ),
-                    ],
+                    PorcentagensTile(
+                      isInsert: isInsert,
+                      useValorFixo: state.useValorFixo,
+                      toggleType: bloc.toggleValorFixo,
+                      onValueChanged: bloc.setValorFixo,
+                      fixedValues: bloc.state.valorFixo,
+                      porcNormal: bloc.state.porcNormal ?? 50,
+                      porcFeriado: bloc.state.porcFeriado ?? 100,
+                      onNormalPorcSet: bloc.setPorcNormal,
+                      onFeriadoPorcSet: bloc.setPorcFeriados,
+                    ),
                   ],
                 ),
               ),

@@ -67,7 +67,10 @@ class DbHoraFixo extends Table {
   TextColumn get id => text().unique()();
   @JsonKey('id_emprego')
   TextColumn get idEmprego => text().references(DbEmpregos, #id)();
-  RealColumn get value => real()();
+  @JsonKey('valor_normal')
+  RealColumn get valorNormal => real().withDefault(Constant(0.0))();
+  @JsonKey('valor_feriado')
+  RealColumn get valorFeriado => real().withDefault(Constant(0.0))();
   TextColumn get vigencia => text()();
 }
 

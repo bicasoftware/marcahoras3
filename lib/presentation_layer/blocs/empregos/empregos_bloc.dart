@@ -15,9 +15,9 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   // final DiferencialDeleteUseCase _diferencialDeleteUseCase;
   // final DiferencialSaveUseCase _diferencialSaveUseCase;
   // final DiferencialUpdateUseCase _diferencialUpdateUseCase;
-  // final HoraFixoDeleteUseCase _horaFixoDeleteUseCase;
-  // final HoraFixoSaveUseCase _horaFixoSaveUseCase;
-  // final HoraFixoUpdateUseCase _horaFixoUpdateUseCase;
+  final HoraFixoDeleteUseCase _horaFixoDeleteUseCase;
+  final HoraFixoSaveUseCase _horaFixoSaveUseCase;
+  final HoraFixoUpdateUseCase _horaFixoUpdateUseCase;
 
   EmpregosBloc({
     required EmpregoInsertUseCase insertUseCase,
@@ -36,17 +36,31 @@ class EmpregosBloc extends Cubit<EmpregosState> {
        _salariosUpdateUseCase = salariosUpdateUseCase,
        _salariosCreateUseCase = salariosCreateUseCase,
        _salariosDeleteUseCase = salariosDeleteUseCase,
+       _horaFixoDeleteUseCase = horaFixoDeleteUseCase,
+       _horaFixoSaveUseCase = horaFixoSaveUseCase,
+       _horaFixoUpdateUseCase = horaFixoUpdateUseCase,
+
        /// Descomentar quando tiver aplicando essa funcionalidade
-      //  _diferencialDeleteUseCase = diferencialDeleteUseCase,
-      //  _diferencialSaveUseCase = diferencialSaveUseCase,
-      //  _diferencialUpdateUseCase = diferencialUpdateUseCase,
-      //  _horaFixoDeleteUseCase = horaFixoDeleteUseCase,
-      //  _horaFixoSaveUseCase = horaFixoSaveUseCase,
-      //  _horaFixoUpdateUseCase = horaFixoUpdateUseCase,
-       super(EmpregosState(emprego: Empregos(), status: StateSuccessStatus()));
+       //  _diferencialDeleteUseCase = diferencialDeleteUseCase,
+       //  _diferencialSaveUseCase = diferencialSaveUseCase,
+       //  _diferencialUpdateUseCase = diferencialUpdateUseCase,
+       super(
+         EmpregosState(
+           emprego: Empregos(),
+           status: StateSuccessStatus(),
+           useValorFixo: false,
+         ),
+       );
 
   void reset() {
-    emit(state.copyWith(emprego: Empregos(), isEditing: false));
+    emit(
+      state.copyWith(
+        emprego: Empregos(),
+        isEditing: false,
+        useValorFixo: false,
+        valorFixo: (0, 0),
+      ),
+    );
   }
 
   void setAsEdit(Empregos emprego) {
@@ -54,13 +68,17 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   }
 
   bool validate() {
+    bool validPercent =
+        state.useValorFixo
+            ? state.valorFixo.$1 > 0 && state.valorFixo.$2 > 0
+            : state.porcFeriado != null && state.porcNormal != null;
+
     final result = [
       state.descricao?.isNotEmpty ?? false,
       state.admissao != null,
       state.entrada != null,
       state.saida != null,
-      state.porcFeriado != null,
-      state.porcNormal != null,
+      validPercent,
       state.ativo != null,
       ((state.salario != 0.0) || state.emprego.salarios.isNotEmpty),
     ].every((it) => it);
@@ -104,6 +122,14 @@ class EmpregosBloc extends Cubit<EmpregosState> {
     emit(state.copyWith(bancoHoras: !state.bancoHoras));
   }
 
+  void toggleValorFixo(bool value) {
+    emit(state.copyWith(useValorFixo: value));
+  }
+
+  void setValorFixo(double v1, double v2) {
+    emit(state.copyWith(valorFixo: (v1, v2)));
+  }
+
   Future<void> save() async {
     return state.isEditing ? await update() : await insert();
   }
@@ -112,6 +138,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   Future<void> insert() async {
     try {
       emit(state.emitLoading());
+      final vigencia = getVigencia(state.admissao!);
 
       /// Calls [Empregos] Post endpoint
       final newEmprego = await _insertUseCase(state.emprego);
@@ -123,12 +150,28 @@ class EmpregosBloc extends Cubit<EmpregosState> {
           ativo: true,
           empregoId: newEmprego.id!,
           valor: state.salario,
-          vigencia: getVigencia(state.admissao!),
+          vigencia: vigencia,
           createdAt: DateTime.now(),
         ),
       );
 
-      final updatedEmprego = newEmprego.copyWith(salarios: [firstSalario]);
+      /// Cria nova entrada para valor extra fixado
+      final valorFixado =
+          state.useValorFixo
+              ? await _horaFixoSaveUseCase(
+                HoraFixo(
+                  idEmprego: newEmprego.id!,
+                  valorNormal: state.valorFixo.$1,
+                  valorFeriado: state.valorFixo.$2,
+                  vigencia: vigencia,
+                ),
+              )
+              : null;
+
+      final updatedEmprego = newEmprego.copyWith(
+        salarios: [firstSalario],
+        horaFixoList: valorFixado != null ? [valorFixado] : [],
+      );
 
       /// Finally we emit a new state
       emit(

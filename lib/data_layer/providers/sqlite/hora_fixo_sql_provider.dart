@@ -12,7 +12,7 @@ class HoraFixoProvider extends HoraFixoProviderContract {
   HoraFixoProvider({required AppDatabase db}) : _db = db;
 
   @override
-  Future<HoraFixoDTO> insertHoraFixo(HoraFixoDTO horaFixo) async {
+  Future<HoraFixoDto> insertHoraFixo(HoraFixoDto horaFixo) async {
     final newId = Uuid.v4().toString();
 
     await _db.into(_db.dbHoraFixo).insert(horaFixo.toCompanion(newId: newId));
@@ -21,7 +21,7 @@ class HoraFixoProvider extends HoraFixoProviderContract {
   }
 
   @override
-  Future<HoraFixoDTO> updateHoraFixo(HoraFixoDTO horaFixo) async {
+  Future<HoraFixoDto> updateHoraFixo(HoraFixoDto horaFixo) async {
     await _table
         .filter((f) => f.id.equals(horaFixo.id))
         .update((f) => horaFixo.toCompanion());

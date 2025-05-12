@@ -1,5 +1,6 @@
 import '../../domain_layer/contracts.dart';
 import '../../domain_layer/models/hora_fixo.dart';
+import '../mappers/hora_fixo_mapper.dart';
 
 class HoraFixoRepository {
   final HoraFixoProviderContract _provider;
@@ -8,13 +9,13 @@ class HoraFixoRepository {
     : _provider = provider;
 
   Future<HoraFixo?> saveHoraFixo(HoraFixo horaFixo) async {
-    final fixo = await _provider.insertHoraFixo(horaFixo.toDTO());
-    return HoraFixo.fromDTO(fixo);
+    final fixo = await _provider.insertHoraFixo(horaFixo.toDto());
+    return fixo.toModel();
   }
 
   Future<HoraFixo?> updateHoraFixo(HoraFixo horaFixo) async {
-    final updatedFixo = await _provider.updateHoraFixo(horaFixo.toDTO());
-    return HoraFixo.fromDTO(updatedFixo);
+    final updatedFixo = await _provider.updateHoraFixo(horaFixo.toDto());
+    return updatedFixo.toModel();
   }
 
   Future<bool> deleteHoraFixo(String id) async {

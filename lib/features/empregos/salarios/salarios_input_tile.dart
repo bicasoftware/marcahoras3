@@ -1,0 +1,38 @@
+import 'package:extended_masked_text/extended_masked_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:marcahoras3/widgets.dart';
+
+import '../../../utils.dart';
+
+class SalariosInputTile extends StatelessWidget {
+  final MoneyMaskedTextController controller;
+  final ValueChanged<String> onSalarioValueChanged;
+
+  const SalariosInputTile({
+    super.key,
+    required this.controller,
+    required this.onSalarioValueChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
+
+    return ShTextTile(
+      controller: controller,
+      label: Localiza.find('salario'),
+      hint: CurrencyHelper.formatAmount(1000),
+      labelStyle: theme.labelLarge,
+      icon: Icon(Icons.monetization_on),
+      onValueChanged: onSalarioValueChanged,
+      validator: (s) {
+        if (controller.numberValue <= 0.0) {
+          return Localiza.find('salarioInvalido');
+        }
+      },
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      keyboardType: TextInputType.number,
+    );
+  }
+}

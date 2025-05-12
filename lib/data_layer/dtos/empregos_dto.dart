@@ -18,6 +18,7 @@ class EmpregosDto extends Equatable {
   final int? cargaHoraria;
   final List<HorasDto> horas;
   final List<SalariosDto> salarios;
+  final List<HoraFixoDto> horaFixoList;
   final DateTime? createdAt;
 
   const EmpregosDto({
@@ -34,6 +35,7 @@ class EmpregosDto extends Equatable {
     this.createdAt,
     this.horas = const [],
     this.salarios = const [],
+    this.horaFixoList = const [],
   });
 
   @override
@@ -51,6 +53,7 @@ class EmpregosDto extends Equatable {
       cargaHoraria,
       horas,
       salarios,
+      horaFixoList,
       createdAt,
     ];
   }
@@ -96,6 +99,9 @@ class EmpregosDto extends Equatable {
           map['salarios'] != null
               ? SalariosDto.fromJsonList(map['salarios'])
               : [],
+      horaFixoList: map['hora_fixo'] != null
+          ? HoraFixoDto.fromJsonList(map['hora_fixo'])
+          : [],
       createdAt:
           map['created_at'] is int
               ? getDateFromMillis(map['created_at'])
@@ -122,6 +128,7 @@ class EmpregosDto extends Equatable {
     int? cargaHoraria,
     List<HorasDto>? horas,
     List<SalariosDto>? salarios,
+    List<HoraFixoDto>? horaFixoList,
   }) {
     return EmpregosDto(
       id: id ?? this.id,
@@ -136,6 +143,7 @@ class EmpregosDto extends Equatable {
       cargaHoraria: cargaHoraria ?? this.cargaHoraria,
       horas: horas ?? this.horas,
       salarios: salarios ?? this.salarios,
+      horaFixoList: horaFixoList ?? this.horaFixoList,
     );
   }
 }

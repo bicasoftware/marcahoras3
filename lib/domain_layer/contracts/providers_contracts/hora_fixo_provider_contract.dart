@@ -1,7 +1,7 @@
 import '../../../data_layer/dtos.dart';
 
 abstract class HoraFixoProviderContract {
-  Future<HoraFixoDTO> insertHoraFixo(HoraFixoDTO horaFixo);
-  Future<HoraFixoDTO> updateHoraFixo(HoraFixoDTO horaFixo);
+  Future<HoraFixoDto> insertHoraFixo(HoraFixoDto horaFixo);
+  Future<HoraFixoDto> updateHoraFixo(HoraFixoDto horaFixo);
   Future<bool> deleteHoraFixo(String id);
 }
