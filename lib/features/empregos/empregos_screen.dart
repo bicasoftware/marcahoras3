@@ -4,18 +4,14 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:marcahoras3/features/empregos/porcentagens/porcentagens_tile.dart';
-import 'package:marcahoras3/widgets/dialogs/scrollable_time_picker_dialog.dart';
-import 'package:marcahoras3/widgets/forms/label_form_field.dart';
-import 'package:marcahoras3/widgets/sh_togglable_tile.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
 import '../../presentation_layer/validators/validators.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
-import 'salarios/salarios_action_type.dart';
-import 'salarios/salarios_detail_bts.dart';
+import 'empregos_screen_presenter.dart';
+import 'porcentagens/porcentagens_tile.dart';
 import 'salarios/salarios_tile.dart';
 
 class EmpregosScreen extends StatefulWidget {
@@ -25,8 +21,9 @@ class EmpregosScreen extends StatefulWidget {
   State<EmpregosScreen> createState() => _EmpregosScreenState();
 }
 
-class _EmpregosScreenState extends State<EmpregosScreen> {
-  late final bool isInsert;
+class _EmpregosScreenState extends State<EmpregosScreen>
+    with EmpregosScreenPresenterMixin {
+  // late final bool isInsert;
   final _formKey = GlobalKey<FormState>();
   final ctrDescricao = TextEditingController();
 
@@ -55,35 +52,35 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
     super.initState();
   }
 
-  Future<void> _selectDate(BuildContext context, EmpregosBloc bloc) async {
-    final date = await DialogHelper.showDateTimeDialog(
-      context: context,
-      initDate: DateTime.now(),
-      allowFutureDates: true,
-    );
+  // Future<void> _selectDate(BuildContext context, EmpregosBloc bloc) async {
+  //   final date = await DialogHelper.showDateTimeDialog(
+  //     context: context,
+  //     initDate: DateTime.now(),
+  //     allowFutureDates: true,
+  //   );
 
-    if (date != null && date != bloc.state.admissao) {
-      bloc.setAdmissao(date);
-    }
-  }
+  //   if (date != null && date != bloc.state.admissao) {
+  //     bloc.setAdmissao(date);
+  //   }
+  // }
 
-  void _showHorasBts({
-    required BuildContext context,
-    required EmpregosBloc bloc,
-    required TimeOfDay time,
-    required bool isEntrada,
-  }) async {
-    final newTime = await showScrollableTimePickerDialog(
-      context: context,
-      titleMsg: Localiza.find('selecionarHorario'),
-      descriptionText: '',
-      timeOfDay: time,
-    );
+  // void _showHorasBts({
+  //   required BuildContext context,
+  //   required EmpregosBloc bloc,
+  //   required TimeOfDay time,
+  //   required bool isEntrada,
+  // }) async {
+  //   final newTime = await showScrollableTimePickerDialog(
+  //     context: context,
+  //     titleMsg: Localiza.find('selecionarHorario'),
+  //     descriptionText: '',
+  //     timeOfDay: time,
+  //   );
 
-    if (newTime != null && newTime != time) {
-      isEntrada ? bloc.setEntrada(newTime) : bloc.setSaida(newTime);
-    }
-  }
+  //   if (newTime != null && newTime != time) {
+  //     isEntrada ? bloc.setEntrada(newTime) : bloc.setSaida(newTime);
+  //   }
+  // }
 
   Future<void> _validate(EmpregosBloc bloc) async {
     final valid = _formKey.currentState?.validate() ?? false;
@@ -102,87 +99,68 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
     }
   }
 
-  void _deleteSalario(Salarios salario, EmpregosBloc bloc) async {
-    final bool shouldDelete = await showConfirmationDialog(
-      context: context,
-      titleMsg: Localiza.findAndReplace(
-        stringKey: 'deleteDialogTitle',
-        findString: '{value}',
-        replaceWithKey: 'salario',
-      ),
-      descriptionText: Localiza.findAndReplace(
-        stringKey: 'deleteDialogMsg',
-        findString: '{value}',
-        replaceWithKey: 'salario',
-      ),
-    );
+  // void _deleteSalario(Salarios salario, EmpregosBloc bloc) async {
+  //   final bool shouldDelete = await showConfirmationDialog(
+  //     context: context,
+  //     titleMsg: Localiza.findAndReplace(
+  //       stringKey: 'deleteDialogTitle',
+  //       findString: '{value}',
+  //       replaceWithKey: 'salario',
+  //     ),
+  //     descriptionText: Localiza.findAndReplace(
+  //       stringKey: 'deleteDialogMsg',
+  //       findString: '{value}',
+  //       replaceWithKey: 'salario',
+  //     ),
+  //   );
 
-    if (shouldDelete) {
-      showLoadingDialog(context: context);
+  //   if (shouldDelete) {
+  //     showLoadingDialog(context: context);
 
-      await bloc.deleteSalario(salario: salario);
+  //     await bloc.deleteSalario(salario: salario);
 
-      // should pop the awaiting dialog
-      Navigator.of(context).pop();
-    }
-  }
+  //     // should pop the awaiting dialog
+  //     Navigator.of(context).pop();
+  //   }
+  // }
 
-  void _updateSalario(Salarios salario, EmpregosBloc bloc) async {
-    await BottomSheetHelper.showModalBts(
-      context: context,
-      body: SalariosDetailBts(
-        value: salario.valor,
-        vigencia: salario.vigencia,
-        title: Localiza.find("editarSalario"),
-        onSave: (valor, vigencia) async {
-          showLoadingDialog(context: context);
-          await bloc.updateSalario(
-            salario.copyWith(valor: valor, vigencia: vigencia),
-          );
+  // void _updateSalario(Salarios salario, EmpregosBloc bloc) async {
+  //   await BottomSheetHelper.showModalBts(
+  //     context: context,
+  //     body: SalariosDetailBts(
+  //       value: salario.valor,
+  //       vigencia: salario.vigencia,
+  //       title: Localiza.find("editarSalario"),
+  //       onSave: (valor, vigencia) async {
+  //         showLoadingDialog(context: context);
+  //         await bloc.updateSalario(
+  //           salario.copyWith(valor: valor, vigencia: vigencia),
+  //         );
 
-          // should pop the awaiting dialog
-          Navigator.of(context).pop();
-        },
-      ),
-    );
-  }
-
-  void _handleAumento(SalariosActionType action, EmpregosBloc bloc) async {
-    if (action == SalariosActionType.aumento) {
-      await BottomSheetHelper.showModalBts(
-        context: context,
-        body: SalariosDetailBts(
-          value: 0.0,
-          vigencia: DateTime.now(),
-          title: Localiza.find("addAumento"),
-          onSave: (valor, vigencia) async {
-            showLoadingDialog(context: context);
-
-            await bloc.insertSalario(
-              valor: valor,
-              vigencia: vigencia,
-              empregoId: bloc.state.emprego.id!,
-            );
-
-            Navigator.of(context).pop();
-          },
-        ),
-      );
-    }
-  }
+  //         // should pop the awaiting dialog
+  //         Navigator.of(context).pop();
+  //       },
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final isInsert = ModalRoute.of(context)?.settings.arguments as bool;
     final bloc = context.watch<EmpregosBloc>();
     final textTheme = Theme.of(context).textTheme;
     final state = bloc.state;
     final locale = Localizations.localeOf(context);
 
+    /// TODO
+    /// Aplicar confirm Dialog ao apagar um valor fixo
+    /// Mostrar Bts para editar o valor fixo
+    /// Atualizar a tela ao alterar o valor fixo
+    /// Aplicar menu popup nas tiles de salário e remover package de Swipe
+
     return Scaffold(
       appBar: ShAppBar(
         label:
-            isInsert
+            !bloc.state.isEditing
                 ? Localiza.find("adicionarEmprego")
                 : Localiza.find("editarEmprego"),
       ),
@@ -236,7 +214,7 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                               : Localiza.find('preencherAdmissao'),
                       valueFormatter: (s) => s,
                       icon: Icons.calendar_month,
-                      onTap: () => _selectDate(context, bloc),
+                      onTap: () => selectDate(context, bloc),
                       validator: (s) {
                         return DateValidator.validate(
                           state.admissao,
@@ -251,13 +229,13 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                       controller: ctrSalarioMasked,
                       isEditing: bloc.state.isEditing,
                       onOptionSelected: (action) {
-                        _handleAumento(action, bloc);
+                        handleAumento(action, bloc);
                       },
                       onSalarioValueChanged: (_) {
                         bloc.setSalario(ctrSalarioMasked.numberValue);
                       },
-                      onEdit: (s) => _updateSalario(s, bloc),
-                      onDelete: (s) => _deleteSalario(s, bloc),
+                      onEdit: (s) => updateSalario(s, bloc),
+                      onDelete: (s) => deleteSalario(s, bloc),
                     ),
                     LabelFormField<TimeOfDay>(
                       label: Localiza.find("entradaHora"),
@@ -266,7 +244,7 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                       valueFormatter: (t) => TimeOfDayHelper.formatTime(t),
                       icon: Icons.timelapse_outlined,
                       onTap: () async {
-                        _showHorasBts(
+                        showHorasBts(
                           context: context,
                           bloc: bloc,
                           isEntrada: true,
@@ -289,7 +267,7 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                       },
                       icon: Icons.timelapse_outlined,
                       onTap: () {
-                        _showHorasBts(
+                        showHorasBts(
                           context: context,
                           bloc: bloc,
                           isEntrada: false,
@@ -310,31 +288,32 @@ class _EmpregosScreenState extends State<EmpregosScreen> {
                       onChanged: bloc.setCargaHoraria,
                       icon: Icon(Icons.list),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(top: 16),
-                      child: Text(
-                        Localiza.find("porcentagensExtras"),
-                        textAlign: TextAlign.start,
-                        style: textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                    if (!bloc.state.isEditing) ...[
+                      ShLabeledListSection(
+                        label: Localiza.find("porcentagensExtras"),
                       ),
-                    ),
-                    ShSwitchTile(
-                      value: state.bancoHoras,
-                      label: Localiza.find("bancoHoras"),
-                      onTap: (_) => bloc.toggleBancoHoras(),
-                    ),
+                      ShSwitchTile(
+                        value: state.bancoHoras,
+                        label: Localiza.find("bancoHoras"),
+                        onTap: (_) => bloc.toggleBancoHoras(),
+                      ),
+                    ],
                     PorcentagensTile(
-                      isInsert: isInsert,
-                      useValorFixo: state.useValorFixo,
+                      isInsert: !bloc.state.isEditing,
                       toggleType: bloc.toggleValorFixo,
-                      onValueChanged: bloc.setValorFixo,
+                      useValorFixo: state.useValorFixo,
                       fixedValues: bloc.state.valorFixo,
+                      horaFixoList: bloc.state.emprego.horaFixoList,
                       porcNormal: bloc.state.porcNormal ?? 50,
                       porcFeriado: bloc.state.porcFeriado ?? 100,
-                      onNormalPorcSet: bloc.setPorcNormal,
-                      onFeriadoPorcSet: bloc.setPorcFeriados,
+                      onHoraFixoChanged:
+                          (it) => bloc.setValorFixo(it.$1, it.$2),
+                      onNormalPorcChanged: bloc.setPorcNormal,
+                      onFeriadoPorcChanged: bloc.setPorcFeriados,
+                      onAdd: () => showValorFixoBts(bloc),
+                      onEdit: (HoraFixo h) => bloc.updateHoraFixo(h),
+                      onDelete:
+                          (HoraFixo h) => bloc.deleteHoraFixo(horaFixo: h),
                     ),
                   ],
                 ),

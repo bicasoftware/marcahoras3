@@ -15,6 +15,7 @@ class BottomSheetHelper {
     Radius topRadius = const Radius.circular(24),
     Widget? trailing,
     Widget? leading,
+    bool showDragHandle = true,
   }) {
     final theme = Theme.of(context).textTheme;
 
@@ -23,43 +24,46 @@ class BottomSheetHelper {
       useRootNavigator: useRootNavigation,
       barrierColor: barrierColor ?? Colors.black.withValues(alpha: .7),
       isScrollControlled: true,
-      showDragHandle: true,
+      showDragHandle: showDragHandle,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: topRadius,
           topRight: topRadius,
         ),
       ),
-      builder: (context) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (leading != null) leading,
-                if (label != null)
-                  Text(
-                    label,
-                    style: theme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: AppColors.onSurface,
+      builder: (context) => Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (leading != null) leading,
+                  if (label != null)
+                    Text(
+                      label,
+                      style: theme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: AppColors.onSurface,
+                      ),
+                      textAlign: TextAlign.start,
                     ),
-                    textAlign: TextAlign.start,
-                  ),
-                if (trailing != null) ...[
-                  const Spacer(),
-                  trailing,
+                  if (trailing != null) ...[
+                    const Spacer(),
+                    trailing,
+                  ],
+                  const Divider(),
                 ],
-                const Divider(),
-              ],
+              ),
             ),
-          ),
-          body,
-        ],
+            body,
+          ],
+        ),
       ),
     );
   }

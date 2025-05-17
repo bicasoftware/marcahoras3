@@ -52,19 +52,15 @@ class EmpregosBloc extends Cubit<EmpregosState> {
          ),
        );
 
-  void reset() {
+  void load([Empregos? emprego]) {
     emit(
       state.copyWith(
-        emprego: Empregos(),
-        isEditing: false,
-        useValorFixo: false,
-        valorFixo: (0, 0),
+        emprego: emprego ?? Empregos(),
+        isEditing: emprego != null,
+        useValorFixo: emprego?.horaFixoList.isNotEmpty ?? false,
+        valorFixo: emprego?.getCurrentValorFixo() ?? (0, 0),
       ),
     );
-  }
-
-  void setAsEdit(Empregos emprego) {
-    emit(state.copyWith(emprego: emprego, isEditing: true));
   }
 
   bool validate() {
@@ -293,6 +289,112 @@ class EmpregosBloc extends Cubit<EmpregosState> {
         state.copyWith(
           status: StateSuccessStatus(),
           emprego: state.emprego.copyWith(salarios: salariosList),
+        ),
+      );
+    } on Exception catch (e) {
+      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
+
+      rethrow;
+    }
+  }
+
+  /// CRUD for [HoraFixo]
+  ///
+  ///
+
+  /// Creates a new [HoraFixo] model
+  Future<void> insertHoraFixo({
+    required ValorFixo valorFixo,
+    required DateTime vigencia,
+    required String empregoId,
+  }) async {
+    try {
+      emit(state.emitLoading());
+
+      /// Calls the [HoraFixoSaveUseCase]
+      final newHoraFixo = await _horaFixoSaveUseCase(
+        HoraFixo(
+          idEmprego: empregoId,
+          valorNormal: valorFixo.$1,
+          valorFeriado: valorFixo.$2,
+          vigencia: vigencia,
+        ),
+      );
+
+      /// Generates a new list from the old [HoraFixo] list
+      final horaFixoList = [...state.emprego.horaFixoList];
+
+      /// Updates the new list with the data returned from server
+      if (newHoraFixo != null) {
+        horaFixoList.add(newHoraFixo);
+      }
+
+      /// Finally, emits the new state with the new generated list
+      emit(
+        state.copyWith(
+          status: StateSuccessStatus(),
+          emprego: state.emprego.copyWith(horaFixoList: horaFixoList),
+        ),
+      );
+    } on Exception catch (e) {
+      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
+
+      rethrow;
+    }
+  }
+
+  /// Updates a [HoraFixo] instance
+  Future<void> updateHoraFixo(HoraFixo horaFixo) async {
+    try {
+      emit(state.emitLoading());
+
+      /// Calls the [HoraFixoUpdateUseCase]
+      final newhoraFixo = await _horaFixoUpdateUseCase(horaFixo);
+
+      /// Generates a new list from the old [HoraFixo] list
+      final horaFixoList = [...state.emprego.horaFixoList];
+
+      /// Updates the new list with the data returned from the usecase
+      if (newhoraFixo != null) {
+        final index = horaFixoList.indexWhere((s) => s.id == horaFixo.id);
+
+        horaFixoList[index] = newhoraFixo;
+      }
+
+      /// Finally, emits the new state with the new generated list
+      emit(
+        state.copyWith(
+          status: StateSuccessStatus(),
+          emprego: state.emprego.copyWith(horaFixoList: horaFixoList),
+        ),
+      );
+    } on Exception catch (e) {
+      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
+
+      rethrow;
+    }
+  }
+
+  /// Creates delete the [HoraFixo] model by its id
+  Future<void> deleteHoraFixo({required HoraFixo horaFixo}) async {
+    try {
+      emit(state.emitLoading());
+
+      /// Calls the Delete [HoraFixoDeleteUsecase]
+      final deleted = await _horaFixoDeleteUseCase(horaFixo.id!);
+
+      /// Generates a new list from the old [HoraFixo] list
+      final horaFixoList = [...state.emprego.horaFixoList];
+
+      if (deleted) {
+        horaFixoList.removeWhere((s) => s.id == horaFixo);
+      }
+
+      /// Finally, emits the new state with the new generated list
+      emit(
+        state.copyWith(
+          status: StateSuccessStatus(),
+          emprego: state.emprego.copyWith(horaFixoList: horaFixoList),
         ),
       );
     } on Exception catch (e) {

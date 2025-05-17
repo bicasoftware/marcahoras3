@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../../utils/typedefs.dart';
+
 @immutable
 class HoraFixo {
   final String? id;
@@ -31,5 +33,9 @@ class HoraFixo {
       valorFeriado: valorFeriado ?? this.valorFeriado,
       vigencia: vigencia ?? this.vigencia,
     );
+  }
+
+  ValorFixo toValorFixo() {
+    return (valorNormal, valorFeriado);
   }
 }

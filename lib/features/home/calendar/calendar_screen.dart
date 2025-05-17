@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
+import '../../../presentation_layer/blocs/empregos/empregos_arguments.dart';
 import '../../../resources.dart';
 import '../../../routes.dart';
 import '../../../utils.dart';
@@ -104,15 +105,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
     required HomeBloc bloc,
     required bool isInsert,
   }) async {
-    final detailsBloc = context.read<EmpregosBloc>();
-
-    isInsert
-        ? detailsBloc.reset()
-        : detailsBloc.setAsEdit(bloc.state.currentEmprego!);
-
-    await Navigator.of(
-      context,
-    ).pushNamed(Routes.empregosDetail, arguments: isInsert);
+    await Navigator.of(context).pushNamed(
+      Routes.empregosDetail,
+      arguments:
+          isInsert
+              ? EmpregosArguments.empty()
+              : EmpregosArguments(bloc.state.currentEmprego!),
+    );
 
     bloc.load();
   }

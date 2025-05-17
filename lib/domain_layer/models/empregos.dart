@@ -116,4 +116,11 @@ class Empregos extends Equatable {
 
     return salarios.sorted((a, b) => a.vigencia.compareTo(b.vigencia)).last;
   }
+
+  ValorFixo? getCurrentValorFixo() {
+    return horaFixoList
+        .sorted((a, b) => a.vigencia.compareTo(b.vigencia))
+        .lastOrNull
+        ?.toValorFixo();
+  }
 }

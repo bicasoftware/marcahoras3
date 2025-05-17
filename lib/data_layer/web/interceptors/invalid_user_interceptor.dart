@@ -44,10 +44,6 @@ class InvalidUserInterceptor extends Interceptor {
     final blocHome = context.read<HomeBloc>();
     blocHome.clean();
 
-    /// Call reset() method on [EmpregosDetailBloc] which cleans any temp data in it;
-    final blocEmprego = context.read<EmpregosBloc>();
-    blocEmprego.reset();
-
     /// TODO - implementar possíveis coisas que precisem ser limpadas
 
     navigatorKey.currentState?.pushReplacementNamed(

@@ -184,6 +184,18 @@ porcNormal:
 porcFeriado:
   pt_BR: Extra Feriado
   en_US: Holiday overtime
+atual:
+  pt_BR: Atual
+  en_US: Current
+anterior:
+  pt_BR: Anterior
+  en_US: Previous
+valorFixo:
+  pt_BR: Valores Fixados
+  en_US: Fixed amount
+novoValorFixo:
+  pt_BR: Novos Valores Fixos
+  en_US: New fixed amount
 valorFixoNormal:
   pt_BR: Valor Normal
   en_US: Regular amount
@@ -199,6 +211,9 @@ editar:
 apagar:
   pt_BR: Apagar
   en_US: Delete
+opcoes:
+  pt_BR: Opções
+  en_US: Options
 recebiAumento:
   pt_BR: Recebi um Aumento
   en_US: Got a raise

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../resources.dart';
 import '../../../widgets.dart';
+import '../resources.dart';
 import '../utils.dart';
 
 class OvertimeListTile extends StatelessWidget {
@@ -50,59 +50,35 @@ class OvertimeListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context);
 
-    return GestureDetector(
-      onTap: onTap,
-      child: OutlinedCard(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        margin: EdgeInsets.only(top: 4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: IconLabel(
-                    icon: Icon(Icons.date_range, color: AppColors.secondary),
-                    label: formatDateByLocale(date, locale),
-                    labelColor: AppColors.onSurface,
-                  ),
-                ),
-                Badge(
-                  backgroundColor: _getBadgeColor(),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  label: Text(getBadgeLabel()),
-                ),
-              ],
-            ),
-            const Divider(),
-            IconLabelValue(
-              icon: Icons.timeline,
-              iconColor: AppColors.primary,
-              label: Localiza.find('horasTrabalhadas'),
-              value: workedHours,
-              labelColor: AppColors.primary,
-            ),
-            if (!bancoHoras)
-              IconLabelValue(
-                icon: Icons.payments_outlined,
-                iconColor: Color(horaType.colorHex),
-                label: Localiza.find('valorReceber'),
-                value: amount,
-                labelColor: AppColors.primary,
-              ),
-            IconLabelValue(
-              icon: Icons.timelapse,
-              iconColor: AppColors.porcFeriadosColor,
-              label: "Horário",
-              value: "Das ${from}, Até: ${to}",
-              labelColor: AppColors.primary,
-            ),
-          ],
+    return ShDetailedListTile(
+      title: formatDateByLocale(date, locale),
+      badgeLabel: getBadgeLabel(),
+      badgeColor: _getBadgeColor(),
+      contentList: [
+        IconLabelValue(
+          icon: Icons.timeline,
+          iconColor: AppColors.primary,
+          label: Localiza.find('horasTrabalhadas'),
+          value: workedHours,
+          labelColor: AppColors.primary,
         ),
-      ),
+        if (!bancoHoras)
+          IconLabelValue(
+            icon: Icons.payments_outlined,
+            iconColor: Color(horaType.colorHex),
+            label: Localiza.find('valorReceber'),
+            value: amount,
+            labelColor: AppColors.primary,
+          ),
+        IconLabelValue(
+          icon: Icons.timelapse,
+          iconColor: AppColors.porcFeriadosColor,
+          label: "Horário",
+          value: "Das ${from}, Até: ${to}",
+          labelColor: AppColors.primary,
+        ),
+      ],
+      onTap: onTap,
     );
   }
 }

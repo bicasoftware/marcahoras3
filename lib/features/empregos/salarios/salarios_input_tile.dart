@@ -30,6 +30,8 @@ class SalariosInputTile extends StatelessWidget {
         if (controller.numberValue <= 0.0) {
           return Localiza.find('salarioInvalido');
         }
+
+        return null;
       },
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       keyboardType: TextInputType.number,

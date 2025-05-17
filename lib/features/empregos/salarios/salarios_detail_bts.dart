@@ -52,6 +52,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final locale = Localizations.localeOf(context);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -86,7 +87,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
               keyboardType: TextInputType.number,
             ),
             ShLabeledTile(
-              value: formatVigencia(_year, _month),
+              value: formatVigencia(_year, _month, locale, "MMMM yyyy"),
               label: Localiza.find("vigencia"),
               icon: Icons.calendar_month,
               onTap: () async {

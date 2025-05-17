@@ -74,6 +74,13 @@ class EmpregosState extends BaseState {
 
   EmpregosState emitLoading() => this.copyWith(status: StateLoadingStatus());
 
+  ValorFixo getCurrentValorFixo() {
+    if (emprego.horaFixoList.isNotEmpty) {
+      return emprego.horaFixoList.first.toValorFixo();
+    }
+    return (0, 0);
+  }
+
   bool get usingFixedValue {
     return emprego.horaFixoList.length > 0;
   }
