@@ -376,7 +376,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   }
 
   /// Creates delete the [HoraFixo] model by its id
-  Future<void> deleteHoraFixo({required HoraFixo horaFixo}) async {
+  Future<void> deleteHoraFixo(HoraFixo horaFixo) async {
     try {
       emit(state.emitLoading());
 
@@ -384,10 +384,10 @@ class EmpregosBloc extends Cubit<EmpregosState> {
       final deleted = await _horaFixoDeleteUseCase(horaFixo.id!);
 
       /// Generates a new list from the old [HoraFixo] list
-      final horaFixoList = [...state.emprego.horaFixoList];
+      final List<HoraFixo> horaFixoList = [...state.emprego.horaFixoList];
 
       if (deleted) {
-        horaFixoList.removeWhere((s) => s.id == horaFixo);
+        horaFixoList.removeWhere((s) => s.id == horaFixo.id!);
       }
 
       /// Finally, emits the new state with the new generated list

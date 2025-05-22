@@ -196,6 +196,9 @@ valorFixo:
 novoValorFixo:
   pt_BR: Novos Valores Fixos
   en_US: New fixed amount
+alterarValorFixo:
+  pt_BR: Alterar Valores Fixos
+  en_US: Change fixed amount
 valorFixoNormal:
   pt_BR: Valor Normal
   en_US: Regular amount

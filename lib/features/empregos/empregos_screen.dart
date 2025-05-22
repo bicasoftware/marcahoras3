@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
 import '../../presentation_layer/validators/validators.dart';
+import '../../resources/colors.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
 import 'empregos_screen_presenter.dart';
@@ -52,36 +53,6 @@ class _EmpregosScreenState extends State<EmpregosScreen>
     super.initState();
   }
 
-  // Future<void> _selectDate(BuildContext context, EmpregosBloc bloc) async {
-  //   final date = await DialogHelper.showDateTimeDialog(
-  //     context: context,
-  //     initDate: DateTime.now(),
-  //     allowFutureDates: true,
-  //   );
-
-  //   if (date != null && date != bloc.state.admissao) {
-  //     bloc.setAdmissao(date);
-  //   }
-  // }
-
-  // void _showHorasBts({
-  //   required BuildContext context,
-  //   required EmpregosBloc bloc,
-  //   required TimeOfDay time,
-  //   required bool isEntrada,
-  // }) async {
-  //   final newTime = await showScrollableTimePickerDialog(
-  //     context: context,
-  //     titleMsg: Localiza.find('selecionarHorario'),
-  //     descriptionText: '',
-  //     timeOfDay: time,
-  //   );
-
-  //   if (newTime != null && newTime != time) {
-  //     isEntrada ? bloc.setEntrada(newTime) : bloc.setSaida(newTime);
-  //   }
-  // }
-
   Future<void> _validate(EmpregosBloc bloc) async {
     final valid = _formKey.currentState?.validate() ?? false;
     if (valid) {
@@ -99,57 +70,13 @@ class _EmpregosScreenState extends State<EmpregosScreen>
     }
   }
 
-  // void _deleteSalario(Salarios salario, EmpregosBloc bloc) async {
-  //   final bool shouldDelete = await showConfirmationDialog(
-  //     context: context,
-  //     titleMsg: Localiza.findAndReplace(
-  //       stringKey: 'deleteDialogTitle',
-  //       findString: '{value}',
-  //       replaceWithKey: 'salario',
-  //     ),
-  //     descriptionText: Localiza.findAndReplace(
-  //       stringKey: 'deleteDialogMsg',
-  //       findString: '{value}',
-  //       replaceWithKey: 'salario',
-  //     ),
-  //   );
-
-  //   if (shouldDelete) {
-  //     showLoadingDialog(context: context);
-
-  //     await bloc.deleteSalario(salario: salario);
-
-  //     // should pop the awaiting dialog
-  //     Navigator.of(context).pop();
-  //   }
-  // }
-
-  // void _updateSalario(Salarios salario, EmpregosBloc bloc) async {
-  //   await BottomSheetHelper.showModalBts(
-  //     context: context,
-  //     body: SalariosDetailBts(
-  //       value: salario.valor,
-  //       vigencia: salario.vigencia,
-  //       title: Localiza.find("editarSalario"),
-  //       onSave: (valor, vigencia) async {
-  //         showLoadingDialog(context: context);
-  //         await bloc.updateSalario(
-  //           salario.copyWith(valor: valor, vigencia: vigencia),
-  //         );
-
-  //         // should pop the awaiting dialog
-  //         Navigator.of(context).pop();
-  //       },
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<EmpregosBloc>();
     final textTheme = Theme.of(context).textTheme;
     final state = bloc.state;
     final locale = Localizations.localeOf(context);
+    final theme = Theme.of(context).textTheme;
 
     /// TODO
     /// Aplicar confirm Dialog ao apagar um valor fixo
@@ -159,18 +86,15 @@ class _EmpregosScreenState extends State<EmpregosScreen>
 
     return Scaffold(
       appBar: ShAppBar(
-        label:
-            !bloc.state.isEditing
-                ? Localiza.find("adicionarEmprego")
-                : Localiza.find("editarEmprego"),
-      ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
-        child: OutlinedButton.icon(
-          onPressed: () => _validate(bloc),
-          icon: Icon(Icons.save_outlined),
-          label: Text(Localiza.find("salvar")),
-        ),
+        label: !bloc.state.isEditing
+            ? Localiza.find("adicionarEmprego")
+            : Localiza.find("editarEmprego"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save_outlined, color: AppColors.onSecondary),
+            onPressed: () => _validate(bloc),
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -208,10 +132,9 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                     ),
                     LabelFormField<String>(
                       label: Localiza.find("admissao"),
-                      initialValue:
-                          state.admissao != null
-                              ? formatDateByLocale(state.admissao, locale)
-                              : Localiza.find('preencherAdmissao'),
+                      initialValue: state.admissao != null
+                          ? formatDateByLocale(state.admissao, locale)
+                          : Localiza.find('preencherAdmissao'),
                       valueFormatter: (s) => s,
                       icon: Icons.calendar_month,
                       onTap: () => selectDate(context, bloc),
@@ -303,17 +226,16 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                       toggleType: bloc.toggleValorFixo,
                       useValorFixo: state.useValorFixo,
                       fixedValues: bloc.state.valorFixo,
-                      horaFixoList: bloc.state.emprego.horaFixoList,
+                      horaFixoList: bloc.state.getHoraFixoList(),
                       porcNormal: bloc.state.porcNormal ?? 50,
                       porcFeriado: bloc.state.porcFeriado ?? 100,
-                      onHoraFixoChanged:
-                          (it) => bloc.setValorFixo(it.$1, it.$2),
+                      onHoraFixoChanged: (it) =>
+                          bloc.setValorFixo(it.$1, it.$2),
                       onNormalPorcChanged: bloc.setPorcNormal,
                       onFeriadoPorcChanged: bloc.setPorcFeriados,
-                      onAdd: () => showValorFixoBts(bloc),
-                      onEdit: (HoraFixo h) => bloc.updateHoraFixo(h),
-                      onDelete:
-                          (HoraFixo h) => bloc.deleteHoraFixo(horaFixo: h),
+                      onAdd: () => insertHoraFixo(bloc),
+                      onEdit: (HoraFixo h) => updateHoraFixo(bloc, h),
+                      onDelete: (h) => deleteHoraFixo(bloc, h),
                     ),
                   ],
                 ),

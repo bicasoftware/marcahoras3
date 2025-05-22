@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
@@ -85,17 +86,27 @@ class EmpregosState extends BaseState {
     return emprego.horaFixoList.length > 0;
   }
 
+  List<HoraFixo> getHoraFixoList() {
+    return emprego.horaFixoList.sorted(
+      (a, b) => b.vigencia.compareTo(a.vigencia),
+    );
+  }
+
   @override
   bool operator ==(covariant EmpregosState other) {
     if (identical(this, other)) return true;
 
     return other.emprego == emprego &&
         other.isEditing == isEditing &&
-        other.valorFixo == valorFixo &&
-        other.useValorFixo == useValorFixo;
+        other.useValorFixo == useValorFixo &&
+        other.valorFixo == valorFixo;
   }
 
   @override
-  int get hashCode =>
-      emprego.hashCode ^ isEditing.hashCode ^ useValorFixo.hashCode;
+  int get hashCode {
+    return emprego.hashCode ^
+        isEditing.hashCode ^
+        useValorFixo.hashCode ^
+        valorFixo.hashCode;
+  }
 }

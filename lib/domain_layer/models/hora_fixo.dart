@@ -38,4 +38,24 @@ class HoraFixo {
   ValorFixo toValorFixo() {
     return (valorNormal, valorFeriado);
   }
+
+  @override
+  bool operator ==(covariant HoraFixo other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.idEmprego == idEmprego &&
+        other.valorNormal == valorNormal &&
+        other.valorFeriado == valorFeriado &&
+        other.vigencia == vigencia;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        idEmprego.hashCode ^
+        valorNormal.hashCode ^
+        valorFeriado.hashCode ^
+        vigencia.hashCode;
+  }
 }

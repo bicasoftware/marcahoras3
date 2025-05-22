@@ -28,16 +28,14 @@ class CalendarItem extends StatelessWidget {
 
   bool get _isBurned => hora?.horaStatus == HoraStatus.burned;
 
+  bool get _enabled => monthDay == -1 && weekDay == -1;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    return GestureDetector(
-      onTap: () {
-        if (onCalendarItemTap != null) {
-          onCalendarItemTap!(hora, data);
-        }
-      },
-      child: Container(
+    return AbsorbPointer(
+      absorbing: !enabled,
+      child: Ink(
         decoration:
             monthDay > -1
                 ? BoxDecoration(
@@ -51,31 +49,44 @@ class CalendarItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 )
                 : null,
-        child:
-            monthDay == -1 && weekDay == -1
-                ? Container()
-                : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      '$monthDay',
-                      style: theme.bodyLarge?.copyWith(color: enabled ? AppColors.onSurface : AppColors.disabled),
-                    ),
-                    Container(
-                      height: 4,
-                      width: 10,
-                      margin: const EdgeInsets.symmetric(horizontal: 12),
-                      decoration:
-                          type != HorasType.unknown
-                              ? BoxDecoration(
-                                color: _getIndicatorColor(),
-                                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                              )
-                              : null,
-                    ),
-                  ],
-                ),
+        child: InkWell(
+          splashColor: AppColors.primary.withAlpha(20),
+          onTap: () {
+            if (onCalendarItemTap != null) {
+              onCalendarItemTap!(hora, data);
+            }
+          },
+          child:
+              _enabled
+                  ? Container()
+                  : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '$monthDay',
+                        style: theme.bodyLarge?.copyWith(
+                          color:
+                              enabled ? AppColors.onSurface : AppColors.disabled,
+                        ),
+                      ),
+                      Container(
+                        height: 4,
+                        width: 10,
+                        margin: const EdgeInsets.symmetric(horizontal: 12),
+                        decoration:
+                            type != HorasType.unknown
+                                ? BoxDecoration(
+                                  color: _getIndicatorColor(),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                )
+                                : null,
+                      ),
+                    ],
+                  ),
+        ),
       ),
     );
   }

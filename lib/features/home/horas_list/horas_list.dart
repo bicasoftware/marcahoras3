@@ -25,9 +25,9 @@ class HorasList extends StatefulWidget {
 class _HorasListState extends State<HorasList> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      padding: EdgeInsets.symmetric(vertical: 8),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      spacing: 4,
       children:
           widget.horas
               .map(

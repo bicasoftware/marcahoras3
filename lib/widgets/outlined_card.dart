@@ -37,7 +37,7 @@ class OutlinedCard extends StatelessWidget {
             ? [
                 BoxShadow(
                   blurRadius: 1,
-                  color: outlineColor.withAlpha(shadowAlpha),
+                  color: Colors.black26,
                 )
               ]
             : null,

@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:marcahoras3/features/home/calendar/calendar_screen.dart';
 import 'package:marcahoras3/presentation_layer/blocs/empregos/empregos_bloc_loader.dart';
+import 'package:marcahoras3/widgets/transtions/sh_fade_transition.dart';
 
 import 'app_config.dart';
-import 'presentation_layer/blocs/home/home_bloc_loader.dart';
 import 'features/empregos/empregos_screen.dart';
 import 'features/registration/login/login_screen.dart';
 import 'features/registration/register/register_screen.dart';
 import 'features/relatorio/relatorio_screen.dart';
+import 'presentation_layer/blocs/home/home_bloc_loader.dart';
 import 'resources.dart';
 import 'routes.dart';
 import 'utils.dart';
@@ -57,6 +58,24 @@ class HorasApp extends StatelessWidget {
               (_) => EmpregosBlocLoader(child: const EmpregosScreen()),
           Routes.relatorio: (_) => const RelatorioScreen(),
           Routes.calendar: (_) => const CalendarScreen(),
+        },
+        onGenerateRoute: (settings) {
+          switch (ERoutes.fromRouteName(settings.name)) {
+            case ERoutes.relatorio:
+              return ShPageFadeTransition(page: const RelatorioScreen());
+            case ERoutes.empregosDetail:
+              return ShPageFadeTransition(page: const EmpregosScreen());
+            case ERoutes.registration:
+              return ShPageFadeTransition(page: const RegisterScreen());
+            case ERoutes.login:
+              return ShPageFadeTransition(page: const LoginScreen());
+            case ERoutes.calendar:
+              return ShPageFadeTransition(page: const CalendarScreen());
+            default:
+              null;
+          }
+
+          return null;
         },
       ),
     );

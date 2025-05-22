@@ -19,8 +19,8 @@ class ShDetailedListTile extends StatefulWidget {
     required this.badgeLabel,
     required this.badgeColor,
     required this.contentList,
-    this.onTap,
     this.hideShadow = false,
+    this.onTap,
     this.optionsList,
     this.onOptionSelected,
     super.key,
@@ -44,30 +44,26 @@ class _ShDetailedListTileState extends State<ShDetailedListTile> {
 
     final delta = await showMenu(
       context: context,
-      items:
-          widget.optionsList!
-              .mapIndexed(
-                (pos, item) => PopupMenuItem<int>(
-                  value: pos,
-                  child: TextButton(
-                    child: Text("$item"),
-                    onPressed: () {
-                      widget.onOptionSelected!(pos);
-                      Navigator.of(context).pop(pos);
-                    },
-                  ),
-                ),
-              )
-              .toList(),
+      items: widget.optionsList!
+          .mapIndexed(
+            (pos, item) => PopupMenuItem<int>(
+              value: pos,
+              child: TextButton(
+                child: Text("$item"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  widget.onOptionSelected!(pos);
+                },
+              ),
+            ),
+          )
+          .toList(),
       position: RelativeRect.fromRect(
-        _tapPosition! & const Size(40, 40), // smaller rect, the touch area
-        Offset.zero &
-            overlay.semanticBounds.size, // Bigger rect, the entire screen
+        _tapPosition! & const Size(40, 40),
+        Offset.zero & overlay.semanticBounds.size,
       ),
     );
 
-    // delta would be null if user taps on outside the popup menu
-    // (causing it to close without making selection)
     if (delta == null) {
       return;
     }
@@ -80,41 +76,52 @@ class _ShDetailedListTileState extends State<ShDetailedListTile> {
           (widget.optionsList == null && widget.onOptionSelected == null),
       "optionsList and onOptionSelected must be provided if you want to use the menu",
     );
-    return GestureDetector(
-      // onTap: widget.onTap,
-      onTapDown: (details) {
-        _tapPosition = details.globalPosition;
-      },
-      onLongPress: _showCustomMenu,
-      child: OutlinedCard(
-        hasShadow: !widget.hideShadow,
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        margin: EdgeInsets.only(top: 4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: IconLabel(
-                    icon: Icon(Icons.date_range, color: AppColors.secondary),
-                    label: widget.title,
-                    labelColor: AppColors.onSurface,
+
+    return Ink(
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        boxShadow: !widget.hideShadow
+            ? [BoxShadow(blurRadius: 1, color: Colors.black26)]
+            : null,
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      child: InkWell(
+        onTapDown: (details) {
+          _tapPosition = details.globalPosition;
+        },
+        onLongPress: _showCustomMenu,
+        splashColor: AppColors.primary.withAlpha(20),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: IconLabel(
+                      icon: Icon(
+                        Icons.date_range,
+                        color: AppColors.secondary,
+                      ),
+                      label: widget.title,
+                      labelColor: AppColors.onSurface,
+                    ),
                   ),
-                ),
-                Badge(
-                  backgroundColor: widget.badgeColor,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
+                  Badge(
+                    backgroundColor: widget.badgeColor,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    label: Text(widget.badgeLabel),
                   ),
-                  label: Text(widget.badgeLabel),
-                ),
-              ],
-            ),
-            const Divider(),
-            ...widget.contentList,
-          ],
+                ],
+              ),
+              const Divider(),
+              ...widget.contentList,
+            ],
+          ),
         ),
       ),
     );

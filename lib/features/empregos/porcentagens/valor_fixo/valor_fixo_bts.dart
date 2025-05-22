@@ -9,11 +9,13 @@ class ValorFixoBts extends StatefulWidget {
   final DateTime vigencia;
   final ValorFixo valorFixo;
   final void Function(ValorFixo valorFixo, DateTime vigencia) onSave;
+  final bool isInsert;
 
   const ValorFixoBts({
     required this.vigencia,
     required this.valorFixo,
     required this.onSave,
+    this.isInsert = true,
   });
 
   @override
@@ -53,7 +55,9 @@ class _ValorFixoBtsState extends State<ValorFixoBts> {
           spacing: 4,
           children: [
             Text(
-              Localiza.find("novoValorFixo"),
+              widget.isInsert
+                  ? Localiza.find("novoValorFixo")
+                  : Localiza.find("alterarValorFixo"),
               textAlign: TextAlign.start,
               style: theme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
             ),

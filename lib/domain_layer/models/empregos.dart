@@ -1,12 +1,11 @@
 import 'package:collection/collection.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils.dart';
 import '../models.dart';
 
 @immutable
-class Empregos extends Equatable {
+class Empregos {
   final String? id;
   final String descricao;
   final DateTime? admissao;
@@ -80,26 +79,6 @@ class Empregos extends Equatable {
     );
   }
 
-  @override
-  List<Object?> get props {
-    return [
-      id,
-      descricao,
-      admissao,
-      entrada,
-      saida,
-      bancoHoras,
-      porcFeriado,
-      porcNormal,
-      cargaHoraria,
-      ativo,
-      salario,
-      horas,
-      salarios,
-      createdAt,
-    ];
-  }
-
   Salarios? getSalarioByVigencia(int year, int month) {
     if (salarios.length == 1) return salarios.first;
     final _vig = DateTime(year, month, 1);
@@ -122,5 +101,45 @@ class Empregos extends Equatable {
         .sorted((a, b) => a.vigencia.compareTo(b.vigencia))
         .lastOrNull
         ?.toValorFixo();
+  }
+
+  @override
+  bool operator ==(covariant Empregos other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.descricao == descricao &&
+        other.admissao == admissao &&
+        other.entrada == entrada &&
+        other.saida == saida &&
+        other.bancoHoras == bancoHoras &&
+        other.porcFeriado == porcFeriado &&
+        other.porcNormal == porcNormal &&
+        other.cargaHoraria == cargaHoraria &&
+        other.ativo == ativo &&
+        other.createdAt == createdAt &&
+        other.salario == salario &&
+        other.horas == horas &&
+        other.salarios == salarios &&
+        other.horaFixoList == horaFixoList;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        descricao.hashCode ^
+        admissao.hashCode ^
+        entrada.hashCode ^
+        saida.hashCode ^
+        bancoHoras.hashCode ^
+        porcFeriado.hashCode ^
+        porcNormal.hashCode ^
+        cargaHoraria.hashCode ^
+        ativo.hashCode ^
+        createdAt.hashCode ^
+        salario.hashCode ^
+        horas.hashCode ^
+        salarios.hashCode ^
+        horaFixoList.hashCode;
   }
 }

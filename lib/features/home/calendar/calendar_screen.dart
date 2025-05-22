@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
-import '../../../presentation_layer/blocs/empregos/empregos_arguments.dart';
+import '../../../presentation_layer/route_args.dart';
 import '../../../resources.dart';
 import '../../../routes.dart';
 import '../../../utils.dart';
@@ -41,25 +41,23 @@ class _CalendarScreenState extends State<CalendarScreen> {
         margin: EdgeInsets.only(right: 12),
         child: Icon(Icons.calendar_month),
       ),
-      label:
-          !isEdit
-              ? Localiza.find("novahora")
-              : formatDateByLocale(data, locale),
-      trailing:
-          isEdit
-              ? OutlinedCard(
-                child: IconButton(
-                  icon: Icon(
-                    Icons.delete_outline,
-                    color: AppColors.deleteColor,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the current bts
-                    _onDeleteHora(bloc, selectedHora!);
-                  },
+      label: !isEdit
+          ? Localiza.find("novahora")
+          : formatDateByLocale(data, locale),
+      trailing: isEdit
+          ? OutlinedCard(
+              child: IconButton(
+                icon: Icon(
+                  Icons.delete_outline,
+                  color: AppColors.deleteColor,
                 ),
-              )
-              : null,
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the current bts
+                  _onDeleteHora(bloc, selectedHora!);
+                },
+              ),
+            )
+          : null,
       body: AddHoraBts(
         hora: selectedHora,
         feriado: selectedHora?.tipoHora == HorasType.feriado,
@@ -75,11 +73,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
     if (newHora != null) {
       awaitableTask(
         context: context,
-        actualTask:
-            () async =>
-                isEdit
-                    ? await bloc.updateHora(newHora)
-                    : await bloc.insertHora(newHora),
+        actualTask: () async => isEdit
+            ? await bloc.updateHora(newHora)
+            : await bloc.insertHora(newHora),
       );
     }
   }
@@ -107,10 +103,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }) async {
     await Navigator.of(context).pushNamed(
       Routes.empregosDetail,
-      arguments:
-          isInsert
-              ? EmpregosArguments.empty()
-              : EmpregosArguments(bloc.state.currentEmprego!),
+      arguments: isInsert
+          ? EmpregosArguments.empty()
+          : EmpregosArguments(bloc.state.currentEmprego!),
     );
 
     bloc.load();
@@ -143,12 +138,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
           child: NoDataContainer(
             contentLabel: Localiza.find("empregosEmpty"),
             helperButtonLabel: Localiza.find("adicionarEmprego"),
-            helperButtonTap:
-                () => _showEmpregosScreen(
-                  context: context,
-                  bloc: bloc,
-                  isInsert: true,
-                ),
+            helperButtonTap: () => _showEmpregosScreen(
+              context: context,
+              bloc: bloc,
+              isInsert: true,
+            ),
           ),
         ),
       );
@@ -164,10 +158,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
           firstLabel: Text(
             Localiza.find("relatorios"),
             style: theme.bodyMedium!.copyWith(
-              color:
-                  bloc.state.hasReportData()
-                      ? AppColors.onPrimary
-                      : AppColors.disabled,
+              color: bloc.state.hasReportData()
+                  ? AppColors.onPrimary
+                  : AppColors.disabled,
               fontSize: 12,
               fontWeight: FontWeight.bold,
             ),
@@ -182,10 +175,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
           firstIcon: Icon(
             Icons.list,
-            color:
-                bloc.state.hasReportData()
-                    ? AppColors.onPrimary
-                    : AppColors.disabled,
+            color: bloc.state.hasReportData()
+                ? AppColors.onPrimary
+                : AppColors.disabled,
           ),
           secondIcon: Icon(Icons.add, color: AppColors.onSecondary),
           onFirstTap: () {
@@ -224,18 +216,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: EmpregosDropdown(
-                    onAdd:
-                        () => _showEmpregosScreen(
-                          context: context,
-                          bloc: bloc,
-                          isInsert: true,
-                        ),
-                    onEdit:
-                        () => _showEmpregosScreen(
-                          context: context,
-                          bloc: bloc,
-                          isInsert: false,
-                        ),
+                    onAdd: () => _showEmpregosScreen(
+                      context: context,
+                      bloc: bloc,
+                      isInsert: true,
+                    ),
+                    onEdit: () => _showEmpregosScreen(
+                      context: context,
+                      bloc: bloc,
+                      isInsert: false,
+                    ),
                     onDelete: () => _showOnDeleteDialog(bloc),
                   ),
                 ),
@@ -245,16 +235,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 month: bloc.state.month,
                 onMonthAdd: () => _addMonth(bloc),
                 onMonthDec: () => _decMonth(bloc),
-                onYearChanged:
-                    (int y) => awaitableTask(
-                      context: context,
-                      actualTask: () async => bloc.setYear(y),
-                    ),
-                onMonthChanged:
-                    (m) => awaitableTask(
-                      context: context,
-                      actualTask: () async => bloc.setMonth(m),
-                    ),
+                onYearChanged: (int y) => awaitableTask(
+                  context: context,
+                  actualTask: () async => bloc.setYear(y),
+                ),
+                onMonthChanged: (m) => awaitableTask(
+                  context: context,
+                  actualTask: () async => bloc.setMonth(m),
+                ),
               ),
               const SizedBox(height: 8),
               CalendarPage(
@@ -277,6 +265,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 height: 1,
                 color: Colors.black26,
               ),
+              const SizedBox(height: 12),
               Expanded(
                 child: HorasList(
                   isList: true,

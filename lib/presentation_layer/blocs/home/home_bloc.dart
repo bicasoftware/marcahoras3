@@ -57,17 +57,16 @@ class HomeBloc extends Cubit<HomeState> {
       bancoHoras: emprego.bancoHoras,
     );
 
-    final reportPage =
-        await ReportPageGenerator(
-          year: ano,
-          month: mes,
-          bancoHoras: emprego.bancoHoras,
-          cargaHoraria: emprego.cargaHoraria,
-          porcNormal: emprego.porcNormal,
-          porcDiff: emprego.porcFeriado,
-          salario: state.getSalarioByVigencia(ano, mes),
-          horas: horas,
-        ).generate();
+    final reportPage = await ReportPageGenerator(
+      year: ano,
+      month: mes,
+      bancoHoras: emprego.bancoHoras,
+      cargaHoraria: emprego.cargaHoraria,
+      porcNormal: emprego.porcNormal,
+      porcDiff: emprego.porcFeriado,
+      salario: state.getSalarioByVigencia(ano, mes),
+      horas: horas,
+    ).generate();
 
     return (calendarPage, reportPage);
   }
@@ -88,14 +87,20 @@ class HomeBloc extends Cubit<HomeState> {
       final (from, to) = getFormatedDateRange(state.year, state.month);
       final empregos = await _loadEmpregos(from, to);
 
-      final emprego = empregos.first;
+      CalendarPageModel? calendarPage;
+      ReportModel? reportPage;
 
-      final (calendarPage, reportPage) = await _buildPages(
-        emprego: emprego,
-        mes: state.month,
-        ano: state.year,
-        horas: emprego.horas,
-      );
+      if (empregos.isNotEmpty) {
+        final (c, r) = await _buildPages(
+          emprego: empregos.first,
+          mes: state.month,
+          ano: state.year,
+          horas: empregos.first.horas,
+        );
+
+        calendarPage = c;
+        reportPage = r;
+      }
 
       emit(
         state.copyWith(
@@ -171,10 +176,9 @@ class HomeBloc extends Cubit<HomeState> {
     final now = DateTime.now();
 
     /// Se a data de admissão for antes da data atual
-    final (int year, int month) =
-        e.admissao!.isBefore(now)
-            ? (now.year, now.month)
-            : (e.admissao!.year, e.admissao!.month);
+    final (int year, int month) = e.admissao!.isBefore(now)
+        ? (now.year, now.month)
+        : (e.admissao!.year, e.admissao!.month);
 
     await _updateCalendar(year, month, e, index);
   }
