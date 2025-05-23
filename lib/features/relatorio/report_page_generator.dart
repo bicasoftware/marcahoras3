@@ -12,6 +12,7 @@ class ReportPageGenerator {
   final int porcDiff;
   final Salarios? salario;
   final List<Horas> horas;
+  final ValorFixo? valorFixo;
 
   const ReportPageGenerator({
     required this.year,
@@ -22,20 +23,24 @@ class ReportPageGenerator {
     required this.porcDiff,
     required this.salario,
     required this.horas,
+    this.valorFixo,
   });
 
   Future<ReportModel> generate() async {
-    final horasList =
-        bancoHoras ? _generateBancoHorasList() : _generateHorasList();
+    final horasList = bancoHoras
+        ? _generateBancoHorasList()
+        : _generateHorasList(valorFixo);
 
     final (valorRecNormal, horasFeitasNormal) = _sumByHorasType(
       porc: porcNormal,
       type: HorasType.normal,
+      valorFixo: valorFixo?.$1,
     );
 
     final (valorRecDif, horasFeitasDif) = _sumByHorasType(
       type: HorasType.feriado,
       porc: porcDiff,
+      valorFixo: valorFixo?.$2,
     );
 
     return ReportModel(
@@ -63,17 +68,11 @@ class ReportPageGenerator {
     );
   }
 
-  List<ReportHora> _generateHorasList() {
+  List<ReportHora> _generateHorasList(ValorFixo? valorFixo) {
     if (horas.isEmpty) return [];
 
     return horas.sorted((a, b) => a.data.compareTo(b.data)).map((h) {
-      final valor = CalcHelper.calcValorReceber(
-        salario: salario?.valor ?? 0.0,
-        from: h.inicio,
-        to: h.termino,
-        cargaHoraria: cargaHoraria,
-        porcentagem: h.tipoHora == HorasType.feriado ? porcDiff : porcNormal,
-      );
+      final valor = _calcValorReceber(h, valorFixo);
 
       return ReportHora(
         date: h.data,
@@ -87,6 +86,26 @@ class ReportPageGenerator {
         hora: h,
       );
     }).toList();
+  }
+
+  double _calcValorReceber(Horas h, ValorFixo? valorFixo) {
+    if (valorFixo != null) {
+      return CalcHelper.calcValorReceberFixo(
+        from: h.inicio,
+        to: h.termino,
+        valorFixo: h.tipoHora == HorasType.feriado
+            ? valorFixo.$2
+            : valorFixo.$1,
+      );
+    }
+
+    return CalcHelper.calcValorReceber(
+      salario: salario?.valor ?? 0.0,
+      from: h.inicio,
+      to: h.termino,
+      cargaHoraria: cargaHoraria,
+      porcentagem: h.tipoHora == HorasType.feriado ? porcDiff : porcNormal,
+    );
   }
 
   List<ReportHora> _generateBancoHorasList() {
@@ -107,16 +126,33 @@ class ReportPageGenerator {
     }).toList();
   }
 
-  (double, int) _sumByHorasType({required HorasType type, required int porc}) {
+  (double, int) _sumByHorasType({
+    required HorasType type,
+    required int porc,
+    double? valorFixo,
+  }) {
     double valor = 0.0;
     int tempo = 0;
+
+    if (valorFixo == null) {
+      horas.where((h) => h.tipoHora == type).forEach((it) {
+        valor += CalcHelper.calcValorReceber(
+          salario: salario?.valor ?? 0.0,
+          from: it.inicio,
+          to: it.termino,
+          cargaHoraria: cargaHoraria,
+          porcentagem: porc,
+        );
+
+        tempo += TimeOfDayHelper.getMinutesBetweenTimes(it.inicio, it.termino);
+      });
+    }
+
     horas.where((h) => h.tipoHora == type).forEach((it) {
-      valor += CalcHelper.calcValorReceber(
-        salario: salario?.valor ?? 0.0,
+      valor += CalcHelper.calcValorReceberFixo(
         from: it.inicio,
         to: it.termino,
-        cargaHoraria: cargaHoraria,
-        porcentagem: porc,
+        valorFixo: valorFixo!,
       );
 
       tempo += TimeOfDayHelper.getMinutesBetweenTimes(it.inicio, it.termino);

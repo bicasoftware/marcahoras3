@@ -103,6 +103,17 @@ class Empregos {
         ?.toValorFixo();
   }
 
+  ValorFixo? getValorFixoByVigencia(int year, int month) {
+    if (horaFixoList.isEmpty) return null;
+    if(horaFixoList.length == 1) return horaFixoList.first.toValorFixo();
+    
+    final _vig = DateTime(year, month, 1);
+    return horaFixoList
+        .sorted((a, b) => a.vigencia.compareTo(b.vigencia))
+        .reversed
+        .firstWhereOrNull((s) => s.vigencia.isSameDayOfBefore(_vig))?.toValorFixo();
+  }
+
   @override
   bool operator ==(covariant Empregos other) {
     if (identical(this, other)) return true;

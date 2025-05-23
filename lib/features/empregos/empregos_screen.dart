@@ -229,8 +229,9 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                       horaFixoList: bloc.state.getHoraFixoList(),
                       porcNormal: bloc.state.porcNormal ?? 50,
                       porcFeriado: bloc.state.porcFeriado ?? 100,
-                      onHoraFixoChanged: (it) =>
-                          bloc.setValorFixo(it.$1, it.$2),
+                      onHoraFixoChanged: (it) {
+                        bloc.setValorFixo(it.$1, it.$2);
+                      },
                       onNormalPorcChanged: bloc.setPorcNormal,
                       onFeriadoPorcChanged: bloc.setPorcFeriados,
                       onAdd: () => insertHoraFixo(bloc),

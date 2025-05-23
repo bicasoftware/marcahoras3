@@ -66,6 +66,7 @@ class HomeBloc extends Cubit<HomeState> {
       porcDiff: emprego.porcFeriado,
       salario: state.getSalarioByVigencia(ano, mes),
       horas: horas,
+      valorFixo: emprego.getValorFixoByVigencia(ano, mes),
     ).generate();
 
     return (calendarPage, reportPage);

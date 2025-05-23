@@ -64,10 +64,9 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   }
 
   bool validate() {
-    bool validPercent =
-        state.useValorFixo
-            ? state.valorFixo.$1 > 0 && state.valorFixo.$2 > 0
-            : state.porcFeriado != null && state.porcNormal != null;
+    bool validPercent = state.useValorFixo
+        ? state.valorFixo.$1 > 0 && state.valorFixo.$2 > 0
+        : state.porcFeriado != null && state.porcNormal != null;
 
     final result = [
       state.descricao?.isNotEmpty ?? false,
@@ -152,17 +151,16 @@ class EmpregosBloc extends Cubit<EmpregosState> {
       );
 
       /// Cria nova entrada para valor extra fixado
-      final valorFixado =
-          state.useValorFixo
-              ? await _horaFixoSaveUseCase(
-                HoraFixo(
-                  idEmprego: newEmprego.id!,
-                  valorNormal: state.valorFixo.$1,
-                  valorFeriado: state.valorFixo.$2,
-                  vigencia: vigencia,
-                ),
-              )
-              : null;
+      final valorFixado = state.useValorFixo
+          ? await _horaFixoSaveUseCase(
+              HoraFixo(
+                idEmprego: newEmprego.id!,
+                valorNormal: state.valorFixo.$1,
+                valorFeriado: state.valorFixo.$2,
+                vigencia: vigencia,
+              ),
+            )
+          : null;
 
       final updatedEmprego = newEmprego.copyWith(
         salarios: [firstSalario],
@@ -253,10 +251,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
       );
 
       /// Generates a new list from the old [Salarios] list
-      final salariosList = [...state.emprego.salarios];
-
-      /// Updates the new list with the data returned from server
-      salariosList.add(newSalario);
+      final salariosList = [...state.emprego.salarios, newSalario];
 
       /// Finally, emits the new state with the new generated list
       emit(
@@ -322,12 +317,10 @@ class EmpregosBloc extends Cubit<EmpregosState> {
       );
 
       /// Generates a new list from the old [HoraFixo] list
-      final horaFixoList = [...state.emprego.horaFixoList];
-
-      /// Updates the new list with the data returned from server
-      if (newHoraFixo != null) {
-        horaFixoList.add(newHoraFixo);
-      }
+      final horaFixoList = [
+        ...state.emprego.horaFixoList,
+        ?newHoraFixo,
+      ];
 
       /// Finally, emits the new state with the new generated list
       emit(
