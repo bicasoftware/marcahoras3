@@ -13,6 +13,9 @@ empregos:
 horas:
   pt_BR: Horas
   en_US: Hours
+salarios:
+  pt_BR: Salários
+  en_US: Salaries
 jaTenhoCadastro:
   pt_BR: Já Tem uma conta? Clique para entrar.
   en_US: Already have an account? Click to enter.
@@ -133,6 +136,9 @@ empregosEmpty:
 adicionarEmprego:
   pt_BR: Adicionar
   en_US: Add    
+adicionar:
+  pt_BR: Adicionar
+  en_US: Add    
 editarEmprego:
   pt_BR: Editar Emprego
   en_US: Edit job
@@ -208,6 +214,15 @@ valorFixoFeriados:
 valoresFixos:
   pt_BR: Hora Extra com valor Fixado
   en_US: Fixed amount overtime
+horasDiferenciais:
+  pt_BR: Horas Diferenciais
+  en_US: Differential overtime
+horasDiferenciaisVazia:
+  pt_BR: Nenhuma Hora Diferencial
+  en_US: Differential overtime
+addDiferecencial:
+  pt_BR: Nova porcentagem diferencial
+  en_US: New differencial percentage
 editar:
   pt_BR: Editar
   en_US: Edit
@@ -249,8 +264,7 @@ data:
   en_US: Date
 editHoraReplace:
   pt_BR: Hora Extra Dia {DATA}  
-  en_US: Overtime at {DATA}
-    
+  en_US: Overtime at {DATA}    
 novahora:
   pt_BR: Nova Hora Extra
   en_US: Add Overtime

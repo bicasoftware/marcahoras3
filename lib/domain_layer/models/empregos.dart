@@ -23,6 +23,7 @@ class Empregos {
   final UnmodifiableListView<Horas> horas;
   final UnmodifiableListView<Salarios> salarios;
   final UnmodifiableListView<HoraFixo> horaFixoList;
+  final UnmodifiableListView<Diferenciais> diferenciaisList;
 
   Empregos({
     this.id,
@@ -40,9 +41,11 @@ class Empregos {
     Iterable<Horas> horas = const [],
     Iterable<Salarios> salarios = const [],
     Iterable<HoraFixo> horaFixoList = const [],
+    Iterable<Diferenciais> diferenciaisList = const [],
   }) : horas = UnmodifiableListView(horas),
        salarios = UnmodifiableListView(salarios),
-       horaFixoList = UnmodifiableListView(horaFixoList);
+       horaFixoList = UnmodifiableListView(horaFixoList),
+       diferenciaisList = UnmodifiableListView(diferenciaisList);
 
   Empregos copyWith({
     String? id,
@@ -59,6 +62,7 @@ class Empregos {
     Iterable<Horas>? horas,
     Iterable<Salarios>? salarios,
     Iterable<HoraFixo>? horaFixoList,
+    Iterable<Diferenciais>? diferenciaisList,
   }) {
     return Empregos(
       id: id ?? this.id,
@@ -75,6 +79,7 @@ class Empregos {
       salarios: salarios ?? this.salarios,
       salario: salario ?? this.salario,
       horaFixoList: horaFixoList ?? this.horaFixoList,
+      diferenciaisList: diferenciaisList ?? this.diferenciaisList,
       createdAt: createdAt,
     );
   }
@@ -105,13 +110,14 @@ class Empregos {
 
   ValorFixo? getValorFixoByVigencia(int year, int month) {
     if (horaFixoList.isEmpty) return null;
-    if(horaFixoList.length == 1) return horaFixoList.first.toValorFixo();
-    
+    if (horaFixoList.length == 1) return horaFixoList.first.toValorFixo();
+
     final _vig = DateTime(year, month, 1);
     return horaFixoList
         .sorted((a, b) => a.vigencia.compareTo(b.vigencia))
         .reversed
-        .firstWhereOrNull((s) => s.vigencia.isSameDayOfBefore(_vig))?.toValorFixo();
+        .firstWhereOrNull((s) => s.vigencia.isSameDayOfBefore(_vig))
+        ?.toValorFixo();
   }
 
   @override
@@ -132,6 +138,7 @@ class Empregos {
         other.salario == salario &&
         other.horas == horas &&
         other.salarios == salarios &&
+        other.diferenciaisList == diferenciaisList &&
         other.horaFixoList == horaFixoList;
   }
 
@@ -151,6 +158,7 @@ class Empregos {
         salario.hashCode ^
         horas.hashCode ^
         salarios.hashCode ^
-        horaFixoList.hashCode;
+        horaFixoList.hashCode ^
+        diferenciaisList.hashCode;
   }
 }

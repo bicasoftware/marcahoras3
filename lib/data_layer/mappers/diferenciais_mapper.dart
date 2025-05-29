@@ -4,7 +4,7 @@ import 'package:marcahoras3/data_layer/database/db_connector_drift.dart';
 import '../../domain_layer/models.dart';
 import '../dtos.dart';
 
-extension DiferenciaisDtoMapper on DiferenciaisDTO {
+extension DiferenciaisDtoMapper on DiferenciaisDto {
   DbDiferenciaisCompanion toCompanion({String? newId}) {
     return DbDiferenciaisCompanion(
       id: Value(newId ?? id),
@@ -14,8 +14,8 @@ extension DiferenciaisDtoMapper on DiferenciaisDTO {
     );
   }
 
-  Diferencial toModel() {
-    return Diferencial(
+  Diferenciais toModel() {
+    return Diferenciais(
       id: id,
       idEmprego: idEmprego,
       percentage: percentage,
@@ -24,10 +24,10 @@ extension DiferenciaisDtoMapper on DiferenciaisDTO {
   }
 }
 
-extension DiferenciaisModelMapper on Diferencial {
-  DiferenciaisDTO toDto() {
-    return DiferenciaisDTO(
-      id: id,
+extension DiferenciaisModelMapper on Diferenciais {
+  DiferenciaisDto toDto() {
+    return DiferenciaisDto(
+      id: id!,
       idEmprego: idEmprego,
       weekday: weekday,
       percentage: percentage,

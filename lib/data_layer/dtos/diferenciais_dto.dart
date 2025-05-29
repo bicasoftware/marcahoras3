@@ -1,10 +1,10 @@
-class DiferenciaisDTO {
+class DiferenciaisDto {
   final String id;
   final String idEmprego;
   final int weekday;
   final int percentage;
 
-  DiferenciaisDTO({
+  DiferenciaisDto({
     required this.id,
     required this.idEmprego,
     required this.weekday,
@@ -20,8 +20,8 @@ class DiferenciaisDTO {
     };
   }
 
-  factory DiferenciaisDTO.fromJson(Map<String, dynamic> json) {
-    return DiferenciaisDTO(
+  factory DiferenciaisDto.fromJson(Map<String, dynamic> json) {
+    return DiferenciaisDto(
       id: json['id'],
       idEmprego: json['emprego_id'],
       weekday: json['weekday'],
@@ -29,13 +29,19 @@ class DiferenciaisDTO {
     );
   }
 
-  DiferenciaisDTO copyWith({
+  static List<DiferenciaisDto> fromJsonList(List<dynamic> jsonList) {
+    return jsonList
+        .map((json) => DiferenciaisDto.fromJson(json as Map<String, dynamic>))
+        .toList();
+  }
+
+  DiferenciaisDto copyWith({
     String? id,
     String? idEmprego,
     int? weekday,
     int? percentage,
   }) {
-    return DiferenciaisDTO(
+    return DiferenciaisDto(
       id: id ?? this.id,
       idEmprego: idEmprego ?? this.idEmprego,
       weekday: weekday ?? this.weekday,

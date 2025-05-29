@@ -8,7 +8,7 @@ class ShDetailedListTile extends StatefulWidget {
   final String title;
   final String badgeLabel;
   final Color badgeColor;
-  final List<IconLabelValue> contentList;
+  final List<Widget> contentList;
   final VoidCallback? onTap;
   final bool hideShadow;
   final List<String>? optionsList;

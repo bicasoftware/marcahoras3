@@ -14,6 +14,8 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
   $$DbHorasTableTableManager get _tableHoras => _db.managers.dbHoras;
   $$DbSalariosTableTableManager get _tableSalarios => _db.managers.dbSalarios;
   $$DbHoraFixoTableTableManager get _tableHoraFixo => _db.managers.dbHoraFixo;
+  $$DbDiferenciaisTableTableManager get _tableDiff =>
+      _db.managers.dbDiferenciais;
 
   const EmpregosSqlProvider({required AppDatabase db}) : _db = db;
 
@@ -43,20 +45,26 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
     final empregos = await _table.get();
     final empregosDtoList = <EmpregosDto>[];
 
-    final horas =
-        await _tableHoras
-            .filter((h) => h.data.isBetween(parseDate(from)!, parseDate(to)!))
-            .get();
+    final horas = await _tableHoras
+        .filter((h) => h.data.isBetween(parseDate(from)!, parseDate(to)!))
+        .get();
 
     final horasDto = horas.map((h) => HorasDto.fromJson(h.toJson())).toList();
 
     final salarios = await _tableSalarios.get();
-    final salariosDto =
-        salarios.map((s) => SalariosDto.fromJson(s.toJson())).toList();
+    final salariosDto = salarios
+        .map((s) => SalariosDto.fromJson(s.toJson()))
+        .toList();
 
     final valorFixo = await _tableHoraFixo.get();
-    final valorFixoDto =
-        valorFixo.map((h) => HoraFixoDto.fromJson(h.toJson())).toList();
+    final valorFixoDto = valorFixo
+        .map((h) => HoraFixoDto.fromJson(h.toJson()))
+        .toList();
+
+    final diferenciais = await _tableDiff.get();
+    final diferenciaisDto = diferenciais
+        .map((d) => DiferenciaisDto.fromJson(d.toJson()))
+        .toList();
 
     empregos.forEach((e) {
       final empregoDto = EmpregosDto.fromJson(e.toJson());
@@ -65,6 +73,9 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
           horas: horasDto.where((h) => h.empregoId == e.id).toList(),
           salarios: salariosDto.where((s) => s.empregoId == e.id).toList(),
           horaFixoList: valorFixoDto.where((h) => h.idEmprego == e.id).toList(),
+          diferenciaisList: diferenciaisDto
+              .where((h) => h.idEmprego == e.id)
+              .toList(),
         ),
       );
     });

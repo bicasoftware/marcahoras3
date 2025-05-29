@@ -7,6 +7,7 @@ class ShTogglableTile extends StatefulWidget {
   final void Function(int v) onChanged;
   final String label;
   final Icon? icon;
+  final String Function(int i) formatValue;
 
   const ShTogglableTile({
     super.key,
@@ -14,6 +15,7 @@ class ShTogglableTile extends StatefulWidget {
     required this.value,
     required this.options,
     required this.onChanged,
+    required this.formatValue,
     this.icon,
   });
 
@@ -52,10 +54,13 @@ class _ShTogglableTileState extends State<ShTogglableTile> {
           style: theme.labelLarge,
         ),
         subtitle: ToggleButtons(
-          children: widget.options.map((h) => Text(h.toString())).toList(),
+          children: widget.options
+              .map((h) => Text(widget.formatValue(h)))
+              .toList(),
           isSelected: _items,
           constraints: const BoxConstraints(minHeight: 32.0, minWidth: 56.0),
           onPressed: onItemSelected,
+          
         ),
       ),
     );

@@ -7,7 +7,6 @@ import '../../widgets.dart';
 import '../../widgets/dialogs/scrollable_time_picker_dialog.dart';
 import 'empregos_screen.dart';
 import 'porcentagens/valor_fixo/valor_fixo_bts.dart';
-import 'salarios/salarios_action_type.dart';
 import 'salarios/salarios_detail_bts.dart';
 
 mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
@@ -41,28 +40,26 @@ mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
     }
   }
 
-  void handleAumento(SalariosActionType action, EmpregosBloc bloc) async {
-    if (action == SalariosActionType.aumento) {
-      await BottomSheetHelper.showModalBts(
-        context: context,
-        body: SalariosDetailBts(
-          value: 0.0,
-          vigencia: DateTime.now(),
-          title: Localiza.find("addAumento"),
-          onSave: (valor, vigencia) async {
-            showLoadingDialog(context: context);
+  void handleAumento(EmpregosBloc bloc) async {
+    await BottomSheetHelper.showModalBts(
+      context: context,
+      body: SalariosDetailBts(
+        value: 0.0,
+        vigencia: DateTime.now(),
+        title: Localiza.find("addAumento"),
+        onSave: (valor, vigencia) async {
+          showLoadingDialog(context: context);
 
-            await bloc.insertSalario(
-              valor: valor,
-              vigencia: vigencia,
-              empregoId: bloc.state.emprego.id!,
-            );
+          await bloc.insertSalario(
+            valor: valor,
+            vigencia: vigencia,
+            empregoId: bloc.state.emprego.id!,
+          );
 
-            Navigator.of(context).pop();
-          },
-        ),
-      );
-    }
+          Navigator.of(context).pop();
+        },
+      ),
+    );
   }
 
   void deleteSalario(Salarios salario, EmpregosBloc bloc) async {

@@ -12,7 +12,7 @@ class DiferenciaisSqlProvider extends DiferenciaisProviderContract {
   DiferenciaisSqlProvider({required AppDatabase db}) : _db = db;
 
   @override
-  Future<DiferenciaisDTO> insertDiferencial(DiferenciaisDTO diferencial) async {
+  Future<DiferenciaisDto> insertDiferencial(DiferenciaisDto diferencial) async {
     final id = Uuid.v4().toString();
     await _db
         .into(_db.dbDiferenciais)
@@ -22,7 +22,7 @@ class DiferenciaisSqlProvider extends DiferenciaisProviderContract {
   }
 
   @override
-  Future<DiferenciaisDTO> updateDiferencial(DiferenciaisDTO diferencial) async {
+  Future<DiferenciaisDto> updateDiferencial(DiferenciaisDto diferencial) async {
     await _table
         .filter((d) => d.id.equals(diferencial.id))
         .update((f) => diferencial.toCompanion());

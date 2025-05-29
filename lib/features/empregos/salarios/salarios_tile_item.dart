@@ -1,121 +1,76 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../resources.dart';
 import '../../../utils/localiza/localiza.dart';
 
-class SalariosTileItem extends StatefulWidget {
+class SalariosTileItem extends StatelessWidget {
   final String vigencia;
   final String valor;
-  final VoidCallback onDelete;
-  final VoidCallback onEdit;
 
   const SalariosTileItem({
     required this.vigencia,
     required this.valor,
-    required this.onDelete,
-    required this.onEdit,
   });
 
   @override
-  State<SalariosTileItem> createState() => _SalariosTileItemState();
-}
-
-class _SalariosTileItemState extends State<SalariosTileItem>
-    with SingleTickerProviderStateMixin {
-  late final SlidableController controller;
-
-  @override
-  void initState() {
-    controller = SlidableController(this);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Slidable(
-      controller: controller,
-      child: SizedBox(
-        height: 36,
-        child: Stack(
-          children: [
-            Positioned(
-              left: 0,
-              top: 0,
-              bottom: 0,
-              child: Container(
-                width: 2,
-                decoration: BoxDecoration(
-                  color: AppColors.inversePrimary.withAlpha(80),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(4),
-                    bottomLeft: Radius.circular(4),
-                  ),
+    return SizedBox(
+      height: 36,
+      child: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            top: 0,
+            bottom: 0,
+            child: Container(
+              width: 2,
+              decoration: BoxDecoration(
+                color: AppColors.inversePrimary.withAlpha(80),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  bottomLeft: Radius.circular(4),
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () => widget.onEdit(),
-              child: Container(
-                margin: EdgeInsets.only(left: 12),
-                color: AppColors.surface,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            children: <Widget>[
-                              _LabelText(Localiza.find('valorSalario')),
-                              const Spacer(),
-                              _LabelText(Localiza.find('vigencia')),
-                              const SizedBox(width: 12),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              _ValueText(widget.valor),
-                              const Spacer(),
-                              _ValueText(widget.vigencia),
-                              const SizedBox(width: 12),
-                            ],
-                          ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 12),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: <Widget>[
+                          _LabelText(Localiza.find('valor')),
+                          const Spacer(),
+                          _LabelText(Localiza.find('vigencia')),
+                          const SizedBox(width: 12),
                         ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.arrow_right_rounded,
-                        color: Colors.black12,
+                      Row(
+                        children: <Widget>[
+                          _ValueText(valor),
+                          const Spacer(),
+                          _ValueText(vigencia),
+                          const SizedBox(width: 12),
+                        ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.arrow_right_rounded,
+                    color: Colors.black12,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-      endActionPane: ActionPane(
-        motion: StretchMotion(),
-        children: [
-          SlidableAction(
-            backgroundColor: AppColors.editColor,
-            icon: Icons.edit,
-            onPressed: (BuildContext context) => widget.onEdit(),
-            flex: 1,
-            borderRadius: BorderRadius.all(Radius.circular(24)),
-          ),
-          SlidableAction(
-            flex: 1,
-            backgroundColor: AppColors.deleteColor,
-            icon: Icons.delete,
-            borderRadius: BorderRadius.all(Radius.circular(24)),
-            onPressed: (context) => widget.onDelete(),
           ),
         ],
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils.dart';
-import '../../../widgets.dart';
+import '../../../../utils.dart';
+import '../../../../widgets.dart';
 
 class PorcentagemSlider extends StatelessWidget {
   final int porcNormal, porcFeriado;

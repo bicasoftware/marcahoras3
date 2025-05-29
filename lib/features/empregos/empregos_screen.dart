@@ -4,6 +4,7 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:marcahoras3/features/empregos/diferenciais_presenter.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
@@ -12,7 +13,7 @@ import '../../resources/colors.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
 import 'empregos_screen_presenter.dart';
-import 'porcentagens/porcentagens_tile.dart';
+import 'porcentagens/porcentagens/porcentagens_tile.dart';
 import 'salarios/salarios_tile.dart';
 
 class EmpregosScreen extends StatefulWidget {
@@ -23,8 +24,7 @@ class EmpregosScreen extends StatefulWidget {
 }
 
 class _EmpregosScreenState extends State<EmpregosScreen>
-    with EmpregosScreenPresenterMixin {
-  // late final bool isInsert;
+    with EmpregosScreenPresenterMixin, DiferenciaisPresenterMixin {
   final _formKey = GlobalKey<FormState>();
   final ctrDescricao = TextEditingController();
 
@@ -76,13 +76,11 @@ class _EmpregosScreenState extends State<EmpregosScreen>
     final textTheme = Theme.of(context).textTheme;
     final state = bloc.state;
     final locale = Localizations.localeOf(context);
-    final theme = Theme.of(context).textTheme;
 
     /// TODO
-    /// Aplicar confirm Dialog ao apagar um valor fixo
-    /// Mostrar Bts para editar o valor fixo
-    /// Atualizar a tela ao alterar o valor fixo
     /// Aplicar menu popup nas tiles de salário e remover package de Swipe
+    /// Gerar design para lista de diferenciadas
+    /// Aplicar CRUD
 
     return Scaffold(
       appBar: ShAppBar(
@@ -96,8 +94,9 @@ class _EmpregosScreenState extends State<EmpregosScreen>
           ),
         ],
       ),
-      body: Padding(
+      body: Container(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        margin: EdgeInsets.only(bottom: 16),
         child: SingleChildScrollView(
           child: BlocHelper<EmpregosBloc, EmpregosState>(
             bloc: bloc,
@@ -146,19 +145,18 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                         );
                       },
                     ),
+                    ShLabeledListSection(label: Localiza.find('salarios')),
                     SalariosTile(
                       salarios: state.emprego.salarios,
                       horaFixoList: state.emprego.horaFixoList,
                       controller: ctrSalarioMasked,
                       isEditing: bloc.state.isEditing,
-                      onOptionSelected: (action) {
-                        handleAumento(action, bloc);
-                      },
+                      onAdd: () => handleAumento(bloc),
+                      onEdit: (s) => updateSalario(s, bloc),
+                      onDelete: (s) => deleteSalario(s, bloc),
                       onSalarioValueChanged: (_) {
                         bloc.setSalario(ctrSalarioMasked.numberValue);
                       },
-                      onEdit: (s) => updateSalario(s, bloc),
-                      onDelete: (s) => deleteSalario(s, bloc),
                     ),
                     LabelFormField<TimeOfDay>(
                       label: Localiza.find("entradaHora"),
@@ -210,6 +208,7 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                       options: [220, 200, 180, 160],
                       onChanged: bloc.setCargaHoraria,
                       icon: Icon(Icons.list),
+                      formatValue: (i) => "$i",
                     ),
                     if (!bloc.state.isEditing) ...[
                       ShLabeledListSection(
@@ -237,6 +236,29 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                       onAdd: () => insertHoraFixo(bloc),
                       onEdit: (HoraFixo h) => updateHoraFixo(bloc, h),
                       onDelete: (h) => deleteHoraFixo(bloc, h),
+                    ),
+                    ShLabeledListSection(
+                      label: Localiza.find('horasDiferenciais'),
+                    ),
+                    ShListViewTile<Diferenciais>(
+                      dataList: bloc.state.emprego.diferenciaisList,
+                      onAdd: () => onAddDiferencial(bloc),
+                      onEdit: (d) => onDeleteDiferencial(d, bloc),
+                      onDelete: (d) => onDeleteDiferencial(d, bloc),
+                      buildTitle: (d) => "Teste",
+                      buildBadgeLabel: (d) => "Teste",
+                      buildBadgeColor: (d) => Colors.teal,
+                      buildInfoList: (d) {
+                        return [
+                          IconLabelValue(
+                            label: Localiza.find('valorFixoNormal'),
+                            value: "Doideira",
+                            icon: Icons.monetization_on,
+                            labelColor: AppColors.onSurface,
+                            iconColor: AppColors.onSurface,
+                          ),                          
+                        ];
+                      },
                     ),
                   ],
                 ),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain_layer/models.dart';
-import '../../../utils/localiza/localiza.dart';
-import '../../../utils/typedefs.dart';
-import '../../../widgets.dart';
+import '../../../../domain_layer/models.dart';
+import '../../../../utils/localiza/localiza.dart';
+import '../../../../utils/typedefs.dart';
+import '../../../../widgets.dart';
 import 'porcentagens_sliders.dart';
-import 'valor_fixo/valor_fixo_inputs.dart';
-import 'valor_fixo/valor_fixo_tile.dart';
+import '../valor_fixo/valor_fixo_inputs.dart';
+import '../valor_fixo/valor_fixo_tile.dart';
 
 class PorcentagensTile extends StatelessWidget {
   final bool isInsert;
@@ -52,7 +52,7 @@ class PorcentagensTile extends StatelessWidget {
         );
       }
 
-      return ValorFixoTile(
+      return ValorFixoList(
         horaFixoList: horaFixoList,
         onAdd: onAdd,
         onEdit: onEdit,

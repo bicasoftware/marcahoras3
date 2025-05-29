@@ -19,6 +19,7 @@ class EmpregosDto extends Equatable {
   final List<HorasDto> horas;
   final List<SalariosDto> salarios;
   final List<HoraFixoDto> horaFixoList;
+  final List<DiferenciaisDto> diferenciaisList;
   final DateTime? createdAt;
 
   const EmpregosDto({
@@ -36,6 +37,7 @@ class EmpregosDto extends Equatable {
     this.horas = const [],
     this.salarios = const [],
     this.horaFixoList = const [],
+    this.diferenciaisList = const [],
   });
 
   @override
@@ -54,6 +56,7 @@ class EmpregosDto extends Equatable {
       horas,
       salarios,
       horaFixoList,
+      diferenciaisList,
       createdAt,
     ];
   }
@@ -82,30 +85,31 @@ class EmpregosDto extends Equatable {
     final emprego = EmpregosDto(
       id: map['id'],
       descricao: map['descricao'],
-      admissao:
-          map['admissao'] is int
-              ? parseDateFromMillis(map['admissao'])
-              : map['admissao'] as String,
+      admissao: map['admissao'] is int
+          ? parseDateFromMillis(map['admissao'])
+          : map['admissao'] as String,
       entrada: map['entrada'],
       saida: map['saida'],
-      bancoHoras:
-          map['banco_horas'] != null ? map['banco_horas'] as bool : null,
+      bancoHoras: map['banco_horas'] != null
+          ? map['banco_horas'] as bool
+          : null,
       porcNormal: map['porc_normal'],
       porcFeriado: map['porc_feriado'],
       ativo: map['ativo'] != null ? map['ativo'] as bool : null,
       cargaHoraria: map['carga_horaria'],
       horas: map['horas'] != null ? HorasDto.fromJsonList(map['horas']) : [],
-      salarios:
-          map['salarios'] != null
-              ? SalariosDto.fromJsonList(map['salarios'])
-              : [],
+      salarios: map['salarios'] != null
+          ? SalariosDto.fromJsonList(map['salarios'])
+          : [],
       horaFixoList: map['hora_fixo'] != null
           ? HoraFixoDto.fromJsonList(map['hora_fixo'])
           : [],
-      createdAt:
-          map['created_at'] is int
-              ? getDateFromMillis(map['created_at'])
-              : parseDate(map['created_at']),
+      diferenciaisList: map['diferenciais'] != null
+          ? DiferenciaisDto.fromJsonList(map['diferenciais'])
+          : [],
+      createdAt: map['created_at'] is int
+          ? getDateFromMillis(map['created_at'])
+          : parseDate(map['created_at']),
     );
 
     return emprego;
@@ -129,6 +133,7 @@ class EmpregosDto extends Equatable {
     List<HorasDto>? horas,
     List<SalariosDto>? salarios,
     List<HoraFixoDto>? horaFixoList,
+    List<DiferenciaisDto>? diferenciaisList,
   }) {
     return EmpregosDto(
       id: id ?? this.id,
@@ -144,6 +149,7 @@ class EmpregosDto extends Equatable {
       horas: horas ?? this.horas,
       salarios: salarios ?? this.salarios,
       horaFixoList: horaFixoList ?? this.horaFixoList,
+      diferenciaisList: diferenciaisList ?? this.diferenciaisList,
     );
   }
 }
