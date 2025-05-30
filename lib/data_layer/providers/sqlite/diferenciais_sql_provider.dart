@@ -1,9 +1,9 @@
-import 'package:marcahoras3/data_layer/mappers/diferenciais_mapper.dart';
 import 'package:sane_uuid/uuid.dart';
 
 import '../../../domain_layer/contracts.dart';
 import '../../database/db_connector_drift.dart';
 import '../../dtos.dart';
+import '../../mappers/diferenciais_mapper.dart';
 
 class DiferenciaisSqlProvider extends DiferenciaisProviderContract {
   final AppDatabase _db;

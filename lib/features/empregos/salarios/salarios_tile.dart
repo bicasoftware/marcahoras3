@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,6 @@ import '../../../resources.dart';
 import '../../../utils.dart';
 import '../../../widgets.dart';
 import 'salarios_input_tile.dart';
-import 'salarios_tile_item.dart';
 
 class SalariosTile extends StatelessWidget {
   final List<Salarios> salarios;
@@ -30,11 +30,29 @@ class SalariosTile extends StatelessWidget {
     super.key,
   });
 
-  bool _isAtual(Salarios s) => s == salarios.last;
+  bool _isAtual(Salarios salario) {
+    final today = DateTime.now();
+    int year = today.year;
+    int month = today.month;
+
+    if (salarios.length == 1) {
+      return true;
+    } else {
+      final _vig = DateTime(year, month, 1);
+
+      final atual = salarios
+          .sorted((a, b) => a.vigencia.compareTo(b.vigencia))
+          .reversed
+          .firstWhereOrNull((s) => s.vigencia.isSameDayOfBefore(_vig));
+
+      return atual == null ? true : salario == atual;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context);
+    final theme = Theme.of(context).textTheme;
 
     return isEditing
         ? ShListViewTile<Salarios>(
@@ -42,17 +60,42 @@ class SalariosTile extends StatelessWidget {
             onAdd: onAdd,
             onEdit: onEdit,
             onDelete: onDelete,
-            buildTitle: (s) => Localiza.find('salario'),
+            buildTitle: (s) =>
+                formatVigenciaDate(s.vigencia, locale, 'MMMM/yyyy'),
             buildBadgeLabel: (s) {
-              return Localiza.find(_isAtual(s) ? 'atual' : 'anterior');
+              return Localiza.find(_isAtual(s) ? 'atual' : 'Aumento');
             },
             buildBadgeColor: (s) =>
                 _isAtual(s) ? AppColors.secondary : AppColors.primary,
             buildInfoList: (s) {
               return [
-                SalariosTileItem(
-                  vigencia: formatVigenciaDate(s.vigencia, locale, 'MMMM/yyyy'),
-                  valor: CurrencyHelper.formatAmount(s.valor),
+                Row(
+                  spacing: 8,
+                  children: [
+                    Icon(
+                      Icons.monetization_on_outlined,
+                      color: Colors.green,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            Localiza.find('valor'),
+                            style: theme.labelMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            CurrencyHelper.formatAmount(s.valor),
+                            style: theme.labelMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ];
             },

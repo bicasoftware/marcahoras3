@@ -78,7 +78,10 @@ class _DiffBtsState extends State<DiffBts> {
           Container(
             margin: EdgeInsets.only(bottom: 16),
             child: OutlinedButton.icon(
-              onPressed: () => widget.onSave(_porc, _weekDay),
+              onPressed: () {
+                Navigator.of(context).pop();
+                widget.onSave(_porc, _weekDay);
+              },
               icon: Icon(Icons.save_outlined),
               label: Text(Localiza.find("salvar")),
             ),

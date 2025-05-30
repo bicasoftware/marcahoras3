@@ -10,9 +10,13 @@ class CalcHelper {
     return salarioHora(salario, carga) / 60;
   }
 
-  static double calcPorcentagemHora(double salario, int carga, int porc) {
-    final salHora = salarioHora(salario, carga);
-    return (salHora * (1 + (porc / 100)));
+  static double calcPorcentagemHora({
+    required double salario,
+    required int cargaHoraria,
+    required int porcentagem,
+  }) {
+    final salHora = salarioHora(salario, cargaHoraria);
+    return (salHora * (1 + (porcentagem / 100)));
   }
 
   static double calcValorReceber({
@@ -30,11 +34,11 @@ class CalcHelper {
     return minutes * salMinute;
   }
 
-  static double calcValorReceberFixo({    
+  static double calcValorReceberFixo({
     required TimeOfDay from,
     required TimeOfDay to,
     required double valorFixo,
-  }) {    
+  }) {
     final salMinute = valorFixo / 60;
     final minutes = TimeOfDayHelper.getMinutesBetweenTimes(from, to);
 

@@ -7,19 +7,19 @@ import '../dtos.dart';
 extension DiferenciaisDtoMapper on DiferenciaisDto {
   DbDiferenciaisCompanion toCompanion({String? newId}) {
     return DbDiferenciaisCompanion(
-      id: Value(newId ?? id),
-      idEmprego: Value(idEmprego),
-      percentage: Value(percentage),
-      weekday: Value(weekday),
+      id: Value(newId ?? id!),
+      idEmprego: Value(idEmprego!),
+      percentage: Value(percentage!),
+      weekday: Value(weekday!),
     );
   }
 
   Diferenciais toModel() {
     return Diferenciais(
       id: id,
-      idEmprego: idEmprego,
-      percentage: percentage,
-      weekday: weekday,
+      idEmprego: idEmprego ?? '',
+      percentage: percentage ?? 50,
+      weekday: weekday ?? 0,
     );
   }
 }
@@ -27,7 +27,7 @@ extension DiferenciaisDtoMapper on DiferenciaisDto {
 extension DiferenciaisModelMapper on Diferenciais {
   DiferenciaisDto toDto() {
     return DiferenciaisDto(
-      id: id!,
+      id: id,
       idEmprego: idEmprego,
       weekday: weekday,
       percentage: percentage,

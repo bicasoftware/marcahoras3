@@ -6,8 +6,8 @@ import '../../../widgets.dart';
 
 class ShDetailedListTile extends StatefulWidget {
   final String title;
-  final String badgeLabel;
-  final Color badgeColor;
+  final String? badgeLabel;
+  final Color? badgeColor;
   final List<Widget> contentList;
   final VoidCallback? onTap;
   final bool hideShadow;
@@ -16,10 +16,10 @@ class ShDetailedListTile extends StatefulWidget {
 
   const ShDetailedListTile({
     required this.title,
-    required this.badgeLabel,
-    required this.badgeColor,
     required this.contentList,
     this.hideShadow = false,
+    this.badgeLabel,
+    this.badgeColor,
     this.onTap,
     this.optionsList,
     this.onOptionSelected,
@@ -32,6 +32,8 @@ class ShDetailedListTile extends StatefulWidget {
 
 class _ShDetailedListTileState extends State<ShDetailedListTile> {
   var _tapPosition;
+
+  bool get _showBadge => widget.badgeColor != null || widget.badgeLabel != null;
 
   void _showCustomMenu() async {
     if (_tapPosition == null) {
@@ -108,14 +110,15 @@ class _ShDetailedListTileState extends State<ShDetailedListTile> {
                       labelColor: AppColors.onSurface,
                     ),
                   ),
-                  Badge(
-                    backgroundColor: widget.badgeColor,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
+                  if (_showBadge)
+                    Badge(
+                      backgroundColor: widget.badgeColor,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      label: Text(widget.badgeLabel ?? ''),
                     ),
-                    label: Text(widget.badgeLabel),
-                  ),
                 ],
               ),
               const Divider(),

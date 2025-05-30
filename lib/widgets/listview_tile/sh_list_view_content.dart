@@ -7,8 +7,9 @@ import '../../../../widgets.dart';
 class ShListViewContent<T> extends StatelessWidget {
   final List<T> dataList;
   final ValueChanged<T> onEdit, onDelete;
-  final String Function(T item) buildTitle, buildBadgeLabel;
-  final Color Function(T item) buildBadgeColor;
+  final String Function(T item) buildTitle;
+  final String Function(T item)? buildBadgeLabel;
+  final Color Function(T item)? buildBadgeColor;
   final List<Widget> Function(T item) buildInfoList;
 
   const ShListViewContent({
@@ -16,9 +17,9 @@ class ShListViewContent<T> extends StatelessWidget {
     required this.onEdit,
     required this.onDelete,
     required this.buildTitle,
-    required this.buildBadgeLabel,
-    required this.buildBadgeColor,
     required this.buildInfoList,
+    this.buildBadgeLabel,
+    this.buildBadgeColor,
   });
 
   @override
@@ -44,8 +45,8 @@ class ShListViewContent<T> extends StatelessWidget {
             },
             hideShadow: true,
             title: buildTitle(item),
-            badgeLabel: buildBadgeLabel(item),
-            badgeColor: buildBadgeColor(item),
+            badgeLabel: buildBadgeLabel?.call(item),
+            badgeColor: buildBadgeColor?.call(item),
             contentList: buildInfoList(item),
           );
         }).toList(),

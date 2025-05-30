@@ -101,6 +101,25 @@ class Empregos {
     return salarios.sorted((a, b) => a.vigencia.compareTo(b.vigencia)).last;
   }
 
+  Salarios? getCurrentSalarioAlt() {
+    final today = DateTime.now();
+    int year = today.year;
+    int month = today.month;
+
+    if (salarios.length == 1) {
+      return salarios.first;
+    } else {
+      final _vig = DateTime(year, month, 1);
+
+      final atual = salarios
+          .sorted((a, b) => a.vigencia.compareTo(b.vigencia))
+          .reversed
+          .firstWhereOrNull((s) => s.vigencia.isSameDayOfBefore(_vig));
+
+      return atual;
+    }
+  }
+
   ValorFixo? getCurrentValorFixo() {
     return horaFixoList
         .sorted((a, b) => a.vigencia.compareTo(b.vigencia))

@@ -374,13 +374,12 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   Future<void> insertDiferencial({
     required int porc,
     required int weekDay,
-    required String empregoId,
-  }) async {
+  }) async { 
     return _prepareState(() async {
       /// Calls the [DiferencialSaveUseCase]
       final newDif = await _diferencialSaveUseCase(
         Diferenciais(
-          idEmprego: empregoId,
+          idEmprego: state.emprego.id!,
           percentage: porc,
           weekday: weekDay,
         ),
@@ -402,11 +401,11 @@ class EmpregosBloc extends Cubit<EmpregosState> {
       /// Updates the [Diferenciais] model
       final updatedDif = await _diferencialUpdateUseCase(diferencial);
 
-      final difList = state.emprego.diferenciaisList.iCopy();
+      var difList = state.emprego.diferenciaisList.iCopy();
 
       if (updatedDif != null) {
         /// Creates a new List<[Diferenciais]> with the updated value
-        difList.iUpdateWhere(
+        difList = difList.iUpdateWhere(
           newItem: updatedDif,
           where: (d) => d.id == diferencial.id,
         );

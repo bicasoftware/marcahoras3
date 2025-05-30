@@ -16,20 +16,22 @@ class Diferenciais {
   factory Diferenciais.fromDTO(DiferenciaisDto dto) {
     return Diferenciais(
       id: dto.id,
-      idEmprego: dto.idEmprego,
-      weekday: dto.weekday,
-      percentage: dto.percentage,
+      idEmprego: dto.idEmprego ?? '',
+      weekday: dto.weekday ?? 0,
+      percentage: dto.percentage ?? 50,
     );
   }
 
-  DiferenciaisDto toDTO() {
-    return DiferenciaisDto(
-      id: id!,
-      idEmprego: idEmprego,
-      weekday: weekday,
-      percentage: percentage,
-    );
-  }
+  // DiferenciaisDto toDTO() {
+  //   final dto = DiferenciaisDto(
+  //     id: id!,
+  //     idEmprego: idEmprego,
+  //     weekday: weekday,
+  //     percentage: percentage,
+  //   );
+
+  //   return dto;
+  // }
 
   Diferenciais copyWith({
     String? id,

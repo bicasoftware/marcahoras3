@@ -21,7 +21,6 @@ mixin DiferenciaisPresenterMixin on State<EmpregosScreen> {
           await bloc.insertDiferencial(
             porc: porc,
             weekDay: weekDay,
-            empregoId: bloc.state.emprego.id!,
           );
 
           Navigator.of(context).pop();

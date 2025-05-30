@@ -20,9 +20,9 @@ class HorasListTile extends StatelessWidget {
             : emprego.porcFeriado;
 
     return CalcHelper.calcPorcentagemHora(
-      _salario(),
-      emprego.cargaHoraria,
-      porc,
+      salario: _salario(),
+      cargaHoraria: emprego.cargaHoraria,
+      porcentagem: porc,
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:intl/intl.dart';
+import 'package:marcahoras3/data_layer/mappers/diferenciais_mapper.dart';
 import 'package:marcahoras3/data_layer/mappers/hora_fixo_mapper.dart';
 
 import '../../domain_layer/models.dart';
@@ -24,7 +25,8 @@ extension EmpregoMapper on EmpregosDto {
       ativo: ativo ?? false,
       salarios: salarios.map((s) => s.toSalario()).toList(),
       horas: horas.map((h) => h.toHoras()).toList(),
-      horaFixoList: horaFixoList.map((h) => h.toModel()).toList(),
+      horaFixoList: horaFixoList.map((f) => f.toModel()).toList(),
+      diferenciaisList: diferenciaisList.map((d) => d.toModel()).toList(),
       createdAt: createdAt ?? DateTime.now(),
     );
   }
@@ -62,13 +64,16 @@ extension EmpregoDtoMapper on Empregos {
       porcNormal: porcNormal,
       cargaHoraria: cargaHoraria,
       ativo: ativo,
-      salarios:
-          mapChildren
-              ? this.salarios.map((s) => s.toSalarioDto()).toList()
-              : [],
+      salarios: mapChildren
+          ? this.salarios.map((s) => s.toSalarioDto()).toList()
+          : [],
       horas: mapChildren ? this.horas.map((h) => h.toHorasDto()).toList() : [],
-      horaFixoList:
-          mapChildren ? this.horaFixoList.map((h) => h.toDto()).toList() : [],
+      horaFixoList: mapChildren
+          ? this.horaFixoList.map((f) => f.toDto()).toList()
+          : [],
+      diferenciaisList: mapChildren
+          ? this.diferenciaisList.map((d) => d.toDto()).toList()
+          : [],
     );
   }
 }

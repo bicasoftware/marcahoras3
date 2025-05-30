@@ -196,6 +196,9 @@ atual:
 anterior:
   pt_BR: Anterior
   en_US: Previous
+valor:
+  pt_BR: Valor
+  en_US: Amount
 valorFixo:
   pt_BR: Valores Fixados
   en_US: Fixed amount
@@ -220,6 +223,9 @@ horasDiferenciais:
 horasDiferenciaisVazia:
   pt_BR: Nenhuma Hora Diferencial
   en_US: Differential overtime
+diferencial:
+  pt_BR: Diferencial
+  en_US: Differencial
 addDiferecencial:
   pt_BR: Nova porcentagem diferencial
   en_US: New differencial percentage

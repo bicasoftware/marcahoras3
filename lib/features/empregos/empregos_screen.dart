@@ -31,6 +31,12 @@ class _EmpregosScreenState extends State<EmpregosScreen>
   late final MoneyMaskedTextController ctrSalarioMasked;
   late final Empregos editableEmprego;
 
+  final List<String> weekDays = DateFormat.EEEE(Platform.localeName)
+      .dateSymbols
+      .STANDALONEWEEKDAYS
+      .map((e) => "${e[0].toUpperCase()}${e.substring(1, e.length)}")
+      .toList();
+
   @override
   void dispose() {
     ctrDescricao.dispose();
@@ -76,11 +82,6 @@ class _EmpregosScreenState extends State<EmpregosScreen>
     final textTheme = Theme.of(context).textTheme;
     final state = bloc.state;
     final locale = Localizations.localeOf(context);
-
-    /// TODO
-    /// Aplicar menu popup nas tiles de salário e remover package de Swipe
-    /// Gerar design para lista de diferenciadas
-    /// Aplicar CRUD
 
     return Scaffold(
       appBar: ShAppBar(
@@ -243,20 +244,30 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                     ShListViewTile<Diferenciais>(
                       dataList: bloc.state.emprego.diferenciaisList,
                       onAdd: () => onAddDiferencial(bloc),
-                      onEdit: (d) => onDeleteDiferencial(d, bloc),
+                      onEdit: (d) => onUpdateDiferencial(d, bloc),
                       onDelete: (d) => onDeleteDiferencial(d, bloc),
-                      buildTitle: (d) => "Teste",
-                      buildBadgeLabel: (d) => "Teste",
-                      buildBadgeColor: (d) => Colors.teal,
+                      buildTitle: (d) => weekDays[d.weekday],
+                      buildBadgeLabel: (d) => Localiza.find('diferencial'),
+                      buildBadgeColor: (d) => Colors.orange,
                       buildInfoList: (d) {
                         return [
                           IconLabelValue(
-                            label: Localiza.find('valorFixoNormal'),
-                            value: "Doideira",
+                            label: "${d.percentage}%",
+                            value: CurrencyHelper.formatAmount(
+                              CalcHelper.calcPorcentagemHora(
+                                salario:
+                                    state.emprego
+                                        .getCurrentSalarioAlt()
+                                        ?.valor ??
+                                    0,
+                                cargaHoraria: state.emprego.cargaHoraria,
+                                porcentagem: d.percentage,
+                              ),
+                            ),
                             icon: Icons.monetization_on,
                             labelColor: AppColors.onSurface,
                             iconColor: AppColors.onSurface,
-                          ),                          
+                          ),
                         ];
                       },
                     ),

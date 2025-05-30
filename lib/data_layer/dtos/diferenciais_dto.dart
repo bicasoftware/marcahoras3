@@ -1,8 +1,8 @@
 class DiferenciaisDto {
-  final String id;
-  final String idEmprego;
-  final int weekday;
-  final int percentage;
+  final String? id;
+  final String? idEmprego;
+  final int? weekday;
+  final int? percentage;
 
   DiferenciaisDto({
     required this.id,
@@ -23,7 +23,7 @@ class DiferenciaisDto {
   factory DiferenciaisDto.fromJson(Map<String, dynamic> json) {
     return DiferenciaisDto(
       id: json['id'],
-      idEmprego: json['emprego_id'],
+      idEmprego: json['id_emprego'],
       weekday: json['weekday'],
       percentage: json['percentage'],
     );

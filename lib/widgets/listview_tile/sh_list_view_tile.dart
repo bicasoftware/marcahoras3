@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../resources/colors.dart';
 import '../../../../widgets.dart';
 import '../../resources.dart';
 import '../../utils.dart';
@@ -9,10 +8,12 @@ class ShListViewTile<T> extends StatelessWidget {
   final List<T> dataList;
   final VoidCallback onAdd;
   final ValueChanged<T> onEdit, onDelete;
-  final String Function(T item) buildTitle, buildBadgeLabel;
-  final Color Function(T item) buildBadgeColor;
+  final String Function(T item) buildTitle;
+  final String Function(T item)? buildBadgeLabel;
+  final Color Function(T item)? buildBadgeColor;
   final List<Widget> Function(T item) buildInfoList;
   final String? heroTag;
+  final bool showBadge;
 
   const ShListViewTile({
     required this.dataList,
@@ -20,9 +21,10 @@ class ShListViewTile<T> extends StatelessWidget {
     required this.onEdit,
     required this.onDelete,
     required this.buildTitle,
-    required this.buildBadgeLabel,
-    required this.buildBadgeColor,
     required this.buildInfoList,
+    this.buildBadgeLabel,
+    this.buildBadgeColor,
+    this.showBadge = true,
     this.heroTag,
   });
 
@@ -34,15 +36,6 @@ class ShListViewTile<T> extends StatelessWidget {
               label: Localiza.find("horasDiferenciaisVazia"),
               onTap: onAdd,
             )
-          // ? Container(
-          //   width: double.maxFinite,
-          //   padding: EdgeInsets.all(8),
-          //   child: OutlinedButton.icon(
-          //       onPressed: onAdd,
-          //       icon: Icon(Icons.add),
-          //       label: Text(Localiza.find("adicionar")),
-          //     ),
-          // )
           : ListTile(
               contentPadding: EdgeInsets.all(0),
               isThreeLine: true,
@@ -59,7 +52,7 @@ class ShListViewTile<T> extends StatelessWidget {
                 onDelete: onDelete,
                 buildTitle: buildTitle,
                 buildBadgeLabel: buildBadgeLabel,
-                buildBadgeColor: buildBadgeColor,
+                buildBadgeColor: buildBadgeColor,                
                 buildInfoList: buildInfoList,
               ),
             ),
@@ -81,7 +74,7 @@ class _NoDataOnList extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(8),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,        
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             label,
