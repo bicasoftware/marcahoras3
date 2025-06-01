@@ -41,6 +41,7 @@ class AppColors {
 
   static const porcNormalColor = Color(0xFF5FB800);
   static const porcFeriadosColor = Color(0xFFFF847D);
+  static const porcDiferenciadaColor = Color(0x935900FF);
   static const bancoHorasColor = Color(0xFF29BDFC);
   static const bancoBurnedColor = Color(0xFFFF847D);
 }

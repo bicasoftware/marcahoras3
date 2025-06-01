@@ -116,7 +116,7 @@ valueCantBeEmpty:
   pt_BR: O texto não pode estar vazio!  
   en_US: Value can't be empty
 feriado:
-  pt_BR: Diferencial  
+  pt_BR: Feriados 
   en_US: Holiday
 valueAtLeastNCharacter:
   pt_BR: O texto precisa ter ao menos {N} letras!    
@@ -296,7 +296,7 @@ porcentagemNormal:
   pt_BR: Porcentagem Normal
   en_US: Regular Percentage
 porcentagemFeriado:
-  pt_BR: Porcentagem Diferencial
+  pt_BR: Porcentagem Feriado
   en_US: Holiday overtime
 valorHora:
   pt_BR: Valor Hora

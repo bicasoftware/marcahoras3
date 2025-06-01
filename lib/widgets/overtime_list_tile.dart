@@ -37,9 +37,14 @@ class OvertimeListTile extends StatelessWidget {
           : Localiza.find('bancoHorasAbrev');
     }
 
-    return horaType == HorasType.feriado
-        ? Localiza.find('horaFeriado')
-        : Localiza.find('horaNormal');
+    switch (horaType) {
+      case HorasType.feriado:
+        return Localiza.find('horaFeriado');
+      case HorasType.diferencial:
+        return Localiza.find('diferencial');
+      default:
+        return Localiza.find('horaNormal');
+    }
   }
 
   Color _getBadgeColor() {

@@ -63,7 +63,7 @@ enum HorasType {
   normal('n', 0xFF5FB800),
   feriado('f', 0xFFFF847D),
   banco('b', 0xFF29BDFC),
-  diferencial('d', 0xFFFF847D),
+  diferencial('d', 0x935900FF),
   unknown('u', 0xFF8F8F8F);
 
   final String letter;

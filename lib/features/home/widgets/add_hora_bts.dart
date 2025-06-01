@@ -32,21 +32,21 @@ class AddHoraBts extends StatefulWidget {
 
 class _AddHoraBtsState extends State<AddHoraBts> {
   late DateTime _date;
-  bool _feriado = false;
   bool _compensada = false;
   late TimeOfDay _entrada, _saida;
+  late HorasType _horaType;
 
   @override
   void initState() {
     _date = widget.initDate;
 
     if (widget.hora != null) {
-      _feriado = widget.hora!.tipoHora == HorasType.feriado;
+      _horaType = widget.hora!.tipoHora;
       _entrada = widget.hora!.inicio;
       _saida = widget.hora!.termino;
       _compensada = widget.hora!.horaStatus == HoraStatus.burned;
     } else {
-      _feriado = widget.feriado;
+      _horaType = HorasType.normal;
       _entrada = widget.empregoEntrada;
       _saida = TimeOfDayHelper.addHours(widget.empregoEntrada, 1);
     }
@@ -60,7 +60,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
       resultHora = widget.hora!.copyWith(
         inicio: _entrada,
         termino: _saida,
-        tipoHora: _feriado == true ? HorasType.feriado : HorasType.normal,
+        tipoHora: _horaType,
         horaStatus: _getHoraStatus(),
       );
     } else {
@@ -69,7 +69,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
         inicio: _entrada,
         termino: _saida,
         data: _date,
-        tipoHora: _feriado == true ? HorasType.feriado : HorasType.normal,
+        tipoHora: _horaType,
         horaStatus: _getHoraStatus(),
         createdAt: DateTime.now(),
       );
@@ -130,19 +130,18 @@ class _AddHoraBtsState extends State<AddHoraBts> {
           ),
           widget.bancoHoras
               ? ShCheckBoxTile(
-                value: _compensada,
-                label: Localiza.find('compensada'),
-                onTap: (_) {
-                  setState(() => _compensada = !_compensada);
-                },
-              )
-              : ShSwitchTile(
-                value: _feriado,
-                label: Localiza.find('feriado'),
-                onTap: (_) {
-                  setState(() => _feriado = !_feriado);
-                },
-              ),
+                  value: _compensada,
+                  label: Localiza.find('compensada'),
+                  onTap: (_) {
+                    setState(() => _compensada = !_compensada);
+                  },
+                )
+              : HoraTypeToggleButton(
+                  horasType: _horaType,
+                  onSelectionChanged: (type) {
+                    setState(() => _horaType = type);
+                  },
+                ),
 
           OutlinedButton.icon(
             onPressed: _onSave,
