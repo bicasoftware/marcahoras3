@@ -68,7 +68,7 @@ horaNormal:
   pt_BR: Normal
   en_US: Regular
 horaFeriado:
-  pt_BR: Diferencial
+  pt_BR: Feriado
   en_US: Holidays
 tipoHora:
   pt_BR: Tipo de Hora
@@ -408,6 +408,23 @@ weekDays:
     - THU
     - FRY
     - SAT
+fullWeekDays:
+  pt_BR:
+    - Domingo
+    - Segunda
+    - Terça
+    - Quarta
+    - Quinta
+    - Sexta
+    - Sábado
+  en_US: 
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+    - Saturday
 
 # Exceptions
 expt_emprego_null:

@@ -15,7 +15,7 @@ class HomeState extends BaseState {
   HomeState({
     required this.year,
     required this.month,
-    this.empregoPos = -1,
+    this.empregoPos = 0,
     Iterable<Empregos> empregos = const [],
     this.isDarkMode = false,
     required this.calendarPage,
@@ -47,8 +47,7 @@ class HomeState extends BaseState {
     return newState;
   }
 
-  Empregos? get currentEmprego =>
-      empregoPos == -1 ? null : empregos[empregoPos];
+  Empregos get currentEmprego => empregos[empregoPos];
 
   ReportModel getReportPage() => reportPage;
 
@@ -56,20 +55,23 @@ class HomeState extends BaseState {
 
   bool hasReportData() => reportPage.hours.isNotEmpty;
 
-  Salarios? getSalarioByVigencia(int year, int month) {
-    return currentEmprego?.getSalarioByVigencia(year, month);
+  Salarios getSalarioByVigencia(int year, int month) {
+    return currentEmprego.getSalarioByVigencia(year, month);
   }
 
-  bool get bancoHoras => currentEmprego?.bancoHoras ?? false;
+  bool get bancoHoras {
+    if (currentEmprego.salarios.isEmpty) return false;
+
+    return currentEmprego.bancoHoras;
+  }
 
   List<ReportHora> reportShortData() {
-    final horas =
-        reportPage.hours
-            .sorted((a, b) {
-              return a.hora.createdAt.compareTo(b.hora.createdAt);
-            })
-            .reversed
-            .toList();
+    final horas = reportPage.hours
+        .sorted((a, b) {
+          return a.hora.createdAt.compareTo(b.hora.createdAt);
+        })
+        .reversed
+        .toList();
 
     return horas.take(3).toList();
   }

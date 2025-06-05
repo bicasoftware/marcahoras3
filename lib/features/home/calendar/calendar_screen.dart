@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,12 +62,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
       body: AddHoraBts(
         hora: selectedHora,
         feriado: selectedHora?.tipoHora == HorasType.feriado,
-        empregoId: bloc.state.currentEmprego!.id!,
+        empregoId: bloc.state.currentEmprego.id!,
         initDate: selectedHora?.data ?? data ?? DateTime.now(),
-        empregoEntrada: bloc.state.currentEmprego!.entrada,
+        empregoEntrada: bloc.state.currentEmprego.entrada,
         hideDate: (selectedHora?.data != null || data != null),
-        admissao: bloc.state.currentEmprego!.admissao!,
-        bancoHoras: bloc.state.currentEmprego?.bancoHoras ?? false,
+        admissao: bloc.state.currentEmprego.admissao!,
+        bancoHoras: bloc.state.currentEmprego.bancoHoras,
+        diferencial: bloc.state.currentEmprego.diferenciaisList
+            .firstWhereOrNull(
+              (d) => d.weekday == (data ?? DateTime.now()).weekday,
+            ),
       ),
     );
 
@@ -105,7 +110,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       Routes.empregosDetail,
       arguments: isInsert
           ? EmpregosArguments.empty()
-          : EmpregosArguments(bloc.state.currentEmprego!),
+          : EmpregosArguments(bloc.state.currentEmprego),
     );
 
     bloc.load();
@@ -246,6 +251,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ),
               const SizedBox(height: 8),
               CalendarPage(
+                diferenciais: bloc.state.currentEmprego.diferenciaisList,
                 page: bloc.state.getCalendarPage(),
                 onCalendarItemTap: (h, d) async {
                   _showHorasBts(
@@ -268,6 +274,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
               const SizedBox(height: 12),
               Expanded(
                 child: HorasList(
+                  diferenciais:
+                      bloc.state.currentEmprego.diferenciaisList,
                   isList: true,
                   bancoHoras: bloc.state.bancoHoras,
                   horas: bloc.state.reportShortData(),

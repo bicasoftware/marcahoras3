@@ -1,7 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:marcahoras3/data_layer/database/db_connector_drift.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../domain_layer/models.dart';
+import '../../resources/colors.dart';
+import '../database/db_connector_drift.dart';
 import '../dtos.dart';
 
 extension DiferenciaisDtoMapper on DiferenciaisDto {
@@ -11,6 +13,7 @@ extension DiferenciaisDtoMapper on DiferenciaisDto {
       idEmprego: Value(idEmprego!),
       percentage: Value(percentage!),
       weekday: Value(weekday!),
+      color: Value(color!),
     );
   }
 
@@ -20,6 +23,7 @@ extension DiferenciaisDtoMapper on DiferenciaisDto {
       idEmprego: idEmprego ?? '',
       percentage: percentage ?? 50,
       weekday: weekday ?? 0,
+      color: color != null ? Color(color!) : AppColors.porcDiferenciadaColor,
     );
   }
 }
@@ -31,6 +35,7 @@ extension DiferenciaisModelMapper on Diferenciais {
       idEmprego: idEmprego,
       weekday: weekday,
       percentage: percentage,
+      color: color.toARGB32(),
     );
   }
 }

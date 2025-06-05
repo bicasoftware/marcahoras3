@@ -1,16 +1,22 @@
-import '../../data_layer/dtos.dart';
+import 'package:flutter/material.dart';
 
+import '../../data_layer/dtos.dart';
+import '../../resources/colors.dart';
+
+@immutable
 class Diferenciais {
   final String? id;
   final String idEmprego;
   final int weekday;
   final int percentage;
+  final Color color;
 
   Diferenciais({
     this.id,
     required this.idEmprego,
     required this.weekday,
     required this.percentage,
+    required this.color,
   });
 
   factory Diferenciais.fromDTO(DiferenciaisDto dto) {
@@ -19,31 +25,25 @@ class Diferenciais {
       idEmprego: dto.idEmprego ?? '',
       weekday: dto.weekday ?? 0,
       percentage: dto.percentage ?? 50,
+      color: dto.color != null
+          ? Color(dto.color!)
+          : AppColors.porcDiferenciadaColor,
     );
   }
-
-  // DiferenciaisDto toDTO() {
-  //   final dto = DiferenciaisDto(
-  //     id: id!,
-  //     idEmprego: idEmprego,
-  //     weekday: weekday,
-  //     percentage: percentage,
-  //   );
-
-  //   return dto;
-  // }
 
   Diferenciais copyWith({
     String? id,
     String? idEmprego,
     int? weekday,
     int? percentage,
+    Color? color,
   }) {
     return Diferenciais(
       id: id ?? this.id,
       idEmprego: idEmprego ?? this.idEmprego,
       weekday: weekday ?? this.weekday,
       percentage: percentage ?? this.percentage,
+      color: color ?? this.color,
     );
   }
 }

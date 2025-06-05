@@ -15,6 +15,7 @@ class OvertimeListTile extends StatelessWidget {
   final String salary;
   final String from, to;
   final VoidCallback onTap;
+  final Diferenciais? diferencial;
 
   const OvertimeListTile({
     required this.horaType,
@@ -27,6 +28,7 @@ class OvertimeListTile extends StatelessWidget {
     required this.onTap,
     required this.from,
     required this.to,
+    this.diferencial,
     super.key,
   });
 
@@ -48,7 +50,18 @@ class OvertimeListTile extends StatelessWidget {
   }
 
   Color _getBadgeColor() {
-    return bancoHoras ? Color(horaStatus.color) : Color(horaType.colorHex);
+    switch (horaType) {
+      case HorasType.feriado:
+        return AppColors.porcFeriadosColor;
+      case HorasType.normal:        
+        return AppColors.porcNormalColor;
+      case HorasType.banco:
+        return Color(horaStatus.color);
+      case HorasType.diferencial:
+        return diferencial?.color ?? AppColors.porcDiferenciadaColor;
+      default:
+        return AppColors.disabled;
+    }
   }
 
   @override

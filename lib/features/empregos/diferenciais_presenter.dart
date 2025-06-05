@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
+import '../../resources/colors.dart';
 import '../../utils/localiza/localiza.dart';
 import '../../widgets.dart';
 import 'empregos_screen.dart';
@@ -15,12 +16,14 @@ mixin DiferenciaisPresenterMixin on State<EmpregosScreen> {
       body: DiffBts(
         porc: 50,
         weekDay: 0,
-        onSave: (porc, weekDay) async {
+        color: AppColors.porcDiferenciadaColor,
+        onSave: (int porc, int weekDay, Color color) async {
           showLoadingDialog(context: context);
 
           await bloc.insertDiferencial(
             porc: porc,
             weekDay: weekDay,
+            color: color,
           );
 
           Navigator.of(context).pop();
@@ -59,7 +62,8 @@ mixin DiferenciaisPresenterMixin on State<EmpregosScreen> {
       body: DiffBts(
         porc: dife.percentage,
         weekDay: dife.weekday,
-        onSave: (porc, weekDay) async {
+        color: dife.color,
+        onSave: (porc, weekDay, color) async {
           showLoadingDialog(context: context);
           await bloc.updateDiferenciais(
             dife.copyWith(percentage: porc, weekday: weekDay),

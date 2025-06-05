@@ -6,11 +6,13 @@ import '../domain_layer/models.dart';
 
 class HoraTypeToggleButton extends StatefulWidget {
   final HorasType horasType;
+  final Diferenciais? diferencial;
   final void Function(HorasType type) onSelectionChanged;
 
   const HoraTypeToggleButton({
     required this.horasType,
     required this.onSelectionChanged,
+    this.diferencial,
   });
 
   @override
@@ -23,18 +25,25 @@ class _HoraTypeToggleButtonState extends State<HoraTypeToggleButton> {
   List<String> _labels = [
     Localiza.find('normais'),
     Localiza.find('feriado'),
-    Localiza.find('diferencial'),
   ];
 
   List<HorasType> _horasTypeList = [
     HorasType.normal,
     HorasType.feriado,
-    HorasType.diferencial,
   ];
 
   @override
   void initState() {
     _pos = _horasTypeList.indexOf(widget.horasType);
+    if (widget.diferencial != null) {
+      _labels.add(
+        Localiza.find('diferencial'),
+      );
+
+      _horasTypeList.add(
+        HorasType.diferencial,
+      );
+    }
     super.initState();
   }
 
@@ -46,7 +55,7 @@ class _HoraTypeToggleButtonState extends State<HoraTypeToggleButton> {
         case 1:
           return AppColors.porcFeriadosColor;
         case 2:
-          return AppColors.porcDiferenciadaColor;
+          return widget.diferencial?.color ?? AppColors.porcDiferenciadaColor;
         default:
           return Colors.white;
       }
@@ -87,7 +96,7 @@ class _HoraTypeToggleButtonState extends State<HoraTypeToggleButton> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: List.generate(3, (index) {
+      children: List.generate(_labels.length, (index) {
         return Expanded(
           child: GestureDetector(
             onTap: () => _onTap(index),

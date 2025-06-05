@@ -13,6 +13,7 @@ class AddHoraBts extends StatefulWidget {
   final TimeOfDay empregoEntrada;
   final bool hideDate;
   final bool bancoHoras;
+  final Diferenciais? diferencial;
 
   const AddHoraBts({
     required this.initDate,
@@ -23,6 +24,7 @@ class AddHoraBts extends StatefulWidget {
     this.hideDate = false,
     this.hora,
     this.feriado = false,
+    this.diferencial,
     super.key,
   });
 
@@ -138,6 +140,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
                 )
               : HoraTypeToggleButton(
                   horasType: _horaType,
+                  diferencial: widget.diferencial,
                   onSelectionChanged: (type) {
                     setState(() => _horaType = type);
                   },

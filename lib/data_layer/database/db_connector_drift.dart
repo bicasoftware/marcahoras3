@@ -61,6 +61,7 @@ class DbDiferenciais extends Table {
   TextColumn get idEmprego => text().references(DbEmpregos, #id)();
   IntColumn get weekday => integer()();
   IntColumn get percentage => integer()();
+  IntColumn get color => integer()();
 }
 
 class DbHoraFixo extends Table {

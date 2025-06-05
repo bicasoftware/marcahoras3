@@ -4,7 +4,6 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:marcahoras3/features/empregos/diferenciais_presenter.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
@@ -12,6 +11,7 @@ import '../../presentation_layer/validators/validators.dart';
 import '../../resources/colors.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
+import 'diferenciais_presenter.dart';
 import 'empregos_screen_presenter.dart';
 import 'porcentagens/porcentagens/porcentagens_tile.dart';
 import 'salarios/salarios_tile.dart';
@@ -248,7 +248,7 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                       onDelete: (d) => onDeleteDiferencial(d, bloc),
                       buildTitle: (d) => weekDays[d.weekday],
                       buildBadgeLabel: (d) => Localiza.find('diferencial'),
-                      buildBadgeColor: (d) => Colors.orange,
+                      buildBadgeColor: (d) => d.color,
                       buildInfoList: (d) {
                         return [
                           IconLabelValue(

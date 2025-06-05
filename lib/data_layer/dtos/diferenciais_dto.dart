@@ -1,14 +1,19 @@
+import 'package:flutter/foundation.dart';
+
+@immutable
 class DiferenciaisDto {
   final String? id;
   final String? idEmprego;
   final int? weekday;
   final int? percentage;
+  final int? color;
 
   DiferenciaisDto({
     required this.id,
     required this.idEmprego,
     required this.weekday,
     required this.percentage,
+    required this.color,
   });
 
   Map<String, dynamic> toJson() {
@@ -26,6 +31,7 @@ class DiferenciaisDto {
       idEmprego: json['id_emprego'],
       weekday: json['weekday'],
       percentage: json['percentage'],
+      color: json['color'],
     );
   }
 
@@ -40,12 +46,14 @@ class DiferenciaisDto {
     String? idEmprego,
     int? weekday,
     int? percentage,
+    int? color,
   }) {
     return DiferenciaisDto(
       id: id ?? this.id,
       idEmprego: idEmprego ?? this.idEmprego,
       weekday: weekday ?? this.weekday,
       percentage: percentage ?? this.percentage,
+      color: color ?? this.color,
     );
   }
 }

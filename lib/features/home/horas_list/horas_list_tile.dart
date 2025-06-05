@@ -11,13 +11,12 @@ class HorasListTile extends StatelessWidget {
 
   const HorasListTile({required this.hora, required this.emprego, super.key});
 
-  double _salario() => emprego.getCurrentSalario()?.valor ?? 0.0;
+  double _salario() => emprego.getCurrentSalario().valor;
 
   double _valorHora() {
-    final porc =
-        hora.tipoHora == HorasType.normal
-            ? emprego.porcNormal
-            : emprego.porcFeriado;
+    final porc = hora.tipoHora == HorasType.normal
+        ? emprego.porcNormal
+        : emprego.porcFeriado;
 
     return CalcHelper.calcPorcentagemHora(
       salario: _salario(),
@@ -28,6 +27,17 @@ class HorasListTile extends StatelessWidget {
 
   int _horasTrabalhadas() {
     return hora.termino.hour - hora.inicio.hour;
+  }
+
+  String _getLabel() {
+    switch (hora.tipoHora) {
+      case HorasType.feriado:
+        return Localiza.find('horaFeriado');
+      case HorasType.diferencial:
+        return Localiza.find('diferencial');
+      default:
+        return Localiza.find('horaNormal');
+    }
   }
 
   @override
@@ -72,9 +82,7 @@ class HorasListTile extends StatelessWidget {
             backgroundColor: Color(hora.tipoHora.colorHex),
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             label: Text(
-              hora.tipoHora == HorasType.normal
-                  ? Localiza.find('horaNormal')
-                  : Localiza.find('horaFeriado'),
+              _getLabel(),
             ),
           ),
         ],

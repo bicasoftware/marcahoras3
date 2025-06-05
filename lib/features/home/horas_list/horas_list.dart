@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
@@ -8,12 +9,14 @@ class HorasList extends StatefulWidget {
   final List<ReportHora> horas;
   final void Function(Horas h) onDelete, onItemTap;
   final bool bancoHoras;
+  final List<Diferenciais> diferenciais;
 
   const HorasList({
     required this.horas,
     required this.onDelete,
     required this.onItemTap,
     required this.bancoHoras,
+    required this.diferenciais,
     this.isList = false,
     super.key,
   });
@@ -28,26 +31,28 @@ class _HorasListState extends State<HorasList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       spacing: 4,
-      children:
-          widget.horas
-              .map(
-                (h) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: OvertimeListTile(
-                    horaType: h.type,
-                    horaStatus: h.hora.horaStatus,
-                    bancoHoras: widget.bancoHoras,
-                    date: h.date,
-                    workedHours: h.workedHours,
-                    amount: h.amount,
-                    salary: h.salary,
-                    from: h.from,
-                    to: h.to,
-                    onTap: () => widget.onItemTap(h.hora),
-                  ),
+      children: widget.horas
+          .map(
+            (h) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: OvertimeListTile(
+                horaType: h.type,
+                horaStatus: h.hora.horaStatus,
+                bancoHoras: widget.bancoHoras,
+                date: h.date,
+                workedHours: h.workedHours,
+                amount: h.amount,
+                salary: h.salary,
+                from: h.from,
+                to: h.to,
+                diferencial: widget.diferenciais.firstWhereOrNull(
+                  (d) => d.weekday == h.date.weekday,
                 ),
-              )
-              .toList(),
+                onTap: () => widget.onItemTap(h.hora),
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }

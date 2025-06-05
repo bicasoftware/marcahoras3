@@ -374,6 +374,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   Future<void> insertDiferencial({
     required int porc,
     required int weekDay,
+    required Color color,
   }) async { 
     return _prepareState(() async {
       /// Calls the [DiferencialSaveUseCase]
@@ -382,6 +383,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
           idEmprego: state.emprego.id!,
           percentage: porc,
           weekday: weekDay,
+          color: color,
         ),
       );
 

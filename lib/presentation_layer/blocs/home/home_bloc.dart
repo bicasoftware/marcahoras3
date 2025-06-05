@@ -49,6 +49,9 @@ class HomeBloc extends Cubit<HomeState> {
     required int ano,
     required List<Horas> horas,
   }) async {
+
+    final salario = emprego.getSalarioByVigencia(ano, mes);
+
     final calendarPage = await _calendarPageGeneratorUseCase(
       horas: horas,
       month: mes,
@@ -63,10 +66,11 @@ class HomeBloc extends Cubit<HomeState> {
       bancoHoras: emprego.bancoHoras,
       cargaHoraria: emprego.cargaHoraria,
       porcNormal: emprego.porcNormal,
-      porcDiff: emprego.porcFeriado,
-      salario: state.getSalarioByVigencia(ano, mes),
+      porcFeriado: emprego.porcFeriado,
+      salario: salario,
       horas: horas,
       valorFixo: emprego.getValorFixoByVigencia(ano, mes),
+      diferenciais: emprego.diferenciaisList,
     ).generate();
 
     return (calendarPage, reportPage);
@@ -92,11 +96,12 @@ class HomeBloc extends Cubit<HomeState> {
       ReportModel? reportPage;
 
       if (empregos.isNotEmpty) {
+        final emprego = empregos[0];
         final (c, r) = await _buildPages(
-          emprego: empregos.first,
+          emprego: emprego,
           mes: state.month,
           ano: state.year,
-          horas: empregos.first.horas,
+          horas: emprego.horas,
         );
 
         calendarPage = c;
@@ -107,7 +112,7 @@ class HomeBloc extends Cubit<HomeState> {
         state.copyWith(
           empregos: empregos,
           status: StateSuccessStatus(),
-          empregoPos: empregos.length == 0 ? -1 : 0,
+          empregoPos: 0,
           calendarPage: calendarPage,
           reportPage: reportPage,
         ),
@@ -123,7 +128,6 @@ class HomeBloc extends Cubit<HomeState> {
     try {
       emit(state.copyWith(status: StateLoadingStatus()));
       final emprego = state.currentEmprego;
-      if (emprego == null) throw (Localiza.find('expt_emprego_null'));
 
       /// Deletes [Emprego] from server
       await _empregoDeleteUseCase(emprego.id!);
@@ -173,7 +177,7 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   void setEmpregoPos(Empregos e) async {
-    final index = state.empregos.indexOf(e);
+    final index = state.empregos.indexOf(e);    
     final now = DateTime.now();
 
     /// Se a data de admissão for antes da data atual
@@ -212,8 +216,7 @@ class HomeBloc extends Cubit<HomeState> {
   ]) async {
     emit(state.copyWith(status: StateLoadingStatus()));
 
-    if (state.currentEmprego == null) return;
-    final currentEmprego = emprego ?? state.currentEmprego!;
+    final currentEmprego = emprego ?? state.currentEmprego;
 
     /// If the user tryes to go to a month before the date when they started working
     /// exit the function, so nothing changes
@@ -257,8 +260,6 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   Future<void> insertHora(Horas hora) async {
-    if (state.currentEmprego == null) return;
-
     try {
       emit(state.copyWith(status: StateLoadingStatus()));
 
@@ -268,17 +269,17 @@ class HomeBloc extends Cubit<HomeState> {
       final horasList = await _listHoras(
         year: state.year,
         month: state.month,
-        empregoId: state.currentEmprego!.id!,
+        empregoId: state.currentEmprego.id!,
       );
 
       final (calendarPage, reportPage) = await _buildPages(
-        emprego: state.currentEmprego!,
+        emprego: state.currentEmprego,
         mes: state.month,
         ano: state.year,
         horas: horasList,
       );
 
-      final updatedEmprego = state.currentEmprego!.copyWith(horas: horasList);
+      final updatedEmprego = state.currentEmprego.copyWith(horas: horasList);
 
       final empregosList = state.empregos.iCopy().iUpdateAt(
         updatedEmprego,
@@ -301,7 +302,7 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   Future<void> updateHora(Horas hora) async {
-    if (state.currentEmprego == null || hora.id == null) return;
+    if (hora.id == null) return;
 
     try {
       emit(state.copyWith(status: StateLoadingStatus()));
@@ -312,17 +313,17 @@ class HomeBloc extends Cubit<HomeState> {
       final horasList = await _listHoras(
         year: state.year,
         month: state.month,
-        empregoId: state.currentEmprego!.id!,
+        empregoId: state.currentEmprego.id!,
       );
 
       final (calendarPage, reportPage) = await _buildPages(
-        emprego: state.currentEmprego!,
+        emprego: state.currentEmprego,
         mes: state.month,
         ano: state.year,
         horas: horasList,
       );
 
-      final updatedEmprego = state.currentEmprego!.copyWith(horas: horasList);
+      final updatedEmprego = state.currentEmprego.copyWith(horas: horasList);
 
       final empregosList = state.empregos.iUpdateAt(
         updatedEmprego,
@@ -354,17 +355,17 @@ class HomeBloc extends Cubit<HomeState> {
       final horasList = await _listHoras(
         year: state.year,
         month: state.month,
-        empregoId: state.currentEmprego!.id!,
+        empregoId: state.currentEmprego.id!,
       );
 
       final (calendarPage, reportPage) = await _buildPages(
-        emprego: state.currentEmprego!,
+        emprego: state.currentEmprego,
         mes: state.month,
         ano: state.year,
         horas: horasList,
       );
 
-      final updatedEmprego = state.currentEmprego!.copyWith(horas: horasList);
+      final updatedEmprego = state.currentEmprego.copyWith(horas: horasList);
 
       final empregosList = state.empregos.iCopy().iUpdateAt(
         updatedEmprego,

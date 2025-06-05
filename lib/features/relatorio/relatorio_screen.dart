@@ -45,6 +45,8 @@ class RelatorioScreen extends StatelessWidget {
     final theme = Theme.of(context).textTheme;
     final locale = Localizations.localeOf(context);
     final reportModel = bloc.state.getReportPage();
+    final diferenciais = bloc.state.currentEmprego.diferenciaisList;
+    
     final String vigencia =
         formatVigencia(
           bloc.state.year,
@@ -96,6 +98,7 @@ class RelatorioScreen extends StatelessWidget {
               child: RelatorioHorasList(
                 horas: reportModel.hours,
                 bancoHoras: reportModel.bancoHoras,
+                diferenciais: diferenciais,
               ),
             ),
           ],

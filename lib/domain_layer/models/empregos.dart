@@ -84,16 +84,16 @@ class Empregos {
     );
   }
 
-  Salarios? getSalarioByVigencia(int year, int month) {
+  Salarios getSalarioByVigencia(int year, int month) {
     if (salarios.length == 1) return salarios.first;
     final _vig = DateTime(year, month, 1);
     return salarios
         .sorted((a, b) => a.vigencia.compareTo(b.vigencia))
         .reversed
-        .firstWhereOrNull((s) => s.vigencia.isSameDayOfBefore(_vig));
+        .firstWhere((s) => s.vigencia.isSameDayOfBefore(_vig));
   }
 
-  Salarios? getCurrentSalario() {
+  Salarios getCurrentSalario() {
     if (salarios.length == 1) {
       return salarios.first;
     }

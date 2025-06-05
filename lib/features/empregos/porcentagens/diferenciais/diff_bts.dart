@@ -6,11 +6,13 @@ import '../../../../widgets.dart';
 
 class DiffBts extends StatefulWidget {
   final int porc, weekDay;
-  final void Function(int porc, int weekDay) onSave;
+  final Color color;
+  final void Function(int porc, int weekDay, Color color) onSave;
 
   const DiffBts({
     required this.porc,
     required this.weekDay,
+    required this.color,
     required this.onSave,
   });
 
@@ -20,6 +22,7 @@ class DiffBts extends StatefulWidget {
 
 class _DiffBtsState extends State<DiffBts> {
   late int _weekDay, _porc;
+  late Color _color;
   final List<int> _weekDaysList = List.generate(7, (i) => i);
   late final List<String> _weekDaysExt;
 
@@ -27,6 +30,7 @@ class _DiffBtsState extends State<DiffBts> {
   void initState() {
     _weekDay = widget.weekDay;
     _porc = widget.porc;
+    _color = widget.color;
     _weekDaysExt = Localiza.findList('weekDays');
 
     super.initState();
@@ -56,15 +60,30 @@ class _DiffBtsState extends State<DiffBts> {
         spacing: 8,
         children: [
           Text(
-            Localiza.find("diferenciais"),
+            Localiza.find("addDiferecencial"),
             style: theme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
-          ShSliderPicker(
-            label: Localiza.find("porcentagem"),
-            value: _porc,
-            onChanged: _setPorc,
-            minValue: 50,
-            maxValue: 300,
+          Row(
+            spacing: 8,
+            children: [
+              Expanded(
+                child: ShSliderPicker(
+                  label: Localiza.find("porcentagem"),
+                  value: _porc,
+                  onChanged: _setPorc,
+                  minValue: 50,
+                  maxValue: 300,
+                ),
+              ),
+              ShColorPicker(
+                initialColor: Colors.purple,
+                onColorSelected: (c) {
+                  setState(() {
+                    _color = c;
+                  });
+                },
+              ),
+            ],
           ),
           ShGridviewTile(
             axisCount: 3,
@@ -74,13 +93,13 @@ class _DiffBtsState extends State<DiffBts> {
             onSelected: (t) {
               _setWeekDay(t);
             },
-          ),          
+          ),
           Container(
             margin: EdgeInsets.only(bottom: 16),
             child: OutlinedButton.icon(
               onPressed: () {
                 Navigator.of(context).pop();
-                widget.onSave(_porc, _weekDay);
+                widget.onSave(_porc, _weekDay, _color);
               },
               icon: Icon(Icons.save_outlined),
               label: Text(Localiza.find("salvar")),
