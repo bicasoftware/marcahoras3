@@ -30,8 +30,6 @@ class ReportPageGenerator {
     this.valorFixo,
   });
 
-  /// Depois de corrigir, aplicar alteraçães no PDF e commitar
-
   Future<ReportModel> generate() async {
     final horasList = bancoHoras
         ? _generateBancoHorasList()
@@ -51,7 +49,25 @@ class ReportPageGenerator {
     if (horas.isEmpty) return [];
 
     return horas.sorted((a, b) => a.data.compareTo(b.data)).map((h) {
-      final valor = _calcValorReceber(h, valorFixo);
+      int porc = 1;
+
+      switch (h.tipoHora) {
+        case HorasType.normal:
+          porc = porcNormal;
+        case HorasType.feriado:
+          porc = porcFeriado;
+        case HorasType.diferencial:
+          porc =
+              diferenciais
+                  .firstWhereOrNull((d) => d.weekday == h.data.weekday)
+                  ?.percentage ??
+              1;
+        case HorasType.unknown:
+        case HorasType.banco:
+          porc = 1;
+      }
+
+      final valor = _calcValorReceber(h, valorFixo, porc);
 
       return ReportHora(
         date: h.data,
@@ -61,19 +77,19 @@ class ReportPageGenerator {
         to: h.termino.asString(),
         type: h.tipoHora,
         amount: CurrencyHelper.formatAmount(valor),
-        porc: h.tipoHora == HorasType.feriado ? porcFeriado : porcNormal,
+        porc: porc,
         hora: h,
       );
     }).toList();
   }
 
-  double _calcValorReceber(Horas h, ValorFixo? valorFixo) {
+  double _calcValorReceber(Horas h, ValorFixo? valorFixo, int porc) {
     return CalcHelper.calcValorReceber(
       salario: salario.valor,
       from: h.inicio,
       to: h.termino,
       cargaHoraria: cargaHoraria,
-      porcentagem: h.tipoHora == HorasType.normal ? porcNormal : porcFeriado,
+      porcentagem: porc,
       valorFixo: h.tipoHora == HorasType.normal ? valorFixo?.$1 : valorFixo?.$2,
     );
   }
@@ -99,8 +115,8 @@ class ReportPageGenerator {
   ReportModel _prepareReport({
     (double, double)? valorFixo,
   }) {
-    ReportValues normais = ReportValues.empty();
-    ReportValues feriados = ReportValues.empty();
+    ReportValues normais = ReportValues.withPercentage(porcNormal);
+    ReportValues feriados = ReportValues.withPercentage(porcFeriado);
     ReportValues banco = ReportValues.empty();
     ReportValues compensadas = ReportValues.empty();
     ReportValues totais = ReportValues.empty();
@@ -168,6 +184,7 @@ class ReportPageGenerator {
                 horasType: HorasType.diferencial,
                 weekday: diferencial?.weekday ?? 0,
                 color: diferencial?.color ?? AppColors.porcDiferenciadaColor,
+                porc: diferencial?.percentage ?? 0,
               ),
             );
           } else

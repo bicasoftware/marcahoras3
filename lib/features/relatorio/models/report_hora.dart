@@ -1,4 +1,8 @@
+import 'package:flutter/widgets.dart';
+
 import '../../../domain_layer/models.dart';
+import '../../../main.dart';
+import '../../../utils.dart';
 
 class ReportHora {
   final DateTime date;
@@ -18,4 +22,9 @@ class ReportHora {
     required this.porc,
     required this.hora,
   });
+
+  String getDate() {
+    final locale = Localizations.localeOf(navigatorKey.currentContext!);
+    return formatDateByLocale(date, locale);
+  }
 }

@@ -13,6 +13,8 @@ class PdfGenerator {
     required ReportModel report,
     required Locale locale,
   }) async {
+    final weekdays = Localiza.findList('fullWeekDays');
+
     final pdf = Document(
       theme: ThemeData.withFont(
         base: Font.ttf(await rootBundle.load("assets/fonts/Outfit-Medium.ttf")),
@@ -33,61 +35,52 @@ class PdfGenerator {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 8),
-              Table(
-                border: TableBorder.all(color: PdfColors.black),
-                children: [
-                  TableRow(
-                    children: [
-                      TableHeaderText(text: 'Data'),
-                      TableHeaderText(text: 'Inicio'),
-                      TableHeaderText(text: 'Termino'),
-                      TableHeaderText(text: 'Horas Feitas'),
-                      if (report.bancoHoras) ...[
-                        TableHeaderText(text: Localiza.find('status')),
-                      ],
-                      if (!report.bancoHoras) ...[
-                        TableHeaderText(text: '%'),
-                        TableHeaderText(text: 'Total'),
-                      ],
-                    ],
-                  ),
-                  ...report.hours
-                      .map((h) => _horaRowDisplay(h, locale, report.bancoHoras))
+              Divider(),
+              if (report.normais.amount > 0 && report.normais.amount > 0)
+                ReportSession(
+                  diferenciadas: false,
+                  tipo: Localiza.find("normais"),
+                  porc: report.normais.porc,
+                  amount: report.normais.getAmount(),
+                  workedHours: report.normais.getWorkedHours(),
+                  hours: report.hours
+                      .where((h) => h.hora.tipoHora == HorasType.normal)
                       .toList(),
-                ],
-              ),
+                ),
+              if (report.feriados.amount > 0 && report.feriados.amount > 0)
+                ReportSession(
+                  diferenciadas: false,
+                  tipo: Localiza.find("feriados"),
+                  porc: report.feriados.porc,
+                  amount: report.feriados.getAmount(),
+                  workedHours: report.feriados.getWorkedHours(),
+                  hours: report.hours
+                      .where((h) => h.hora.tipoHora == HorasType.feriado)
+                      .toList(),
+                ),
+              ...report.diferenciadas.map((d) {
+                return ReportSession(
+                  diferenciadas: true,
+                  tipo: weekdays[d.weekday],
+                  porc: d.porc,
+                  workedHours: d.getWorkedHours(),
+                  amount: d.getAmount(),
+                  hours: report.hours.where(
+                    (h) {
+                      return h.hora.tipoHora == HorasType.diferencial &&
+                          h.hora.data.weekday == d.weekday;
+                    },
+                  ).toList(),
+                );
+              }).toList(),
               Spacer(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Divider(),
-                  Row(
-                    children: [
-                      if (report.bancoHoras) ...[
-                        _totaisDisplay("Banco Horas:", report.horasBanco),
-                        _totaisDisplay(
-                          "Horas Compensadas:",
-                          report.horasCompensadas,
-                        ),
-                        _totaisDisplay(
-                          "Total no Mês: ",
-                          report.horasFeitasTotal,
-                        ),
-                      ] else ...[
-                        _totaisDisplay(
-                          "Normais: ${report.horasFeitasNormal}",
-                          "Total - ${report.valorRecNormal}",
-                        ),
-                        _totaisDisplay(
-                          "Feriados: ${report.horasFeitasDiff}",
-                          "Total - ${report.valorRecDiff}",
-                        ),
-                        _totaisDisplay(
-                          "Total no Mês: ${report.horasFeitasTotal}",
-                          "Total - ${report.valorRecDiff}",
-                        ),
-                      ],
-                    ],
+                  ReportFooter(
+                    tempo: report.total.getWorkedHours(),
+                    valor: report.total.getAmount(),
                   ),
                 ],
               ),
@@ -101,62 +94,137 @@ class PdfGenerator {
   }
 }
 
-Widget _totaisDisplay(String valor1, String valor2) {
-  return Expanded(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [TableText(text: valor1), TableText(text: valor2)],
+Widget ReportHeader({
+  required String date,
+}) {
+  return Text(
+    Localiza.findAndReplace(
+      stringKey: 'reportHeader',
+      findString: '{DATA}',
+      replaceWithKey: date,
+    ),
+    style: TextStyle(
+      color: PdfColors.black,
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
     ),
   );
 }
 
-TableRow _horaRowDisplay(ReportHora h, Locale locale, bool bancoHoras) {
-  return TableRow(
+Widget ReportItemHeader({
+  required String horaType,
+  required String porc,
+  required bool diferenciadas,
+}) {
+  return Container(
+    padding: EdgeInsets.only(bottom: 8),
+    child: Text(
+      Localiza.find(
+        diferenciadas ? 'reportItemHeaderDif' : 'reportItemHeader',
+      ).replaceAll('{TIPO}', horaType).replaceAll('{PORC}', porc),
+      style: TextStyle(
+        color: PdfColors.black,
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  );
+}
+
+Widget ReportItem({
+  required String data,
+  required String inicio,
+  required String fim,
+  required String tempo,
+  required String valor,
+}) {
+  return Text(
+    Localiza.find(
+          'reportItem',
+        )
+        .replaceAll('{DATA}', data)
+        .replaceAll('{HORA_INICIO}', inicio)
+        .replaceAll('{HORA_FIM}', fim)
+        .replaceAll('{HORAS}', tempo)
+        .replaceAll('{VALOR}', valor),
+    style: TextStyle(color: PdfColors.black, fontSize: 12),
+  );
+}
+
+Widget ReportSemiTotal({
+  required String tempo,
+  required String valor,
+}) {
+  return Container(
+    padding: EdgeInsets.only(
+      top: 8,
+    ),
+    child: Text(
+      Localiza.find(
+        'reportSemiTotal',
+      ).replaceAll('{HORAS}', tempo).replaceAll('{VALOR}', valor),
+      style: TextStyle(
+        color: PdfColors.black,
+        fontSize: 14,
+        fontItalic: Font.timesItalic(),
+      ),
+    ),
+  );
+}
+
+Widget ReportFooter({
+  required String tempo,
+  required String valor,
+}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
-      TableText(text: formatDateByLocale(h.date, locale)),
-      TableText(text: h.from),
-      TableText(text: h.to),
-      TableText(text: h.workedHours),
-      if (bancoHoras) ...[
-        TableText(
-          text:
-              h.hora.horaStatus == HoraStatus.burned
-                  ? Localiza.find('compensada')
-                  : Localiza.find('bancoHorasAbrev'),
-        ),
-      ] else ...[
-        TableText(text: "${h.porc}%"),
-        TableText(text: h.amount),
-      ],
+      Text(
+        Localiza.find(
+          'reportFooterTempo',
+        ).replaceAll('{HORAS}', tempo),
+        style: TextStyle(color: PdfColors.black, fontSize: 14),
+      ),
+      Text(
+        Localiza.find(
+          'reportFooterValor',
+        ).replaceAll('{VALOR}', valor),
+        style: TextStyle(color: PdfColors.black, fontSize: 14),
+      ),
     ],
   );
 }
 
-Widget TableText({
-  required String text,
-  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-  TextStyle? style,
+Widget ReportSession({
+  required String tipo,
+  required int porc,
+  required String workedHours,
+  required String amount,
+  required List<ReportHora> hours,
+  required bool diferenciadas,
 }) {
-  return Padding(
-    padding: padding,
-    child: Text(
-      text,
-      style: style ?? TextStyle(color: PdfColors.black, fontSize: 14),
-    ),
-  );
-}
-
-Widget TableHeaderText({
-  required String text,
-  EdgeInsets padding = const EdgeInsets.all(8),
-}) {
-  return TableText(
-    text: text,
-    padding: const EdgeInsets.all(8),
-    style: TextStyle(
-      color: PdfColors.black,
-      fontWeight: FontWeight.bold,
-      fontSize: 16,
-    ),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      ReportItemHeader(
+        horaType: tipo,
+        porc: "$porc%",
+        diferenciadas: diferenciadas,
+      ),
+      ...hours.map(
+        (h) => ReportItem(
+          data: h.getDate(),
+          inicio: h.from,
+          fim: h.to,
+          tempo: h.workedHours,
+          valor: h.amount,
+        ),
+      ),
+      ReportSemiTotal(
+        tempo: workedHours,
+        valor: amount,
+      ),
+      Divider(),
+    ],
   );
 }

@@ -337,6 +337,27 @@ deleteDialogMsg:
 burnHoraDialogMsg:
   pt_BR: Você realmente deseja marcar essa hora como Compensada?
   en_US: Do you really want to mark this entry as Compensated?
+reportHeader:
+  pt_BR: Relatório de Horas Extras - {DATA}
+  en_US: Overtime Report - {DATA}
+reportItemHeader:
+  pt_BR: Horas Extras {TIPO} - {PORC}
+  en_US: Overtime {TIPO} - {PORC}
+reportItemHeaderDif:
+  pt_BR: Horas Diferenciais {TIPO} - {PORC}
+  en_US: Overtime {TIPO} - {PORC}
+reportItem:
+  pt_BR: "{DATA} - das {HORA_INICIO} até {HORA_FIM} - {HORAS} - {VALOR}"
+  en_US: "{DATA} - from {HORA_INICIO} to {HORA_FIM} - {HORAS} - {VALOR}"
+reportSemiTotal:
+  pt_BR: "Total: {HORAS} - {VALOR}"
+  en_US: "Total: {HORAS} - {VALOR}"
+reportFooterTempo:
+  pt_BR: "Total de horas feitas no período: {HORAS}"
+  en_US: "Total hours worked in the period: {HORAS}"
+reportFooterValor:
+  pt_BR: "Total a receber - {VALOR}"
+  en_US: "Amount to receive - {VALOR}"
 months:
   pt_BR:
     - Janeiro

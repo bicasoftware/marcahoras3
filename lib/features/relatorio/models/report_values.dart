@@ -11,11 +11,13 @@ class ReportValues {
   final HorasType horasType;
   final int weekday;
   final Color color;
+  final int porc;
 
   ReportValues({
     required this.workedMinutes,
     required this.amount,
     required this.horasType,
+    required this.porc,
     this.weekday = -1,
     this.color = AppColors.porcNormalColor,
   });
@@ -25,6 +27,16 @@ class ReportValues {
       workedMinutes: 0,
       amount: 0,
       horasType: HorasType.unknown,
+      porc: 0,
+    );
+  }
+
+  factory ReportValues.withPercentage(int porc) {
+    return ReportValues(
+      workedMinutes: 0,
+      amount: 0,
+      horasType: HorasType.unknown,
+      porc: porc,
     );
   }
 
@@ -35,6 +47,7 @@ class ReportValues {
       horasType: horasType,
       color: color,
       weekday: weekday,
+      porc: porc,      
     );
   }
 

@@ -21,7 +21,11 @@ class RelatorioScreen extends StatelessWidget {
   }) async {
     final data = await PdfGenerator.generate(
       report: reportModel,
-      title: "Relatório de Horas de $vigencia",
+      title: Localiza.findAndReplace(
+        stringKey: 'reportHeader',
+        findString: '{DATA}',
+        replaceWithKey: vigencia,
+      ),
       locale: locale,
     );
 
@@ -46,14 +50,13 @@ class RelatorioScreen extends StatelessWidget {
     final locale = Localizations.localeOf(context);
     final reportModel = bloc.state.getReportPage();
     final diferenciais = bloc.state.currentEmprego.diferenciaisList;
-    
-    final String vigencia =
-        formatVigencia(
-          bloc.state.year,
-          bloc.state.month,
-          locale,
-          'MMMM/yyyy',
-        ).toCamelCase();
+
+    final String vigencia = formatVigencia(
+      bloc.state.year,
+      bloc.state.month,
+      locale,
+      'MMMM/yyyy',
+    ).toCamelCase();
 
     return SafeArea(
       top: false,
