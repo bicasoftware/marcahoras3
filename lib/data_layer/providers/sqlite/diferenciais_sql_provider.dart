@@ -30,8 +30,20 @@ class DiferenciaisSqlProvider extends DiferenciaisProviderContract {
     return diferencial;
   }
 
+  @override
   Future<bool> deleteDiferencial(String id) async {
     final changedRows = await _table.filter((f) => f.id(id)).delete();
     return changedRows > 0;
+  }
+
+  @override
+  Future<List<DiferenciaisDto>> insertMany(
+    List<DiferenciaisDto> difList,
+  ) async {
+    await _db.batch((batch) {
+      batch.insertAll(_db.dbDiferenciais, difList.map((d) => d.toCompanion()));
+    });
+
+    return difList;
   }
 }

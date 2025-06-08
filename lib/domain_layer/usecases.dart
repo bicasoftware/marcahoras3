@@ -2,6 +2,7 @@ library usecases;
 
 export 'usecases/calendar/calendar_page_generator_usecase.dart';
 export 'usecases/diferenciais/diferencial_delete_usecase.dart';
+export 'usecases/diferenciais/diferencial_insert_many_usecase.dart';
 export 'usecases/diferenciais/diferencial_save_usecase.dart';
 export 'usecases/diferenciais/diferencial_update_usecase.dart';
 export 'usecases/empregos/emprego_add_usecase.dart';

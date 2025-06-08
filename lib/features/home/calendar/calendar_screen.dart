@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sane_uuid/uuid.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
@@ -109,8 +110,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
     await Navigator.of(context).pushNamed(
       Routes.empregosDetail,
       arguments: isInsert
-          ? EmpregosArguments.empty()
-          : EmpregosArguments(bloc.state.currentEmprego),
+          ? EmpregosArguments(
+              Empregos(
+                id: Uuid.v4().toString(),
+              ),
+              true,
+            )
+          : EmpregosArguments(bloc.state.currentEmprego, false),
     );
 
     bloc.load();
@@ -274,8 +280,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               const SizedBox(height: 12),
               Expanded(
                 child: HorasList(
-                  diferenciais:
-                      bloc.state.currentEmprego.diferenciaisList,
+                  diferenciais: bloc.state.currentEmprego.diferenciaisList,
                   isList: true,
                   bancoHoras: bloc.state.bancoHoras,
                   horas: bloc.state.reportShortData(),

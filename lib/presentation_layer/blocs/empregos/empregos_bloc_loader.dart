@@ -20,7 +20,7 @@ class _EmpregosBlocLoaderState extends State<EmpregosBlocLoader> {
   @override
   Widget build(BuildContext context) {
     final empregoArgs =
-        ModalRoute.of(context)?.settings.arguments as EmpregosArguments?;
+        ModalRoute.of(context)?.settings.arguments as EmpregosArguments;
     final empregoRepo = EmpregoRepository(AppConfig.shared.empregosProvider!);
     final salarioRepo = SalariosRepository(
       provider: AppConfig.shared.salariosProvider!,
@@ -44,10 +44,11 @@ class _EmpregosBlocLoaderState extends State<EmpregosBlocLoader> {
         diferencialDeleteUseCase: DiferencialDeleteUseCase(difRepo),
         diferencialSaveUseCase: DiferencialSaveUseCase(difRepo),
         diferencialUpdateUseCase: DiferencialUpdateUseCase(difRepo),
+        diferencialInsertManyUseCase: DiferencialInsertManyUseCase(difRepo),
         horaFixoDeleteUseCase: HoraFixoDeleteUseCase(fixoRepo),
         horaFixoSaveUseCase: HoraFixoSaveUseCase(fixoRepo),
         horaFixoUpdateUseCase: HoraFixoUpdateUseCase(fixoRepo),
-      )..load(empregoArgs?.emprego),
+      )..load(emprego: empregoArgs.emprego!, isInsert: empregoArgs.isInsert),
       child: widget.child,
     );
   }

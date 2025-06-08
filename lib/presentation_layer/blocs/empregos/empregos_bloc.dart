@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sane_uuid/uuid.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../domain_layer/usecases.dart';
@@ -15,6 +16,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   final DiferencialSaveUseCase _diferencialSaveUseCase;
   final DiferencialDeleteUseCase _diferencialDeleteUseCase;
   final DiferencialUpdateUseCase _diferencialUpdateUseCase;
+  final DiferencialInsertManyUseCase _diferencialInsertManyUseCase;
   final HoraFixoDeleteUseCase _horaFixoDeleteUseCase;
   final HoraFixoSaveUseCase _horaFixoSaveUseCase;
   final HoraFixoUpdateUseCase _horaFixoUpdateUseCase;
@@ -31,6 +33,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
     required HoraFixoDeleteUseCase horaFixoDeleteUseCase,
     required HoraFixoSaveUseCase horaFixoSaveUseCase,
     required HoraFixoUpdateUseCase horaFixoUpdateUseCase,
+    required DiferencialInsertManyUseCase diferencialInsertManyUseCase,
   }) : _insertUseCase = insertUseCase,
        _updateUseCase = updateUseCase,
        _salariosUpdateUseCase = salariosUpdateUseCase,
@@ -41,7 +44,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
        _horaFixoUpdateUseCase = horaFixoUpdateUseCase,
 
        _diferencialSaveUseCase = diferencialSaveUseCase,
-
+       _diferencialInsertManyUseCase = diferencialInsertManyUseCase,
        _diferencialDeleteUseCase = diferencialDeleteUseCase,
        _diferencialUpdateUseCase = diferencialUpdateUseCase,
        super(
@@ -52,13 +55,13 @@ class EmpregosBloc extends Cubit<EmpregosState> {
          ),
        );
 
-  void load([Empregos? emprego]) {
+  void load({required Empregos emprego, required bool isInsert}) {
     emit(
       state.copyWith(
-        emprego: emprego ?? Empregos(),
-        isEditing: emprego != null,
-        useValorFixo: emprego?.horaFixoList.isNotEmpty ?? false,
-        valorFixo: emprego?.getCurrentValorFixo() ?? (0, 0),
+        emprego: emprego,
+        isEditing: !isInsert,
+        useValorFixo: emprego.horaFixoList.isNotEmpty,
+        valorFixo: emprego.getCurrentValorFixo() ?? (0, 0),
       ),
     );
   }
@@ -162,9 +165,13 @@ class EmpregosBloc extends Cubit<EmpregosState> {
             )
           : null;
 
+      /// TODO - verificar pq não está salvando a nova lista
+      await _diferencialInsertManyUseCase(state.emprego.diferenciaisList);
+
       final updatedEmprego = newEmprego.copyWith(
         salarios: [firstSalario],
         horaFixoList: valorFixado != null ? [valorFixado] : [],
+        diferenciaisList: state.emprego.diferenciaisList,
       );
 
       /// Finally we emit a new state
@@ -282,7 +289,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
         status: StateSuccessStatus(),
         emprego: state.emprego.copyWith(salarios: salariosList),
       );
-    });    
+    });
   }
 
   /// CRUD for [HoraFixo]
@@ -375,20 +382,23 @@ class EmpregosBloc extends Cubit<EmpregosState> {
     required int porc,
     required int weekDay,
     required Color color,
-  }) async { 
+  }) async {
     return _prepareState(() async {
-      /// Calls the [DiferencialSaveUseCase]
-      final newDif = await _diferencialSaveUseCase(
-        Diferenciais(
-          idEmprego: state.emprego.id!,
-          percentage: porc,
-          weekday: weekDay,
-          color: color,
-        ),
+      Diferenciais? dif = Diferenciais(
+        id: Uuid.v4().toString(),
+        idEmprego: state.emprego.id!,
+        percentage: porc,
+        weekday: weekDay,
+        color: color,
       );
 
+      /// If is not editing the [Empregos] don't call the provider
+      if (state.isEditing) {
+        dif = await _diferencialSaveUseCase(dif);
+      }
+
       /// Creates a new List<[Diferenciais]> with the new value
-      final difList = [...state.emprego.diferenciaisList, ?newDif];
+      final difList = [...state.emprego.diferenciaisList, ?dif];
 
       return state.copyWith(
         status: StateSuccessStatus(),
@@ -400,15 +410,16 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   /// Updates a [Diferenciais] instance
   Future<void> updateDiferenciais(Diferenciais diferencial) async {
     return _prepareState(() async {
-      /// Updates the [Diferenciais] model
-      final updatedDif = await _diferencialUpdateUseCase(diferencial);
+      Diferenciais? dif = diferencial.copyWith();
 
-      var difList = state.emprego.diferenciaisList.iCopy();
+      if (state.isEditing) dif = await _diferencialUpdateUseCase(diferencial);
 
-      if (updatedDif != null) {
+      List<Diferenciais> difList = state.emprego.diferenciaisList.iCopy();
+
+      if (dif != null) {
         /// Creates a new List<[Diferenciais]> with the updated value
         difList = difList.iUpdateWhere(
-          newItem: updatedDif,
+          newItem: dif,
           where: (d) => d.id == diferencial.id,
         );
       }
@@ -424,8 +435,9 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   /// Delete the [Diferenciais] model
   Future<void> deleteDiferenciais(Diferenciais diferenciais) async {
     return _prepareState(() async {
-      /// Calls the Delete [DiferenciaisDeleteUsecase]
-      final deleted = await _diferencialDeleteUseCase(diferenciais.id!);
+      final deleted = state.isEditing
+          ? await _diferencialDeleteUseCase(diferenciais.id!)
+          : true;
 
       final difList = await state.emprego.diferenciaisList.iCopy();
 

@@ -22,4 +22,8 @@ class DiferenciaisRepository {
   Future<bool> deleteDiferencial(String id) async {
     return await _provider.deleteDiferencial(id);
   }
+
+  Future<void> insertMany(List<Diferenciais> difList) async {
+    await _provider.insertMany(difList.map((d) => d.toDto()).toList());
+  }
 }

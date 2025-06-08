@@ -21,12 +21,11 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
 
   @override
   Future<EmpregosDto> create(EmpregosDto e) async {
-    final newId = Uuid.v4().toString();
     final createdAt = DateTime.now();
     await _table.create(
-      (it) => e.toCompanion(newId: newId, createdAt: createdAt),
+      (it) => e.toCompanion(createdAt: createdAt),
     );
-    return e.copyWith(id: newId);
+    return e.copyWith();
   }
 
   @override
