@@ -1,4 +1,5 @@
 import 'package:marcahoras3/data_layer/mappers/diferenciais_mapper.dart';
+import 'package:marcahoras3/utils/uuid_factory.dart';
 
 import '../../domain_layer/contracts.dart';
 import '../../domain_layer/models/diferenciais.dart';
@@ -10,7 +11,8 @@ class DiferenciaisRepository {
     : _provider = provider;
 
   Future<Diferenciais?> saveDiferencial(Diferenciais diferencial) async {
-    final data = await _provider.insertDiferencial(diferencial.toDto());
+    final newId = UuidFactory.build();
+    final data = await _provider.insertDiferencial(diferencial.toDto(newId));
     return Diferenciais.fromDTO(data);
   }
 

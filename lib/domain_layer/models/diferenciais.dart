@@ -26,7 +26,7 @@ class Diferenciais {
       weekday: dto.weekday ?? 0,
       percentage: dto.percentage ?? 50,
       color: dto.color != null
-          ? Color(dto.color!)
+          ? Color(int.parse(dto.color!))
           : AppColors.porcDiferenciadaColor,
     );
   }

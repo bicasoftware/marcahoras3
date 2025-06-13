@@ -10,8 +10,8 @@ extension HoraFixoDtoMapper on HoraFixoDto {
     return DbHoraFixoCompanion(
       id: Value(newId!),
       idEmprego: Value(idEmprego!),
-      valorNormal: Value(valorNormal ?? 0.0),
-      valorFeriado: Value(valorFeriado ?? 0.0),
+      valorNormal: Value(valorNormal?.toDouble() ?? 0.0),
+      valorFeriado: Value(valorFeriado?.toDouble() ?? 0.0),
       vigencia: Value(vigencia!),
     );
   }
@@ -20,17 +20,17 @@ extension HoraFixoDtoMapper on HoraFixoDto {
     return HoraFixo(
       id: id,
       idEmprego: idEmprego!,
-      valorNormal: valorNormal ?? 0.0,
-      valorFeriado: valorFeriado ?? 0.0,
+      valorNormal: valorNormal?.toDouble() ?? 0.0,
+      valorFeriado: valorFeriado?.toDouble() ?? 0.0,
       vigencia: parseVigencia(vigencia!),
     );
   }
 }
 
 extension HoraFixoModelMapper on HoraFixo {
-  HoraFixoDto toDto() {
+  HoraFixoDto toDto([String? newId]) {
     return HoraFixoDto(
-      id: id,
+      id: newId ?? id,
       idEmprego: idEmprego,
       valorNormal: valorNormal,
       valorFeriado: valorFeriado,

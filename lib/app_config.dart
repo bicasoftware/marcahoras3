@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'domain_layer/contracts.dart';
 
-enum Flavor { offline, online, sqlite }
+enum Flavor { offline, online, sqlite, desktop }
 
 class AppConfig {
   String appName = '';

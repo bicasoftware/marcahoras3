@@ -6,7 +6,7 @@ class DiferenciaisDto {
   final String? idEmprego;
   final int? weekday;
   final int? percentage;
-  final int? color;
+  final String? color;
 
   DiferenciaisDto({
     required this.id,
@@ -22,6 +22,7 @@ class DiferenciaisDto {
       'emprego_id': idEmprego,
       'weekday': weekday,
       'percentage': percentage,
+      'color': color,
     };
   }
 
@@ -35,6 +36,10 @@ class DiferenciaisDto {
     );
   }
 
+  static List<Map<String, dynamic>> toJsonList(List<DiferenciaisDto> list) {
+    return list.map((d) => d.toJson()).toList();
+  }
+
   static List<DiferenciaisDto> fromJsonList(List<dynamic> jsonList) {
     return jsonList
         .map((json) => DiferenciaisDto.fromJson(json as Map<String, dynamic>))
@@ -46,7 +51,7 @@ class DiferenciaisDto {
     String? idEmprego,
     int? weekday,
     int? percentage,
-    int? color,
+    String? color,
   }) {
     return DiferenciaisDto(
       id: id ?? this.id,

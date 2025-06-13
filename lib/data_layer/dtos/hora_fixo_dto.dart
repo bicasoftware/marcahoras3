@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 class HoraFixoDto {
   final String? id;
   final String? idEmprego;
-  final double? valorNormal;
-  final double? valorFeriado;
+  final num? valorNormal;
+  final num? valorFeriado;
   final String? vigencia;
 
   HoraFixoDto({
@@ -19,9 +19,9 @@ class HoraFixoDto {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'id_emprego': idEmprego,
+      'emprego_id': idEmprego,
       'valor_normal': valorNormal,
-      'valor_feriado': valorFeriado,
+      'valor_feriados': valorFeriado,
       'vigencia': vigencia,
     };
   }
@@ -29,9 +29,9 @@ class HoraFixoDto {
   factory HoraFixoDto.fromJson(Map<String, dynamic> json) {
     return HoraFixoDto(
       id: json['id'],
-      idEmprego: json['id_emprego'],
-      valorNormal: json['valor_normal'],
-      valorFeriado: json['valor_feriado'],
+      idEmprego: json['emprego_id'],
+      valorNormal: (json['valor_normal'] ?? 0.0) as num,
+      valorFeriado: (json['valor_feriados'] ?? 0.0) as num,
       vigencia: json['vigencia'],
     );
   }

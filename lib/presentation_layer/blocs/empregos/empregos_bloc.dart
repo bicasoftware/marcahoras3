@@ -165,8 +165,8 @@ class EmpregosBloc extends Cubit<EmpregosState> {
             )
           : null;
 
-      /// TODO - verificar pq não está salvando a nova lista
-      await _diferencialInsertManyUseCase(state.emprego.diferenciaisList);
+      if (state.emprego.diferenciaisList.isNotEmpty)
+        await _diferencialInsertManyUseCase(state.emprego.diferenciaisList);
 
       final updatedEmprego = newEmprego.copyWith(
         salarios: [firstSalario],

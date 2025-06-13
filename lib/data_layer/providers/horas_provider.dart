@@ -16,7 +16,7 @@ class HorasProvider implements HorasProviderContract {
       _route,
       method: WebMethod.get,
       queryParams: {
-        "emprego": empregoId,
+        "emprego_id": empregoId,
         "from": from,
         "to": to,
       },

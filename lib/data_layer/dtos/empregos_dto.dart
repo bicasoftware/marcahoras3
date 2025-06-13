@@ -101,8 +101,8 @@ class EmpregosDto extends Equatable {
       salarios: map['salarios'] != null
           ? SalariosDto.fromJsonList(map['salarios'])
           : [],
-      horaFixoList: map['hora_fixo'] != null
-          ? HoraFixoDto.fromJsonList(map['hora_fixo'])
+      horaFixoList: map['horas_fixo'] != null
+          ? HoraFixoDto.fromJsonList(map['horas_fixo'])
           : [],
       diferenciaisList: map['diferenciais'] != null
           ? DiferenciaisDto.fromJsonList(map['diferenciais'])

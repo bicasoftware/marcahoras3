@@ -23,19 +23,19 @@ extension DiferenciaisDtoMapper on DiferenciaisDto {
       idEmprego: idEmprego ?? '',
       percentage: percentage ?? 50,
       weekday: weekday ?? 0,
-      color: color != null ? Color(color!) : AppColors.porcDiferenciadaColor,
+      color: color != null ? Color(int.parse(color!)) : AppColors.porcDiferenciadaColor,
     );
   }
 }
 
 extension DiferenciaisModelMapper on Diferenciais {
-  DiferenciaisDto toDto() {
+  DiferenciaisDto toDto([String? newId]) {
     return DiferenciaisDto(
       id: id,
       idEmprego: idEmprego,
       weekday: weekday,
       percentage: percentage,
-      color: color.toARGB32(),
+      color: color.toARGB32().toString(),
     );
   }
 }

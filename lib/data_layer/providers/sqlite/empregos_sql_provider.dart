@@ -1,8 +1,7 @@
 import 'package:drift/drift.dart';
-import 'package:marcahoras3/utils/date_utils.dart';
-import 'package:sane_uuid/uuid.dart';
 
 import '../../../domain_layer/contracts.dart';
+import '../../../utils.dart';
 import '../../database/db_connector_drift.dart';
 import '../../dtos.dart';
 import '../../mappers.dart';

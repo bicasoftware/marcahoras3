@@ -1,3 +1,5 @@
+import 'package:marcahoras3/utils/uuid_factory.dart';
+
 import '../../domain_layer/contracts.dart';
 import '../../domain_layer/models/hora_fixo.dart';
 import '../mappers/hora_fixo_mapper.dart';
@@ -9,7 +11,8 @@ class HoraFixoRepository {
     : _provider = provider;
 
   Future<HoraFixo?> saveHoraFixo(HoraFixo horaFixo) async {
-    final fixo = await _provider.insertHoraFixo(horaFixo.toDto());
+    final newId = UuidFactory.build();
+    final fixo = await _provider.insertHoraFixo(horaFixo.toDto(newId));
     return fixo.toModel();
   }
 

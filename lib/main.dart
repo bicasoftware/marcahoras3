@@ -1,19 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:marcahoras3/features/home/calendar/calendar_screen.dart';
-import 'package:marcahoras3/presentation_layer/blocs/empregos/empregos_bloc_loader.dart';
-import 'package:marcahoras3/widgets/transtions/sh_fade_transition.dart';
+import 'package:marcahoras3/presentation_layer/blocs/registration/registration_bloc_loader.dart';
 
 import 'app_config.dart';
 import 'features/empregos/empregos_screen.dart';
+import 'features/home/calendar/calendar_screen.dart';
 import 'features/registration/login/login_screen.dart';
 import 'features/registration/register/register_screen.dart';
 import 'features/relatorio/relatorio_screen.dart';
+import 'presentation_layer/blocs/empregos/empregos_bloc_loader.dart';
 import 'presentation_layer/blocs/home/home_bloc_loader.dart';
 import 'resources.dart';
 import 'routes.dart';
 import 'utils.dart';
+import 'widgets/transtions/sh_fade_transition.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -52,10 +53,15 @@ class HorasApp extends StatelessWidget {
         supportedLocales: const [Locale('pt', 'BR'), Locale('en', 'US')],
         initialRoute: _getMainRoute(vault),
         routes: {
-          Routes.registration: (_) => const RegisterScreen(),
-          Routes.login: (_) => const LoginScreen(),
-          Routes.empregosDetail:
-              (_) => EmpregosBlocLoader(child: const EmpregosScreen()),
+          Routes.registration: (_) {
+            return RegistrationBlocLoader(child: RegisterScreen());
+          },
+          Routes.login: (_) {
+            return RegistrationBlocLoader(child: LoginScreen());
+          },
+          Routes.empregosDetail: (_) {
+            return EmpregosBlocLoader(child: const EmpregosScreen());
+          },
           Routes.relatorio: (_) => const RelatorioScreen(),
           Routes.calendar: (_) => const CalendarScreen(),
         },

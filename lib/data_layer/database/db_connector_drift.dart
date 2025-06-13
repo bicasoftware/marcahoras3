@@ -61,7 +61,7 @@ class DbDiferenciais extends Table {
   TextColumn get idEmprego => text().references(DbEmpregos, #id)();
   IntColumn get weekday => integer()();
   IntColumn get percentage => integer()();
-  IntColumn get color => integer()();
+  TextColumn get color => text()();
 }
 
 class DbHoraFixo extends Table {
@@ -70,7 +70,7 @@ class DbHoraFixo extends Table {
   TextColumn get idEmprego => text().references(DbEmpregos, #id)();
   @JsonKey('valor_normal')
   RealColumn get valorNormal => real().withDefault(Constant(0.0))();
-  @JsonKey('valor_feriado')
+  @JsonKey('valor_feriados')
   RealColumn get valorFeriado => real().withDefault(Constant(0.0))();
   TextColumn get vigencia => text()();
 }

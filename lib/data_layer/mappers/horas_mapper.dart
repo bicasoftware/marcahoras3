@@ -34,7 +34,7 @@ extension HorasMapper on HorasDto {
 }
 
 extension HorasDtoMapper on Horas {
-  HorasDto toHorasDto() {
+  HorasDto toHorasDto([String? newId]) {
     return HorasDto(
       data: data,
       empregoId: empregoId,
@@ -42,7 +42,7 @@ extension HorasDtoMapper on Horas {
       termino: TimeOfDayHelper.formatTime(termino, true),
       tipoHora: tipoHora.letter,
       horaStatus: horaStatus.letter,
-      id: id,
+      id: newId ?? id,
     );
   }
 }

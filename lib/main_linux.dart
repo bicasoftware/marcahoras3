@@ -37,7 +37,7 @@ void main() async {
     appName: 'Marca Horas',
     appVersion: '0.0.1',
     appColor: Colors.red,
-    flavor: Flavor.online,
+    flavor: Flavor.desktop,
     empregosProvider: EmpregosProvider(connector),
     horasProvider: HorasProvider(connector: connector),
     salariosProvider: SalariosProvider(connector: connector),

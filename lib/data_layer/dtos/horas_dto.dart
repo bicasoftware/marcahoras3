@@ -21,7 +21,7 @@ class HorasDto {
     this.termino,
     this.tipoHora,
     this.createdAt,
-    this.horaStatus
+    this.horaStatus,
   });
 
   JsonObj toJson() {
@@ -32,9 +32,8 @@ class HorasDto {
       'termino': termino,
       'tipo_hora': tipoHora,
       'hora_status': horaStatus,
+      'id': ?id,
     };
-
-    if (id != null) map['id'] = id;
 
     return map;
   }
@@ -43,18 +42,18 @@ class HorasDto {
     return HorasDto(
       id: map['id'] != null ? map['id'] as String : "",
       empregoId: map['emprego_id'] != null ? map['emprego_id'] as String : "",
-      data:
-          map['data'] is int
-              ? getDateFromMillis(map['data'])
-              : parseDate(map['data']),
+      data: map['data'] is int
+          ? getDateFromMillis(map['data'])
+          : parseDate(map['data']),
       inicio: map['inicio'] != null ? map['inicio'] as String : null,
       termino: map['termino'] != null ? map['termino'] as String : null,
       tipoHora: map['tipo_hora'] != null ? map['tipo_hora'] as String : null,
-      horaStatus: map['status_hora'] != null ? map['status_hora'] as String : null,      
-      createdAt:
-          map['created_at'] is int
-              ? getDateFromMillis(map['created_at'])
-              : parseDate(map['created_at']),
+      horaStatus: map['status_hora'] != null
+          ? map['status_hora'] as String
+          : null,
+      createdAt: map['created_at'] is int
+          ? getDateFromMillis(map['created_at'])
+          : parseDate(map['created_at']),
     );
   }
 

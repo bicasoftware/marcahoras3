@@ -1,5 +1,6 @@
 import '../../domain_layer/contracts.dart';
 import '../../domain_layer/models.dart';
+import '../../utils.dart';
 import '../mappers/horas_mapper.dart';
 
 class HorasRepository implements HorasContract {
@@ -11,7 +12,8 @@ class HorasRepository implements HorasContract {
 
   @override
   Future<Horas> create(Horas horas) async {
-    final result = await _provider.create(horas.toHorasDto());
+    final newId = UuidFactory.build();
+    final result = await _provider.create(horas.toHorasDto(newId));
     return result.toHoras();
   }
 
