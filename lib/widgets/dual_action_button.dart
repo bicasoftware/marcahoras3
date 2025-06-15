@@ -5,7 +5,6 @@ class DualActionButton extends StatelessWidget {
   final Icon firstIcon, secondIcon;
   final VoidCallback onFirstTap, onSecondTap;
   final Color firstColor, secondColor;
-  final String? firstHeroTag, secondHeroTag;
   final EdgeInsets padding;
 
   const DualActionButton({
@@ -17,73 +16,53 @@ class DualActionButton extends StatelessWidget {
     required this.secondIcon,
     required this.secondColor,
     required this.onSecondTap,
-    this.padding = const EdgeInsets.symmetric(horizontal: 12),
-    this.firstHeroTag,
-    this.secondHeroTag,
+    this.padding = const EdgeInsets.symmetric(horizontal: 8),
   });
-
-  List<BoxShadow> get shadow => [
-        BoxShadow(
-          color: Colors.black26,
-          blurRadius: .5,
-          offset: Offset(.8, .8),
-          spreadRadius: .5,
-        )
-      ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 36,
       padding: padding,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(32)),
-      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            child: Hero(
-              tag: "$firstHeroTag",
-              child: Container(
-                decoration: BoxDecoration(
-                  color: firstColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(32),
-                    topLeft: Radius.circular(32),
-                  ),
-                  boxShadow: shadow,
+            child: Container(
+              decoration: BoxDecoration(
+                color: firstColor,
+                border: Border.all(color: Colors.black12),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(8),
+                  topLeft: Radius.circular(8),
                 ),
-                child: TextButton.icon(
-                  label: firstLabel,
-                  icon: firstIcon,
-                  onPressed: onFirstTap,
-                ),
+              ),
+              child: TextButton.icon(
+                label: firstLabel,
+                icon: firstIcon,
+                onPressed: onFirstTap,
               ),
             ),
           ),
           VerticalDivider(
-            width: 1,
+            width: 2,
           ),
           Expanded(
-            child: Hero(
-              tag: "$secondHeroTag",
-              child: Container(
-                decoration: BoxDecoration(
-                  color: secondColor,
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(32),
-                    topRight: Radius.circular(32),
-                  ),
-                  boxShadow: shadow,
+            child: Container(
+              decoration: BoxDecoration(
+                color: secondColor,
+                border: Border.all(color: Colors.black12),
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(8),
+                  topRight: Radius.circular(8),
                 ),
-                child: TextButton.icon(
-                  label: secondLabel,
-                  icon: secondIcon,
-                  onPressed: onSecondTap,
-                ),
+              ),
+              child: TextButton.icon(
+                label: secondLabel,
+                icon: secondIcon,
+                onPressed: onSecondTap,
               ),
             ),
           ),

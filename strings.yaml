@@ -134,7 +134,7 @@ empregosEmpty:
   pt_BR: Por favor, adicione um novo Emprego
   en_US: Please add a new Job
 adicionarEmprego:
-  pt_BR: Adicionar
+  pt_BR: Adicionar Emprego
   en_US: Add    
 adicionar:
   pt_BR: Adicionar
@@ -358,6 +358,9 @@ reportFooterTempo:
 reportFooterValor:
   pt_BR: "Total a receber - {VALOR}"
   en_US: "Amount to receive - {VALOR}"
+gerarPDF:
+  pt_BR: Gerar PDF
+  en_US: Make PDF
 months:
   pt_BR:
     - Janeiro

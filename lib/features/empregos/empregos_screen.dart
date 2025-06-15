@@ -86,7 +86,7 @@ class _EmpregosScreenState extends State<EmpregosScreen>
     return Scaffold(
       appBar: ShAppBar(
         label: !bloc.state.isEditing
-            ? Localiza.find("adicionarEmprego")
+            ? Localiza.find("adicionar")
             : Localiza.find("editarEmprego"),
         actions: [
           IconButton(

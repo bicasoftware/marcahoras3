@@ -1,47 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/app_config.dart';
+import 'package:marcahoras3/features/relatorio/relatorio_screen_presenter.dart';
 
-import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
 import '../../resources.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
-import 'pdf_preview_screen.dart';
 import 'widgets/relatorio_horas_list.dart';
 import 'widgets/relatorio_totalizer.dart';
 
-class RelatorioScreen extends StatelessWidget {
+class RelatorioScreen extends StatelessWidget with RelatorioScreenPresenter {
   const RelatorioScreen({super.key});
-
-  void _showPdfPreview({
-    required BuildContext context,
-    required ReportModel reportModel,
-    required String vigencia,
-    required Locale locale,
-  }) async {
-    final data = await PdfGenerator.generate(
-      report: reportModel,
-      title: Localiza.findAndReplace(
-        stringKey: 'reportHeader',
-        findString: '{DATA}',
-        replaceWithKey: vigencia,
-      ),
-      locale: locale,
-    );
-
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) {
-          return PdfPreviewScreen(
-            title: "PDF - Prévia",
-            pdfData: data,
-            fileName:
-                "horas_${vigencia.replaceAll(' ', '_').toLowerCase()}.pdf",
-          );
-        },
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,52 +21,56 @@ class RelatorioScreen extends StatelessWidget {
     final reportModel = bloc.state.getReportPage();
     final diferenciais = bloc.state.currentEmprego.diferenciaisList;
 
-    final String vigencia = formatVigencia(
-      bloc.state.year,
-      bloc.state.month,
-      locale,
-      'MMMM/yyyy',
-    ).toCamelCase();
+    final String vigencia = formatPDFVigencia(bloc, locale);
+
+    bool _isMobile() {
+      return AppConfig.shared.flavor != Flavor.desktop;
+    }
 
     return SafeArea(
       top: false,
       bottom: false,
       child: Scaffold(
-        appBar: ShAppBar(
-          label: Localiza.find('relatorios'),
-          elevation: 0,
-          roundedCorner: true,
-          centerTitle: true,
-        ),
+        appBar: AppConfig.shared.flavor != Flavor.desktop
+            ? ShAppBar(
+                label: Localiza.find('relatorios'),
+                elevation: 0,
+                roundedCorner: true,
+                centerTitle: true,
+              )
+            : null,
         bottomNavigationBar: TotalsContainer(report: reportModel),
-        floatingActionButton: FloatingActionButton(
-          heroTag: "plus_button",
-          onPressed: () {
-            _showPdfPreview(
-              context: context,
-              locale: locale,
-              vigencia: vigencia,
-              reportModel: reportModel,
-            );
-          },
-          child: Icon(Icons.picture_as_pdf, color: AppColors.onSecondary),
-          backgroundColor: AppColors.secondary,
-        ),
+        floatingActionButton: _isMobile()
+            ? FloatingActionButton(
+                onPressed: () {
+                  showPdfPreview(
+                    context: context,
+                    locale: locale,
+                    vigencia: vigencia,
+                    reportModel: reportModel,
+                  );
+                },
+                child: Icon(Icons.picture_as_pdf, color: AppColors.onSecondary),
+                backgroundColor: AppColors.secondary,
+              )
+            : null,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: EdgeInsets.only(left: 12, right: 12, top: 16),
-              child: Text(
-                vigencia,
-                style: theme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.onSurfaceVariant,
-                  fontSize: 18,
+            if (_isMobile()) ...[
+              Padding(
+                padding: EdgeInsets.only(left: 12, right: 12, top: 16),
+                child: Text(
+                  vigencia,
+                  style: theme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.onSurfaceVariant,
+                    fontSize: 18,
+                  ),
                 ),
               ),
-            ),
-            const Divider(indent: 12, endIndent: 12),
+              const Divider(indent: 12, endIndent: 12),
+            ],
             Expanded(
               child: RelatorioHorasList(
                 horas: reportModel.hours,

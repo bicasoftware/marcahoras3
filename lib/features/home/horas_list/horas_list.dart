@@ -34,7 +34,7 @@ class _HorasListState extends State<HorasList> {
       children: widget.horas
           .map(
             (h) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: OvertimeListTile(
                 horaType: h.type,
                 horaStatus: h.hora.horaStatus,

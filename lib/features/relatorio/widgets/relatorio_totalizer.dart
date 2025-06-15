@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../app_config.dart';
 import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
 import '../../../utils.dart';
@@ -16,11 +17,14 @@ class TotalsContainer extends StatefulWidget {
 
 class _TotalsContainerState extends State<TotalsContainer> {
   late final ExpansibleController _controller;
-  
 
   @override
   void initState() {
     _controller = ExpansibleController();
+    if (AppConfig.shared.flavor == Flavor.desktop) {
+      _controller.expand();
+    }
+
     super.initState();
   }
 
@@ -31,6 +35,7 @@ class _TotalsContainerState extends State<TotalsContainer> {
   }
 
   void _toggleExpansion() {
+    if (AppConfig.shared.flavor == Flavor.desktop) return;
     _controller.isExpanded ? _controller.collapse() : _controller.expand();
   }
 

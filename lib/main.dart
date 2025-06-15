@@ -1,16 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:marcahoras3/presentation_layer/blocs/registration/registration_bloc_loader.dart';
 
 import 'app_config.dart';
 import 'features/empregos/empregos_screen.dart';
 import 'features/home/calendar/calendar_screen.dart';
+import 'features/home/calendar/calendar_screen_desktop.dart';
 import 'features/registration/login/login_screen.dart';
 import 'features/registration/register/register_screen.dart';
 import 'features/relatorio/relatorio_screen.dart';
 import 'presentation_layer/blocs/empregos/empregos_bloc_loader.dart';
 import 'presentation_layer/blocs/home/home_bloc_loader.dart';
+import 'presentation_layer/blocs/registration/registration_bloc_loader.dart';
 import 'resources.dart';
 import 'routes.dart';
 import 'utils.dart';
@@ -63,7 +64,17 @@ class HorasApp extends StatelessWidget {
             return EmpregosBlocLoader(child: const EmpregosScreen());
           },
           Routes.relatorio: (_) => const RelatorioScreen(),
-          Routes.calendar: (_) => const CalendarScreen(),
+          Routes.calendar: (_) {
+            /// TODO - revisar
+            if ([
+              Flavor.desktop,
+              Flavor.web,
+            ].contains(AppConfig.shared.flavor)) {
+              return CalendarScreenDesktop();
+            }
+
+            return const CalendarScreen();
+          },
         },
         onGenerateRoute: (settings) {
           switch (ERoutes.fromRouteName(settings.name)) {
