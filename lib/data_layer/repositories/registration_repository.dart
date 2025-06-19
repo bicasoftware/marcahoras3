@@ -1,6 +1,6 @@
-import 'package:marcahoras3/data_layer/dtos/authentication_data_dto.dart';
-import 'package:marcahoras3/domain_layer/contracts/register_contract.dart';
-
+import '../../domain_layer/contracts.dart';
+import '../../utils.dart';
+import '../dtos.dart';
 import '../providers.dart';
 
 class RegistrationRepository implements RegisterContract {
@@ -12,21 +12,33 @@ class RegistrationRepository implements RegisterContract {
 
   @override
   Future<AuthenticationDataDto> login(String email, String password) async {
-    final data = await _provider.login(
+    return await _provider.login(
       email: email,
       password: password,
     );
-
-    return data;
   }
 
   @override
   Future<AuthenticationDataDto> register(String email, String password) async {
-    final data = await _provider.register(
+    return await _provider.register(
       email: email,
       password: password,
     );
+  }
 
-    return data;
+  @override
+  Future<bool> refresh() async {
+    final vault = Vault();
+    if (!(vault.isLoggedIn && vault.hasRefreshToken)) return false;
+
+    /// Calls the [RegistrationProvider] and awaits
+    final result = await _provider.refreshToken();
+
+    await VaultManager.refreshVault(
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
+    );
+
+    return true;
   }
 }

@@ -26,9 +26,6 @@ void main() async {
 
   connector.addInterceptor(InvalidUserInterceptor());
 
-  final vault = Vault();
-  connector.token = vault.token;
-
   final y = await rootBundle.loadString('strings.yaml');
   final parsedY = loadYaml(y);
   Localiza().init(parsedY, Platform.localeName);

@@ -61,11 +61,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: BlocHelper<RegistrationBloc, RegistrationState>(
           bloc: bloc,
           onError: (error) {
-            SnackBar(
-              content: Text(error, style: theme.labelLarge),
-              elevation: 2,
-              backgroundColor: AppColors.onPrimary,
-            );
+            Navigator.of(context).pop();
+            context.showFloatingMessage(error, MessageType.warning);            
           },
           child: Form(
             key: _formKey,

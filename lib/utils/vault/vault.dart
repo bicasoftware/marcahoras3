@@ -10,12 +10,14 @@ class Vault {
 
   bool get isLoggedIn => token.isNotEmpty;
 
+  bool get hasRefreshToken => this.refreshToken.isNotEmpty;
+
   void setVaultData({
     required String token,
     required String refreshToken,
   }) {
     _token = token;
-    _refreshToken = _refreshToken;
+    _refreshToken = refreshToken;
   }
 
   void clean() {

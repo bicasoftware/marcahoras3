@@ -8,23 +8,17 @@ import 'registration_state.dart';
 class RegistrationBloc extends Cubit<RegistrationState> {
   final RegisterUserUsecase _registerUserUseCase;
   final LoginUserUsecase _loginUserUseCase;
-  final SetVaultDataUsecase _setVaultDataUseCase;
-  final ResetVaultUseCase _resetVault;
 
   RegistrationBloc({
     required RegisterUserUsecase registerUserUseCase,
     required LoginUserUsecase loginUserUseCase,
-    required SetVaultDataUsecase setVaultDataUseCase,
-    required ResetVaultUseCase resetVault,
-  })  : _registerUserUseCase = registerUserUseCase,
-        _loginUserUseCase = loginUserUseCase,
-        _setVaultDataUseCase = setVaultDataUseCase,
-        _resetVault = resetVault,
-        super(
-          RegistrationState(
-            status: StateSuccessStatus(),
-          ),
-        );
+  }) : _registerUserUseCase = registerUserUseCase,
+       _loginUserUseCase = loginUserUseCase,
+       super(
+         RegistrationState(
+           status: StateSuccessStatus(),
+         ),
+       );
 
   Future<bool> register(String email, String password) async {
     try {
@@ -39,7 +33,7 @@ class RegistrationBloc extends Cubit<RegistrationState> {
         password: password,
       );
 
-      await _setVaultDataUseCase(
+      await VaultManager.refreshVault(
         accessToken: authData.accessToken,
         refreshToken: authData.refreshToken,
       );
@@ -55,7 +49,7 @@ class RegistrationBloc extends Cubit<RegistrationState> {
       emit(
         state.copyWith(
           status: StateErrorStatus(
-            errorMsg: e.toString(),
+            errorMsg: e is WebException ? e.message : e.toString(),
           ),
         ),
       );
@@ -77,7 +71,7 @@ class RegistrationBloc extends Cubit<RegistrationState> {
         password: password,
       );
 
-      await _setVaultDataUseCase(
+      await VaultManager.refreshVault(
         accessToken: authData.accessToken,
         refreshToken: authData.refreshToken,
       );
@@ -93,7 +87,7 @@ class RegistrationBloc extends Cubit<RegistrationState> {
       emit(
         state.copyWith(
           status: StateErrorStatus(
-            errorMsg: e is WebException ? e.errorMessage : e.toString(),
+            errorMsg: e is WebException ? e.message : e.toString(),
           ),
         ),
       );
@@ -110,7 +104,7 @@ class RegistrationBloc extends Cubit<RegistrationState> {
         ),
       );
 
-      await _resetVault();
+      await VaultManager.clearVault();
 
       emit(
         state.copyWith(
@@ -121,7 +115,7 @@ class RegistrationBloc extends Cubit<RegistrationState> {
       emit(
         state.copyWith(
           status: StateErrorStatus(
-            errorMsg: e is WebException ? e.errorDetail : e.toString(),
+            errorMsg: e is WebException ? e.message : e.toString(),
           ),
         ),
       );

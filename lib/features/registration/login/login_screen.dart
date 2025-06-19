@@ -38,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       Navigator.of(context).pop();
       if (logged && mounted) {
+        context.read<HomeBloc>().load();
         Navigator.of(context).pushReplacementNamed(Routes.calendar);
       }
     }
@@ -59,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
           onError: (error) {
             setState(() => _errorMsg = error);
             Navigator.of(context).pop();
-            context.showSnackBar(error);
+            context.showFloatingMessage(error, MessageType.warning);
           },
           child: Form(
             key: _formKey,

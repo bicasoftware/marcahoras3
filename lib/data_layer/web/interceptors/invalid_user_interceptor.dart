@@ -18,9 +18,9 @@ class InvalidUserInterceptor extends Interceptor {
       throw err;
     } else if (![200, 201].contains(err.response?.statusCode)) {
       throw WebException(
-        statusCode: err.response?.statusCode ?? 0,
-        errorMessage: err.response?.statusMessage ?? '',
-        errorDetail: err.response?.data['message'] ??
+        code: err.response?.statusCode ?? 0,
+        message: err.response?.statusMessage ?? '',
+        error: err.response?.data['message'] ??
             ['Erro de comunicação com servidor'],
       );
     }

@@ -2,25 +2,30 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:marcahoras3/utils.dart';
 
+import '../../utils.dart';
+import '../providers.dart';
+import '../respositories.dart';
+import 'interceptors/auth_interceptor.dart';
 import 'web.dart';
 
 class WebConnector {
   final JsonDecoder jsonDecoder;
   final Dio http;
 
-  String? _token;
-
-  set token(String? token) => _token = token;
-
-  String? get currentToken => _token;
-
   WebConnector([String? baseUrl])
-      : jsonDecoder = const JsonDecoder(),
-        http = Dio(
-          BaseOptions(baseUrl: baseUrl ?? dotenv.get('base_url')),
-        );
+    : jsonDecoder = const JsonDecoder(),
+      http = Dio(
+        BaseOptions(baseUrl: baseUrl ?? dotenv.get('base_url')),
+      ) {
+    http.interceptors.addAll([
+      AuthInterceptor(
+        RegistrationRepository(
+          provider: RegistrationProvider(connector: this),
+        ),
+      ),
+    ]);
+  }
 
   void addInterceptor(Interceptor i) => http.interceptors.add(i);
 
@@ -68,28 +73,15 @@ class WebConnector {
 
       return _buildResponse(response);
     } on DioException catch (e) {
-      switch (e.type) {
-        case DioExceptionType.cancel:
-          return const WebResponse(
-            statusCode: 204, // No Data return cause was cancelled,
-            statusMessage: 'RequestCanceled',
-          );
-
-        case DioExceptionType.connectionTimeout:
-        case DioExceptionType.sendTimeout:
-        case DioExceptionType.receiveTimeout:
-          return const WebResponse(
-            statusCode: 500,
-            statusMessage: 'Connectivity error',
-          );
-
-        default:
-          return WebResponse(
-            statusCode: e.response?.statusCode ?? 500,
-            statusMessage: e.response?.data['message'] ?? '',
-            data: e.response,
-          );
+      if (e.type == DioExceptionType.unknown) {
+        throw e.error!;
       }
+
+      throw WebException(
+        error: e.response?.data['error'] ?? '',
+        message: e.response?.data['message'] ?? '',
+        code: e.response?.data['statusCode'] ?? 404,
+      );
     }
   }
 
@@ -103,8 +95,8 @@ class WebConnector {
 
     return WebResponse(
       data: data,
-      statusCode: response?.statusCode ?? 500,
-      statusMessage: response?.statusMessage ?? '',
+      code: response?.statusCode ?? 500,
+      message: response?.statusMessage ?? '',
     );
   }
 }

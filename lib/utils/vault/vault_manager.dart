@@ -45,4 +45,28 @@ class VaultManager {
       refreshToken: refreshToken ?? '',
     );
   }
+
+  static Future<void> refreshVault({
+    required String accessToken,
+    required String refreshToken,
+  }) async {
+    final vaultMan = VaultManager();
+    await vaultMan.addValue(VaultKeys.accessToken, accessToken);
+    await vaultMan.addValue(VaultKeys.refreshToken, refreshToken);
+
+    final vault = Vault();
+    vault.setVaultData(
+      token: accessToken,
+      refreshToken: refreshToken,
+    );
+  }
+
+  static Future<void> clearVault() async {
+    final vaultMan = VaultManager();
+    await vaultMan.deleteValue(VaultKeys.accessToken);
+    await vaultMan.deleteValue(VaultKeys.refreshToken);
+
+    final vault = Vault();
+    vault.setVaultData(token: '', refreshToken: '');
+  }
 }

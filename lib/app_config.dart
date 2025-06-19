@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'domain_layer/contracts.dart';
@@ -14,7 +15,21 @@ class AppConfig {
   SalariosProviderContract? salariosProvider;
   DiferenciaisProviderContract? diferenciaisProvider;
   HoraFixoProviderContract? fixoProvider;
+  Dio? http;
 
+  AppConfig(
+    this.appName,
+    this.appVersion,
+    this.appColor,
+    this.flavor,
+    this.empregosProvider,
+    this.salariosProvider,
+    this.horasProvider,
+    this.diferenciaisProvider,
+    this.fixoProvider,
+    this.http,
+  );
+  
   static AppConfig shared = AppConfig.create();
 
   factory AppConfig.create({
@@ -27,6 +42,7 @@ class AppConfig {
     SalariosProviderContract? salariosProvider,
     DiferenciaisProviderContract? diferenciaisProvider,
     HoraFixoProviderContract? fixoProvider,
+    Dio? http,
   }) {
     return shared = AppConfig(
       appName,
@@ -38,18 +54,8 @@ class AppConfig {
       horasProvider,
       diferenciaisProvider,
       fixoProvider,
+      http,
     );
   }
 
-  AppConfig(
-    this.appName,
-    this.appVersion,
-    this.appColor,
-    this.flavor,
-    this.empregosProvider,
-    this.salariosProvider,
-    this.horasProvider,
-    this.diferenciaisProvider,
-    this.fixoProvider,
-  );
 }

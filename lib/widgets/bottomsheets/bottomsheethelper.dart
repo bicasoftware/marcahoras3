@@ -42,7 +42,7 @@ class BottomSheetHelper {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (leading != null) leading,
+                  ?leading,
                   if (label != null)
                     Text(
                       label,

@@ -7,6 +7,7 @@ class EndPoints {
   static const String _auth = 'auth';
   static const String register = '$_auth/register';
   static const String login = '$_auth/login';
+  static const String refresh = '$_auth/refresh';
 
   /// Empregos
   static const String empregos = 'empregos';

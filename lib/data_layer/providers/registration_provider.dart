@@ -1,5 +1,6 @@
 import 'package:marcahoras3/data_layer/web/web.dart';
 
+import '../../utils.dart';
 import '../dtos.dart';
 
 class RegistrationProvider {
@@ -16,23 +17,17 @@ class RegistrationProvider {
     required String email,
     required String password,
   }) async {
-    try {
-      final response = await _connector.request(
-        EndPoints.login,
-        method: WebMethod.post,
-        data: {
-          'email': email,
-          'password': password,
-        },
-        skipAuth: true,
-      );
+    final response = await _connector.request(
+      EndPoints.login,
+      method: WebMethod.post,
+      data: {
+        'email': email,
+        'password': password,
+      },
+      skipAuth: true,
+    );
 
-      return response.isSuccess
-          ? AuthenticationDataDto.fromJson(response.data)
-          : throw response.toWebException();
-    } catch (e) {
-      rethrow;
-    }
+    return AuthenticationDataDto.fromJson(response.data);
   }
 
   /// Try to connect to the server
@@ -42,22 +37,32 @@ class RegistrationProvider {
     required String email,
     required String password,
   }) async {
-    try {
-      final WebResponse response = await _connector.request(
-        EndPoints.register,
-        method: WebMethod.post,
-        data: {
-          'email': email,
-          'password': password,
-        },
-        skipAuth: true,
-      );
+    final WebResponse response = await _connector.request(
+      EndPoints.register,
+      method: WebMethod.post,
+      data: {
+        'email': email,
+        'password': password,
+      },
+      skipAuth: true,
+    );
 
-      return response.isSuccess
-          ? AuthenticationDataDto.fromJson(response.data)
-          : throw response.toWebException();
-    } catch (e) {
-      rethrow;
-    }
+    return AuthenticationDataDto.fromJson(response.data);
+  }
+
+  /// Call the /auth/refresh endpoint and request a new pair
+  /// of RefreshToken and AccessToken
+  Future<AuthenticationDataDto> refreshToken() async {
+    final refToken = Vault().refreshToken;
+    
+    final response = await _connector.request(
+      EndPoints.refresh,
+      method: WebMethod.post,
+      data: {
+        'refresh_token': refToken,
+      }
+    );
+
+    return AuthenticationDataDto.fromJson(response.data);
   }
 }

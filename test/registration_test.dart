@@ -28,8 +28,8 @@ void main() {
 
       assert(result.accessToken != '');
     } on WebException catch (e) {
-      print(e.errorDetail);
-      print(e.errorMessage);
+      print(e.message);
+      print(e.error);
     } on DioException catch (e) {
       print('erro doidera ${e}');
     }
@@ -43,7 +43,7 @@ void main() {
       );
       print(result.accessToken);
     } on WebException catch (e) {
-      assert(e.errorMessage != '');
+      assert(e.message != '');
     }
   });
 
@@ -54,8 +54,8 @@ void main() {
 
       assert(result.accessToken != '');
     } on WebException catch (e) {
-      print(e.errorDetail);
-      print(e.errorMessage);
+      print(e.message);
+      print(e.error);
     } on DioException catch (e) {
       print('erro doidera ${e}');
     }
@@ -68,7 +68,7 @@ void main() {
       );
       print(result.accessToken);
     } on WebException catch (e) {
-      assert(e.errorMessage != '');
+      assert(e.message != '');
     }
   });
 
@@ -78,7 +78,7 @@ void main() {
       print(result.accessToken);
       assert(result.accessToken != '');
     } on WebException catch (e) {
-      assert(e.errorMessage != '');
+      assert(e.message != '');
     }
   });
   test('should fail to return token from usecase', () async {
@@ -86,7 +86,7 @@ void main() {
       final result = await loginUseCase(email: email, password: wrongPassword);
       assert(result.accessToken != '');
     } on WebException catch (e) {
-      assert(e.errorMessage != '');
+      assert(e.message != '');
     }
   });
 }

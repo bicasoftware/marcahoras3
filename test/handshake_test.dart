@@ -12,7 +12,7 @@ void main() {
     );
 
     assert((response.data?['status'] as String) == 'ok');
-    assert(response.statusCode == 200);
+    assert(response.code == 200);
   });
 
   test(
@@ -24,7 +24,7 @@ void main() {
         data: {"email": "test@test.com", "password": "123456"},
       );
 
-      final validRequest = [200, 201].contains(response.statusCode);
+      final validRequest = [200, 201].contains(response.code);
       assert(validRequest);
       assert(response.data != null);
       assert(response.data.toString().isNotEmpty);
@@ -36,7 +36,7 @@ void main() {
         assert(tokenData.refreshToken.isEmpty);
       } else {
         throw Exception(
-          "Invalid Status Code - ${response.statusCode} - with ${response.data}",
+          "Invalid Status Code - ${response.code} - with ${response.data}",
         );
       }
     },
