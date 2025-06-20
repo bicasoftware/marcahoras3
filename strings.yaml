@@ -361,6 +361,9 @@ reportFooterValor:
 gerarPDF:
   pt_BR: Gerar PDF
   en_US: Make PDF
+semConexaoInternet:
+  pt_BR: Sem conexão com a internet
+  en_US: No internet connection
 months:
   pt_BR:
     - Janeiro

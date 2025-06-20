@@ -20,10 +20,15 @@ class WebConnector {
       ) {
     http.interceptors.addAll([
       AuthInterceptor(
-        RegistrationRepository(
+        dio: http,
+        provider: RegistrationRepository(
           provider: RegistrationProvider(connector: this),
         ),
       ),
+      // AwesomeDioInterceptor(
+      // logRequestHeaders: true,
+      // logResponseHeaders: true,
+      // ),
     ]);
   }
 
@@ -73,6 +78,14 @@ class WebConnector {
 
       return _buildResponse(response);
     } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionError) {
+        throw WebException(
+          error: 'Connection Error',
+          message: 'Failed to access the server, try again later',
+          code: 404,
+        );
+      }
+
       if (e.type == DioExceptionType.unknown) {
         throw e.error!;
       }

@@ -10,7 +10,6 @@ void main() {
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZDIwMjUxNi1iM2MxLTQ3ZWUtYmZmMy0zM2QzOGQ1ZTdiNzQiLCJyZWZyZXNoX3Rva2VuIjoiIiwiaWF0IjoxNzI4NDc1NTg3LCJleHAiOjE3Mjg3Nzc5ODd9.t9TZ-MgLh4HT2cVFtQ9z0wTwgGAejbPOYLWDFq9trMA";
 
   final connector = WebConnector("http://localhost:3000");
-  connector.addInterceptor(InvalidUserInterceptor());
   final v = Vault();
   v.setVaultData(token: fakeToken, refreshToken: '');
 

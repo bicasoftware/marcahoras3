@@ -11,6 +11,7 @@ export 'utils/exceptions/resource_not_found.dart';
 export 'utils/extensions.dart';
 export 'utils/extensions/immutable_list_utils.dart';
 export 'utils/extensions/timeofdayutils.dart';
+export 'utils/global_nav_key.dart';
 export 'utils/localiza/localiza.dart';
 export 'utils/pdf_generator.dart';
 export 'utils/string_utils.dart';

@@ -15,9 +15,6 @@ class RegistrationBlocLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final connector = WebConnector();
-
-    connector.addInterceptor(InvalidUserInterceptor());
-
     final registerRepo = RegistrationRepository(
       provider: RegistrationProvider(connector: connector),
     );

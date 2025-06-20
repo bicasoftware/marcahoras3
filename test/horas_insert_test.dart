@@ -15,7 +15,6 @@ void main() {
   // final String empregoId = "35c727cc-7370-4033-b7ba-994ea7ca9deb";
 
   final connector = WebConnector("http://localhost:3000");
-  connector.addInterceptor(InvalidUserInterceptor());
   final v = Vault();
   v.setVaultData(token: fakeToken, refreshToken: '');
 

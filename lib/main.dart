@@ -17,8 +17,6 @@ import 'routes.dart';
 import 'utils.dart';
 import 'widgets/transtions/sh_fade_transition.dart';
 
-final navigatorKey = GlobalKey<NavigatorState>();
-
 class HorasApp extends StatelessWidget {
   const HorasApp({super.key});
 

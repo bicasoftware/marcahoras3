@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data_layer/web.dart';
 import '../../../domain_layer/models.dart';
 import '../../../domain_layer/usecases.dart';
 import '../../../features/relatorio/report_page_generator.dart';
@@ -49,7 +50,6 @@ class HomeBloc extends Cubit<HomeState> {
     required int ano,
     required List<Horas> horas,
   }) async {
-
     final salario = emprego.getSalarioByVigencia(ano, mes);
 
     final calendarPage = await _calendarPageGeneratorUseCase(
@@ -118,7 +118,13 @@ class HomeBloc extends Cubit<HomeState> {
         ),
       );
     } on Exception catch (e) {
-      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
+      emit(
+        state.copyWith(
+          status: StateErrorStatus(
+            errorMsg: e is WebException ? e.message : e.toString(),
+          ),
+        ),
+      );
 
       rethrow;
     }
@@ -177,7 +183,7 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   void setEmpregoPos(Empregos e) async {
-    final index = state.empregos.indexOf(e);    
+    final index = state.empregos.indexOf(e);
     final now = DateTime.now();
 
     /// Se a data de admissão for antes da data atual

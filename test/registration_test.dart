@@ -8,7 +8,6 @@ import 'package:marcahoras3/domain_layer/usecases.dart';
 
 void main() {
   final connector = WebConnector("http://localhost:3000");
-  connector.addInterceptor(InvalidUserInterceptor());
   connector.addInterceptor(AwesomeDioInterceptor(
     logRequestHeaders: true,
     logResponseHeaders: true,

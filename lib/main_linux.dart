@@ -24,8 +24,6 @@ void main() async {
 
   final connector = WebConnector();
 
-  connector.addInterceptor(InvalidUserInterceptor());
-
   final y = await rootBundle.loadString('strings.yaml');
   final parsedY = loadYaml(y);
   Localiza().init(parsedY, Platform.localeName);

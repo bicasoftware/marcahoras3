@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../main.dart';
 import '../../../utils.dart';
 
 class ReportHora {
