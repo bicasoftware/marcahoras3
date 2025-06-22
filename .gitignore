@@ -92,9 +92,6 @@ app.*.map.json
 # MacOS
 **/macos/*
 
-# MacOS
-**/web/*
-
 # Coverage
 coverage/
 

@@ -22,23 +22,26 @@ class _HomeBlocLoaderState extends State<HomeBlocLoader> {
 
   @override
   Widget build(BuildContext context) {
-    final empregoRepo = EmpregoRepository(AppConfig.shared.empregosProvider!);
+    final empregoRepo = EmpregoRepository(
+      provider: AppConfig.shared.empregosProvider!,
+      sqlProvider: AppConfig.shared.empregosSqlProvider!,
+    );
     final horasRepo = HorasRepository(
       provider: AppConfig.shared.horasProvider!,
+      sqlProvider: AppConfig.shared.horasSqlProvider!,
     );
 
     return BlocProvider(
-      create:
-          (_) => HomeBloc(
-            month: _initialDate.month,
-            year: _initialDate.year,
-            empregoDataLoadUseCase: EmpregoDataLoadUseCase(empregoRepo),
-            empregoDeleteUseCase: EmpregoDeleteUseCase(empregoRepo),
-            horasLoadByRangeUseCase: HorasLoadByRangeUseCase(horasRepo),
-            horasCreateUsecase: HorasCreateUseCase(repo: horasRepo),
-            horasDeleteUseCase: HorasDeleteUseCase(repo: horasRepo),
-            horasUpdateUseCase: HorasUpdateUseCase(repo: horasRepo),
-          )..load(),
+      create: (_) => HomeBloc(
+        month: _initialDate.month,
+        year: _initialDate.year,
+        empregoDataLoadUseCase: EmpregoDataLoadUseCase(empregoRepo),
+        empregoDeleteUseCase: EmpregoDeleteUseCase(empregoRepo),
+        horasLoadByRangeUseCase: HorasLoadByRangeUseCase(horasRepo),
+        horasCreateUsecase: HorasCreateUseCase(repo: horasRepo),
+        horasDeleteUseCase: HorasDeleteUseCase(repo: horasRepo),
+        horasUpdateUseCase: HorasUpdateUseCase(repo: horasRepo),
+      )..load(),
       child: widget.child,
     );
   }

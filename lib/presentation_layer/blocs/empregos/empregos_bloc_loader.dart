@@ -21,17 +21,24 @@ class _EmpregosBlocLoaderState extends State<EmpregosBlocLoader> {
   Widget build(BuildContext context) {
     final empregoArgs =
         ModalRoute.of(context)?.settings.arguments as EmpregosArguments;
-    final empregoRepo = EmpregoRepository(AppConfig.shared.empregosProvider!);
+        
+    final empregoRepo = EmpregoRepository(
+      provider: AppConfig.shared.empregosProvider!,
+      sqlProvider: AppConfig.shared.empregosSqlProvider!,
+    );
     final salarioRepo = SalariosRepository(
       provider: AppConfig.shared.salariosProvider!,
+      sqlProvider: AppConfig.shared.salariosSqlProvider!,
     );
 
     final difRepo = DiferenciaisRepository(
       provider: AppConfig.shared.diferenciaisProvider!,
+      sqlProvider: AppConfig.shared.diferenciaisSqlProvider!,
     );
 
     final fixoRepo = HoraFixoRepository(
       provider: AppConfig.shared.fixoProvider!,
+      sqlProvider: AppConfig.shared.fixoSqlProvider!,
     );
 
     return BlocProvider(

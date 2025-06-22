@@ -9,11 +9,11 @@ class AppConfig {
   String appVersion = '';
   MaterialColor appColor = Colors.red;
   Flavor flavor = Flavor.online;
-  HorasProviderContract? horasProvider;
-  EmpregosProviderContract? empregosProvider;
-  SalariosProviderContract? salariosProvider;
-  DiferenciaisProviderContract? diferenciaisProvider;
-  HoraFixoProviderContract? fixoProvider;
+  HorasProviderContract? horasProvider, horasSqlProvider;
+  EmpregosProviderContract? empregosProvider, empregosSqlProvider;
+  SalariosProviderContract? salariosProvider, salariosSqlProvider;
+  DiferenciaisProviderContract? diferenciaisProvider, diferenciaisSqlProvider;
+  HoraFixoProviderContract? fixoProvider, fixoSqlProvider;
 
   AppConfig(
     this.appName,
@@ -25,6 +25,11 @@ class AppConfig {
     this.horasProvider,
     this.diferenciaisProvider,
     this.fixoProvider,
+    this.empregosSqlProvider,
+    this.salariosSqlProvider,
+    this.horasSqlProvider,
+    this.diferenciaisSqlProvider,
+    this.fixoSqlProvider,
   );
 
   static AppConfig shared = AppConfig.create();
@@ -35,10 +40,15 @@ class AppConfig {
     MaterialColor appColor = Colors.red,
     Flavor flavor = Flavor.online,
     HorasProviderContract? horasProvider,
+    HorasProviderContract? horasSqlProvider,
     EmpregosProviderContract? empregosProvider,
+    EmpregosProviderContract? empregosSqlProvider,
     SalariosProviderContract? salariosProvider,
+    SalariosProviderContract? salariosSqlProvider,
     DiferenciaisProviderContract? diferenciaisProvider,
+    DiferenciaisProviderContract? diferenciaisSqlProvider,
     HoraFixoProviderContract? fixoProvider,
+    HoraFixoProviderContract? fixoSqlProvider,
   }) {
     return shared = AppConfig(
       appName,
@@ -50,6 +60,11 @@ class AppConfig {
       horasProvider,
       diferenciaisProvider,
       fixoProvider,
+      empregosSqlProvider,
+      salariosSqlProvider,
+      horasSqlProvider,
+      diferenciaisSqlProvider,
+      fixoSqlProvider,
     );
   }
 }

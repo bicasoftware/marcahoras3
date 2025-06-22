@@ -4,33 +4,39 @@ import '../../utils.dart';
 import '../mappers/horas_mapper.dart';
 
 class HorasRepository implements HorasContract {
-  final HorasProviderContract _provider;
+  final HorasProviderContract _provider, _sqlProvider;
 
   HorasRepository({
     required HorasProviderContract provider,
-  }) : _provider = provider;
+    required HorasProviderContract sqlProvider,
+  }) : _provider = provider,
+       _sqlProvider = sqlProvider;
 
   @override
   Future<Horas> create(Horas horas) async {
     final newId = UuidFactory.build();
     final result = await _provider.create(horas.toHorasDto(newId));
-    return result.toHoras();
+    final newHora = await _sqlProvider.create(result);
+    return newHora.toHoras();
   }
 
   @override
   Future<bool> delete(String horaId) async {
-    return await _provider.delete(horaId);
+    await _provider.delete(horaId);
+    await _sqlProvider.delete(horaId);
+    return true;
   }
 
   @override
   Future<List<Horas>> list(String empregoId, String from, String to) async {
-    final horas = await _provider.list(empregoId, from, to);
+    final horas = await _sqlProvider.list(empregoId, from, to);
     return horas.map((h) => h.toHoras()).toList();
   }
 
   @override
   Future<Horas> update(Horas horas) async {
-    final hora = await _provider.update(horas.toHorasDto());
+    final result = await _provider.update(horas.toHorasDto());
+    final hora = await _sqlProvider.update(result);
     return hora.toHoras();
   }
 }
