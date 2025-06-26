@@ -10,11 +10,14 @@ import 'home_state.dart';
 /// Class that holds presentation data to be shown in the first screen the app renders
 class HomeBloc extends Cubit<HomeState> {
   EmpregoDataLoadUseCase _loadEmpregos;
+  EmpregosLoadAllUseCase _empregosLoadAll;
   EmpregoDeleteUseCase _empregoDeleteUseCase;
   HorasLoadByRangeUseCase _horasLoadByRangeUseCase;
   HorasCreateUseCase _horasCreateUsecase;
   HorasUpdateUseCase _horasUpdateUseCase;
   HorasDeleteUseCase _horasDeleteUseCase;
+
+  DbSyncUsecase? _dbSyncUsecase;
 
   CalendarPageGeneratorUseCase _calendarPageGeneratorUseCase;
 
@@ -25,8 +28,10 @@ class HomeBloc extends Cubit<HomeState> {
     required HorasCreateUseCase horasCreateUsecase,
     required HorasUpdateUseCase horasUpdateUseCase,
     required HorasDeleteUseCase horasDeleteUseCase,
+    required EmpregosLoadAllUseCase empregosLoadAll,
     required int year,
     required int month,
+    DbSyncUsecase? dbSyncUsecase,
   }) : _loadEmpregos = empregoDataLoadUseCase,
        _empregoDeleteUseCase = empregoDeleteUseCase,
        _calendarPageGeneratorUseCase = CalendarPageGeneratorUseCase(),
@@ -34,6 +39,8 @@ class HomeBloc extends Cubit<HomeState> {
        _horasCreateUsecase = horasCreateUsecase,
        _horasUpdateUseCase = horasUpdateUseCase,
        _horasDeleteUseCase = horasDeleteUseCase,
+       _empregosLoadAll = empregosLoadAll,
+       _dbSyncUsecase = dbSyncUsecase,
        super(
          HomeState(
            status: StateLoadingStatus(),
@@ -43,6 +50,8 @@ class HomeBloc extends Cubit<HomeState> {
            reportPage: ReportModel(year: year, month: month),
          ),
        );
+
+  Future<void> _niceDelay() => Future.delayed(Duration(milliseconds: 200));
 
   Future<(CalendarPageModel calendarPage, ReportModel reportPage)> _buildPages({
     required Empregos emprego,
@@ -85,9 +94,23 @@ class HomeBloc extends Cubit<HomeState> {
     return await _horasLoadByRangeUseCase(empregoId, initDate, endDate);
   }
 
-  Future<void> load() async {
+  Future<void> synchDatabase() async {
+    if (_dbSyncUsecase != null) {
+      final empregos = await _empregosLoadAll();
+      await _dbSyncUsecase!(empregos);
+    }
+  }
+
+  Future<void> load({bool resync = false}) async {
     try {
       emit(state.copyWith(status: StateLoadingStatus()));
+      await _niceDelay();
+
+      await Future.delayed(Duration(seconds: 2));
+
+      if (resync) {
+        await synchDatabase();
+      }
 
       final (from, to) = getFormatedDateRange(state.year, state.month);
       final empregos = await _loadEmpregos(from, to);
@@ -133,6 +156,7 @@ class HomeBloc extends Cubit<HomeState> {
   Future<void> deleteCurrentEmprego() async {
     try {
       emit(state.copyWith(status: StateLoadingStatus()));
+      await _niceDelay();
       final emprego = state.currentEmprego;
 
       /// Deletes [Emprego] from server
@@ -173,6 +197,7 @@ class HomeBloc extends Cubit<HomeState> {
   Future<void> clean() async {
     try {
       emit(state.copyWith(status: StateLoadingStatus()));
+      await _niceDelay();
 
       emit(state.copyWith(empregos: [], status: StateSuccessStatus()));
     } on Exception catch (e) {
@@ -220,13 +245,14 @@ class HomeBloc extends Cubit<HomeState> {
     Empregos? emprego,
     int? empregoPos,
   ]) async {
-    emit(state.copyWith(status: StateLoadingStatus()));
-
     final currentEmprego = emprego ?? state.currentEmprego;
 
     /// If the user tryes to go to a month before the date when they started working
     /// exit the function, so nothing changes
     if (!_validNewVigencia(year, month, currentEmprego.admissao!)) return;
+
+    emit(state.copyWith(status: StateLoadingStatus()));
+    await _niceDelay();
 
     try {
       final horasList = await _listHoras(
@@ -268,6 +294,7 @@ class HomeBloc extends Cubit<HomeState> {
   Future<void> insertHora(Horas hora) async {
     try {
       emit(state.copyWith(status: StateLoadingStatus()));
+      await _niceDelay();
 
       /// Insert the new [Horas] model
       await _horasCreateUsecase(hora);
@@ -312,6 +339,7 @@ class HomeBloc extends Cubit<HomeState> {
 
     try {
       emit(state.copyWith(status: StateLoadingStatus()));
+      await _niceDelay();
 
       /// Update the previous [Horas] model
       await _horasUpdateUseCase(hora);
@@ -354,6 +382,7 @@ class HomeBloc extends Cubit<HomeState> {
   Future<void> deleteHora(Horas hora) async {
     try {
       emit(state.copyWith(status: StateLoadingStatus()));
+      await _niceDelay();
 
       /// Update the previous [Horas] model
       await _horasDeleteUseCase(hora);

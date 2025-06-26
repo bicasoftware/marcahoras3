@@ -27,6 +27,7 @@ export 'widgets/sh_checkbox_tile.dart';
 export 'widgets/sh_color_picker.dart';
 export 'widgets/sh_custom_label_tile.dart';
 export 'widgets/sh_detailed_list_tile.dart';
+export 'widgets/sh_default_error_scaffold.dart';
 export 'widgets/sh_drop_down.dart';
 export 'widgets/sh_elevated_button.dart';
 export 'widgets/sh_labeled_list_section.dart';

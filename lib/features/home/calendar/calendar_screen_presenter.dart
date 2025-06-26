@@ -60,12 +60,7 @@ mixin CalendarScreenPresenterMixin {
     );
 
     if (newHora != null) {
-      awaitableTask(
-        context: context,
-        actualTask: () async => isEdit
-            ? await bloc.updateHora(newHora)
-            : await bloc.insertHora(newHora),
-      );
+      isEdit ? bloc.updateHora(newHora) : bloc.insertHora(newHora);
     }
   }
 
@@ -74,20 +69,24 @@ mixin CalendarScreenPresenterMixin {
     HomeBloc bloc,
     Horas selectedHora,
   ) async {
-    await awaitableTask(
+    final result = await showConfirmationDialog(
       context: context,
-      requireConfirmation: true,
-      confirmationTitle: Localiza.find("confirmar"),
-      confirmationMessage: "Deseja apapgar essa hora extra?",
-      actualTask: () => bloc.deleteHora(selectedHora),
+      titleMsg: Localiza.find("confirmar"),
+      descriptionText: "Deseja apapgar essa hora extra?",
     );
+
+    if (result == true) {
+      bloc.deleteHora(selectedHora);
+    }
   }
 
-  void addMonth(BuildContext context, HomeBloc bloc) =>
-      awaitableTask(context: context, actualTask: () async => bloc.incMonth());
+  void addMonth(BuildContext context, HomeBloc bloc) {
+    bloc.incMonth();
+  }
 
-  void decMonth(BuildContext context, HomeBloc bloc) =>
-      awaitableTask(context: context, actualTask: () async => bloc.decMonth());
+  void decMonth(BuildContext context, HomeBloc bloc) {
+    bloc.decMonth();
+  }
 
   Future<void> showEmpregosScreen({
     required BuildContext context,
@@ -110,25 +109,34 @@ mixin CalendarScreenPresenterMixin {
   }
 
   void showOnDeleteDialog(BuildContext context, HomeBloc bloc) async {
-    await awaitableTask(
+    final result = await showConfirmationDialog(
       context: context,
-      requireConfirmation: true,
-      confirmationTitle: Localiza.findAndReplace(
+      titleMsg: Localiza.findAndReplace(
         stringKey: 'deleteDialogTitle',
         findString: '{value}',
         replaceWithKey: 'emprego',
       ),
-      confirmationMessage: Localiza.find('deleteDialogMsg'),
-      actualTask: () => bloc.deleteCurrentEmprego(),
+      descriptionText: Localiza.find('deleteDialogMsg'),
     );
+
+    if (result == true) {
+      bloc.deleteCurrentEmprego();
+    }
   }
 
   void deleteHora(BuildContext context, Horas h, HomeBloc bloc) async {
-    await awaitableTask(
+    final result = await showConfirmationDialog(
       context: context,
-      actualTask: () => bloc.deleteHora(h),
-      requireConfirmation: true,
-      confirmationMessage: "Deseja apagar a Hora Extra?",
+      titleMsg: Localiza.find('confirmar'),
+      descriptionText: Localiza.findAndReplace(
+        stringKey: 'deleteDialogTitle',
+        findString: '{value}',
+        replaceWithKey: 'horas',
+      ),
     );
+
+    if (result == true) {
+      bloc.deleteHora(h);
+    }
   }
 }

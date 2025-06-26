@@ -29,7 +29,7 @@ class DiferenciaisDto {
   factory DiferenciaisDto.fromJson(Map<String, dynamic> json) {
     return DiferenciaisDto(
       id: json['id'],
-      idEmprego: json['id_emprego'],
+      idEmprego: json['emprego_id'],
       weekday: json['weekday'],
       percentage: json['percentage'],
       color: json['color'],

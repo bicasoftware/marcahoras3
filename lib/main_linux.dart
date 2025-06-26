@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:yaml/yaml.dart';
 
 import 'app_config.dart';
+import 'data_layer/database/db_connector_drift.dart';
 import 'data_layer/providers.dart';
 import 'data_layer/web.dart';
 import 'main.dart';
@@ -23,6 +24,7 @@ void main() async {
   await VaultManager.buildVaultData();
 
   final connector = WebConnector();
+  final database = AppDatabase();
 
   final y = await rootBundle.loadString('strings.yaml');
   final parsedY = loadYaml(y);
@@ -38,6 +40,7 @@ void main() async {
     salariosProvider: SalariosProvider(connector: connector),
     diferenciaisProvider: DiferenciaisProvider(connector),
     fixoProvider: HoraFixoProvider(connector),
+    db: database,
   );
 
   runApp(const HorasApp());

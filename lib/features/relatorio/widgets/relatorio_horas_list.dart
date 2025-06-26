@@ -36,7 +36,7 @@ class RelatorioHorasList extends StatelessWidget {
             diferencial: diferenciais.firstWhereOrNull(
               (d) => d.weekday == h.date.weekday,
             ),
-            onTap: () {},
+            onOptionSelected: (value) {},
           ),
         );
       }).toList(),

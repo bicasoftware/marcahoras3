@@ -17,13 +17,6 @@ import 'routes.dart';
 import 'utils.dart';
 import 'widgets/transtions/sh_fade_transition.dart';
 
-
-/// TODO - Nova correção:
-/// Atualizar rotina de persistência de dados
-/// Salvar todos os dados vindos do servidor diretamente no SQLite
-/// Ler todos os dados diretamente do SQLite, sempre
-/// Sincronizar os dados do servidor ao iniciar
-
 class HorasApp extends StatelessWidget {
   const HorasApp({super.key});
 

@@ -45,6 +45,8 @@ void main() async {
     salariosSqlProvider: SalariosSqlProvider(db: database),
     diferenciaisSqlProvider: DiferenciaisSqlProvider(db: database),
     fixoSqlProvider: HoraFixoSqlProvider(db: database),
+    db: database,
+    connector: connector,
   );
 
   runApp(const HorasApp());

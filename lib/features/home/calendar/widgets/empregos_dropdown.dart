@@ -43,7 +43,7 @@ class EmpregosDropdown extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),                
+                ),
               ),
               PopupMenuItem(
                 onTap: onDelete,
@@ -108,10 +108,7 @@ class EmpregosDropdown extends StatelessWidget {
               ),
         onChanged: (e) async {
           if (e != null) {
-            await awaitableTask(
-              context: context,
-              actualTask: () async => bloc.setEmpregoPos(e),
-            );
+            bloc.setEmpregoPos(e);
           } else {
             onAdd();
           }

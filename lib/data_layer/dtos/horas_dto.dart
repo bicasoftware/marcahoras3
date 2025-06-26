@@ -48,8 +48,8 @@ class HorasDto {
       inicio: map['inicio'] != null ? map['inicio'] as String : null,
       termino: map['termino'] != null ? map['termino'] as String : null,
       tipoHora: map['tipo_hora'] != null ? map['tipo_hora'] as String : null,
-      horaStatus: map['status_hora'] != null
-          ? map['status_hora'] as String
+      horaStatus: map['hora_status'] != null
+          ? map['hora_status'] as String
           : null,
       createdAt: map['created_at'] is int
           ? getDateFromMillis(map['created_at'])

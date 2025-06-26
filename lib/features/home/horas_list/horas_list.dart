@@ -7,14 +7,14 @@ import '../../../widgets/overtime_list_tile.dart';
 class HorasList extends StatefulWidget {
   final bool isList;
   final List<ReportHora> horas;
-  final void Function(Horas h) onDelete, onItemTap;
+  final void Function(Horas h) onDelete, onEdit;
   final bool bancoHoras;
   final List<Diferenciais> diferenciais;
 
   const HorasList({
     required this.horas,
     required this.onDelete,
-    required this.onItemTap,
+    required this.onEdit,
     required this.bancoHoras,
     required this.diferenciais,
     this.isList = false,
@@ -48,7 +48,13 @@ class _HorasListState extends State<HorasList> {
                 diferencial: widget.diferenciais.firstWhereOrNull(
                   (d) => d.weekday == h.date.weekday,
                 ),
-                onTap: () => widget.onItemTap(h.hora),
+                onOptionSelected: (value) {
+                  if (value == 0) {
+                    widget.onEdit(h.hora);
+                  } else {
+                    widget.onDelete(h.hora);
+                  }
+                },
               ),
             ),
           )

@@ -91,14 +91,8 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
                   month: bloc.state.month,
                   onMonthAdd: () => addMonth(context, bloc),
                   onMonthDec: () => decMonth(context, bloc),
-                  onYearChanged: (int y) => awaitableTask(
-                    context: context,
-                    actualTask: () async => bloc.setYear(y),
-                  ),
-                  onMonthChanged: (m) => awaitableTask(
-                    context: context,
-                    actualTask: () async => bloc.setMonth(m),
-                  ),
+                  onYearChanged: bloc.setYear,
+                  onMonthChanged: bloc.setMonth,
                 ),
                 const SizedBox(height: 8),
                 CalendarPage(

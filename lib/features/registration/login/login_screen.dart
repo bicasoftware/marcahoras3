@@ -38,8 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       Navigator.of(context).pop();
       if (logged && mounted) {
-        /// TODO - pegar todos os dados do servidor e gravar no sqlite
-        context.read<HomeBloc>().load();
+        await context.read<HomeBloc>().synchDatabase();
+        await context.read<HomeBloc>().load();
         Navigator.of(context).pushReplacementNamed(Routes.calendar);
       }
     }

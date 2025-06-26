@@ -39,7 +39,7 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
   }
 
   @override
-  Future<List<EmpregosDto>> list(String from, String to) async {
+  Future<List<EmpregosDto>> list({String? from, String? to}) async {
     final empregos = await _table.get();
     final empregosDtoList = <EmpregosDto>[];
 

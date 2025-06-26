@@ -9,12 +9,12 @@ class DbHoras extends Table {
   @JsonKey('emprego_id')
   TextColumn get empregoId => text().references(DbEmpregos, #id)();
   DateTimeColumn get data => dateTime().nullable()();
-  TextColumn get inicio => text().withLength(min: 8, max: 8)();
-  TextColumn get termino => text().withLength(min: 8, max: 8)();
+  TextColumn get inicio => text().withLength(min: 5, max: 5)();
+  TextColumn get termino => text().withLength(min: 5, max: 5)();
   @JsonKey('tipo_hora')
   TextColumn get tipoHora =>
       text().withLength(max: 1).withDefault(Constant('n'))();
-  @JsonKey('status_hora')
+  @JsonKey('hora_status')
   TextColumn get statusHora =>
       text().withLength(max: 1).withDefault(Constant('a'))();
   @JsonKey('created_at')
@@ -57,7 +57,7 @@ class DbEmpregos extends Table {
 
 class DbDiferenciais extends Table {
   TextColumn get id => text().unique()();
-  @JsonKey('id_emprego')
+  @JsonKey('emprego_id')
   TextColumn get idEmprego => text().references(DbEmpregos, #id)();
   IntColumn get weekday => integer()();
   IntColumn get percentage => integer()();

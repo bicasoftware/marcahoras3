@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app_config.dart';
+import '../../../data_layer/providers.dart';
 import '../../../data_layer/respositories.dart';
 import '../../../domain_layer/usecases.dart';
 import '../../blocs.dart';
@@ -41,7 +42,15 @@ class _HomeBlocLoaderState extends State<HomeBlocLoader> {
         horasCreateUsecase: HorasCreateUseCase(repo: horasRepo),
         horasDeleteUseCase: HorasDeleteUseCase(repo: horasRepo),
         horasUpdateUseCase: HorasUpdateUseCase(repo: horasRepo),
-      )..load(),
+        empregosLoadAll: EmpregosLoadAllUseCase(
+          EmpregosProvider(
+            AppConfig.shared.connector!,
+          ),
+        ),
+        dbSyncUsecase: AppConfig.shared.flavor != Flavor.offline
+            ? DbSyncUsecase(db: AppConfig.shared.db!)
+            : null,
+      )..load(resync: true),
       child: widget.child,
     );
   }

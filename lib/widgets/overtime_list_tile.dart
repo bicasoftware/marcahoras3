@@ -14,8 +14,9 @@ class OvertimeListTile extends StatelessWidget {
   final String amount;
   final String salary;
   final String from, to;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Diferenciais? diferencial;
+  final ValueChanged<int> onOptionSelected;
 
   const OvertimeListTile({
     required this.horaType,
@@ -25,9 +26,10 @@ class OvertimeListTile extends StatelessWidget {
     required this.workedHours,
     required this.amount,
     required this.salary,
-    required this.onTap,
     required this.from,
     required this.to,
+    required this.onOptionSelected,
+    this.onTap,
     this.diferencial,
     super.key,
   });
@@ -53,7 +55,7 @@ class OvertimeListTile extends StatelessWidget {
     switch (horaType) {
       case HorasType.feriado:
         return AppColors.porcFeriadosColor;
-      case HorasType.normal:        
+      case HorasType.normal:
         return AppColors.porcNormalColor;
       case HorasType.banco:
         return Color(horaStatus.color);
@@ -69,6 +71,11 @@ class OvertimeListTile extends StatelessWidget {
     final locale = Localizations.localeOf(context);
 
     return ShDetailedListTile(
+      optionsList: [
+        Localiza.find('editar'),
+        Localiza.find('apagar'),
+      ],
+      onOptionSelected: onOptionSelected,
       title: formatDateByLocale(date, locale),
       badgeLabel: getBadgeLabel(),
       badgeColor: _getBadgeColor(),

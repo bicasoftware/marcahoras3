@@ -41,6 +41,7 @@ void main() async {
     empregosProvider: EmpregosSqlProvider(db: database),
     diferenciaisProvider: DiferenciaisSqlProvider(db: database),
     fixoProvider: HoraFixoSqlProvider(db: database),
+    db: database,
   );
 
   FlutterNativeSplash.remove();

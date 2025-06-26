@@ -5,7 +5,7 @@ import '../../utils.dart';
 Future<void> showLoadingDialog({required BuildContext context}) async {
   showDialog(
     context: context,
-    barrierDismissible: true,
+    barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
         content: Column(

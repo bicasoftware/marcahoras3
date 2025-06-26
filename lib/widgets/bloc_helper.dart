@@ -5,15 +5,24 @@ import 'package:marcahoras3/widgets.dart';
 
 class BlocHelper<B extends StateStreamable<S>, S extends BaseState>
     extends StatelessWidget {
-  final Widget child;
-  final ValueChanged<String> onError;
   final B bloc;
+  final Widget child;
 
-  const BlocHelper({
+  final ValueChanged<String>? onError;
+  final Widget? noDataChild;
+  final bool Function(S state)? hasData;
+
+  final Widget Function(StateErrorStatus err)? errorWidget;
+  final bool showErrorWidget;
+
+  BlocHelper({
     required this.child,
     required this.bloc,
-    required this.onError,
-    super.key,
+    this.onError,
+    this.hasData,
+    this.noDataChild,
+    this.errorWidget,
+    this.showErrorWidget = false,
   });
 
   @override
@@ -23,16 +32,39 @@ class BlocHelper<B extends StateStreamable<S>, S extends BaseState>
       listenWhen: (previous, current) {
         return previous != current;
       },
-      child: child,
       listener: (context, state) {
-        switch (state.status) {
-          case StateLoadingStatus():
-            LoadingScreen(child: child);
-          case StateErrorStatus<BaseState>(): 
-            onError((state.status as StateErrorStatus).errorMsg);
-          case StateSuccessStatus():
+        if (state.status is StateErrorStatus) {
+          if(!showErrorWidget) {
+            if (onError != null) {
+              onError!((state.status as StateErrorStatus).errorMsg);
+            } else {
+              context.showFloatingMessage(
+                (state.status as StateErrorStatus).errorMsg,
+                MessageType.error,
+              );
+          }
+          }
         }
       },
+      child: _getChild(),
     );
+  }
+
+  Widget _getChild() {
+    if (bloc.state.status is StateLoadingStatus) {
+      return LoadingScreen(child: child);
+    }
+
+    if(bloc.state.status is StateErrorStatus && errorWidget != null) {
+      return errorWidget!(bloc.state.status as StateErrorStatus);
+    }
+
+    if (hasData != null && noDataChild != null) {
+      if (hasData!(bloc.state)) {
+        return noDataChild!;
+      }
+    }
+
+    return child;
   }
 }

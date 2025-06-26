@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_dio_interceptor/awesome_dio_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -25,10 +26,10 @@ class WebConnector {
           provider: RegistrationProvider(connector: this),
         ),
       ),
-      // AwesomeDioInterceptor(
-      // logRequestHeaders: true,
-      // logResponseHeaders: true,
-      // ),
+      AwesomeDioInterceptor(
+        logRequestHeaders: true,
+        logResponseHeaders: true,
+      ),
     ]);
   }
 

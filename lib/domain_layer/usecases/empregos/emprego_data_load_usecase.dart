@@ -8,5 +8,5 @@ class EmpregoDataLoadUseCase {
     EmpregoRepository repository,
   ) : _repo = repository;
 
-  Future<List<Empregos>> call(String from, String to) => _repo.list(from, to);
+  Future<List<Empregos>> call(String from, String to) => _repo.list(from: from, to: to);
 }

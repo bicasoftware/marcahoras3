@@ -11,15 +11,19 @@ class EmpregosProvider implements EmpregosProviderContract {
     WebConnector connector,
   ) : _connector = connector;
 
-  Future<List<EmpregosDto>> list(String from, String to) async {
+  Future<List<EmpregosDto>> list({String? from, String? to}) async {
+    var params = <String, dynamic>{};
+
+    if (from != null || to != null) {
+      params["from"] = from;
+      params["to"] = to;
+    }
+
     try {
       final response = await _connector.request(
         EndPoints.empregos,
         method: WebMethod.get,
-        queryParams: {
-          "from": from,
-          "to": to,
-        },
+        queryParams: params,
       );
 
       return response.isSuccess

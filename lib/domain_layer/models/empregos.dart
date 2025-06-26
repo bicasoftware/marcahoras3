@@ -85,6 +85,8 @@ class Empregos {
   }
 
   Salarios getSalarioByVigencia(int year, int month) {
+    assert(salarios.isNotEmpty);
+    
     if (salarios.length == 1) return salarios.first;
     final _vig = DateTime(year, month, 1);
     return salarios

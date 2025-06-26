@@ -99,180 +99,172 @@ class _EmpregosScreenState extends State<EmpregosScreen>
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         margin: EdgeInsets.only(bottom: 16),
         child: SingleChildScrollView(
-          child: BlocHelper<EmpregosBloc, EmpregosState>(
-            bloc: bloc,
-            onError: (error) {
-              context.showSnackBar(error);
-            },
-            child: Form(
-              key: _formKey,
-              child: BlocHelper<EmpregosBloc, EmpregosState>(
-                bloc: bloc,
-                onError: (err) async {
-                  showErrorDialog(context: context, errorMsg: err);
-                  Navigator.of(context).pop();
-                },
-                child: Column(
-                  spacing: 4,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ShTextTile(
-                      controller: ctrDescricao,
-                      label: Localiza.find("descricaoEmprego"),
-                      hint: Localiza.find("descricaoEmprego"),
-                      labelStyle: textTheme.labelLarge,
-                      icon: Icon(Icons.text_fields),
-                      onValueChanged: bloc.setDescricao,
-                      validator: (s) {
-                        return MinCharactersValidator.validate(
-                          ctrDescricao.text,
-                          6,
-                        );
-                      },
-                    ),
-                    LabelFormField<String>(
-                      label: Localiza.find("admissao"),
-                      initialValue: state.admissao != null
-                          ? formatDateByLocale(state.admissao, locale)
-                          : Localiza.find('preencherAdmissao'),
-                      valueFormatter: (s) => s,
-                      icon: Icons.calendar_month,
-                      onTap: () => selectDate(context, bloc),
-                      validator: (s) {
-                        return DateValidator.validate(
-                          state.admissao,
-                          "admissaoVazia",
-                          "dataInvalida",
-                        );
-                      },
-                    ),
-                    ShLabeledListSection(label: Localiza.find('salarios')),
-                    SalariosTile(
-                      salarios: state.emprego.salarios,
-                      horaFixoList: state.emprego.horaFixoList,
-                      controller: ctrSalarioMasked,
-                      isEditing: bloc.state.isEditing,
-                      onAdd: () => handleAumento(bloc),
-                      onEdit: (s) => updateSalario(s, bloc),
-                      onDelete: (s) => deleteSalario(s, bloc),
-                      onSalarioValueChanged: (_) {
-                        bloc.setSalario(ctrSalarioMasked.numberValue);
-                      },
-                    ),
-                    LabelFormField<TimeOfDay>(
-                      label: Localiza.find("entradaHora"),
-                      initialValue:
-                          state.entrada ?? TimeOfDay(hour: 8, minute: 00),
-                      valueFormatter: (t) => TimeOfDayHelper.formatTime(t),
-                      icon: Icons.timelapse_outlined,
-                      onTap: () async {
-                        showHorasBts(
-                          context: context,
-                          bloc: bloc,
-                          isEntrada: true,
-                          time: bloc.state.entrada!,
-                        );
-                      },
-                      validator: (t) {
-                        return TimeRangeValidator.validate(
-                          initTime: bloc.state.entrada!,
-                          endTime: bloc.state.saida!,
-                        );
-                      },
-                    ),
-                    LabelFormField<TimeOfDay>(
-                      label: Localiza.find("saidaHora"),
-                      initialValue:
-                          bloc.state.saida ?? TimeOfDay(hour: 18, minute: 00),
-                      valueFormatter: (t) {
-                        return TimeOfDayHelper.formatTime(t);
-                      },
-                      icon: Icons.timelapse_outlined,
-                      onTap: () {
-                        showHorasBts(
-                          context: context,
-                          bloc: bloc,
-                          isEntrada: false,
-                          time: bloc.state.saida!,
-                        );
-                      },
-                      validator: (t) {
-                        return TimeRangeValidator.validate(
-                          initTime: bloc.state.entrada!,
-                          endTime: bloc.state.saida!,
-                        );
-                      },
-                    ),
-                    ShTogglableTile(
-                      label: Localiza.find("cargaHoraria"),
-                      value: state.cargaHoraria,
-                      options: [220, 200, 180, 160],
-                      onChanged: bloc.setCargaHoraria,
-                      icon: Icon(Icons.list),
-                      formatValue: (i) => "$i",
-                    ),
-                    if (!bloc.state.isEditing) ...[
-                      ShLabeledListSection(
-                        label: Localiza.find("porcentagensExtras"),
-                      ),
-                      ShSwitchTile(
-                        value: state.bancoHoras,
-                        label: Localiza.find("bancoHoras"),
-                        onTap: (_) => bloc.toggleBancoHoras(),
-                      ),
-                    ],
-                    PorcentagensTile(
-                      isInsert: !bloc.state.isEditing,
-                      toggleType: bloc.toggleValorFixo,
-                      useValorFixo: state.useValorFixo,
-                      fixedValues: bloc.state.valorFixo,
-                      horaFixoList: bloc.state.getHoraFixoList(),
-                      porcNormal: bloc.state.porcNormal ?? 50,
-                      porcFeriado: bloc.state.porcFeriado ?? 100,
-                      onHoraFixoChanged: (it) {
-                        bloc.setValorFixo(it.$1, it.$2);
-                      },
-                      onNormalPorcChanged: bloc.setPorcNormal,
-                      onFeriadoPorcChanged: bloc.setPorcFeriados,
-                      onAdd: () => insertHoraFixo(bloc),
-                      onEdit: (HoraFixo h) => updateHoraFixo(bloc, h),
-                      onDelete: (h) => deleteHoraFixo(bloc, h),
-                    ),
+          child: Form(
+            key: _formKey,
+            child: BlocHelper<EmpregosBloc, EmpregosState>(
+              bloc: bloc,
+              onError: (err) async {
+                showErrorDialog(context: context, errorMsg: err);
+                Navigator.of(context).pop();
+              },
+              child: Column(
+                spacing: 4,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ShTextTile(
+                    controller: ctrDescricao,
+                    label: Localiza.find("descricaoEmprego"),
+                    hint: Localiza.find("descricaoEmprego"),
+                    labelStyle: textTheme.labelLarge,
+                    icon: Icon(Icons.text_fields),
+                    onValueChanged: bloc.setDescricao,
+                    validator: (s) {
+                      return MinCharactersValidator.validate(
+                        ctrDescricao.text,
+                        6,
+                      );
+                    },
+                  ),
+                  LabelFormField<String>(
+                    label: Localiza.find("admissao"),
+                    initialValue: state.admissao != null
+                        ? formatDateByLocale(state.admissao, locale)
+                        : Localiza.find('preencherAdmissao'),
+                    valueFormatter: (s) => s,
+                    icon: Icons.calendar_month,
+                    onTap: () => selectDate(context, bloc),
+                    validator: (s) {
+                      return DateValidator.validate(
+                        state.admissao,
+                        "admissaoVazia",
+                        "dataInvalida",
+                      );
+                    },
+                  ),
+                  ShLabeledListSection(label: Localiza.find('salarios')),
+                  SalariosTile(
+                    salarios: state.emprego.salarios,
+                    horaFixoList: state.emprego.horaFixoList,
+                    controller: ctrSalarioMasked,
+                    isEditing: bloc.state.isEditing,
+                    onAdd: () => handleAumento(bloc),
+                    onEdit: (s) => updateSalario(s, bloc),
+                    onDelete: (s) => deleteSalario(s, bloc),
+                    onSalarioValueChanged: (_) {
+                      bloc.setSalario(ctrSalarioMasked.numberValue);
+                    },
+                  ),
+                  LabelFormField<TimeOfDay>(
+                    label: Localiza.find("entradaHora"),
+                    initialValue:
+                        state.entrada ?? TimeOfDay(hour: 8, minute: 00),
+                    valueFormatter: (t) => TimeOfDayHelper.formatTime(t),
+                    icon: Icons.timelapse_outlined,
+                    onTap: () async {
+                      showHorasBts(
+                        context: context,
+                        bloc: bloc,
+                        isEntrada: true,
+                        time: bloc.state.entrada!,
+                      );
+                    },
+                    validator: (t) {
+                      return TimeRangeValidator.validate(
+                        initTime: bloc.state.entrada!,
+                        endTime: bloc.state.saida!,
+                      );
+                    },
+                  ),
+                  LabelFormField<TimeOfDay>(
+                    label: Localiza.find("saidaHora"),
+                    initialValue:
+                        bloc.state.saida ?? TimeOfDay(hour: 18, minute: 00),
+                    valueFormatter: (t) {
+                      return TimeOfDayHelper.formatTime(t);
+                    },
+                    icon: Icons.timelapse_outlined,
+                    onTap: () {
+                      showHorasBts(
+                        context: context,
+                        bloc: bloc,
+                        isEntrada: false,
+                        time: bloc.state.saida!,
+                      );
+                    },
+                    validator: (t) {
+                      return TimeRangeValidator.validate(
+                        initTime: bloc.state.entrada!,
+                        endTime: bloc.state.saida!,
+                      );
+                    },
+                  ),
+                  ShTogglableTile(
+                    label: Localiza.find("cargaHoraria"),
+                    value: state.cargaHoraria,
+                    options: [220, 200, 180, 160],
+                    onChanged: bloc.setCargaHoraria,
+                    icon: Icon(Icons.list),
+                    formatValue: (i) => "$i",
+                  ),
+                  if (!bloc.state.isEditing) ...[
                     ShLabeledListSection(
-                      label: Localiza.find('horasDiferenciais'),
+                      label: Localiza.find("porcentagensExtras"),
                     ),
-                    ShListViewTile<Diferenciais>(
-                      dataList: bloc.state.emprego.diferenciaisList,
-                      onAdd: () => onAddDiferencial(bloc),
-                      onEdit: (d) => onUpdateDiferencial(d, bloc),
-                      onDelete: (d) => onDeleteDiferencial(d, bloc),
-                      buildTitle: (d) => weekDays[d.weekday],
-                      buildBadgeLabel: (d) => Localiza.find('diferencial'),
-                      buildBadgeColor: (d) => d.color,
-                      buildInfoList: (d) {
-                        return [
-                          IconLabelValue(
-                            label: "${d.percentage}%",
-                            value: CurrencyHelper.formatAmount(
-                              CalcHelper.calcPorcentagemHora(
-                                salario:
-                                    state.emprego
-                                        .getCurrentSalarioAlt()
-                                        ?.valor ??
-                                    0,
-                                cargaHoraria: state.emprego.cargaHoraria,
-                                porcentagem: d.percentage,
-                              ),
-                            ),
-                            icon: Icons.monetization_on,
-                            labelColor: AppColors.onSurface,
-                            iconColor: AppColors.onSurface,
-                          ),
-                        ];
-                      },
+                    ShSwitchTile(
+                      value: state.bancoHoras,
+                      label: Localiza.find("bancoHoras"),
+                      onTap: (_) => bloc.toggleBancoHoras(),
                     ),
                   ],
-                ),
+                  PorcentagensTile(
+                    isInsert: !bloc.state.isEditing,
+                    toggleType: bloc.toggleValorFixo,
+                    useValorFixo: state.useValorFixo,
+                    fixedValues: bloc.state.valorFixo,
+                    horaFixoList: bloc.state.getHoraFixoList(),
+                    porcNormal: bloc.state.porcNormal ?? 50,
+                    porcFeriado: bloc.state.porcFeriado ?? 100,
+                    onHoraFixoChanged: (it) {
+                      bloc.setValorFixo(it.$1, it.$2);
+                    },
+                    onNormalPorcChanged: bloc.setPorcNormal,
+                    onFeriadoPorcChanged: bloc.setPorcFeriados,
+                    onAdd: () => insertHoraFixo(bloc),
+                    onEdit: (HoraFixo h) => updateHoraFixo(bloc, h),
+                    onDelete: (h) => deleteHoraFixo(bloc, h),
+                  ),
+                  ShLabeledListSection(
+                    label: Localiza.find('horasDiferenciais'),
+                  ),
+                  ShListViewTile<Diferenciais>(
+                    dataList: bloc.state.emprego.diferenciaisList,
+                    onAdd: () => onAddDiferencial(bloc),
+                    onEdit: (d) => onUpdateDiferencial(d, bloc),
+                    onDelete: (d) => onDeleteDiferencial(d, bloc),
+                    buildTitle: (d) => weekDays[d.weekday],
+                    buildBadgeLabel: (d) => Localiza.find('diferencial'),
+                    buildBadgeColor: (d) => d.color,
+                    buildInfoList: (d) {
+                      return [
+                        IconLabelValue(
+                          label: "${d.percentage}%",
+                          value: CurrencyHelper.formatAmount(
+                            CalcHelper.calcPorcentagemHora(
+                              salario:
+                                  state.emprego.getCurrentSalarioAlt()?.valor ??
+                                  0,
+                              cargaHoraria: state.emprego.cargaHoraria,
+                              porcentagem: d.percentage,
+                            ),
+                          ),
+                          icon: Icons.monetization_on,
+                          labelColor: AppColors.onSurface,
+                          iconColor: AppColors.onSurface,
+                        ),
+                      ];
+                    },
+                  ),
+                ],
               ),
             ),
           ),

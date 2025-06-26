@@ -66,4 +66,9 @@ class SalariosDto {
       createdAt: createdAt,
     );
   }
+
+  @override
+  String toString() {
+    return 'SalariosDto(id: $id, empregoId: $empregoId, vigencia: $vigencia, valor: $valor, ativo: $ativo, createdAt: $createdAt)';
+  }
 }
