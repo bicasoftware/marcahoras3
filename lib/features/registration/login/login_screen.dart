@@ -31,13 +31,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _validateForm(RegistrationBloc bloc, BuildContext ctx) async {
     if (_formKey.currentState?.validate() ?? false) {
-      showLoadingDialog(context: ctx);
-      final logged = await bloc.loginIn(
+      setState(() => _errorMsg = '');
+      await bloc.loginIn(
         emailController.text,
         passwordController.text,
       );
-      Navigator.of(context).pop();
-      if (logged && mounted) {
+
+      final logged = bloc.state.status is StateSuccessStatus;
+
+      if (logged) {
         await context.read<HomeBloc>().synchDatabase();
         await context.read<HomeBloc>().load();
         Navigator.of(context).pushReplacementNamed(Routes.calendar);
@@ -54,21 +56,21 @@ class _LoginScreenState extends State<LoginScreen> {
     final theme = Theme.of(context).textTheme;
 
     final bloc = context.read<RegistrationBloc>();
-    return Scaffold(
-      body: RedGradientContainer(
-        child: BlocHelper<RegistrationBloc, RegistrationState>(
-          bloc: bloc,
-          onError: (error) {
-            setState(() => _errorMsg = error);
-            Navigator.of(context).pop();
-            context.showFloatingMessage(error, MessageType.warning);
-          },
+    return BlocHelper<RegistrationBloc, RegistrationState>(
+      bloc: bloc,
+      onError: (e) {
+        context.showFloatingMessage(e);
+        setState(() => _errorMsg = e);
+      },
+      child: Scaffold(
+        body: RedGradientContainer(
           child: Form(
             key: _formKey,
             child: RegistrationContainer(
               changeRegisterLabel: Localiza.find('naoTenhoCadastro'),
               onChangeRegisterPressed: () => _goToRegistration(context),
               onContinuePressed: () => _validateForm(bloc, context),
+              showErrorMsg: true,
               errorMsg: _errorMsg,
               child: Column(
                 children: [

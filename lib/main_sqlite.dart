@@ -14,8 +14,6 @@ import 'utils/localiza/localiza.dart';
 import 'utils/vault/vault_manager.dart';
 
 void main() async {
-  print('Sqlite app running');
-
   final mySystemTheme = SystemUiOverlayStyle.light.copyWith(
     systemNavigationBarColor: AppColors.background,
   );

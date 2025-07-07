@@ -19,15 +19,9 @@ class Localiza {
   }
 
   static String find(String stringName) {
-    try {
     return _parsedYaml.containsKey(stringName)
         ? _parsedYaml[stringName][_locale]
         : stringName;
-
-    } on Exception {
-      print("Erro ao ler string $stringName");
-      return '';
-    }
   }
 
   static String findAndReplace({
@@ -47,8 +41,8 @@ class Localiza {
   static List<String> findList(String keyName) {
     return _parsedYaml.containsKey(keyName)
         ? (_parsedYaml[keyName][_locale] as YamlList)
-            .map((e) => e.toString())
-            .toList()
+              .map((e) => e.toString())
+              .toList()
         : [keyName];
   }
 }

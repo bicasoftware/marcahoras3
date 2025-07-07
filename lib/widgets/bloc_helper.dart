@@ -29,6 +29,7 @@ class BlocHelper<B extends StateStreamable<S>, S extends BaseState>
   Widget build(BuildContext context) {
     return BlocListener<B, S>(
       bloc: bloc,
+      child: _getChild(),
       listenWhen: (previous, current) {
         return previous != current;
       },
@@ -42,11 +43,10 @@ class BlocHelper<B extends StateStreamable<S>, S extends BaseState>
                 (state.status as StateErrorStatus).errorMsg,
                 MessageType.error,
               );
-          }
+            }
           }
         }
       },
-      child: _getChild(),
     );
   }
 

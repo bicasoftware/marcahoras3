@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcahoras3/utils/bloc/state_status.dart';
 
 import '../../../presentation_layer/blocs.dart';
 import '../../../presentation_layer/validators/validators.dart';
@@ -23,6 +24,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  String _errorMsg = '';
+
   @override
   void dispose() {
     passwordController.dispose();
@@ -34,11 +37,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _register(RegistrationBloc bloc, BuildContext ctx) async {
     if (_formKey.currentState?.validate() == true) {
-      showLoadingDialog(context: ctx);
-      final logged = await bloc.register(
+      setState(() => _errorMsg = '');
+      await bloc.register(
         emailController.text,
         passwordConfirmController.text,
       );
+
+      final logged = bloc.state is StateSuccessStatus;
 
       Navigator.of(context).pop();
       if (logged && mounted) {
@@ -61,8 +66,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: BlocHelper<RegistrationBloc, RegistrationState>(
           bloc: bloc,
           onError: (error) {
-            Navigator.of(context).pop();
-            context.showFloatingMessage(error, MessageType.warning);            
+            context.showFloatingMessage(error, MessageType.warning);
+            setState(() => _errorMsg = error);
           },
           child: Form(
             key: _formKey,

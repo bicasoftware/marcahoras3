@@ -15,18 +15,20 @@ class RegistrationBloc extends Cubit<RegistrationState> {
   }) : _registerUserUseCase = registerUserUseCase,
        _loginUserUseCase = loginUserUseCase,
        super(
-         RegistrationState(
-           status: StateSuccessStatus(),
-         ),
+         RegistrationState(status: StateSuccessStatus(), errorMsg: ''),
        );
 
-  Future<bool> register(String email, String password) async {
+  final _niceDelay = Duration(seconds: 3);
+
+  Future<void> register(String email, String password) async {
     try {
       emit(
         state.copyWith(
           status: StateLoadingStatus(),
         ),
       );
+
+      await Future.delayed(_niceDelay);
 
       final authData = await _registerUserUseCase(
         email: email,
@@ -43,8 +45,6 @@ class RegistrationBloc extends Cubit<RegistrationState> {
           status: StateSuccessStatus(),
         ),
       );
-
-      return true;
     } on Exception catch (e) {
       emit(
         state.copyWith(
@@ -58,13 +58,15 @@ class RegistrationBloc extends Cubit<RegistrationState> {
     }
   }
 
-  Future<bool> loginIn(String email, String password) async {
+  Future<void> loginIn(String email, String password) async {
     try {
       emit(
         state.copyWith(
           status: StateLoadingStatus(),
         ),
       );
+
+      await Future.delayed(_niceDelay);
 
       final authData = await _loginUserUseCase(
         email: email,
@@ -81,8 +83,6 @@ class RegistrationBloc extends Cubit<RegistrationState> {
           status: StateSuccessStatus(),
         ),
       );
-
-      return true;
     } on Exception catch (e) {
       emit(
         state.copyWith(
@@ -104,6 +104,7 @@ class RegistrationBloc extends Cubit<RegistrationState> {
         ),
       );
 
+      await Future.delayed(_niceDelay);
       await VaultManager.clearVault();
 
       emit(
