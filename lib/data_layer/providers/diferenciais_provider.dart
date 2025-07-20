@@ -11,11 +11,8 @@ class DiferenciaisProvider implements DiferenciaisProviderContract {
   @override
   Future<bool> deleteDiferencial(String id) async {
     final result = await _connector.request(
-      "$_route",
-      method: WebMethod.delete,
-      queryParams: {
-        "id": id,
-      },
+      "$_route/$id",
+      method: WebMethod.delete,      
     );
 
     return result.isSuccess ? result.data : throw result.toWebException();

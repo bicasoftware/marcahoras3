@@ -19,6 +19,7 @@ mixin CalendarScreenPresenterMixin {
     bool isEdit = false,
   }) async {
     final locale = Localizations.localeOf(context);
+    final now = DateTime.now();
     final newHora = await BottomSheetHelper.showModalBts(
       context: context,
       dismissible: true,
@@ -47,14 +48,15 @@ mixin CalendarScreenPresenterMixin {
         hora: selectedHora,
         feriado: selectedHora?.tipoHora == HorasType.feriado,
         empregoId: bloc.state.currentEmprego.id!,
-        initDate: selectedHora?.data ?? data ?? DateTime.now(),
+        initDate: selectedHora?.data ?? data ?? now,
         empregoEntrada: bloc.state.currentEmprego.entrada,
         hideDate: (selectedHora?.data != null || data != null),
         admissao: bloc.state.currentEmprego.admissao!,
         bancoHoras: bloc.state.currentEmprego.bancoHoras,
         diferencial: bloc.state.currentEmprego.diferenciaisList
             .firstWhereOrNull(
-              (d) => d.weekday == (data ?? DateTime.now()).weekday,
+              (d) => isSameWeekday(d.weekday, data ?? now),
+              // (d) => d.weekday == (data ?? now).weekday,
             ),
       ),
     );

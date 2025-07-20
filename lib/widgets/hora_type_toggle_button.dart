@@ -34,7 +34,6 @@ class _HoraTypeToggleButtonState extends State<HoraTypeToggleButton> {
 
   @override
   void initState() {
-    _pos = _horasTypeList.indexOf(widget.horasType);
     if (widget.diferencial != null) {
       _labels.add(
         Localiza.find('diferencial'),
@@ -44,6 +43,8 @@ class _HoraTypeToggleButtonState extends State<HoraTypeToggleButton> {
         HorasType.diferencial,
       );
     }
+    _pos = _horasTypeList.indexOf(widget.horasType);
+
     super.initState();
   }
 

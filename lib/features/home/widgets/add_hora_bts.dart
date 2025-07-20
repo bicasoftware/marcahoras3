@@ -43,7 +43,9 @@ class _AddHoraBtsState extends State<AddHoraBts> {
     _date = widget.initDate;
 
     if (widget.hora != null) {
-      _horaType = widget.hora!.tipoHora;
+      _horaType = widget.diferencial != null
+          ? HorasType.diferencial
+          : widget.hora!.tipoHora;
       _entrada = widget.hora!.inicio;
       _saida = widget.hora!.termino;
       _compensada = widget.hora!.horaStatus == HoraStatus.burned;
