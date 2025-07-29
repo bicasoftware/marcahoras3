@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
+import '../../../utils/date_utils.dart';
 import 'calendar_item.dart';
 
 class CalendarPage extends StatelessWidget {
@@ -18,6 +19,8 @@ class CalendarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+
     return Container(
       margin: EdgeInsets.only(left: 8, right: 8, bottom: 4, top: 0),
       child: GridView.count(
@@ -56,7 +59,7 @@ class CalendarPage extends StatelessWidget {
                 hora: it.horas,
                 onCalendarItemTap: onCalendarItemTap,
                 diferencial: diferenciais.firstWhereOrNull(
-                  (d) => d.weekday == it.weekDay,
+                  (d) => isSameWeekday(d.weekday, it.date ?? now)
                 ),
               );
             case CalendarItemBancoHoras():

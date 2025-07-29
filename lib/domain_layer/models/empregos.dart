@@ -45,7 +45,9 @@ class Empregos {
   }) : horas = UnmodifiableListView(horas),
        salarios = UnmodifiableListView(salarios),
        horaFixoList = UnmodifiableListView(horaFixoList),
-       diferenciaisList = UnmodifiableListView(diferenciaisList);
+       diferenciaisList = UnmodifiableListView(
+         diferenciaisList..sortedBy((d) => d.weekday),
+       );
 
   Empregos copyWith({
     String? id,
@@ -86,7 +88,7 @@ class Empregos {
 
   Salarios getSalarioByVigencia(int year, int month) {
     assert(salarios.isNotEmpty);
-    
+
     if (salarios.length == 1) return salarios.first;
     final _vig = DateTime(year, month, 1);
     return salarios

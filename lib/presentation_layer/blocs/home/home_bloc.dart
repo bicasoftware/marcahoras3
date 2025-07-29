@@ -106,8 +106,6 @@ class HomeBloc extends Cubit<HomeState> {
       emit(state.copyWith(status: StateLoadingStatus()));
       await _niceDelay();
 
-      await Future.delayed(Duration(seconds: 2));
-
       if (resync) {
         await synchDatabase();
       }

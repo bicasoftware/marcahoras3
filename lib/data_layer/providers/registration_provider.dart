@@ -63,6 +63,8 @@ class RegistrationProvider {
       }
     );
 
+    print(response);
+
     return AuthenticationDataDto.fromJson(response.data);
   }
 }

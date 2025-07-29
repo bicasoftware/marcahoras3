@@ -55,8 +55,10 @@ mixin CalendarScreenPresenterMixin {
         bancoHoras: bloc.state.currentEmprego.bancoHoras,
         diferencial: bloc.state.currentEmprego.diferenciaisList
             .firstWhereOrNull(
-              (d) => isSameWeekday(d.weekday, data ?? now),
-              // (d) => d.weekday == (data ?? now).weekday,
+              (d) {                
+                final ok = isSameWeekday(d.weekday, data ?? now);
+                return ok;
+              },
             ),
       ),
     );

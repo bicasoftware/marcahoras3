@@ -26,10 +26,10 @@ class WebConnector {
           provider: RegistrationProvider(connector: this),
         ),
       ),
-      AwesomeDioInterceptor(
-        logRequestHeaders: true,
-        logResponseHeaders: true,
-      ),
+      // AwesomeDioInterceptor(
+      //   logRequestHeaders: true,
+      //   logResponseHeaders: true,
+      // ),
     ]);
   }
 
@@ -49,6 +49,8 @@ class WebConnector {
       method: method.name,
       contentType: (contentType ?? ContentType.json).mimeType,
       responseType: responseType,
+      sendTimeout: Duration(seconds: 6),
+      receiveTimeout: Duration(seconds: 6),
     );
   }
 
@@ -79,23 +81,43 @@ class WebConnector {
 
       return _buildResponse(response);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionError) {
-        throw WebException(
-          error: 'Connection Error',
-          message: 'Failed to access the server, try again later',
-          code: 404,
-        );
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+        case DioExceptionType.connectionError:
+          throw WebException(
+            error: 'Connection Error',
+            message: 'Failed to access the server, try again later',
+            code: 404,
+          );
+        case DioExceptionType.unknown:
+          throw e.error!;
+        default:
+          throw WebException(
+            error: e.response?.data['error'] ?? '',
+            message: e.response?.data['message'] ?? '',
+            code: e.response?.data['statusCode'] ?? 404,
+          );
       }
 
-      if (e.type == DioExceptionType.unknown) {
-        throw e.error!;
-      }
+      // if (e.type == DioExceptionType.connectionError) {
+      //   throw WebException(
+      //     error: 'Connection Error',
+      //     message: 'Failed to access the server, try again later',
+      //     code: 404,
+      //   );
+      // }
 
-      throw WebException(
-        error: e.response?.data['error'] ?? '',
-        message: e.response?.data['message'] ?? '',
-        code: e.response?.data['statusCode'] ?? 404,
-      );
+      // if (e.type == DioExceptionType.unknown) {
+      //   throw e.error!;
+      // }
+
+      // throw WebException(
+      //   error: e.response?.data['error'] ?? '',
+      //   message: e.response?.data['message'] ?? '',
+      //   code: e.response?.data['statusCode'] ?? 404,
+      // );
     }
   }
 

@@ -73,8 +73,8 @@ DateTime getLastDayOfMonth(DateTime date) {
 }
 
 bool isSameWeekday(int weekday, DateTime compareDate) {
-  final actualWeekday = compareDate.weekday == 7 ? 0 : compareDate.weekday;
-  return weekday == actualWeekday;
+  if(compareDate.weekday == 7 && weekday == 0) return true;
+  return compareDate.weekday == weekday;
 }
 
 (String, String) getFormatedDateRange(int year, int month) {

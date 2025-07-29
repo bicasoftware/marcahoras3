@@ -12,7 +12,7 @@ class DiferenciaisProvider implements DiferenciaisProviderContract {
   Future<bool> deleteDiferencial(String id) async {
     final result = await _connector.request(
       "$_route/$id",
-      method: WebMethod.delete,      
+      method: WebMethod.delete,
     );
 
     return result.isSuccess ? result.data : throw result.toWebException();
@@ -20,7 +20,15 @@ class DiferenciaisProvider implements DiferenciaisProviderContract {
 
   @override
   Future<DiferenciaisDto> insertDiferencial(DiferenciaisDto diferencial) async {
-    return await _upsert(diferencial, true);
+    final res = await _connector.request(
+      _route,
+      method: WebMethod.post,
+      data: diferencial.toJson(),
+    );
+
+    return res.isSuccess
+        ? DiferenciaisDto.fromJson(res.data)
+        : throw res.toWebException();
   }
 
   @override
@@ -40,16 +48,9 @@ class DiferenciaisProvider implements DiferenciaisProviderContract {
 
   @override
   Future<DiferenciaisDto> updateDiferencial(DiferenciaisDto diferencial) async {
-    return await _upsert(diferencial, false);
-  }
-
-  Future<DiferenciaisDto> _upsert(
-    DiferenciaisDto diferencial,
-    bool isInsert,
-  ) async {
     final res = await _connector.request(
-      _route,
-      method: isInsert ? WebMethod.post : WebMethod.patch,
+      "$_route/${diferencial.id}",
+      method: WebMethod.patch,
       data: diferencial.toJson(),
     );
 
@@ -57,4 +58,19 @@ class DiferenciaisProvider implements DiferenciaisProviderContract {
         ? DiferenciaisDto.fromJson(res.data)
         : throw res.toWebException();
   }
+
+  // Future<DiferenciaisDto> _upsert(
+  //   DiferenciaisDto diferencial,
+  //   bool isInsert,
+  // ) async {
+  //   final res = await _connector.request(
+  //     _route,
+  //     method: isInsert ? WebMethod.post : WebMethod.patch,
+  //     data: diferencial.toJson(),
+  //   );
+
+  //   return res.isSuccess
+  //       ? DiferenciaisDto.fromJson(res.data)
+  //       : throw res.toWebException();
+  // }
 }
