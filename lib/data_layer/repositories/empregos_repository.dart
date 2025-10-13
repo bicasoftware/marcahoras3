@@ -3,37 +3,32 @@ import '../../domain_layer/models.dart';
 import '../mappers/emprego_mapper.dart';
 
 class EmpregoRepository implements EmpregosContract {
-  final EmpregosProviderContract _provider, _sqlProvider;
+  final EmpregosProviderContract _provider;
 
   EmpregoRepository({
     required EmpregosProviderContract provider,
-    required EmpregosProviderContract sqlProvider,
-  }) : _provider = provider,
-       _sqlProvider = sqlProvider;
+  }) : _provider = provider;
 
   @override
   Future<List<Empregos>> list({String? from, String? to}) async {
-    final dtos = await _sqlProvider.list(from: from, to: to);
+    final dtos = await _provider.list(from: from, to: to);
     return dtos.map((e) => e.toEmprego()).toList();
   }
 
   @override
   Future<Empregos> create(Empregos e) async {
-    final result = await _provider.create(e.toEmpregoDto());
-    final newEmprego = await _sqlProvider.create(result);
+    final newEmprego = await _provider.create(e.toEmpregoDto());
     return newEmprego.toEmprego();
   }
 
   @override
   Future<Empregos> update(Empregos e) async {
-    final result = await _provider.update(e.toEmpregoDto());
-    final updatedEmprego = await _sqlProvider.update(result);
+    final updatedEmprego = await _provider.update(e.toEmpregoDto());
     return updatedEmprego.toEmprego();
   }
 
   @override
   Future<void> delete(String empregoId) async {
     await _provider.delete(empregoId);
-    await _sqlProvider.delete(empregoId);
   }
 }

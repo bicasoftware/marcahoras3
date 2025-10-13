@@ -149,7 +149,6 @@ class EmpregosBloc extends Cubit<EmpregosState> {
           empregoId: newEmprego.id!,
           valor: state.salario,
           vigencia: vigencia,
-          createdAt: DateTime.now(),
         ),
       );
 
@@ -253,7 +252,6 @@ class EmpregosBloc extends Cubit<EmpregosState> {
           ativo: true,
           valor: valor,
           vigencia: vigencia,
-          createdAt: DateTime.now(),
         ),
       );
 

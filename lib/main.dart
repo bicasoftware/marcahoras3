@@ -5,13 +5,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app_config.dart';
 import 'features/empregos/empregos_screen.dart';
 import 'features/home/calendar/calendar_screen.dart';
-import 'features/home/calendar/calendar_screen_desktop.dart';
-import 'features/registration/login/login_screen.dart';
-import 'features/registration/register/register_screen.dart';
 import 'features/relatorio/relatorio_screen.dart';
 import 'presentation_layer/blocs/empregos/empregos_bloc_loader.dart';
 import 'presentation_layer/blocs/home/home_bloc_loader.dart';
-import 'presentation_layer/blocs/registration/registration_bloc_loader.dart';
 import 'resources.dart';
 import 'routes.dart';
 import 'utils.dart';
@@ -22,7 +18,6 @@ class HorasApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vault = Vault();
     return HomeBlocLoader(
       child: MaterialApp(
         title: "Horas Extras",
@@ -50,29 +45,13 @@ class HorasApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [Locale('pt', 'BR'), Locale('en', 'US')],
-        initialRoute: _getMainRoute(vault),
+        initialRoute: Routes.calendar,
         routes: {
-          Routes.registration: (_) {
-            return RegistrationBlocLoader(child: RegisterScreen());
-          },
-          Routes.login: (_) {
-            return RegistrationBlocLoader(child: LoginScreen());
-          },
           Routes.empregosDetail: (_) {
             return EmpregosBlocLoader(child: const EmpregosScreen());
           },
           Routes.relatorio: (_) => const RelatorioScreen(),
-          Routes.calendar: (_) {
-            /// TODO - revisar
-            if ([
-              Flavor.desktop,
-              Flavor.web,
-            ].contains(AppConfig.shared.flavor)) {
-              return CalendarScreenDesktop();
-            }
-
-            return const CalendarScreen();
-          },
+          Routes.calendar: (_) => const CalendarScreen(),
         },
         onGenerateRoute: (settings) {
           switch (ERoutes.fromRouteName(settings.name)) {
@@ -80,10 +59,6 @@ class HorasApp extends StatelessWidget {
               return ShPageFadeTransition(page: const RelatorioScreen());
             case ERoutes.empregosDetail:
               return ShPageFadeTransition(page: const EmpregosScreen());
-            case ERoutes.registration:
-              return ShPageFadeTransition(page: const RegisterScreen());
-            case ERoutes.login:
-              return ShPageFadeTransition(page: const LoginScreen());
             case ERoutes.calendar:
               return ShPageFadeTransition(page: const CalendarScreen());
             default:
@@ -94,13 +69,5 @@ class HorasApp extends StatelessWidget {
         },
       ),
     );
-  }
-
-  String _getMainRoute(Vault vault) {
-    if (AppConfig.shared.flavor == Flavor.online) {
-      return vault.isLoggedIn ? Routes.calendar : Routes.registration;
-    }
-
-    return Routes.calendar;
   }
 }

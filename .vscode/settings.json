@@ -4,5 +4,22 @@
     "plaintext": true,
     "markdown": true,
     "scminput": true
+  },
+  "files.exclude": {
+    "**/.vscode": true,
+    "**/.dart_tool": true,
+    "**/ios": true,
+    "**/macos": true,
+    "**/web": true,
+    "**/build": true,
+    "**.flutter-plugins-dependencies": true,
+    "**.metadata": true,
+    "**devtools_options.yaml": true,
+    "**/l10n": true,
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
   }
 }

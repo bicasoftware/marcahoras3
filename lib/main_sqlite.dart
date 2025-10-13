@@ -34,11 +34,11 @@ void main() async {
     appVersion: '0.0.1',
     appColor: Colors.indigo,
     flavor: Flavor.sqlite,
-    salariosProvider: SalariosSqlProvider(db: database),
-    horasProvider: HorasSqlProvider(db: database),
-    empregosProvider: EmpregosSqlProvider(db: database),
-    diferenciaisProvider: DiferenciaisSqlProvider(db: database),
-    fixoProvider: HoraFixoSqlProvider(db: database),
+    salariosProvider: SalariosProvider(db: database),
+    horasProvider: HorasProvider(db: database),
+    empregosProvider: EmpregosProvider(db: database),
+    diferenciaisProvider: DiferenciaisProvider(db: database),
+    fixoProvider: HoraFixoProvider(db: database),
     db: database,
   );
 

@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:sane_uuid/uuid.dart';
 
 import '../../../domain_layer/contracts.dart';
 import '../../../utils.dart';
@@ -6,7 +7,7 @@ import '../../database/db_connector_drift.dart';
 import '../../dtos.dart';
 import '../../mappers.dart';
 
-class EmpregosSqlProvider implements EmpregosProviderContract {
+class EmpregosProvider implements EmpregosProviderContract {
   final AppDatabase _db;
 
   $$DbEmpregosTableTableManager get _table => _db.managers.dbEmpregos;
@@ -16,15 +17,15 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
   $$DbDiferenciaisTableTableManager get _tableDiff =>
       _db.managers.dbDiferenciais;
 
-  const EmpregosSqlProvider({required AppDatabase db}) : _db = db;
+  const EmpregosProvider({required AppDatabase db}) : _db = db;
 
   @override
   Future<EmpregosDto> create(EmpregosDto e) async {
-    final createdAt = DateTime.now();
+    final newId = Uuid.v4().toString();
     await _table.create(
-      (it) => e.toCompanion(createdAt: createdAt),
+      (it) => e.toCompanion(newId: newId),
     );
-    return e.copyWith();
+    return e.copyWith(id: newId);
   }
 
   @override
@@ -83,10 +84,9 @@ class EmpregosSqlProvider implements EmpregosProviderContract {
 
   @override
   Future<EmpregosDto> update(EmpregosDto emprego) async {
-    final createdAt = DateTime.now();
     await _table
         .filter((e) => e.id.equals(emprego.id))
-        .update((_) => emprego.toCompanion(createdAt: createdAt));
+        .update((_) => emprego.toCompanion());
 
     return emprego;
   }

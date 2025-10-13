@@ -66,14 +66,10 @@ class HomeState extends BaseState {
   }
 
   List<ReportHora> reportShortData() {
-    final horas = reportPage.hours
-        .sorted((a, b) {
-          return a.hora.createdAt.compareTo(b.hora.createdAt);
-        })
-        .reversed
-        .toList();
-
-    return horas.take(3).toList();
+    final length = reportPage.hours.length;
+    return length < 3
+        ? reportPage.hours
+        : reportPage.hours.slice(length - 3, length);
   }
 
   @override

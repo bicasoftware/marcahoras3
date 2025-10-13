@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
 class TimeOfDayHelper {
-  static String formatTime(TimeOfDay time, [addSeconds = false]) {
-    final tempo =
-        "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
-
-    return addSeconds ? "$tempo:00" : tempo;
+  static String formatTime(TimeOfDay time) {
+    return "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
   }
 
   static TimeOfDay parseString(String timeStr) {
-    final values =
-        timeStr.split(':').map((it) => int.tryParse(it) ?? 0).toList();
+    final values = timeStr
+        .split(':')
+        .map((it) => int.tryParse(it) ?? 0)
+        .toList();
     return TimeOfDay(hour: values[0], minute: values[1]);
   }
 

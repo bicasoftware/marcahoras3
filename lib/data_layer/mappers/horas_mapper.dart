@@ -15,11 +15,10 @@ extension HorasMapper on HorasDto {
       termino: TimeOfDayHelper.parseString(termino!),
       tipoHora: HorasType.fromLetter(tipoHora),
       horaStatus: HoraStatus.fromLetter(horaStatus),
-      createdAt: createdAt ?? DateTime(1970, 1, 1),
     );
   }
 
-  DbHorasCompanion toCompanion({String? newId, required DateTime createdAt}) {
+  DbHorasCompanion toCompanion({String? newId}) {
     return DbHorasCompanion(
       id: Value(newId ?? id!),
       data: Value(data),
@@ -28,7 +27,6 @@ extension HorasMapper on HorasDto {
       tipoHora: Value(tipoHora!),
       statusHora: Value(horaStatus!),
       empregoId: Value(empregoId!),
-      createdAt: Value(createdAt),
     );
   }
 }
@@ -38,8 +36,8 @@ extension HorasDtoMapper on Horas {
     return HorasDto(
       data: data,
       empregoId: empregoId,
-      inicio: TimeOfDayHelper.formatTime(inicio, true),
-      termino: TimeOfDayHelper.formatTime(termino, true),
+      inicio: TimeOfDayHelper.formatTime(inicio),
+      termino: TimeOfDayHelper.formatTime(termino),
       tipoHora: tipoHora.letter,
       horaStatus: horaStatus.letter,
       id: newId ?? id,

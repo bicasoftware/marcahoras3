@@ -110,3 +110,4 @@ assets/.env
 .vscode/launch.json
 *.g.dart
 .metadata
+.vscode/settings.json

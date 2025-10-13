@@ -6,19 +6,23 @@ part 'db_connector_drift.g.dart';
 
 class DbHoras extends Table {
   TextColumn get id => text().unique()();
+
   @JsonKey('emprego_id')
   TextColumn get empregoId => text().references(DbEmpregos, #id)();
+
   DateTimeColumn get data => dateTime().nullable()();
+
   TextColumn get inicio => text().withLength(min: 5, max: 5)();
+
   TextColumn get termino => text().withLength(min: 5, max: 5)();
+
   @JsonKey('tipo_hora')
   TextColumn get tipoHora =>
       text().withLength(max: 1).withDefault(Constant('n'))();
+
   @JsonKey('hora_status')
   TextColumn get statusHora =>
       text().withLength(max: 1).withDefault(Constant('a'))();
-  @JsonKey('created_at')
-  DateTimeColumn get createdAt => dateTime()();
 }
 
 class DbSalarios extends Table {
@@ -27,9 +31,7 @@ class DbSalarios extends Table {
   TextColumn get empregoId => text().references(DbEmpregos, #id)();
   TextColumn get vigencia => text().withLength(min: 7, max: 7)();
   RealColumn get valor => real()();
-  BoolColumn get ativo => boolean()();
-  @JsonKey('created_at')
-  DateTimeColumn get createdAt => dateTime()();
+  BoolColumn get ativo => boolean()();  
 }
 
 class DbEmpregos extends Table {
@@ -46,9 +48,7 @@ class DbEmpregos extends Table {
   IntColumn get porcFeriado => integer().withDefault(const Constant(100))();
   BoolColumn get ativo => boolean().withDefault(const Constant(false))();
   @JsonKey('carga_horaria')
-  IntColumn get cargaHoraria => integer().withDefault(const Constant(220))();
-  @JsonKey('created_at')
-  DateTimeColumn get createdAt => dateTime()();
+  IntColumn get cargaHoraria => integer().withDefault(const Constant(220))();  
 
   @JsonKey('status_emprego')
   TextColumn get statusHora =>

@@ -5,11 +5,11 @@ import '../../database/db_connector_drift.dart';
 import '../../dtos.dart';
 import '../../mappers/diferenciais_mapper.dart';
 
-class DiferenciaisSqlProvider extends DiferenciaisProviderContract {
+class DiferenciaisProvider extends DiferenciaisProviderContract {
   final AppDatabase _db;
   $$DbDiferenciaisTableTableManager get _table => _db.managers.dbDiferenciais;
 
-  DiferenciaisSqlProvider({required AppDatabase db}) : _db = db;
+  DiferenciaisProvider({required AppDatabase db}) : _db = db;
 
   @override
   Future<DiferenciaisDto> insertDiferencial(DiferenciaisDto diferencial) async {

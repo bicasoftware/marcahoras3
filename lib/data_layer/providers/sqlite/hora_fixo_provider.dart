@@ -5,11 +5,11 @@ import 'package:sane_uuid/uuid.dart';
 import '../../database/db_connector_drift.dart';
 import '../../dtos.dart';
 
-class HoraFixoSqlProvider extends HoraFixoProviderContract {
+class HoraFixoProvider extends HoraFixoProviderContract {
   final AppDatabase _db;
   $$DbHoraFixoTableTableManager get _table => _db.managers.dbHoraFixo;
 
-  HoraFixoSqlProvider({required AppDatabase db}) : _db = db;
+  HoraFixoProvider({required AppDatabase db}) : _db = db;
 
   @override
   Future<HoraFixoDto> insertHoraFixo(HoraFixoDto horaFixo) async {

@@ -4,38 +4,30 @@ import 'package:marcahoras3/utils/uuid_factory.dart';
 import '../../domain_layer/contracts.dart';
 import '../../domain_layer/models/diferenciais.dart';
 
-class DiferenciaisRepository {
-  final DiferenciaisProviderContract _provider, _sqlProvider;
+class DiferenciaisRepository {  
+  final DiferenciaisProviderContract _provider;
 
   DiferenciaisRepository({
-    required DiferenciaisProviderContract provider,
-    required DiferenciaisProviderContract sqlProvider,
-  }) : _provider = provider,
-       _sqlProvider = sqlProvider;
+    required DiferenciaisProviderContract provider,    
+  }) : _provider = provider;
 
   Future<Diferenciais?> saveDiferencial(Diferenciais diferencial) async {
-    final newId = UuidFactory.build();
-    final result = await _provider.insertDiferencial(diferencial.toDto(newId));
-    final newDif = await _sqlProvider.insertDiferencial(result);
-
+    final newDif = await _provider.insertDiferencial(diferencial.toDto(UuidFactory.build()));
     return Diferenciais.fromDTO(newDif);
   }
 
   Future<Diferenciais?> updateDiferencial(Diferenciais diferencial) async {
-    final result = await _provider.updateDiferencial(diferencial.toDto());
-    final updatedDif = await _sqlProvider.updateDiferencial(result);
+    final updatedDif = await _provider.updateDiferencial(diferencial.toDto());
     return Diferenciais.fromDTO(updatedDif);
   }
 
   Future<bool> deleteDiferencial(String id) async {
     await _provider.deleteDiferencial(id);
-    await _sqlProvider.deleteDiferencial(id);
     return true;
   }
 
   Future<void> insertMany(List<Diferenciais> difList) async {
     final dl = difList.map((d) => d.toDto()).toList();
     await _provider.insertMany(dl);
-    await _sqlProvider.insertMany(dl);
   }
 }

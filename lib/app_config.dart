@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'data_layer/database/db_connector_drift.dart';
-import 'data_layer/web/web.dart';
 import 'domain_layer/contracts.dart';
 
 enum Flavor { offline, online, sqlite, desktop, web }
@@ -10,14 +9,13 @@ class AppConfig {
   String appName = '';
   String appVersion = '';
   MaterialColor appColor = Colors.red;
-  Flavor flavor = Flavor.online;
-  HorasProviderContract? horasProvider, horasSqlProvider;
-  EmpregosProviderContract? empregosProvider, empregosSqlProvider;
-  SalariosProviderContract? salariosProvider, salariosSqlProvider;
-  DiferenciaisProviderContract? diferenciaisProvider, diferenciaisSqlProvider;
-  HoraFixoProviderContract? fixoProvider, fixoSqlProvider;
+  Flavor flavor = Flavor.offline;
+  HorasProviderContract? horasProvider;
+  EmpregosProviderContract? empregosProvider;
+  SalariosProviderContract? salariosProvider;
+  DiferenciaisProviderContract? diferenciaisProvider;
+  HoraFixoProviderContract? fixoProvider;
   AppDatabase? db;
-  WebConnector? connector;
 
   AppConfig(
     this.appName,
@@ -29,13 +27,7 @@ class AppConfig {
     this.horasProvider,
     this.diferenciaisProvider,
     this.fixoProvider,
-    this.empregosSqlProvider,
-    this.salariosSqlProvider,
-    this.horasSqlProvider,
-    this.diferenciaisSqlProvider,
-    this.fixoSqlProvider,
     this.db,
-    this.connector,
   );
 
   static AppConfig shared = AppConfig.create();
@@ -45,18 +37,12 @@ class AppConfig {
     String appVersion = '',
     MaterialColor appColor = Colors.red,
     Flavor flavor = Flavor.online,
-    HorasProviderContract? horasProvider,
-    HorasProviderContract? horasSqlProvider,
+    HorasProviderContract? horasProvider,    
     EmpregosProviderContract? empregosProvider,
-    EmpregosProviderContract? empregosSqlProvider,
     SalariosProviderContract? salariosProvider,
-    SalariosProviderContract? salariosSqlProvider,
     DiferenciaisProviderContract? diferenciaisProvider,
-    DiferenciaisProviderContract? diferenciaisSqlProvider,
     HoraFixoProviderContract? fixoProvider,
-    HoraFixoProviderContract? fixoSqlProvider,
     AppDatabase? db,
-    WebConnector? connector,
   }) {
     return shared = AppConfig(
       appName,
@@ -68,13 +54,7 @@ class AppConfig {
       horasProvider,
       diferenciaisProvider,
       fixoProvider,
-      empregosSqlProvider,
-      salariosSqlProvider,
-      horasSqlProvider,
-      diferenciaisSqlProvider,
-      fixoSqlProvider,
       db,
-      connector,
     );
   }
 }

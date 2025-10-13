@@ -16,7 +16,6 @@ class Empregos {
   final int porcNormal;
   final int cargaHoraria;
   final bool ativo;
-  final DateTime? createdAt;
 
   final double salario;
 
@@ -37,7 +36,6 @@ class Empregos {
     this.cargaHoraria = 220,
     this.ativo = true,
     this.salario = 0.0,
-    this.createdAt,
     Iterable<Horas> horas = const [],
     Iterable<Salarios> salarios = const [],
     Iterable<HoraFixo> horaFixoList = const [],
@@ -82,7 +80,6 @@ class Empregos {
       salario: salario ?? this.salario,
       horaFixoList: horaFixoList ?? this.horaFixoList,
       diferenciaisList: diferenciaisList ?? this.diferenciaisList,
-      createdAt: createdAt,
     );
   }
 
@@ -157,7 +154,6 @@ class Empregos {
         other.porcNormal == porcNormal &&
         other.cargaHoraria == cargaHoraria &&
         other.ativo == ativo &&
-        other.createdAt == createdAt &&
         other.salario == salario &&
         other.horas == horas &&
         other.salarios == salarios &&
@@ -177,7 +173,6 @@ class Empregos {
         porcNormal.hashCode ^
         cargaHoraria.hashCode ^
         ativo.hashCode ^
-        createdAt.hashCode ^
         salario.hashCode ^
         horas.hashCode ^
         salarios.hashCode ^

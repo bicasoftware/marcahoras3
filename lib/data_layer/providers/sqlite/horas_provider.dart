@@ -7,21 +7,20 @@ import '../../database/db_connector_drift.dart';
 import '../../dtos/horas_dto.dart';
 import '../../mappers.dart';
 
-class HorasSqlProvider implements HorasProviderContract {
+class HorasProvider implements HorasProviderContract {
   final AppDatabase _db;
 
   $$DbHorasTableTableManager get _table => _db.managers.dbHoras;
 
-  const HorasSqlProvider({required AppDatabase db}) : _db = db;
+  const HorasProvider({required AppDatabase db}) : _db = db;
 
   @override
   Future<HorasDto> create(HorasDto hora) async {
     final id = Uuid.v4().toString();
-    final createdAt = DateTime.now();
 
     final int h = await _db
         .into(_db.dbHoras)
-        .insert(hora.toCompanion(newId: id, createdAt: createdAt));
+        .insert(hora.toCompanion(newId: id));
     return hora.copyWithId("$h");
   }
 
@@ -49,10 +48,9 @@ class HorasSqlProvider implements HorasProviderContract {
 
   @override
   Future<HorasDto> update(HorasDto hora) async {
-    final createdAt = DateTime.now();
     await _table
         .filter((h) => h.id.equals(hora.id))
-        .update((e) => hora.toCompanion(createdAt: createdAt));
+        .update((e) => hora.toCompanion());
 
     return hora;
   }
