@@ -75,8 +75,12 @@ mixin CalendarScreenPresenterMixin {
   ) async {
     final result = await showConfirmationDialog(
       context: context,
-      titleMsg: Localiza.find("confirmar"),
-      descriptionText: "Deseja apapgar essa hora extra?",
+      titleMsg: Localiza.find("confirmarExclusao"),
+      descriptionText: Localiza.findAndReplace(
+        stringKey: 'deleteDialogPattern',
+        findString: '{V}',
+        replaceWithKey: 'horaExtra',
+      ),
     );
 
     if (result == true) {

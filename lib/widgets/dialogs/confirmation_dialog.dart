@@ -20,16 +20,16 @@ Future<bool> showConfirmationDialog({
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              response = true;
+              response = false;
             },
-            child: Text(okLabel ?? Localiza.find('confirmar')),
+            child: Text(cancelLabel ?? Localiza.find('cancelar')),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              response = false;
+              response = true;
             },
-            child: Text(cancelLabel ?? Localiza.find('cancelar')),
+            child: Text(okLabel ?? Localiza.find('confirmar')),
           ),
         ],
         content: Container(

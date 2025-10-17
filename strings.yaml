@@ -256,6 +256,9 @@ cancelar:
 confirmar:
   pt_BR: Confirmar
   en_US: Confirm
+confirmarExclusao:
+  pt_BR: Confirmar Exclusão
+  en_US: Confirm Deletion
 calendario:
   pt_BR: Calendário
   en_US: Calendar
@@ -271,6 +274,9 @@ data:
 editHoraReplace:
   pt_BR: Hora Extra Dia {DATA}  
   en_US: Overtime at {DATA}    
+horaExtra:
+  pt_BR: Hora Extra
+  en_US: Overtime
 novahora:
   pt_BR: Nova Hora Extra
   en_US: Add Overtime
@@ -334,6 +340,9 @@ deleteDialogTitle:
 deleteDialogMsg:
   pt_BR: Você realmente deseja apagar?
   en_US: Do you really want to delete?
+deleteDialogPattern:
+  pt_BR: Você realmente deseja apagar {V}?
+  en_US: Do you really want to delete {V}?
 burnHoraDialogMsg:
   pt_BR: Você realmente deseja marcar essa hora como Compensada?
   en_US: Do you really want to mark this entry as Compensated?

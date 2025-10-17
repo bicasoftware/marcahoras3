@@ -33,7 +33,7 @@ class DualActionButton extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: firstColor,
-                border: Border.all(color: Colors.black12),
+                border: Border.all(color: Colors.black26),
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(8),
                   topLeft: Radius.circular(8),
@@ -53,7 +53,7 @@ class DualActionButton extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: secondColor,
-                border: Border.all(color: Colors.black12),
+                border: Border.all(color: Colors.black26),
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(8),
                   topRight: Radius.circular(8),
