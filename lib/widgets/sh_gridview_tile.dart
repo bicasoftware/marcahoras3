@@ -53,10 +53,10 @@ class _ShGridviewTileState extends State<ShGridviewTile> {
               margin: EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: item == _selectedItem
-                    ? AppColors.inversePrimary.withAlpha(20)
+                    ? AppColors.primary.withAlpha(20)
                     : AppColors.surface,
                 border: Border.all(
-                  color: AppColors.inversePrimary.withAlpha(20),
+                  color: AppColors.primary.withAlpha(20),
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),

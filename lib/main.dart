@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:marcahoras3/features/home/home/home_screen.dart';
 
 import 'app_config.dart';
 import 'features/empregos/empregos_screen.dart';
@@ -45,13 +46,14 @@ class HorasApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [Locale('pt', 'BR'), Locale('en', 'US')],
-        initialRoute: Routes.calendar,
+        initialRoute: Routes.home,
         routes: {
           Routes.empregosDetail: (_) {
             return EmpregosBlocLoader(child: const EmpregosScreen());
           },
           Routes.relatorio: (_) => const RelatorioScreen(),
           Routes.calendar: (_) => const CalendarScreen(),
+          Routes.home: (c) => const HomeScreen(),
         },
         onGenerateRoute: (settings) {
           switch (ERoutes.fromRouteName(settings.name)) {
@@ -61,6 +63,8 @@ class HorasApp extends StatelessWidget {
               return ShPageFadeTransition(page: const EmpregosScreen());
             case ERoutes.calendar:
               return ShPageFadeTransition(page: const CalendarScreen());
+            case ERoutes.home:
+              return ShPageFadeTransition(page: const HomeScreen());
             default:
               null;
           }

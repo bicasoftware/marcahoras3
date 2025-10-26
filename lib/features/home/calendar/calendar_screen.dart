@@ -29,6 +29,7 @@ class _CalendarScreenState extends State<CalendarScreen>
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
     final tbarHeight = MediaQuery.of(context).viewPadding.top;
+    final theme = Theme.of(context).textTheme;
 
     return BlocHelper<HomeBloc, HomeState>(
       bloc: bloc,
@@ -66,10 +67,10 @@ class _CalendarScreenState extends State<CalendarScreen>
                     children: [
                       Container(
                         height: tbarHeight == 0.0 ? 8.0 : tbarHeight,
-                        color: AppColors.inversePrimary,
+                        color: AppColors.primary,
                       ),
                       Container(
-                        color: AppColors.inversePrimary,
+                        color: AppColors.primary,
                         padding: EdgeInsets.symmetric(horizontal: 12),
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 12),

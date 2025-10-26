@@ -22,9 +22,9 @@ class EmpregosDropdown extends StatelessWidget {
 
     return DropdownButtonHideUnderline(
       child: DropdownButton<Empregos>(
-        dropdownColor: AppColors.inversePrimary,
+        dropdownColor: AppColors.primary,
         icon: PopupMenuButton(
-          color: AppColors.inversePrimary,
+          color: AppColors.primary,
           icon: Icon(Icons.more_vert, color: AppColors.onPrimary),
           itemBuilder: (context) {
             return <PopupMenuItem>[

@@ -1,11 +1,11 @@
 import 'package:flutter/painting.dart';
 
 class AppColors {
-  static const primary = Color(0xFFB4271F);
+  static const primary = Color.fromARGB(255, 196, 42, 34);
   static const onPrimary = Color(0xFFFFFFFF);
   static const primaryContainer = Color(0xFFFFDAD5);
   static const onPrimaryContainer = Color(0xFF410001);
-  static const secondary = Color(0xFF29BDFC);
+  static const secondary = Color.fromARGB(255, 122, 41, 252);
   static const onSecondary = Color(0xFFFFFFFF);
   static const secondaryContainer = Color(0xFF96FC29);
   static const onSecondaryContainer = Color(0xFF0D2000);
@@ -26,7 +26,7 @@ class AppColors {
   static const outline = Color(0xFFCE3C34);
   static const onInverseSurface = Color(0xFFD6F6FF);
   static const inverseSurface = Color(0xFF00363F);
-  static const inversePrimary = Color(0xFFCE3C34);
+  static const inversePrimary = Color.fromARGB(255, 94, 0, 245);
   static const shadow = Color(0xFF000000);
   static const surfaceTint = Color(0xFFB4271F);
   static const outlineVariant = Color(0xFFD8C2BE);

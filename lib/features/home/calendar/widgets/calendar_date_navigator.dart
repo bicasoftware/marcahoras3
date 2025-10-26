@@ -50,7 +50,7 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
-      color: AppColors.inversePrimary,
+      color: AppColors.primary,
       child: Row(
         children: [
           Expanded(

@@ -2,12 +2,14 @@ class Routes {
   static const String empregosDetail = "/add_details";
   static const String relatorio = "/reports";
   static const String calendar = "/calendar";
+  static const String home = "/home";
 }
 
 enum ERoutes {  
   empregosDetail("/add_details"),
   relatorio("/reports"),
   calendar("/calendar"),
+  home("/home"),
   unknown("/unknown");
 
   final String route;

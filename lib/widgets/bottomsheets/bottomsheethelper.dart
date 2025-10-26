@@ -104,10 +104,10 @@ class BottomSheetHelper {
                       margin: EdgeInsets.all(2),
                       decoration: BoxDecoration(
                         color: m == hintedItem
-                            ? AppColors.inversePrimary.withAlpha(20)
+                            ? AppColors.primary.withAlpha(20)
                             : AppColors.surface,
                         border: Border.all(
-                          color: AppColors.inversePrimary.withAlpha(20),
+                          color: AppColors.primary.withAlpha(20),
                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),

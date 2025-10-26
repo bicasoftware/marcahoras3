@@ -226,6 +226,9 @@ horasDiferenciaisVazia:
 diferencial:
   pt_BR: Diferencial
   en_US: Differencial
+diferenciais:
+  pt_BR: Diferenciais
+  en_US: Differencials
 addDiferecencial:
   pt_BR: Nova porcentagem diferencial
   en_US: New differencial percentage

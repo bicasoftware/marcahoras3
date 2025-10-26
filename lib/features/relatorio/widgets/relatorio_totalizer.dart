@@ -71,7 +71,7 @@ class _TotalsContainerState extends State<TotalsContainer> {
                 // bottom: 16,
               ),
               decoration: BoxDecoration(
-                color: AppColors.inversePrimary,
+                color: AppColors.primary,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
@@ -133,7 +133,7 @@ class _TotalsContainerState extends State<TotalsContainer> {
           return Container(
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
             decoration: BoxDecoration(
-              color: AppColors.inversePrimary,
+              color: AppColors.primary,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black54,
@@ -201,7 +201,7 @@ class _TotalsContainerState extends State<TotalsContainer> {
         // child: Container(
         //   padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 24),
         //   decoration: BoxDecoration(
-        //     color: AppColors.inversePrimary,
+        //     color: AppColors.primary,
         //     borderRadius: BorderRadius.only(
         //       topLeft: Radius.circular(16),
         //       topRight: Radius.circular(16),
@@ -248,7 +248,7 @@ class _TotalsContainerState extends State<TotalsContainer> {
     //   child: Container(
     //     padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 24),
     //     decoration: BoxDecoration(
-    //       color: AppColors.inversePrimary,
+    //       color: AppColors.primary,
     //       borderRadius: BorderRadius.only(
     //         topLeft: Radius.circular(16),
     //         topRight: Radius.circular(16),
