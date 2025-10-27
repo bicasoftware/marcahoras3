@@ -186,6 +186,10 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
+  void setNavPos(int pos) async {
+    emit(state.copyWith(navPos: pos));
+  }
+
   void setEmpregoPos(Empregos e) async {
     final index = state.empregos.indexOf(e);
     final now = DateTime.now();

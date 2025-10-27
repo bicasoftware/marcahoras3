@@ -6,9 +6,9 @@
     "scminput": true
   },
   "files.exclude": {
-    "**/.vscode": true,
+    "**/.vscode": false,
     "**/.dart_tool": true,
-    "**/ios": true,
+    "**/ios": false,
     "**/macos": true,
     "**/web": true,
     "**/build": true,

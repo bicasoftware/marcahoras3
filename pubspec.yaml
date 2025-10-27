@@ -28,7 +28,7 @@ dependencies:
   path: ^1.9.0
   path_provider: ^2.1.5
   flutter_native_splash: ^2.4.3
-  drift: ^2.25.1
+  drift: ^2.29.0
   drift_flutter: ^0.2.4
   sane_uuid: ^1.1.0
   yaml: ^3.1.3

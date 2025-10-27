@@ -30,11 +30,12 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
+    final pos = context.read<HomeBloc>().state.navPos;
     controller = TabController(
       length: 3,
       vsync: this,
       animationDuration: Duration(milliseconds: 300),
-      initialIndex: 0,
+      initialIndex: pos,
     )..addListener(_onNavigate);
     super.initState();
   }
@@ -96,8 +97,10 @@ class _HomeScreenState extends State<HomeScreen>
                     backgroundColor: Colors.white,
                     color: AppColors.primary,
                     animationDuration: Duration(milliseconds: 300),
+                    index: bloc.state.navPos,
                     letIndexChange: (value) {
                       controller.animateTo(value);
+                      bloc.setNavPos(value);
                       return true;
                     },
                     items: [

@@ -4,7 +4,7 @@ import '../../../domain_layer/models.dart';
 import '../../../utils.dart';
 
 class HomeState extends BaseState {
-  final int empregoPos;
+  final int empregoPos, navPos;
   final UnmodifiableListView<Empregos> empregos;
   final bool isDarkMode;
   final int month;
@@ -16,6 +16,7 @@ class HomeState extends BaseState {
     required this.year,
     required this.month,
     this.empregoPos = 0,
+    this.navPos = 1,
     Iterable<Empregos> empregos = const [],
     this.isDarkMode = false,
     required this.calendarPage,
@@ -27,6 +28,7 @@ class HomeState extends BaseState {
     StateStatus? status,
     Iterable<Empregos>? empregos,
     int? empregoPos,
+    int? navPos,
     bool? isDarkMode,
     int? year,
     int? month,
@@ -37,6 +39,7 @@ class HomeState extends BaseState {
       status: status ?? this.status,
       empregos: empregos ?? this.empregos,
       empregoPos: empregoPos ?? this.empregoPos,
+      navPos: navPos ?? this.navPos,
       isDarkMode: isDarkMode ?? this.isDarkMode,
       year: year ?? this.year,
       month: month ?? this.month,
@@ -45,7 +48,7 @@ class HomeState extends BaseState {
     );
 
     return newState;
-  }
+  }  
 
   Empregos get currentEmprego => empregos[empregoPos];
 
@@ -78,6 +81,7 @@ class HomeState extends BaseState {
 
     return other.empregoPos == empregoPos &&
         other.empregos == empregos &&
+        other.navPos == navPos &&
         other.isDarkMode == isDarkMode &&
         other.month == month &&
         other.year == year;
@@ -87,6 +91,7 @@ class HomeState extends BaseState {
   int get hashCode {
     return empregoPos.hashCode ^
         empregos.hashCode ^
+        navPos.hashCode ^
         isDarkMode.hashCode ^
         month.hashCode ^
         year.hashCode;
