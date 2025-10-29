@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:marcahoras3/widgets.dart';
 
+import '../resources.dart';
+
 class ShTogglableTile extends StatefulWidget {
   final int value;
   final List<int> options;
@@ -60,7 +62,9 @@ class _ShTogglableTileState extends State<ShTogglableTile> {
           isSelected: _items,
           constraints: const BoxConstraints(minHeight: 32.0, minWidth: 56.0),
           onPressed: onItemSelected,
-          
+          color: AppColors.secondary,
+          fillColor: AppColors.onSurface.withAlpha(40),
+          selectedColor: AppColors.onSurface,
         ),
       ),
     );

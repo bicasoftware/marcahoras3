@@ -22,7 +22,7 @@ class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.surface,
       centerTitle: centerTitle,
       title: Text(label),
       elevation: elevation,      

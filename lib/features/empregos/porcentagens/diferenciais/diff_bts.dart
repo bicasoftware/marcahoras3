@@ -96,13 +96,12 @@ class _DiffBtsState extends State<DiffBts> {
           ),
           Container(
             margin: EdgeInsets.only(bottom: 16),
-            child: OutlinedButton.icon(
-              onPressed: () {
+            child: ShWideButton(
+              onTap: () {
                 Navigator.of(context).pop();
                 widget.onSave(_porc, _weekDay, _color);
               },
-              icon: Icon(Icons.save_outlined),
-              label: Text(Localiza.find("salvar")),
+              labelId: "salvar",
             ),
           ),
         ],

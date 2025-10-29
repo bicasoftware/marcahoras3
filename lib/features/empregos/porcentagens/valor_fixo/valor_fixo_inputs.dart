@@ -2,7 +2,6 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../../resources.dart';
 import '../../../../utils.dart';
 import '../../../../widgets.dart';
 
@@ -59,12 +58,9 @@ class _ValorFixoInputsState extends State<ValorFixoInputs> {
               label: Localiza.find('valorFixoNormal'),
               hint: CurrencyHelper.formatAmount(12),
               labelStyle: theme.labelLarge,
-              icon: Icon(
-                Icons.monetization_on,
-                color: AppColors.porcNormalColor,
-              ),
-              onValueChanged:
-                  (_) => widget.onNormalChanged(_normalController.numberValue),
+              icon: Icons.monetization_on,
+              onValueChanged: (_) =>
+                  widget.onNormalChanged(_normalController.numberValue),
               validator: (s) {
                 if (_normalController.numberValue <= 0.0) {
                   return Localiza.find('valorInvalido');
@@ -80,13 +76,9 @@ class _ValorFixoInputsState extends State<ValorFixoInputs> {
               label: Localiza.find('valorFixoFeriados'),
               hint: CurrencyHelper.formatAmount(12),
               labelStyle: theme.labelLarge,
-              icon: Icon(
-                Icons.monetization_on,
-                color: AppColors.porcFeriadosColor,
-              ),
-              onValueChanged:
-                  (_) =>
-                      widget.onFeriadoChanged(_feriadoController.numberValue),
+              icon: Icons.monetization_on,
+              onValueChanged: (_) =>
+                  widget.onFeriadoChanged(_feriadoController.numberValue),
               validator: (s) {
                 if (_feriadoController.numberValue <= 0.0) {
                   return Localiza.find('valorInvalido');

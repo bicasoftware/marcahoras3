@@ -35,7 +35,6 @@ mixin CalendarScreenPresenterMixin {
               child: IconButton(
                 icon: Icon(
                   Icons.delete_outline,
-                  color: AppColors.deleteColor,
                 ),
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the current bts

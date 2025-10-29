@@ -31,10 +31,9 @@ class NoDataContainer extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            OutlinedButton.icon(
-              onPressed: helperButtonTap,
-              label: Text(helperButtonLabel),
-              icon: Icon(Icons.add),
+            ShWideButton(
+              onTap: helperButtonTap,
+              labelId: helperButtonLabel,
             ),
           ],
         ),

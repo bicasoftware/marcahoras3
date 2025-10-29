@@ -49,7 +49,7 @@ class IndicatorTile extends StatelessWidget {
           child: Container(
             width: 6,
             decoration: BoxDecoration(
-              color: AppColors.primary.withAlpha(50),
+              color: AppColors.onSurface,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(_decorationSize),
                 bottomLeft: Radius.circular(_decorationSize),

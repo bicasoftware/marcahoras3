@@ -88,16 +88,23 @@ class _EmpregosScreenState extends State<EmpregosScreen>
         label: !bloc.state.isEditing
             ? Localiza.find("adicionar")
             : Localiza.find("editarEmprego"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.save_outlined, color: AppColors.onSecondary),
-            onPressed: () => _validate(bloc),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(Icons.save_outlined, color: AppColors.onSecondary),
+        //     onPressed: () => _validate(bloc),
+        //   ),
+        // ],
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 16, top:8),
+        color: AppColors.background,
+        child: ShWideButton(
+          labelId: 'salvar',
+          onTap: () => _validate(bloc),
+        ),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        margin: EdgeInsets.only(bottom: 16),
+        padding: EdgeInsets.symmetric(horizontal: 8),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -111,12 +118,13 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                 spacing: 4,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const SizedBox(height: 4),
                   ShTextTile(
                     controller: ctrDescricao,
                     label: Localiza.find("descricaoEmprego"),
                     hint: Localiza.find("descricaoEmprego"),
                     labelStyle: textTheme.labelLarge,
-                    icon: Icon(Icons.text_fields),
+                    icon: Icons.text_fields,
                     onValueChanged: bloc.setDescricao,
                     validator: (s) {
                       return MinCharactersValidator.validate(

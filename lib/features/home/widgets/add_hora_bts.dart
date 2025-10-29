@@ -146,11 +146,9 @@ class _AddHoraBtsState extends State<AddHoraBts> {
                     setState(() => _horaType = type);
                   },
                 ),
-
-          OutlinedButton.icon(
-            onPressed: _onSave,
-            icon: Icon(Icons.save_outlined),
-            label: Text(Localiza.find('salvar')),
+          ShWideButton(
+            labelId: 'salvar',
+            onTap: _onSave,
           ),
           const SizedBox(height: 8),
         ],

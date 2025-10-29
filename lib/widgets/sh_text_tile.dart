@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../resources.dart';
 import '../widgets.dart';
 
 class ShTextTile extends StatelessWidget {
@@ -9,7 +10,7 @@ class ShTextTile extends StatelessWidget {
   final String hint;
   final String? Function(String?)? validator;
   final TextStyle? labelStyle;
-  final Icon? icon;
+  final IconData? icon;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
   final int? maxChars;
@@ -41,7 +42,7 @@ class ShTextTile extends StatelessWidget {
             if (icon != null)
               Padding(
                 padding: const EdgeInsets.only(right: 16.0),
-                child: icon!,
+                child: Icon(icon, color: AppColors.secondary),
               ),
             Expanded(
               child: ShTextField(
@@ -49,7 +50,6 @@ class ShTextTile extends StatelessWidget {
                 label: label,
                 hint: hint,
                 labelStyle: labelStyle,
-                isOutlined: false,
                 inputFormatters: inputFormatters,
                 keyboardType: keyboardType,
                 maxChars: maxChars,

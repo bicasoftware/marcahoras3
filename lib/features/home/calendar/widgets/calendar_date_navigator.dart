@@ -50,7 +50,7 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
-      color: AppColors.primary,
+      color: AppColors.surface,
       child: Row(
         children: [
           Expanded(
@@ -58,7 +58,7 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
             child: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
-                color: AppColors.onPrimary,
+                color: AppColors.onSurface,
                 size: 16,
               ),
               onPressed: widget.onMonthDec,
@@ -72,7 +72,7 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
                 child: Text(
                   Localiza.findList('months')[widget.month - 1],
                   style: theme.bodyLarge?.copyWith(
-                    color: AppColors.onPrimary,
+                    color: AppColors.onSurface,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -98,7 +98,7 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
                 child: Text(
                   "${widget.year}",
                   style: theme.bodyLarge?.copyWith(
-                    color: AppColors.onPrimary,
+                    color: AppColors.onSurface,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.end,
@@ -122,7 +122,7 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
             child: IconButton(
               icon: Icon(
                 Icons.arrow_forward_ios,
-                color: AppColors.onPrimary,
+                color: AppColors.onSurface,
                 size: 16,
               ),
               onPressed: widget.onMonthAdd,

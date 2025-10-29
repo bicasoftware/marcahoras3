@@ -58,11 +58,11 @@ class _HoraTypeToggleButtonState extends State<HoraTypeToggleButton> {
         case 2:
           return widget.diferencial?.color ?? AppColors.porcDiferenciadaColor;
         default:
-          return Colors.white;
+          return AppColors.surface;
       }
     }
 
-    return Colors.white;
+    return AppColors.surface;
   }
 
   Color _getLabelColor(int pos) {
@@ -80,18 +80,30 @@ class _HoraTypeToggleButtonState extends State<HoraTypeToggleButton> {
   }
 
   BorderRadius _getBorderRadius(int index) {
-    if (index == 0) {
-      return const BorderRadius.only(
-        topLeft: Radius.circular(8),
-        bottomLeft: Radius.circular(8),
-      );
-    } else if (index == 2) {
-      return const BorderRadius.only(
-        topRight: Radius.circular(8),
-        bottomRight: Radius.circular(8),
-      );
+    switch (index) {
+      case 0:
+        return const BorderRadius.only(
+          topLeft: Radius.circular(8),
+          bottomLeft: Radius.circular(8),
+        );
+
+      case 1:
+        return widget.diferencial != null
+            ? BorderRadius.zero
+            : const BorderRadius.only(
+                topRight: Radius.circular(8),
+                bottomRight: Radius.circular(8),
+              );
+
+      case 2:
+        return const BorderRadius.only(
+          topRight: Radius.circular(8),
+          bottomRight: Radius.circular(8),
+        );
+
+      default:
+        return BorderRadius.zero;
     }
-    return BorderRadius.zero;
   }
 
   @override

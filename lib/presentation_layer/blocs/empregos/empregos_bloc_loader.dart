@@ -51,7 +51,7 @@ class _EmpregosBlocLoaderState extends State<EmpregosBlocLoader> {
         horaFixoDeleteUseCase: HoraFixoDeleteUseCase(fixoRepo),
         horaFixoSaveUseCase: HoraFixoSaveUseCase(fixoRepo),
         horaFixoUpdateUseCase: HoraFixoUpdateUseCase(fixoRepo),
-      )..load(emprego: empregoArgs.emprego!, isInsert: empregoArgs.isInsert),
+      )..load(emprego: empregoArgs.emprego, isInsert: empregoArgs.isInsert),
       child: widget.child,
     );
   }

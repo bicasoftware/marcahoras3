@@ -46,6 +46,7 @@ class ShSliderPicker extends StatelessWidget {
           onChanged: (v) => onChanged(
             v.toInt(),
           ),
+          activeColor: AppColors.secondary,
         ),
       ),
     );

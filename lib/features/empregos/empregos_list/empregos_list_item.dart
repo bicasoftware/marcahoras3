@@ -99,7 +99,8 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
           _tapPosition = details.globalPosition;
         },
         onLongPress: _showCustomMenu,
-        splashColor: AppColors.primary.withAlpha(20),
+        onTap: widget.onEdit,
+        splashColor: AppColors.splash,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Column(
@@ -150,7 +151,7 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
                           child: Row(
                             spacing: 8,
                             children: [
-                              Icon(Icons.delete, color: AppColors.primary),
+                              Icon(Icons.delete, color: Colors.white),
                               Text(
                                 Localiza.find('apagar'),
                                 textAlign: TextAlign.justify,
@@ -221,7 +222,7 @@ class _EmpregoItem extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: theme.bodyLarge?.copyWith(color: AppColors.primary),
+            style: theme.bodyLarge,
           ),
         ),
         Text(
@@ -255,10 +256,11 @@ class _DiferenciaisItem extends StatelessWidget {
           backgroundColor: color,
           radius: 8,
         ),
+        const SizedBox(width: 8),
         Expanded(
           child: Text(
             weekday,
-            style: theme.bodyLarge?.copyWith(color: AppColors.primary),
+            style: theme.bodyLarge?.copyWith(color: AppColors.onSurface),
           ),
         ),
         Text(

@@ -10,7 +10,6 @@ class ShTextField extends StatelessWidget {
   final EdgeInsets? padding;
   final String? Function(String?)? validator;
   final TextStyle? labelStyle;
-  final bool isOutlined;
   final Icon? icon;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
@@ -30,40 +29,27 @@ class ShTextField extends StatelessWidget {
     this.maxChars,
     this.onValueChanged,
     this.padding = EdgeInsets.zero,
-    this.isOutlined = true,
   });
 
   get _inputBorder => UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.black12, width: 1),
-      );
+    borderSide: BorderSide(color: AppColors.onSurface, width: 1),
+  );
 
-  InputDecoration outlinedDecoration(TextTheme theme) => InputDecoration(
-        filled: true,
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.outline),
-        ),
-        hintText: hint,
-        errorStyle: theme.labelLarge?.copyWith(
-          color: AppColors.onPrimary,
-          fontWeight: FontWeight.bold,
-        ),
-      );
   InputDecoration defaultDecoration(TextTheme theme) => InputDecoration(
-        filled: true,
-        hintText: hint,
-        border: _inputBorder,
-        focusedBorder: _inputBorder,
-        errorBorder: _inputBorder,
-        enabledBorder: _inputBorder,
-        disabledBorder: _inputBorder,
-        focusedErrorBorder: _inputBorder,
-        contentPadding: EdgeInsets.zero,
-        icon: icon,
-        errorStyle: theme.labelMedium?.copyWith(
-          color: AppColors.primary,
-          fontWeight: FontWeight.bold,
-        ),
-      );
+    hintText: hint,
+    border: _inputBorder,
+    focusedBorder: _inputBorder,
+    errorBorder: _inputBorder,
+    enabledBorder: _inputBorder,
+    disabledBorder: _inputBorder,
+    focusedErrorBorder: _inputBorder,
+    contentPadding: EdgeInsets.zero,
+    icon: icon,
+    errorStyle: theme.labelMedium?.copyWith(
+      color: AppColors.error,
+      fontWeight: FontWeight.bold,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -76,15 +62,15 @@ class ShTextField extends StatelessWidget {
         if (label?.isNotEmpty ?? false)
           Text(
             label!,
-            style: labelStyle ??
+            style:
+                labelStyle ??
                 theme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
         const SizedBox(height: 4),
         TextFormField(
           controller: controller,
           autofocus: false,
-          decoration:
-              isOutlined ? outlinedDecoration(theme) : defaultDecoration(theme),
+          decoration: defaultDecoration(theme),
           validator: validator,
           inputFormatters: inputFormatters,
           keyboardType: keyboardType,

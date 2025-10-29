@@ -8,7 +8,6 @@ import '../../../utils.dart';
 import '../../../widgets.dart';
 import '../horas_list/horas_list.dart';
 import 'calendar_page.dart';
-import 'calendar_screen_actions.dart';
 import 'calendar_screen_presenter.dart';
 import 'calendario_screen_header.dart';
 import 'widgets/empregos_dropdown.dart';
@@ -53,6 +52,23 @@ class _CalendarScreenState extends State<CalendarScreen>
       child: bloc.state.empregos.isEmpty
           ? Scaffold(body: Container())
           : Scaffold(
+              floatingActionButton: FloatingActionButton.extended(
+                onPressed: () => showHorasBts(
+                  context: context,
+                  bloc: bloc,
+                ),
+                label: Text(
+                  Localiza.find('hora'),
+                  style: theme.labelLarge?.copyWith(
+                    color: AppColors.onSecondary,
+                  ),
+                ),
+                icon: Icon(
+                  Icons.add_box,
+                  color: AppColors.onSecondary,
+                ),
+                backgroundColor: AppColors.secondary,
+              ),
               body: AnnotatedRegion<SystemUiOverlayStyle>(
                 value: SystemUiOverlayStyle.light.copyWith(
                   systemNavigationBarColor: Colors.transparent,
@@ -66,36 +82,37 @@ class _CalendarScreenState extends State<CalendarScreen>
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        height: tbarHeight == 0.0 ? 8.0 : tbarHeight,
-                        color: AppColors.primary,
+                        height: tbarHeight == 0.0 ? 8.0 : tbarHeight + 16,
+                        color: AppColors.surface,
                       ),
-                      Container(
-                        color: AppColors.primary,
-                        padding: EdgeInsets.symmetric(horizontal: 12),
-                        child: Container(
+                      if (bloc.state.empregos.length > 1)
+                        Container(
+                          color: AppColors.surface,
                           padding: EdgeInsets.symmetric(horizontal: 12),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: AppColors.surface,
-                              width: 1,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: AppColors.onSurface,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: EmpregosDropdown(
-                            onAdd: () => showEmpregosScreen(
-                              context: context,
-                              bloc: bloc,
-                              isInsert: true,
+                            child: EmpregosDropdown(
+                              onAdd: () => showEmpregosScreen(
+                                context: context,
+                                bloc: bloc,
+                                isInsert: true,
+                              ),
+                              onEdit: () => showEmpregosScreen(
+                                context: context,
+                                bloc: bloc,
+                                isInsert: false,
+                              ),
+                              onDelete: () => showOnDeleteDialog(context, bloc),
                             ),
-                            onEdit: () => showEmpregosScreen(
-                              context: context,
-                              bloc: bloc,
-                              isInsert: false,
-                            ),
-                            onDelete: () => showOnDeleteDialog(context, bloc),
                           ),
                         ),
-                      ),
                       CalendarioScreenHeader(
                         year: bloc.state.year,
                         month: bloc.state.month,
@@ -124,13 +141,35 @@ class _CalendarScreenState extends State<CalendarScreen>
                                   );
                                 },
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 4,
-                                  bottom: 8,
-                                ),
-                                child: CalendarActions(),
-                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(
+                              //     top: 4,
+                              //     bottom: 8,
+                              //   ),
+                              //   child: CalendarActions(),
+                              // ),
+                              // Container(
+                              //   child: ShWideButton(
+                              //     onTap: () => showHorasBts(
+                              //       context: context,
+                              //       bloc: bloc,
+                              //     ),
+                              //     labelId: 'adicionar',
+                              //   ),
+                              // ),
+                              // Container(
+                              //   padding: EdgeInsets.symmetric(horizontal: 16),
+                              //   child: Row(
+                              //     children: [
+                              //       Spacer(),
+                              //       FloatingActionButton.extended(
+                              //         onPressed: () {},
+                              //         label: Text(Localiza.find('adicionar')),
+                              //         icon: Icon(Icons.add),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               HorasList(
                                 diferenciais:
                                     bloc.state.currentEmprego.diferenciaisList,

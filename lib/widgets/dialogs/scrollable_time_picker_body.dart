@@ -67,7 +67,7 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
                   children: [
                     Expanded(
                       child: Container(
-                        color: Colors.grey[50],
+                        color: AppColors.surfaceSecondary,
                         child: ShScrollablePicker<int>(
                           items: _hours,
                           selectedItem: _hours[_hourPos],
@@ -89,7 +89,7 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
                     ),
                     Expanded(
                       child: Container(
-                        color: Colors.grey[50],
+                        color: AppColors.surfaceSecondary,
                         child: ShScrollablePicker<int>(
                           items: _minutes,
                           selectedItem: _minutePos,

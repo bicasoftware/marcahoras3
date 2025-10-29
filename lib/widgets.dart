@@ -40,3 +40,4 @@ export 'widgets/sh_text_field.dart';
 export 'widgets/sh_text_tile.dart';
 export 'widgets/sh_time_range_picker.dart';
 export 'widgets/sh_togglable_tile.dart';
+export 'widgets/sh_wide_button.dart';

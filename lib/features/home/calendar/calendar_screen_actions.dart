@@ -24,7 +24,7 @@ class CalendarActions extends StatelessWidget
         Localiza.find("relatorios"),
         style: theme.bodyMedium!.copyWith(
           color: bloc.state.hasReportData()
-              ? AppColors.primary
+              ? AppColors.onSecondary
               : AppColors.disabled,
           fontSize: 14,
           fontWeight: FontWeight.bold,
@@ -33,7 +33,7 @@ class CalendarActions extends StatelessWidget
       secondLabel: Text(
         Localiza.find("horasExtras"),
         style: theme.bodyMedium!.copyWith(
-          color: AppColors.secondary,
+          color: AppColors.onSecondary,
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
@@ -41,10 +41,10 @@ class CalendarActions extends StatelessWidget
       firstIcon: Icon(
         Icons.list,
         color: bloc.state.hasReportData()
-            ? AppColors.primary
+            ? AppColors.onSecondary
             : AppColors.disabled,
       ),
-      secondIcon: Icon(Icons.add, color: AppColors.secondary),
+      secondIcon: Icon(Icons.add, color: AppColors.onSecondary),
       onFirstTap: () {
         if (bloc.state.hasReportData()) {
           Navigator.of(context).pushNamed(Routes.relatorio);

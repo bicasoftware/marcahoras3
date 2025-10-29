@@ -29,7 +29,7 @@ class _CalendarioScreenHeaderState extends State<CalendarioScreenHeader> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: AppColors.surface,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(8),
           bottomRight: Radius.circular(8),

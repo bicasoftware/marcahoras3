@@ -82,10 +82,10 @@ class OvertimeListTile extends StatelessWidget {
       contentList: [
         IconLabelValue(
           icon: Icons.timeline,
-          iconColor: AppColors.primary,
+          iconColor: AppColors.secondary,
           label: Localiza.find('horasTrabalhadas'),
           value: workedHours,
-          labelColor: AppColors.primary,
+          labelColor: AppColors.onSurface,
         ),
         if (!bancoHoras)
           IconLabelValue(
@@ -93,14 +93,14 @@ class OvertimeListTile extends StatelessWidget {
             iconColor: Color(horaType.colorHex),
             label: Localiza.find('valorReceber'),
             value: amount,
-            labelColor: AppColors.primary,
+            labelColor: AppColors.onSurface,
           ),
         IconLabelValue(
           icon: Icons.timelapse,
           iconColor: AppColors.porcFeriadosColor,
           label: "Horário",
           value: "Das ${from}, Até: ${to}",
-          labelColor: AppColors.primary,
+          labelColor: AppColors.onSurface,
         ),
       ],
       onTap: onTap,

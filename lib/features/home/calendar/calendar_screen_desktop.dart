@@ -57,10 +57,10 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
               children: [
                 Container(
                   height: tbarHeight == 0.0 ? 8.0 : tbarHeight,
-                  color: AppColors.inversePrimary,
+                  color: AppColors.primary,
                 ),
                 Container(
-                  color: AppColors.inversePrimary,
+                  color: AppColors.primary,
                   padding: EdgeInsets.symmetric(horizontal: 12),
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 12),
@@ -119,7 +119,7 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
                         flex: 1,
                         child: ShElevatedButton(
                           label: Localiza.find('gerarPDF'),
-                          color: AppColors.inversePrimary,
+                          color: AppColors.primary,
                           iconColor: AppColors.onPrimary,
                           icon: Icons.picture_as_pdf,
                           onTap: () => showPdfPreview(
@@ -134,7 +134,7 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
                         flex: 1,
                         child: ShElevatedButton(
                           label: Localiza.find('novahora'),
-                          color: AppColors.inversePrimary,
+                          color: AppColors.primary,
                           iconColor: AppColors.onPrimary,
                           icon: Icons.more_time_rounded,
                           onTap: () => showHorasBts(
@@ -147,7 +147,7 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
                         flex: 1,
                         child: ShElevatedButton(
                           label: Localiza.find('novoEmprego'),
-                          color: AppColors.inversePrimary,
+                          color: AppColors.primary,
                           iconColor: AppColors.onPrimary,
                           icon: Icons.work,
                           onTap: () => showEmpregosScreen(

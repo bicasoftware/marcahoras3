@@ -93,10 +93,9 @@ class _ValorFixoBtsState extends State<ValorFixoBts> {
 
             Container(
               margin: EdgeInsets.only(bottom: 16),
-              child: OutlinedButton.icon(
-                onPressed: _validate,
-                icon: Icon(Icons.save_outlined),
-                label: Text(Localiza.find("salvar")),
+              child: ShWideButton(
+                onTap: _validate,
+                labelId: "salvar",
               ),
             ),
           ],

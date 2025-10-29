@@ -26,14 +26,16 @@ class HorasApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         theme: ThemeData(
-          primaryColor: AppConfig.shared.appColor,
+          brightness: Brightness.dark,
+          primaryColor: AppColors.secondary,
           fontFamily: 'Outfit',
           useMaterial3: true,
           colorScheme: lightColorScheme,
           appBarTheme: appBarColorScheme,
+          splashColor: AppColors.splash,
           textTheme: TextTheme(
             labelLarge: TextStyle(
-              color: AppColors.primary,
+              color: AppColors.onSurface,
               fontWeight: FontWeight.bold,
               fontSize: 14,
               fontFamily: 'Outfit',

@@ -41,15 +41,15 @@ class CalendarItem extends StatelessWidget {
             ? BoxDecoration(
                 color: enabled
                     ? isToday
-                          ? AppColors.primaryContainer
+                          ? AppColors.secondary
                           : AppColors.surface
-                    : AppColors.disabled.withAlpha(20),
+                    : AppColors.disabled,
                 border: Border.all(color: AppColors.shadow.withAlpha(20)),
                 borderRadius: BorderRadius.circular(8),
               )
             : null,
         child: InkWell(
-          splashColor: AppColors.primary.withAlpha(20),
+          splashColor: AppColors.splash,
           onTap: () {
             if (onCalendarItemTap != null) {
               onCalendarItemTap!(hora, data);

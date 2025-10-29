@@ -34,7 +34,7 @@ class _WeekDayItem extends StatelessWidget {
       child: Text(
         weekday.toUpperCase(),
         textAlign: TextAlign.center,
-        style: theme.labelLarge?.copyWith(color: AppColors.onPrimary),
+        style: theme.labelLarge?.copyWith(color: AppColors.onSurface),
       ),
     );
   }

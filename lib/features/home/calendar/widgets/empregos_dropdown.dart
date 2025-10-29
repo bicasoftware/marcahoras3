@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain_layer/models.dart';
 import '../../../../presentation_layer/blocs.dart';
 import '../../../../resources.dart';
-import '../../../../utils.dart';
 
 class EmpregosDropdown extends StatelessWidget {
   final VoidCallback onAdd, onEdit, onDelete;
@@ -22,90 +21,25 @@ class EmpregosDropdown extends StatelessWidget {
 
     return DropdownButtonHideUnderline(
       child: DropdownButton<Empregos>(
-        dropdownColor: AppColors.primary,
-        icon: PopupMenuButton(
-          color: AppColors.primary,
-          icon: Icon(Icons.more_vert, color: AppColors.onPrimary),
-          itemBuilder: (context) {
-            return <PopupMenuItem>[
-              PopupMenuItem(
-                onTap: onEdit,
-                child: Row(
-                  spacing: 8,
-                  children: [
-                    Icon(Icons.edit, color: AppColors.onPrimary),
-                    Text(
-                      Localiza.find('editar'),
-                      textAlign: TextAlign.justify,
-                      style: theme.bodyLarge?.copyWith(
-                        color: AppColors.onPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              PopupMenuItem(
-                onTap: onDelete,
-                child: Row(
-                  spacing: 8,
-                  children: [
-                    Icon(Icons.delete, color: AppColors.onPrimary),
-                    Text(
-                      Localiza.find('apagar'),
-                      textAlign: TextAlign.justify,
-                      style: theme.bodyLarge?.copyWith(
-                        color: AppColors.onPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ];
-          },
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16)),
-            ),
-          ),
-        ),
+        dropdownColor: AppColors.surface,
         value: bloc.state.currentEmprego,
         focusColor: AppColors.onPrimary,
-        items:
-            bloc.state.empregos
-                .map(
-                  (e) => DropdownMenuItem<Empregos>(
-                    value: e,
-                    child: Text(
-                      e.descricao,
-                      textAlign: TextAlign.justify,
-                      style: theme.bodyLarge?.copyWith(
-                        color: AppColors.onPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                )
-                .toList()
-              ..add(
-                DropdownMenuItem<Empregos>(
-                  value: null,
-                  child: Chip(
-                    label: Text(
-                      "+ ${Localiza.find("novo")}",
-                      textAlign: TextAlign.end,
-                      style: theme.bodyMedium!.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16)),
-                    ),
+        items: bloc.state.empregos
+            .map(
+              (e) => DropdownMenuItem<Empregos>(
+                value: e,
+                child: Text(
+                  e.descricao,
+                  textAlign: TextAlign.justify,
+                  style: theme.bodyLarge?.copyWith(
+                    color: AppColors.onPrimary,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
+            )
+            .toList(),
+
         onChanged: (e) async {
           if (e != null) {
             bloc.setEmpregoPos(e);

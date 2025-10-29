@@ -92,7 +92,7 @@ class _ShDetailedListTileState extends State<ShDetailedListTile> {
           _tapPosition = details.globalPosition;
         },
         onLongPress: _showCustomMenu,
-        splashColor: AppColors.primary.withAlpha(20),
+        splashColor: AppColors.splash,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Column(

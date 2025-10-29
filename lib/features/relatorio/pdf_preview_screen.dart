@@ -34,7 +34,7 @@ class PdfPreviewScreen extends StatelessWidget {
           color: Colors.white,
         ),
         actionBarTheme: PdfActionBarTheme(
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.secondary,
         ),
       ),
     );

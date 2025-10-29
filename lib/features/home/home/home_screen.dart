@@ -1,5 +1,3 @@
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcahoras3/features/empregos/empregos_list/empregos_list_screen.dart';
@@ -88,46 +86,29 @@ class _HomeScreenState extends State<HomeScreen>
                   RelatorioScreen(),
                 ],
               ),
-              bottomNavigationBar: Theme(
-                data: ThemeData.dark(),
-                child: Container(
-                  padding: EdgeInsets.only(bottom: 8),
-                  color: AppColors.primary,
-                  child: CurvedNavigationBar(
-                    backgroundColor: Colors.white,
-                    color: AppColors.primary,
-                    animationDuration: Duration(milliseconds: 300),
-                    index: bloc.state.navPos,
-                    letIndexChange: (value) {
-                      controller.animateTo(value);
-                      bloc.setNavPos(value);
-                      return true;
-                    },
-                    items: [
-                      CurvedNavigationBarItem(
-                        child: Icon(Icons.work_outline),
-                        label: Localiza.find("empregos"),
-                        labelStyle: theme.labelLarge?.copyWith(
-                          color: AppColors.onPrimary,
-                        ),
-                      ),
-                      CurvedNavigationBarItem(
-                        child: Icon(Icons.calendar_month),
-                        label: Localiza.find("calendario"),
-                        labelStyle: theme.labelLarge?.copyWith(
-                          color: AppColors.onPrimary,
-                        ),
-                      ),
-                      CurvedNavigationBarItem(
-                        child: Icon(Icons.list_alt),
-                        label: Localiza.find("relatorios"),
-                        labelStyle: theme.labelLarge?.copyWith(
-                          color: AppColors.onPrimary,
-                        ),
-                      ),
-                    ],
+              bottomNavigationBar: BottomNavigationBar(
+                backgroundColor: AppColors.secondary,
+                selectedItemColor: AppColors.onSecondary,
+                elevation: 0,
+                currentIndex: bloc.state.navPos,
+                onTap: (value) {
+                  controller.animateTo(value);
+                  bloc.setNavPos(value);
+                },
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.work),
+                    label: Localiza.find("empregos"),
                   ),
-                ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.calendar_month),
+                    label: Localiza.find("calendario"),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.list_alt),
+                    label: Localiza.find("relatorios"),
+                  ),
+                ],
               ),
             ),
     );

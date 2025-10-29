@@ -31,46 +31,48 @@ class RelatorioScreen extends StatelessWidget with RelatorioScreenPresenter {
       top: false,
       bottom: false,
       child: Scaffold(
-        appBar: AppConfig.shared.flavor != Flavor.desktop
-            ? ShAppBar(
-                label: Localiza.find('relatorios'),
-                elevation: 0,
-                roundedCorner: true,
-                centerTitle: true,
-              )
-            : null,
-        bottomNavigationBar: TotalsContainer(report: reportModel),
-        floatingActionButton: _isMobile()
-            ? FloatingActionButton(
-                onPressed: () {
-                  showPdfPreview(
-                    context: context,
-                    locale: locale,
-                    vigencia: vigencia,
-                    reportModel: reportModel,
-                  );
-                },
-                child: Icon(Icons.picture_as_pdf, color: AppColors.onSecondary),
-                backgroundColor: AppColors.secondary,
-              )
-            : null,
+        appBar: ShAppBar(
+          label: Localiza.find('relatorios'),
+          elevation: 0,
+          roundedCorner: true,
+          centerTitle: true,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.print_outlined),
+              onPressed: () {
+                showPdfPreview(
+                  context: context,
+                  locale: locale,
+                  vigencia: vigencia,
+                  reportModel: reportModel,
+                );
+              },
+            ),
+          ],
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            if (_isMobile()) ...[
-              Padding(
-                padding: EdgeInsets.only(left: 12, right: 12, top: 16),
-                child: Text(
-                  vigencia,
-                  style: theme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.onSurfaceVariant,
-                    fontSize: 18,
+            Container(
+              padding: EdgeInsets.only(left: 12, right: 12, top: 16),
+              color: AppColors.background,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    vigencia,
+                    textAlign: TextAlign.start,
+                    style: theme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.onSurface,
+                      fontSize: 18,
+                    ),
                   ),
-                ),
+                  const Divider(),
+                ],
               ),
-              const Divider(indent: 12, endIndent: 12),
-            ],
+            ),
             Expanded(
               child: RelatorioHorasList(
                 horas: reportModel.hours,
@@ -78,6 +80,7 @@ class RelatorioScreen extends StatelessWidget with RelatorioScreenPresenter {
                 diferenciais: diferenciais,
               ),
             ),
+            TotalsContainer(report: reportModel),
           ],
         ),
       ),

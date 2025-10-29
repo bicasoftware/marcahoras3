@@ -24,7 +24,7 @@ class SalariosInputTile extends StatelessWidget {
       label: Localiza.find('salario'),
       hint: CurrencyHelper.formatAmount(1000),
       labelStyle: theme.labelLarge,
-      icon: Icon(Icons.monetization_on),
+      icon: Icons.monetization_on,
       onValueChanged: onSalarioValueChanged,
       validator: (s) {
         if (controller.numberValue <= 0.0) {

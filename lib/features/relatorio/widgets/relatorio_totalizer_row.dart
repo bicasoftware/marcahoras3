@@ -21,7 +21,7 @@ class RelatorioTotalizerRow extends StatelessWidget {
   TextStyle _baseStyle(TextTheme theme) {
     return theme.labelLarge!.copyWith(
       fontWeight: FontWeight.bold,
-      color: AppColors.onPrimary,
+      color: AppColors.onSecondary,
       fontSize: 14,
     );
   }

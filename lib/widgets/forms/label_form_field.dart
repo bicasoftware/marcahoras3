@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:marcahoras3/widgets/forms/customizable_form_field.dart';
 
+import '../../resources.dart';
+
 class LabelFormField<T> extends StatelessWidget {
   final String label;
   final T initialValue;
@@ -33,7 +35,7 @@ class LabelFormField<T> extends StatelessWidget {
       label: label,
       child: ListTile(
         title: Text(label, style: theme.labelLarge),
-        leading: Icon(icon),
+        leading: Icon(icon, color: AppColors.secondary),
         contentPadding: padding,
         trailing: trailing,
         subtitle: Text(valueFormatter(initialValue)),

@@ -72,7 +72,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
               label: Localiza.find("salario"),
               hint: CurrencyHelper.formatAmount(1000),
               labelStyle: theme.labelLarge,
-              icon: Icon(Icons.monetization_on),
+              icon: Icons.monetization_on,
               validator: (_) {
                 final amount = amountController.numberValue;
                 if (amount <= 0.0) {
@@ -110,10 +110,9 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
 
             Container(
               margin: EdgeInsets.only(bottom: 16),
-              child: OutlinedButton.icon(
-                onPressed: _validate,
-                icon: Icon(Icons.save_outlined),
-                label: Text(Localiza.find("salvar")),
+              child: ShWideButton(
+                onTap: _validate,
+                labelId: "salvar",
               ),
             ),
           ],

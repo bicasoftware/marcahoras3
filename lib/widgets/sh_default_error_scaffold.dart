@@ -30,10 +30,9 @@ class ShDefaultErrorScaffold extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              OutlinedButton.icon(
-                onPressed: onRetry,
-                label: Text(Localiza.find('Atualizar')),
-                icon: Icon(Icons.refresh),
+              ShWideButton(
+                onTap: onRetry,
+                labelId: 'atualizar',
               ),
             ],
           ),

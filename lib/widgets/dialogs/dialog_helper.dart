@@ -14,7 +14,7 @@ class DialogHelper {
       context: context,
       admissao: admissao,
       initialDate: initDate,            
-      endDate: endDate
+      endDate: endDate,      
     );
 
     return (date != null && date != initDate) ? date : null;
