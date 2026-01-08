@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
 import '../../../presentation_layer/route_args.dart';
-import '../../../resources.dart';
 import '../../../routes.dart';
 import '../../../utils.dart';
 import '../../../widgets.dart';
@@ -20,6 +19,7 @@ mixin CalendarScreenPresenterMixin {
   }) async {
     final locale = Localizations.localeOf(context);
     final now = DateTime.now();
+    final colors = Theme.of(context).colorScheme;
     final newHora = await BottomSheetHelper.showModalBts(
       context: context,
       dismissible: true,
@@ -32,6 +32,8 @@ mixin CalendarScreenPresenterMixin {
           : formatDateByLocale(data, locale),
       trailing: isEdit
           ? OutlinedCard(
+              cardColor: colors.surface,
+              outlineColor: colors.outline,
               child: IconButton(
                 icon: Icon(
                   Icons.delete_outline,

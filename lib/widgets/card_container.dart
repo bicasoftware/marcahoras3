@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/resources/colors.dart';
 
+import '../utils.dart';
 import '../widgets.dart';
 
 class CardContainer extends StatelessWidget {
@@ -15,10 +15,10 @@ class CardContainer extends StatelessWidget {
 
   const CardContainer({
     required this.child,
+    required this.cardColor,
     this.margin = EdgeInsets.zero,
     this.padding = EdgeInsets.zero,
     this.hasShadow = true,
-    this.cardColor = AppColors.surface,
     this.label,
     this.leading,
     this.trailing,
@@ -34,6 +34,7 @@ class CardContainer extends StatelessWidget {
       margin: margin,
       hasShadow: hasShadow,
       cardColor: cardColor,
+      outlineColor: context.colors.outline,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

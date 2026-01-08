@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../resources.dart';
 import '../utils.dart';
 
 class ShWideButton extends StatelessWidget {
@@ -14,17 +13,19 @@ class ShWideButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
     return OutlinedButton.icon(
       onPressed: onTap,
       label: Text(
         Localiza.find(labelId),
-        style: theme.labelLarge,
+        style: context.textTheme.labelLarge?.copyWith(
+          color: context.colors.onPrimaryFixed,
+        ),
       ),
-      icon: Icon(Icons.add, color: AppColors.onSurface),
+      icon: Icon(Icons.add, color: context.colors.onPrimaryFixed),
       style: OutlinedButton.styleFrom(
+        backgroundColor: context.colors.primaryFixed,
         side: BorderSide(
-          color: AppColors.secondary,
+          color: context.colors.primary,
         ),
       ),
     );

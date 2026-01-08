@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../resources.dart';
 import '../../../utils.dart';
 
 class CalendarHeader extends StatelessWidget {
@@ -12,10 +11,9 @@ class CalendarHeader extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 8),
       margin: EdgeInsets.symmetric(horizontal: 8),
       child: Row(
-        children:
-            Localiza.findList(
-              'weekDays',
-            ).map((e) => _WeekDayItem(weekday: e)).toList(),
+        children: Localiza.findList(
+          'weekDays',
+        ).map((e) => _WeekDayItem(weekday: e)).toList(),
       ),
     );
   }
@@ -29,12 +27,13 @@ class _WeekDayItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
 
     return Expanded(
       child: Text(
         weekday.toUpperCase(),
         textAlign: TextAlign.center,
-        style: theme.labelLarge?.copyWith(color: AppColors.onSurface),
+        style: theme.labelLarge?.copyWith(color: colors.onPrimary),
       ),
     );
   }

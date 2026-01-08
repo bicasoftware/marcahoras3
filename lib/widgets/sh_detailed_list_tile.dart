@@ -1,8 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../../../resources.dart';
 import '../../../widgets.dart';
+import '../resources.dart';
+import '../utils.dart';
 
 class ShDetailedListTile extends StatefulWidget {
   final String title;
@@ -81,7 +82,7 @@ class _ShDetailedListTileState extends State<ShDetailedListTile> {
 
     return Ink(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         boxShadow: !widget.hideShadow
             ? [BoxShadow(blurRadius: 1, color: Colors.black26)]
             : null,
@@ -92,7 +93,7 @@ class _ShDetailedListTileState extends State<ShDetailedListTile> {
           _tapPosition = details.globalPosition;
         },
         onLongPress: _showCustomMenu,
-        splashColor: AppColors.splash,
+        splashColor: ExtraColors.splash,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Column(
@@ -104,10 +105,10 @@ class _ShDetailedListTileState extends State<ShDetailedListTile> {
                     child: IconLabel(
                       icon: Icon(
                         Icons.date_range,
-                        color: AppColors.secondary,
+                        color: context.colors.secondary,
                       ),
                       label: widget.title,
-                      labelColor: AppColors.onSurface,
+                      labelColor: context.colors.onSurface,
                     ),
                   ),
                   if (_showBadge)

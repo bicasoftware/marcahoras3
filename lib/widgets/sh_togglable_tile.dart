@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/widgets.dart';
 
-import '../resources.dart';
+import '../utils.dart';
+import '../widgets.dart';
 
 class ShTogglableTile extends StatefulWidget {
   final int value;
@@ -46,25 +46,24 @@ class _ShTogglableTileState extends State<ShTogglableTile> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
     return IndicatorTile(
       child: ListTile(
         leading: widget.icon,
         title: Text(
           widget.label,
           textAlign: TextAlign.left,
-          style: theme.labelLarge,
+          style: context.textTheme.labelLarge,
         ),
         subtitle: ToggleButtons(
           children: widget.options
-              .map((h) => Text(widget.formatValue(h)))
+              .map((h) => Expanded(child: Text(widget.formatValue(h))))
               .toList(),
           isSelected: _items,
           constraints: const BoxConstraints(minHeight: 32.0, minWidth: 56.0),
           onPressed: onItemSelected,
-          color: AppColors.secondary,
-          fillColor: AppColors.onSurface.withAlpha(40),
-          selectedColor: AppColors.onSurface,
+          color: context.colors.secondary,
+          fillColor: context.colors.onSurface.withAlpha(40),
+          selectedColor: context.colors.onSurface,
         ),
       ),
     );

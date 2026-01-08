@@ -9,13 +9,13 @@ import 'app_config.dart';
 import 'data_layer/database/db_connector_drift.dart';
 import 'data_layer/providers.dart';
 import 'main.dart';
-import 'resources/colors.dart';
+import 'resources.dart';
 import 'utils/localiza/localiza.dart';
 import 'utils/vault/vault_manager.dart';
 
 void main() async {
   final mySystemTheme = SystemUiOverlayStyle.light.copyWith(
-    systemNavigationBarColor: AppColors.background,
+    systemNavigationBarColor: ExtraColors.tabBarBgColor,
   );
 
   SystemChrome.setSystemUIOverlayStyle(mySystemTheme);

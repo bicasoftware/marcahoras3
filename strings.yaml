@@ -55,6 +55,9 @@ selecionarHorario:
 tentar:
   pt_BR: Tentar novamente
   en_US: Try again
+turno:
+  pt_BR: Horário
+  en_US: Shift
 entradaHora:
   pt_BR: Horário entrada
   en_US: Shift start
@@ -291,7 +294,7 @@ horasTrabalhadas:
   en_US: Worked Hours
 valorReceber:
   pt_BR: Valor a receber
-  en_US: Amount to be received
+  en_US: Amount
 feriados:
   pt_BR: Diferenciais
   en_US: On Holidays
@@ -337,6 +340,9 @@ valorInvalido:
 porcentagensExtras:
   pt_BR: Porcentagens Extras
   en_US: Overtime percentages
+dasAte:
+  pt_BR: Das {INI} - Até {END}
+  en_US: From {INI} - To {END}
 deleteDialogTitle:
   pt_BR: Apagar {value}
   en_US: Delete {value}

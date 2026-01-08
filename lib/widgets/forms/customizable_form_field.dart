@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/widgets.dart';
 
-import '../../resources.dart';
+import '../../utils.dart';
+import '../../widgets.dart';
 
 class CustomizableFormField<T> extends FormField<T> {
   CustomizableFormField({
@@ -16,7 +16,6 @@ class CustomizableFormField<T> extends FormField<T> {
     super.autovalidateMode,
   }) : super(
          builder: (state) {
-           final theme = Theme.of(state.context).textTheme;
            return IndicatorTile(
              onTap: onTap,
              child: Column(
@@ -26,15 +25,15 @@ class CustomizableFormField<T> extends FormField<T> {
                  child,
                  state.hasError
                      ? Container(
-                       margin: EdgeInsets.only(top: 8, bottom: 8, left: 56),
-                       child: Text(
-                         state.errorText!,
-                         style: theme.labelMedium!.copyWith(
-                           color: AppColors.error,
-                           fontWeight: FontWeight.bold,
+                         margin: EdgeInsets.only(top: 8, bottom: 8, left: 56),
+                         child: Text(
+                           state.errorText!,
+                           style: state.context.textTheme.labelMedium!.copyWith(
+                             color: state.context.colors.error,
+                             fontWeight: FontWeight.bold,
+                           ),
                          ),
-                       ),
-                     )
+                       )
                      : const SizedBox.shrink(),
                ],
              ),

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../domain_layer/models.dart';
 import '../../../../presentation_layer/blocs.dart';
-import '../../../../resources.dart';
 
 class EmpregosDropdown extends StatelessWidget {
   final VoidCallback onAdd, onEdit, onDelete;
@@ -17,13 +16,13 @@ class EmpregosDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<HomeBloc>();
-    final theme = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
 
     return DropdownButtonHideUnderline(
       child: DropdownButton<Empregos>(
-        dropdownColor: AppColors.surface,
+        dropdownColor: colors.primary,
         value: bloc.state.currentEmprego,
-        focusColor: AppColors.onPrimary,
+        focusColor: colors.onPrimary,
         items: bloc.state.empregos
             .map(
               (e) => DropdownMenuItem<Empregos>(
@@ -31,8 +30,8 @@ class EmpregosDropdown extends StatelessWidget {
                 child: Text(
                   e.descricao,
                   textAlign: TextAlign.justify,
-                  style: theme.bodyLarge?.copyWith(
-                    color: AppColors.onPrimary,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: colors.onPrimary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

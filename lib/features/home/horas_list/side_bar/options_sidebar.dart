@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/resources.dart';
-import 'package:marcahoras3/widgets/outlined_card.dart';
+
+import '../../../../resources.dart';
+import '../../../../utils.dart';
+import '../../../../widgets/outlined_card.dart';
 
 class OptionsSidebar extends StatelessWidget {
   final VoidCallback onAddTapped, onCalendarTapped, onReportTapped;
@@ -14,6 +16,8 @@ class OptionsSidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedCard(
+      cardColor: context.colors.surface,
+      outlineColor: context.colors.outline,
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Column(
         spacing: 16,
@@ -23,17 +27,17 @@ class OptionsSidebar extends StatelessWidget {
         children: [
           FloatingActionButton.small(
             onPressed: onAddTapped,
-            backgroundColor: AppColors.porcNormalColor,
+            backgroundColor: ExtraColors.porcNormalColor,
             child: Icon(Icons.add),
           ),
           FloatingActionButton.small(
             onPressed: onCalendarTapped,
-            backgroundColor: AppColors.porcNormalColor,
+            backgroundColor: ExtraColors.porcNormalColor,
             child: Icon(Icons.calendar_month),
           ),
           FloatingActionButton.small(
             onPressed: onReportTapped,
-            backgroundColor: AppColors.porcNormalColor,
+            backgroundColor: ExtraColors.porcNormalColor,
             child: Icon(Icons.paste),
           ),
         ],

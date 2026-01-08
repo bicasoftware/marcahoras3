@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../resources.dart';
+import '../utils.dart';
 
 class ShScrollablePicker<T> extends StatefulWidget {
   final List<T> items;
@@ -84,14 +84,14 @@ class _PickerItem<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
-
     return Container(
-      margin: EdgeInsets.all(2),
+      margin: .all(2),
       child: Text(
         valueFormatter(value),
-        style: theme.titleSmall?.copyWith(
-          color: isSelected ? AppColors.onSurface : AppColors.onSurface,
+        style: context.textTheme.titleSmall?.copyWith(
+          color: isSelected
+              ? context.colors.onSurface
+              : context.colors.onSurface,
           fontSize: isSelected ? 25 : 20,
         ),
       ),

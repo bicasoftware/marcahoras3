@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../presentation_layer/blocs.dart';
-import '../../../resources.dart';
 import '../../../utils.dart';
 import '../../../widgets.dart';
 import '../../relatorio/relatorio_screen.dart';
@@ -26,6 +25,8 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     final bloc = context.watch<HomeBloc>();
     final tbarHeight = MediaQuery.of(context).viewPadding.top;
     final locale = Localizations.localeOf(context);
@@ -57,16 +58,16 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
               children: [
                 Container(
                   height: tbarHeight == 0.0 ? 8.0 : tbarHeight,
-                  color: AppColors.primary,
+                  color: colors.primary,
                 ),
                 Container(
-                  color: AppColors.primary,
+                  color: colors.primary,
                   padding: EdgeInsets.symmetric(horizontal: 12),
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: AppColors.surface,
+                        color: colors.surface,
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(8),
@@ -119,8 +120,8 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
                         flex: 1,
                         child: ShElevatedButton(
                           label: Localiza.find('gerarPDF'),
-                          color: AppColors.primary,
-                          iconColor: AppColors.onPrimary,
+                          color: colors.primary,
+                          iconColor: colors.onPrimary,
                           icon: Icons.picture_as_pdf,
                           onTap: () => showPdfPreview(
                             context: context,
@@ -134,8 +135,8 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
                         flex: 1,
                         child: ShElevatedButton(
                           label: Localiza.find('novahora'),
-                          color: AppColors.primary,
-                          iconColor: AppColors.onPrimary,
+                          color: colors.primary,
+                          iconColor: colors.onPrimary,
                           icon: Icons.more_time_rounded,
                           onTap: () => showHorasBts(
                             context: context,
@@ -147,8 +148,8 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
                         flex: 1,
                         child: ShElevatedButton(
                           label: Localiza.find('novoEmprego'),
-                          color: AppColors.primary,
-                          iconColor: AppColors.onPrimary,
+                          color: colors.primary,
+                          iconColor: colors.onPrimary,
                           icon: Icons.work,
                           onTap: () => showEmpregosScreen(
                             context: context,

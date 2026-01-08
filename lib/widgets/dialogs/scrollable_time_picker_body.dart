@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../resources.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
 
@@ -48,7 +47,6 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
     return Container(
       padding: EdgeInsets.all(8),
       child: Column(
@@ -67,7 +65,7 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
                   children: [
                     Expanded(
                       child: Container(
-                        color: AppColors.surfaceSecondary,
+                        color: context.colors.surfaceContainerHigh,
                         child: ShScrollablePicker<int>(
                           items: _hours,
                           selectedItem: _hours[_hourPos],
@@ -83,13 +81,15 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
                       child: Container(
                         child: Text(
                           ":",
-                          style: theme.bodyLarge!.copyWith(fontSize: 40),
+                          style: context.textTheme.bodyLarge!.copyWith(
+                            fontSize: 40,
+                          ),
                         ),
                       ),
                     ),
                     Expanded(
                       child: Container(
-                        color: AppColors.surfaceSecondary,
+                        color: context.colors.surfaceContainerHigh,
                         child: ShScrollablePicker<int>(
                           items: _minutes,
                           selectedItem: _minutePos,
@@ -111,8 +111,8 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
                     child: Text(
                       Localiza.find('hora'),
                       textAlign: TextAlign.start,
-                      style: theme.labelLarge!.copyWith(
-                        color: AppColors.onSurface,
+                      style: context.textTheme.labelLarge!.copyWith(
+                        color: context.colors.onSurface,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -121,8 +121,8 @@ class _ScrollableTimePickerBodyState extends State<ScrollableTimePickerBody> {
                     child: Text(
                       Localiza.find('minuto'),
                       textAlign: TextAlign.start,
-                      style: theme.labelLarge!.copyWith(
-                        color: AppColors.onSurface,
+                      style: context.textTheme.labelLarge!.copyWith(
+                        color: context.colors.onSurface,
                         fontWeight: FontWeight.normal,
                       ),
                     ),

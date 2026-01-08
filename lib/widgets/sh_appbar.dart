@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/resources/colors.dart';
+
+import '../utils.dart';
 
 class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String label;
@@ -22,10 +23,11 @@ class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.colors.primary,
+      foregroundColor: context.colors.onPrimary,
       centerTitle: centerTitle,
       title: Text(label),
-      elevation: elevation,      
+      elevation: elevation,
       shape: roundedCorner
           ? const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(

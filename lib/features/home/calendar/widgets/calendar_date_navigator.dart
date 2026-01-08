@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../resources.dart';
-import '../../../../utils/localiza/localiza.dart';
-import '../../../../widgets/bottomsheets/bottomsheethelper.dart';
+import '../../../../utils.dart';
+import '../../../../widgets.dart';
 
 class CalendarDateNavigator extends StatefulWidget
     implements PreferredSizeWidget {
@@ -44,13 +43,14 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
     final hintedYear = today.year.toString();
     final hintedMonth = Localiza.findList('months')[today.month - 1];
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
-      color: AppColors.surface,
+      color: colors.primary,
       child: Row(
         children: [
           Expanded(
@@ -58,7 +58,7 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
             child: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
-                color: AppColors.onSurface,
+                color: colors.onPrimary,
                 size: 16,
               ),
               onPressed: widget.onMonthDec,
@@ -71,8 +71,8 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
               child: TextButton(
                 child: Text(
                   Localiza.findList('months')[widget.month - 1],
-                  style: theme.bodyLarge?.copyWith(
-                    color: AppColors.onSurface,
+                  style: textTheme.bodyLarge?.copyWith(
+                    color: colors.onPrimary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -97,8 +97,8 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
               child: TextButton(
                 child: Text(
                   "${widget.year}",
-                  style: theme.bodyLarge?.copyWith(
-                    color: AppColors.onSurface,
+                  style: textTheme.bodyLarge?.copyWith(
+                    color: colors.onPrimary,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.end,
@@ -122,7 +122,7 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
             child: IconButton(
               icon: Icon(
                 Icons.arrow_forward_ios,
-                color: AppColors.onSurface,
+                color: colors.onPrimary,
                 size: 16,
               ),
               onPressed: widget.onMonthAdd,

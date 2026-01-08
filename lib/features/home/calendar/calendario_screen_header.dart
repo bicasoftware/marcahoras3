@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../resources.dart';
 import 'calendar_header.dart';
 import 'widgets/calendar_date_navigator.dart';
 
@@ -29,7 +28,7 @@ class _CalendarioScreenHeaderState extends State<CalendarioScreenHeader> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.primary,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(8),
           bottomRight: Radius.circular(8),

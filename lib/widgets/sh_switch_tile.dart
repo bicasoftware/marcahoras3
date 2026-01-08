@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../utils.dart';
 import '../widgets.dart';
 
 class ShSwitchTile extends StatelessWidget {
@@ -16,15 +17,14 @@ class ShSwitchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
     return IndicatorTile(
       child: SwitchListTile(
         value: value,
         title: Text(
           label,
-          style: theme.labelLarge,
+          style: context.textTheme.labelLarge,
         ),
-        contentPadding: EdgeInsets.only(left: 16),
+        contentPadding: const .only(left: 16),
         onChanged: onTap,
       ),
     );

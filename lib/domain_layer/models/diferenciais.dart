@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../data_layer/dtos.dart';
-import '../../resources/colors.dart';
+import '../../resources.dart';
 
 @immutable
 class Diferenciais {
@@ -27,7 +27,7 @@ class Diferenciais {
       percentage: dto.percentage ?? 50,
       color: dto.color != null
           ? Color(int.parse(dto.color!))
-          : AppColors.porcDiferenciadaColor,
+          : ExtraColors.porcDiferenciadaColor,
     );
   }
 

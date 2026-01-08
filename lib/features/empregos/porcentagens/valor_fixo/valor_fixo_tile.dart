@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../domain_layer/models.dart';
-import '../../../../resources/colors.dart';
 import '../../../../utils.dart';
 import '../../../../widgets.dart';
 
@@ -22,6 +21,7 @@ class ValorFixoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context);
+    final colors = Theme.of(context).colorScheme;
 
     return ShListViewTile<HoraFixo>(
       dataList: horaFixoList,
@@ -33,7 +33,7 @@ class ValorFixoList extends StatelessWidget {
         return Localiza.find(_isAtual(h) ? "atual" : "anterior");
       },
       buildBadgeColor: (h) {
-        return _isAtual(h) ? AppColors.secondary : AppColors.primary;
+        return _isAtual(h) ? colors.secondary : colors.primary;
       },
       buildInfoList: (item) {
         final valorFixo = item.toValorFixo();
@@ -42,15 +42,15 @@ class ValorFixoList extends StatelessWidget {
             label: Localiza.find('valorFixoNormal'),
             value: CurrencyHelper.formatAmount(valorFixo.$1),
             icon: Icons.monetization_on,
-            labelColor: AppColors.onSurface,
-            iconColor: AppColors.onSurface,
+            labelColor: colors.onSurface,
+            iconColor: colors.onSurface,
           ),
           IconLabelValue(
             label: Localiza.find('valorFixoFeriados'),
             value: CurrencyHelper.formatAmount(valorFixo.$2),
             icon: Icons.monetization_on,
-            labelColor: AppColors.onSurface,
-            iconColor: AppColors.onSurface,
+            labelColor: colors.onSurface,
+            iconColor: colors.onSurface,
           ),
         ];
       },

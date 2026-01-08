@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../presentation_layer/blocs.dart';
-import '../../../resources.dart';
 import '../../../utils.dart';
 import '../../../widgets.dart';
 import '../horas_list/horas_list.dart';
@@ -28,7 +27,8 @@ class _CalendarScreenState extends State<CalendarScreen>
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
     final tbarHeight = MediaQuery.of(context).viewPadding.top;
-    final theme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
 
     return BlocHelper<HomeBloc, HomeState>(
       bloc: bloc,
@@ -59,19 +59,19 @@ class _CalendarScreenState extends State<CalendarScreen>
                 ),
                 label: Text(
                   Localiza.find('hora'),
-                  style: theme.labelLarge?.copyWith(
-                    color: AppColors.onSecondary,
+                  style: textTheme.labelLarge?.copyWith(
+                    color: colors.onSecondary,
                   ),
                 ),
                 icon: Icon(
                   Icons.add_box,
-                  color: AppColors.onSecondary,
+                  color: colors.onSecondary,
                 ),
-                backgroundColor: AppColors.secondary,
+                backgroundColor: colors.secondary,
               ),
               body: AnnotatedRegion<SystemUiOverlayStyle>(
                 value: SystemUiOverlayStyle.light.copyWith(
-                  systemNavigationBarColor: Colors.transparent,
+                  systemNavigationBarColor: colors.primary,
                 ),
                 child: AbsorbPointer(
                   /// If the state is loading, don't allow the user to click anything else
@@ -83,17 +83,17 @@ class _CalendarScreenState extends State<CalendarScreen>
                     children: [
                       Container(
                         height: tbarHeight == 0.0 ? 8.0 : tbarHeight + 16,
-                        color: AppColors.surface,
+                        color: colors.primary,
                       ),
                       if (bloc.state.empregos.length > 1)
                         Container(
-                          color: AppColors.surface,
+                          color: colors.primary,
                           padding: EdgeInsets.symmetric(horizontal: 12),
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 12),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: AppColors.onSurface,
+                                color: colors.onSurface,
                                 width: 1,
                               ),
                               borderRadius: BorderRadius.circular(8),
@@ -124,7 +124,8 @@ class _CalendarScreenState extends State<CalendarScreen>
                       Expanded(
                         child: RefreshIndicator(
                           onRefresh: () => bloc.load(resync: true),
-                          child: ListView(
+                          child: ListView(                                                        
+                            physics: NeverScrollableScrollPhysics(),
                             padding: EdgeInsets.symmetric(vertical: 12),
                             children: [
                               CalendarPage(

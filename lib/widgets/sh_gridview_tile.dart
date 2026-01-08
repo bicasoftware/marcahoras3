@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../resources.dart';
+import '../utils.dart';
 
 class ShGridviewTile extends StatefulWidget {
   final List<int> items;
@@ -23,7 +23,6 @@ class ShGridviewTile extends StatefulWidget {
 }
 
 class _ShGridviewTileState extends State<ShGridviewTile> {
-
   late int _selectedItem;
 
   @override
@@ -34,8 +33,6 @@ class _ShGridviewTileState extends State<ShGridviewTile> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
-
     return GridView.count(
       crossAxisCount: widget.axisCount,
       shrinkWrap: true,
@@ -53,10 +50,10 @@ class _ShGridviewTileState extends State<ShGridviewTile> {
               margin: EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: item == _selectedItem
-                    ? AppColors.primary.withAlpha(20)
-                    : AppColors.surface,
+                    ? context.colors.primary.withAlpha(20)
+                    : context.colors.surface,
                 border: Border.all(
-                  color: AppColors.primary.withAlpha(20),
+                  color: context.colors.primary.withAlpha(20),
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -64,7 +61,7 @@ class _ShGridviewTileState extends State<ShGridviewTile> {
                 child: Text(
                   widget.formatItem(item),
                   textAlign: TextAlign.center,
-                  style: theme.titleSmall?.copyWith(
+                  style: context.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),

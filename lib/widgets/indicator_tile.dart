@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../resources.dart';
+import '../utils.dart';
 
 class IndicatorTile extends StatelessWidget {
   final VoidCallback? onTap;
@@ -24,15 +24,15 @@ class IndicatorTile extends StatelessWidget {
           decoration: hideShadow
               ? null
               : BoxDecoration(
-                  color: AppColors.surface,
+                  color: context.colors.surface,
                   border: Border.all(
-                    color: AppColors.onBackground.withAlpha(20),
+                    color: context.colors.primary.withAlpha(20),
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                   boxShadow: [
                     BoxShadow(
                       blurRadius: 2,
-                      color: AppColors.shadow.withAlpha(8),
+                      color: context.colors.shadow.withAlpha(8),
                       offset: Offset(1, 3),
                     ),
                   ],
@@ -49,7 +49,7 @@ class IndicatorTile extends StatelessWidget {
           child: Container(
             width: 6,
             decoration: BoxDecoration(
-              color: AppColors.onSurface,
+              color: context.colors.primary,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(_decorationSize),
                 bottomLeft: Radius.circular(_decorationSize),

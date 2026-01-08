@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../widgets/overtime_list_tile.dart';
+import '../../../widgets.dart';
 
 class RelatorioHorasList extends StatelessWidget {
   final List<ReportHora> horas;
@@ -20,6 +20,7 @@ class RelatorioHorasList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       padding: EdgeInsets.all(8),
+      physics: BouncingScrollPhysics(),
       children: horas.map((h) {
         return Container(
           margin: EdgeInsets.only(bottom: 8),

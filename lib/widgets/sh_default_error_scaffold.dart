@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../resources/text_styles.dart';
 import '../utils.dart';
 import '../widgets.dart';
 
@@ -18,6 +17,7 @@ class ShDefaultErrorScaffold extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: CardContainer(
+          cardColor: context.colors.surface,
           margin: EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -25,9 +25,7 @@ class ShDefaultErrorScaffold extends StatelessWidget {
               Text(
                 errorMsg,
                 textAlign: TextAlign.center,
-                style: AppTextStyles.regularText.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: context.textTheme.labelLarge,
               ),
               const SizedBox(height: 16),
               ShWideButton(

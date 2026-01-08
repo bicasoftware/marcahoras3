@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../resources.dart';
+import '../utils.dart';
 import '../widgets.dart';
 
 class ShTextTile extends StatelessWidget {
@@ -42,7 +42,10 @@ class ShTextTile extends StatelessWidget {
             if (icon != null)
               Padding(
                 padding: const EdgeInsets.only(right: 16.0),
-                child: Icon(icon, color: AppColors.secondary),
+                child: Icon(
+                  icon,
+                  color: context.colors.secondary,
+                ),
               ),
             Expanded(
               child: ShTextField(

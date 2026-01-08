@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
-import '../../resources/colors.dart';
+import '../../resources.dart';
 import '../../utils/localiza/localiza.dart';
 import '../../widgets.dart';
 import 'empregos_screen.dart';
 import 'porcentagens/diferenciais/diff_bts.dart';
 
 mixin DiferenciaisPresenterMixin on State<EmpregosScreen> {
-  
   void onAddDiferencial(EmpregosBloc bloc) async {
     await BottomSheetHelper.showModalBts(
       context: context,
       body: DiffBts(
         porc: 50,
         weekDay: 0,
-        color: AppColors.porcDiferenciadaColor,
+        color: ExtraColors.porcDiferenciadaColor,
         onSave: (int porc, int weekDay, Color color) async {
           showLoadingDialog(context: context);
 

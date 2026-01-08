@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../resources.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
 
@@ -23,7 +22,7 @@ class _VigenciaPickerBodyState extends State<VigenciaPickerBody> {
   int _yearPos = 0, _monthPos = 0;
   late final List<int> yearList;
   final months = Localiza.findList("monthsAbrev");
-  final monthList = List.generate(12, (i) => i );
+  final monthList = List.generate(12, (i) => i);
 
   @override
   void initState() {
@@ -41,8 +40,6 @@ class _VigenciaPickerBodyState extends State<VigenciaPickerBody> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
-
     return Container(
       padding: EdgeInsets.all(8),
       child: Column(
@@ -77,7 +74,9 @@ class _VigenciaPickerBodyState extends State<VigenciaPickerBody> {
                       child: Container(
                         child: Text(
                           ":",
-                          style: theme.bodyLarge!.copyWith(fontSize: 40),
+                          style: context.textTheme.bodyLarge!.copyWith(
+                            fontSize: 40,
+                          ),
                         ),
                       ),
                     ),
@@ -105,8 +104,8 @@ class _VigenciaPickerBodyState extends State<VigenciaPickerBody> {
                     child: Text(
                       Localiza.find('ano'),
                       textAlign: TextAlign.start,
-                      style: theme.labelLarge!.copyWith(
-                        color: AppColors.onSurface,
+                      style: context.textTheme.labelLarge!.copyWith(
+                        color: context.colors.onSurface,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -115,8 +114,8 @@ class _VigenciaPickerBodyState extends State<VigenciaPickerBody> {
                     child: Text(
                       Localiza.find('mes'),
                       textAlign: TextAlign.start,
-                      style: theme.labelLarge!.copyWith(
-                        color: AppColors.onSurface,
+                      style: context.textTheme.labelLarge!.copyWith(
+                        color: context.colors.onSurface,
                         fontWeight: FontWeight.normal,
                       ),
                     ),

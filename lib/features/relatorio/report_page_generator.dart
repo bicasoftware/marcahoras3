@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 
 import '../../domain_layer/models.dart';
-import '../../resources/colors.dart';
+import '../../resources.dart';
 import '../../utils.dart';
 import 'models/report_values.dart';
 
@@ -183,7 +183,7 @@ class ReportPageGenerator {
                 amount: v,
                 horasType: HorasType.diferencial,
                 weekday: diferencial?.weekday ?? 0,
-                color: diferencial?.color ?? AppColors.porcDiferenciadaColor,
+                color: diferencial?.color ?? ExtraColors.porcDiferenciadaColor,
                 porc: diferencial?.percentage ?? 0,
               ),
             );

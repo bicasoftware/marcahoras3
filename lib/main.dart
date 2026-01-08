@@ -1,18 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:marcahoras3/features/home/home/home_screen.dart';
 
-import 'app_config.dart';
-import 'features/empregos/empregos_screen.dart';
-import 'features/home/calendar/calendar_screen.dart';
-import 'features/relatorio/relatorio_screen.dart';
-import 'presentation_layer/blocs/empregos/empregos_bloc_loader.dart';
-import 'presentation_layer/blocs/home/home_bloc_loader.dart';
+import 'presentation_layer/blocs.dart';
 import 'resources.dart';
 import 'routes.dart';
+import 'screens.dart';
 import 'utils.dart';
-import 'widgets/transtions/sh_fade_transition.dart';
+import 'widgets.dart';
 
 class HorasApp extends StatelessWidget {
   const HorasApp({super.key});
@@ -25,23 +20,15 @@ class HorasApp extends StatelessWidget {
         locale: PlatformDispatcher.instance.locale, // Access device's locale
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: AppColors.secondary,
-          fontFamily: 'Outfit',
-          useMaterial3: true,
-          colorScheme: lightColorScheme,
-          appBarTheme: appBarColorScheme,
-          splashColor: AppColors.splash,
-          textTheme: TextTheme(
+        theme: ShAppTheme(
+          TextTheme(
             labelLarge: TextStyle(
-              color: AppColors.onSurface,
               fontWeight: FontWeight.bold,
               fontSize: 14,
               fontFamily: 'Outfit',
             ),
           ),
-        ),
+        ).light(),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

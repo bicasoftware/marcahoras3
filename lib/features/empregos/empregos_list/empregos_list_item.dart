@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/domain_layer/models/diferenciais.dart';
-import 'package:marcahoras3/widgets.dart';
 
+import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
 import '../../../utils.dart';
+import '../../../widgets.dart';
 
 class EmpregosListItem extends StatefulWidget {
   final String descricao, cargaHoraria;
@@ -86,12 +86,14 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final textTheme = theme.textTheme;
     final weekdays = Localiza.findList('fullWeekDays');
     return Ink(
       decoration: BoxDecoration(
-        color: AppColors.surface,
-        boxShadow: [BoxShadow(blurRadius: 1, color: Colors.black26)],
+        color: colors.surface,
+        boxShadow: [BoxShadow(blurRadius: 1, color: Colors.black38)],
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       child: InkWell(
@@ -100,7 +102,7 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
         },
         onLongPress: _showCustomMenu,
         onTap: widget.onEdit,
-        splashColor: AppColors.splash,
+        splashColor: ExtraColors.splash,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Column(
@@ -110,22 +112,22 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
                 spacing: 4,
                 children: [
                   CircleAvatar(
-                    backgroundColor: AppColors.secondary,
-                    child: Icon(Icons.work, color: AppColors.onPrimary),
+                    backgroundColor: colors.secondary,
+                    child: Icon(Icons.work, color: colors.onPrimary),
                   ),
                   Expanded(
                     child: Text(
                       widget.descricao,
-                      style: theme.titleMedium?.copyWith(
+                      style: textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   PopupMenuButton(
-                    color: AppColors.surface,
+                    color: colors.surface,
                     icon: Icon(
                       Icons.more_vert,
-                      color: AppColors.onSurface,
+                      color: colors.onSurface,
                     ),
                     itemBuilder: (context) {
                       return <PopupMenuItem>[
@@ -138,8 +140,8 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
                               Text(
                                 Localiza.find('editar'),
                                 textAlign: TextAlign.justify,
-                                style: theme.bodyLarge?.copyWith(
-                                  color: AppColors.onSurface,
+                                style: textTheme.bodyLarge?.copyWith(
+                                  color: colors.onSurface,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -151,12 +153,12 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
                           child: Row(
                             spacing: 8,
                             children: [
-                              Icon(Icons.delete, color: Colors.white),
+                              Icon(Icons.delete, color: Colors.red),
                               Text(
                                 Localiza.find('apagar'),
                                 textAlign: TextAlign.justify,
-                                style: theme.bodyLarge?.copyWith(
-                                  color: AppColors.onSurface,
+                                style: textTheme.bodyLarge?.copyWith(
+                                  color: colors.onSurface,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -195,7 +197,11 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
                 ShLabeledListSection(label: Localiza.find("diferenciais")),
                 ...widget.diferenciais
                     .map(
-                      (d) => _DiferenciaisItem(color: d.color, percent: d.percentage, weekday: weekdays[d.weekday],),
+                      (d) => _DiferenciaisItem(
+                        color: d.color,
+                        percent: d.percentage,
+                        weekday: weekdays[d.weekday],
+                      ),
                     )
                     .toList(),
               ],
@@ -216,18 +222,18 @@ class _EmpregoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(context).textTheme;
     return Row(
       children: [
         Expanded(
           child: Text(
             label,
-            style: theme.bodyLarge,
+            style: textTheme.bodyLarge,
           ),
         ),
         Text(
           value,
-          style: theme.titleMedium?.copyWith(
+          style: textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -249,7 +255,8 @@ class _DiferenciaisItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
     return Row(
       children: [
         CircleAvatar(
@@ -260,12 +267,12 @@ class _DiferenciaisItem extends StatelessWidget {
         Expanded(
           child: Text(
             weekday,
-            style: theme.bodyLarge?.copyWith(color: AppColors.onSurface),
+            style: textTheme.bodyLarge?.copyWith(color: colors.onSurface),
           ),
         ),
         Text(
           "$percent %",
-          style: theme.titleMedium?.copyWith(
+          style: textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),

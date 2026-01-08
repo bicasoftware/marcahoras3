@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
 
-import '../resources.dart';
-
 extension MessagesUtils on BuildContext {
-  void showSnackBar(String msg) {
+  void showSnackBar(BuildContext ctx, String msg) {
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
         content: Text(
@@ -12,7 +10,7 @@ extension MessagesUtils on BuildContext {
           style: Theme.of(this).textTheme.labelLarge,
         ),
         elevation: 2,
-        backgroundColor: AppColors.onPrimary,
+        backgroundColor: Theme.of(ctx).colorScheme.onPrimary,
       ),
     );
   }
@@ -34,7 +32,8 @@ enum MessageType {
   success(ToastificationType.success),
   error(ToastificationType.error),
   warning(ToastificationType.warning),
-  neutral(ToastificationType.info);
+  neutral(ToastificationType.info)
+  ;
 
   final ToastificationType toastType;
 

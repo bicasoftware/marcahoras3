@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../resources.dart';
+import '../utils.dart';
 
 class DualActionButton extends StatelessWidget {
   final Widget firstLabel, secondLabel;
@@ -34,8 +34,8 @@ class DualActionButton extends StatelessWidget {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: AppColors.secondary,
-                border: Border.all(color: AppColors.onSurface),
+                color: context.colors.secondary,
+                border: Border.all(color: context.colors.onSurface),
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(8),
                   topLeft: Radius.circular(8),
@@ -50,13 +50,13 @@ class DualActionButton extends StatelessWidget {
           ),
           VerticalDivider(
             width: 2,
-            color: AppColors.surface,
+            color: context.colors.surface,
           ),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: AppColors.secondary,
-                border: Border.all(color: AppColors.onSurface),
+                color: context.colors.secondary,
+                border: Border.all(color: context.colors.onSurface),
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(8),
                   topRight: Radius.circular(8),
@@ -65,7 +65,7 @@ class DualActionButton extends StatelessWidget {
               child: TextButton.icon(
                 label: secondLabel,
                 icon: secondIcon,
-                onPressed: onSecondTap,                
+                onPressed: onSecondTap,
               ),
             ),
           ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../resources.dart';
 import '../../../utils.dart';
 
 class RelatorioTotalizerRow extends StatelessWidget {
@@ -18,17 +17,8 @@ class RelatorioTotalizerRow extends StatelessWidget {
     required this.hideTotal,
   });
 
-  TextStyle _baseStyle(TextTheme theme) {
-    return theme.labelLarge!.copyWith(
-      fontWeight: FontWeight.bold,
-      color: AppColors.onSecondary,
-      fontSize: 14,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
@@ -41,7 +31,11 @@ class RelatorioTotalizerRow extends StatelessWidget {
             flex: 3,
             child: Text(
               label,
-              style: _baseStyle(theme),
+              style: context.textTheme.labelLarge!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: context.colors.onSurface,
+                fontSize: 14,
+              ),
               textAlign: TextAlign.start,
             ),
           ),
@@ -49,7 +43,11 @@ class RelatorioTotalizerRow extends StatelessWidget {
             flex: 2,
             child: Text(
               horasTrab,
-              style: _baseStyle(theme),
+              style: context.textTheme.labelLarge!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: context.colors.onSurface,
+                fontSize: 14,
+              ),
               textAlign: TextAlign.start,
             ),
           ),
@@ -59,10 +57,10 @@ class RelatorioTotalizerRow extends StatelessWidget {
               child: Text(
                 "${Localiza.find('total')} - ${valor}",
                 textAlign: TextAlign.end,
-                style: theme.labelLarge?.copyWith(
+                style: context.textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
-                  color: AppColors.onPrimary,
+                  color: context.colors.onSurface,
                 ),
               ),
             ),

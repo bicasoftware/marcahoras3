@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/resources.dart';
 
+import '../utils.dart';
 import '../widgets.dart';
 
 class ShSliderPicker extends StatelessWidget {
@@ -21,18 +21,17 @@ class ShSliderPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
     return IndicatorTile(
       child: ListTile(
         title: Row(
           children: [
-            Text(label, style: theme.labelLarge),
+            Text(label, style: context.textTheme.labelLarge),
             const Spacer(),
             Text(
               "${value.toString()} %",
-              style: theme.labelLarge!.copyWith(
-                color: AppColors.onSurface,
-                fontWeight: FontWeight.bold,
+              style: context.textTheme.labelLarge!.copyWith(
+                color: context.colors.onSurface,
+                fontWeight: .bold,
               ),
             ),
           ],
@@ -46,7 +45,7 @@ class ShSliderPicker extends StatelessWidget {
           onChanged: (v) => onChanged(
             v.toInt(),
           ),
-          activeColor: AppColors.secondary,
+          activeColor: context.colors.secondary,
         ),
       ),
     );

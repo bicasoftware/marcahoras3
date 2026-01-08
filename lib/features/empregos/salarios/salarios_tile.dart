@@ -3,7 +3,6 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../resources.dart';
 import '../../../utils.dart';
 import '../../../widgets.dart';
 import 'salarios_input_tile.dart';
@@ -53,6 +52,7 @@ class SalariosTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context);
     final theme = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
 
     return isEditing
         ? ShListViewTile<Salarios>(
@@ -66,7 +66,7 @@ class SalariosTile extends StatelessWidget {
               return Localiza.find(_isAtual(s) ? 'atual' : 'Aumento');
             },
             buildBadgeColor: (s) =>
-                _isAtual(s) ? AppColors.secondary : AppColors.primary,
+                _isAtual(s) ? colors.secondary : colors.primary,
             buildInfoList: (s) {
               return [
                 Row(

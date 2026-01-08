@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../domain_layer/models.dart';
-import '../../../../resources/colors.dart';
+import '../../../../resources.dart';
 
 sealed class CalendarItemModel {
   final Horas? horas;
@@ -40,7 +40,7 @@ class CalendarItemBancoHoras extends CalendarItemModel implements Equatable {
 
   HorasType get horaType => horas?.tipoHora ?? HorasType.unknown;
 
-  int get horaColor => AppColors.secondary.toARGB32();
+  int get horaColor => ExtraColors.porcNormalColor.toARGB32();
 
   int get weekDay => horas?.data.weekday ?? -1;
 

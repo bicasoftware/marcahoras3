@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
 import '../../presentation_layer/validators/validators.dart';
-import '../../resources/colors.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
 import 'diferenciais_presenter.dart';
@@ -80,6 +79,7 @@ class _EmpregosScreenState extends State<EmpregosScreen>
   Widget build(BuildContext context) {
     final bloc = context.watch<EmpregosBloc>();
     final textTheme = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
     final state = bloc.state;
     final locale = Localizations.localeOf(context);
 
@@ -97,7 +97,7 @@ class _EmpregosScreenState extends State<EmpregosScreen>
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 16, top:8),
-        color: AppColors.background,
+        color: colors.surface,
         child: ShWideButton(
           labelId: 'salvar',
           onTap: () => _validate(bloc),
@@ -106,6 +106,7 @@ class _EmpregosScreenState extends State<EmpregosScreen>
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 8),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Form(
             key: _formKey,
             child: BlocHelper<EmpregosBloc, EmpregosState>(
@@ -266,8 +267,8 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                             ),
                           ),
                           icon: Icons.monetization_on,
-                          labelColor: AppColors.onSurface,
-                          iconColor: AppColors.onSurface,
+                          labelColor: colors.onSurface,
+                          iconColor: colors.onSurface,
                         ),
                       ];
                     },

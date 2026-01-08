@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../widgets.dart';
-import '../../resources.dart';
 import '../../utils.dart';
 
 class ShListViewTile<T> extends StatelessWidget {
@@ -41,8 +40,8 @@ class ShListViewTile<T> extends StatelessWidget {
               isThreeLine: true,
               trailing: FloatingActionButton.small(
                 heroTag: heroTag,
-                backgroundColor: AppColors.secondary,
-                foregroundColor: AppColors.onSecondary,
+                backgroundColor: context.colors.secondary,
+                foregroundColor: context.colors.onSecondary,
                 child: Icon(Icons.add),
                 onPressed: onAdd,
               ),
@@ -78,9 +77,7 @@ class _NoDataOnList extends StatelessWidget {
         children: [
           Text(
             label,
-            style: AppTextStyles.regularText.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: context.textTheme.labelLarge,
           ),
           const SizedBox(height: 16),
           ShWideButton(onTap: onTap, labelId: 'adicionar'),

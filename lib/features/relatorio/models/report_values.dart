@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../../domain_layer/models/horas.dart';
-import '../../../resources/colors.dart';
+import '../../../resources.dart';
 import '../../../utils.dart';
 
 @immutable
@@ -19,7 +19,7 @@ class ReportValues {
     required this.horasType,
     required this.porc,
     this.weekday = -1,
-    this.color = AppColors.porcNormalColor,
+    this.color = ExtraColors.porcNormalColor,
   });
 
   factory ReportValues.empty() {

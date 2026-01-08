@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/utils.dart';
-import 'package:marcahoras3/widgets.dart';
+
+import '../utils.dart';
+import '../widgets.dart';
 
 class BlocHelper<B extends StateStreamable<S>, S extends BaseState>
     extends StatelessWidget {
@@ -35,7 +36,7 @@ class BlocHelper<B extends StateStreamable<S>, S extends BaseState>
       },
       listener: (context, state) {
         if (state.status is StateErrorStatus) {
-          if(!showErrorWidget) {
+          if (!showErrorWidget) {
             if (onError != null) {
               onError!((state.status as StateErrorStatus).errorMsg);
             } else {
@@ -55,7 +56,7 @@ class BlocHelper<B extends StateStreamable<S>, S extends BaseState>
       return LoadingScreen(child: child);
     }
 
-    if(bloc.state.status is StateErrorStatus && errorWidget != null) {
+    if (bloc.state.status is StateErrorStatus && errorWidget != null) {
       return errorWidget!(bloc.state.status as StateErrorStatus);
     }
 

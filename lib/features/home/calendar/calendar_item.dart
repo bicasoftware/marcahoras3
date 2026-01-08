@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain_layer/models/diferenciais.dart';
-import '../../../domain_layer/models/horas.dart';
+import '../../../domain_layer/models.dart';
 import '../../../resources.dart';
 
 class CalendarItem extends StatelessWidget {
@@ -33,7 +32,9 @@ class CalendarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
+
     return AbsorbPointer(
       absorbing: !enabled,
       child: Ink(
@@ -41,15 +42,15 @@ class CalendarItem extends StatelessWidget {
             ? BoxDecoration(
                 color: enabled
                     ? isToday
-                          ? AppColors.secondary
-                          : AppColors.surface
-                    : AppColors.disabled,
-                border: Border.all(color: AppColors.shadow.withAlpha(20)),
+                          ? colors.secondary.withAlpha(50)
+                          : colors.surface
+                    : colors.surfaceContainer,
+                border: Border.all(color: colors.shadow.withAlpha(20)),
                 borderRadius: BorderRadius.circular(8),
               )
             : null,
         child: InkWell(
-          splashColor: AppColors.splash,
+          splashColor: ExtraColors.splash,
           onTap: () {
             if (onCalendarItemTap != null) {
               onCalendarItemTap!(hora, data);
@@ -63,10 +64,8 @@ class CalendarItem extends StatelessWidget {
                   children: [
                     Text(
                       '$monthDay',
-                      style: theme.bodyLarge?.copyWith(
-                        color: enabled
-                            ? AppColors.onSurface
-                            : AppColors.disabled,
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: enabled ? colors.onSurface : colors.outline,
                       ),
                     ),
                     Container(
@@ -75,7 +74,7 @@ class CalendarItem extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: type != HorasType.unknown
                           ? BoxDecoration(
-                              color: _getIndicatorColor(),
+                              color: _getIndicatorColor(colors),
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(8),
                               ),
@@ -89,18 +88,18 @@ class CalendarItem extends StatelessWidget {
     );
   }
 
-  Color _getIndicatorColor() {
+  Color _getIndicatorColor(ColorScheme colors) {
     switch (hora!.tipoHora) {
       case HorasType.feriado:
-        return AppColors.porcFeriadosColor;
+        return ExtraColors.porcFeriadosColor;
       case HorasType.normal:
-        return AppColors.porcNormalColor;
+        return ExtraColors.porcNormalColor;
       case HorasType.banco:
-        return Color(hora?.horaStatus.color ?? AppColors.disabled.toARGB32());
+        return Color(hora?.horaStatus.color ?? colors.outline.toARGB32());
       case HorasType.diferencial:
-        return diferencial?.color ?? AppColors.porcDiferenciadaColor;
+        return diferencial?.color ?? ExtraColors.porcDiferenciadaColor;
       default:
-        return AppColors.disabled;
+        return colors.outline;
     }
   }
 }

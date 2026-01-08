@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 import '../../domain_layer/models.dart';
-import '../../resources/colors.dart';
+import '../../resources.dart';
 import '../database/db_connector_drift.dart';
 import '../dtos.dart';
 
@@ -23,7 +23,9 @@ extension DiferenciaisDtoMapper on DiferenciaisDto {
       idEmprego: idEmprego ?? '',
       percentage: percentage ?? 50,
       weekday: weekday ?? 0,
-      color: color != null ? Color(int.parse(color!)) : AppColors.porcDiferenciadaColor,
+      color: color != null
+          ? Color(int.parse(color!))
+          : ExtraColors.porcDiferenciadaColor,
     );
   }
 }

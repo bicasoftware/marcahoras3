@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/app_config.dart';
-import 'package:marcahoras3/features/relatorio/relatorio_screen_presenter.dart';
 
 import '../../presentation_layer/blocs.dart';
-import '../../resources.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
+import 'relatorio_screen_presenter.dart';
 import 'widgets/relatorio_horas_list.dart';
 import 'widgets/relatorio_totalizer.dart';
 
@@ -16,16 +14,10 @@ class RelatorioScreen extends StatelessWidget with RelatorioScreenPresenter {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
-    final theme = Theme.of(context).textTheme;
-    final locale = Localizations.localeOf(context);
     final reportModel = bloc.state.getReportPage();
     final diferenciais = bloc.state.currentEmprego.diferenciaisList;
 
-    final String vigencia = formatPDFVigencia(bloc, locale);
-
-    bool _isMobile() {
-      return AppConfig.shared.flavor != Flavor.desktop;
-    }
+    final String vigencia = formatPDFVigencia(bloc, context.locale);
 
     return SafeArea(
       top: false,
@@ -42,7 +34,7 @@ class RelatorioScreen extends StatelessWidget with RelatorioScreenPresenter {
               onPressed: () {
                 showPdfPreview(
                   context: context,
-                  locale: locale,
+                  locale: context.locale,
                   vigencia: vigencia,
                   reportModel: reportModel,
                 );
@@ -56,16 +48,16 @@ class RelatorioScreen extends StatelessWidget with RelatorioScreenPresenter {
           children: [
             Container(
               padding: EdgeInsets.only(left: 12, right: 12, top: 16),
-              color: AppColors.background,
+              color: context.colors.surface,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     vigencia,
                     textAlign: TextAlign.start,
-                    style: theme.bodyLarge?.copyWith(
+                    style: context.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.onSurface,
+                      color: context.colors.onSurface,
                       fontSize: 18,
                     ),
                   ),

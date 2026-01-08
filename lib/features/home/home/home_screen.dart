@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/features/empregos/empregos_list/empregos_list_screen.dart';
-import 'package:marcahoras3/features/home/calendar/calendar_screen.dart';
-import 'package:marcahoras3/features/relatorio/relatorio_screen.dart';
-import 'package:marcahoras3/utils/localiza/localiza.dart';
 
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
 import '../../../presentation_layer/route_args.dart';
-import '../../../resources.dart';
 import '../../../routes.dart';
-import '../../../utils/uuid_factory.dart';
+import '../../../screens.dart';
+import '../../../utils.dart';
 import '../../../widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -56,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
     final bloc = context.watch<HomeBloc>();
 
     return BlocHelper<HomeBloc, HomeState>(
@@ -87,9 +82,9 @@ class _HomeScreenState extends State<HomeScreen>
                 ],
               ),
               bottomNavigationBar: BottomNavigationBar(
-                backgroundColor: AppColors.secondary,
-                selectedItemColor: AppColors.onSecondary,
-                elevation: 0,
+                enableFeedback: true,
+                selectedFontSize: 14,
+                unselectedFontSize: 13,
                 currentIndex: bloc.state.navPos,
                 onTap: (value) {
                   controller.animateTo(value);

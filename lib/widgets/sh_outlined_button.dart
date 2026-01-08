@@ -18,15 +18,15 @@ class ShOutlinedButton extends StatelessWidget {
         side: BorderSide(
             color: color,
             width: 1.0,
-            style: BorderStyle.solid,
+            style: .solid,
             strokeAlign: 1            
         ),        
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: .all(.circular(8)),
         )
       ),      
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
+      child: Container(
+        padding: const .all(12.0),
         child: Icon(
           icon,
           color: color,

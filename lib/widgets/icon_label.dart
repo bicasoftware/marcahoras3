@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../resources.dart';
+import '../utils.dart';
 
 class IconLabel extends StatelessWidget {
   final String label;
@@ -10,13 +10,12 @@ class IconLabel extends StatelessWidget {
   const IconLabel({
     required this.label,
     required this.icon,
-    this.labelColor = AppColors.onSurface,
+    required this.labelColor,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
@@ -24,7 +23,7 @@ class IconLabel extends StatelessWidget {
         const SizedBox(width: 8),
         Text(
           label,
-          style: theme.labelLarge?.copyWith(
+          style: context.textTheme.labelLarge?.copyWith(
             fontWeight: FontWeight.bold,
             color: labelColor,
           ),

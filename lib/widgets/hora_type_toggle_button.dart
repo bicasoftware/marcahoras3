@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/resources/colors.dart';
-import 'package:marcahoras3/utils.dart';
 
 import '../domain_layer/models.dart';
+import '../resources.dart';
+import '../utils.dart';
 
 class HoraTypeToggleButton extends StatefulWidget {
   final HorasType horasType;
@@ -48,25 +48,21 @@ class _HoraTypeToggleButtonState extends State<HoraTypeToggleButton> {
     super.initState();
   }
 
-  Color _getColor(int pos) {
+  Color? _getColor(int pos) {
     if (_pos == pos) {
       switch (pos) {
         case 0:
-          return AppColors.porcNormalColor;
+          return ExtraColors.porcNormalColor;
         case 1:
-          return AppColors.porcFeriadosColor;
+          return ExtraColors.porcFeriadosColor;
         case 2:
-          return widget.diferencial?.color ?? AppColors.porcDiferenciadaColor;
+          return widget.diferencial?.color ?? ExtraColors.porcDiferenciadaColor;
         default:
-          return AppColors.surface;
+          return null;
       }
     }
 
-    return AppColors.surface;
-  }
-
-  Color _getLabelColor(int pos) {
-    return pos == _pos ? AppColors.onPrimary : AppColors.onSurface;
+    return null;
   }
 
   void _onTap(int index) {
@@ -116,7 +112,7 @@ class _HoraTypeToggleButtonState extends State<HoraTypeToggleButton> {
             child: Container(
               height: 40,
               decoration: BoxDecoration(
-                color: _getColor(index),
+                color: _getColor(index) ?? context.colors.surface,
                 border: Border.all(color: Colors.black26, width: 1),
                 borderRadius: _getBorderRadius(index),
               ),
@@ -125,7 +121,9 @@ class _HoraTypeToggleButtonState extends State<HoraTypeToggleButton> {
                 _labels[index],
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: _getLabelColor(index),
+                  color: index == _pos
+                      ? context.colors.onPrimary
+                      : context.colors.onSurface,
                 ),
               ),
             ),

@@ -1,9 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/utils.dart';
 
-import '../resources/colors.dart';
+import '../utils.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({super.key});
@@ -26,9 +25,6 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height * .2;
-    final width = MediaQuery.of(context).size.width * .7;
-
     return Scaffold(
       body: Stack(
         children: [
@@ -44,10 +40,10 @@ class LoadingScreen extends StatelessWidget {
                 child: Center(
                   child: Container(
                     padding: EdgeInsets.all(32),
-                    width: width,
-                    height: height,
+                    width: context.getWidthByPercent(70),
+                    height: context.getHeightByPercent(20),
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: context.colors.surface,
                       boxShadow: [
                         BoxShadow(blurRadius: 1, color: Colors.black26),
                       ],

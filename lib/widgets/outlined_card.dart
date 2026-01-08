@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../resources.dart';
-
 class OutlinedCard extends StatelessWidget {
   final EdgeInsets? padding, margin;
   final Widget child;
@@ -15,9 +13,9 @@ class OutlinedCard extends StatelessWidget {
   const OutlinedCard({
     this.borderRadius = 8,
     this.hasShadow = true,
+    required this.cardColor,
+    required this.outlineColor,
     required this.child,
-    this.cardColor = AppColors.surface,
-    this.outlineColor = AppColors.onSurface,
     this.shadowAlpha = 40,
     this.padding,
     this.margin,
@@ -38,7 +36,7 @@ class OutlinedCard extends StatelessWidget {
                 BoxShadow(
                   blurRadius: 1,
                   color: Colors.black26,
-                )
+                ),
               ]
             : null,
         borderRadius: BorderRadius.all(Radius.circular(borderRadius)),

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 
-import '../../resources.dart';
+import '../../utils.dart';
 
 class BottomSheetHelper {
   static Future<T?> showModalBts<T>({
@@ -17,8 +17,6 @@ class BottomSheetHelper {
     Widget? leading,
     bool showDragHandle = true,
   }) {
-    final theme = Theme.of(context).textTheme;
-
     return showModalBottomSheet<T>(
       context: context,
       useRootNavigator: useRootNavigation,
@@ -46,10 +44,10 @@ class BottomSheetHelper {
                   if (label != null)
                     Text(
                       label,
-                      style: theme.labelLarge?.copyWith(
+                      style: context.textTheme.labelLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        color: AppColors.onSurface,
+                        color: context.colors.onSurface,
                       ),
                       textAlign: TextAlign.start,
                     ),
@@ -78,7 +76,6 @@ class BottomSheetHelper {
     bool dismissible = false,
     Radius topRadius = const Radius.circular(12),
   }) {
-    final theme = Theme.of(context).textTheme;
     return showModalBts<int?>(
       context: context,
       body: Padding(
@@ -104,10 +101,10 @@ class BottomSheetHelper {
                       margin: EdgeInsets.all(2),
                       decoration: BoxDecoration(
                         color: m == hintedItem
-                            ? AppColors.primary.withAlpha(20)
-                            : AppColors.surface,
+                            ? context.colors.primary.withAlpha(20)
+                            : context.colors.surface,
                         border: Border.all(
-                          color: AppColors.primary.withAlpha(20),
+                          color: context.colors.primary.withAlpha(20),
                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -115,8 +112,9 @@ class BottomSheetHelper {
                         child: Text(
                           m,
                           textAlign: TextAlign.center,
-                          style: theme.titleSmall
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                          style: context.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

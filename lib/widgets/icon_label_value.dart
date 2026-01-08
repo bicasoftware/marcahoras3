@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../resources.dart';
+import '../utils.dart';
 
 class IconLabelValue extends StatelessWidget {
   final String label;
@@ -19,7 +19,6 @@ class IconLabelValue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
     return Container(
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -34,18 +33,18 @@ class IconLabelValue extends StatelessWidget {
           ),
           Text(
             label,
-            style: theme.labelLarge?.copyWith(
+            style: context.textTheme.labelLarge?.copyWith(
               fontWeight: FontWeight.normal,
               color: labelColor,
             ),
           ),
-          
+
           const Spacer(),
           Text(
             value,
-            style: theme.labelLarge?.copyWith(
+            style: context.textTheme.labelLarge?.copyWith(
               // fontWeight: FontWeight.bold,
-              color: AppColors.onSurface,
+              color: context.colors.onSurface,
             ),
           ),
         ],

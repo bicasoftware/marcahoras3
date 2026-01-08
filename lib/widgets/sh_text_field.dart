@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../resources/colors.dart';
+import '../utils.dart';
 
 class ShTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -31,30 +31,30 @@ class ShTextField extends StatelessWidget {
     this.padding = EdgeInsets.zero,
   });
 
-  get _inputBorder => UnderlineInputBorder(
-    borderSide: BorderSide(color: AppColors.onSurface, width: 1),
-  );
+  InputDecoration defaultDecoration(BuildContext ctx) {
+    final _inputBorder = UnderlineInputBorder(
+      borderSide: BorderSide(color: ctx.colors.onSurface, width: 1),
+    );
 
-  InputDecoration defaultDecoration(TextTheme theme) => InputDecoration(
-    hintText: hint,
-    border: _inputBorder,
-    focusedBorder: _inputBorder,
-    errorBorder: _inputBorder,
-    enabledBorder: _inputBorder,
-    disabledBorder: _inputBorder,
-    focusedErrorBorder: _inputBorder,
-    contentPadding: EdgeInsets.zero,
-    icon: icon,
-    errorStyle: theme.labelMedium?.copyWith(
-      color: AppColors.error,
-      fontWeight: FontWeight.bold,
-    ),
-  );
+    return InputDecoration(
+      hintText: hint,
+      border: _inputBorder,
+      focusedBorder: _inputBorder,
+      errorBorder: _inputBorder,
+      enabledBorder: _inputBorder,
+      disabledBorder: _inputBorder,
+      focusedErrorBorder: _inputBorder,
+      contentPadding: .zero,
+      icon: icon,
+      errorStyle: ctx.textTheme.labelMedium?.copyWith(
+        color: ctx.colors.error,
+        fontWeight: .bold,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,13 +64,15 @@ class ShTextField extends StatelessWidget {
             label!,
             style:
                 labelStyle ??
-                theme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
+                context.textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
           ),
         const SizedBox(height: 4),
         TextFormField(
           controller: controller,
           autofocus: false,
-          decoration: defaultDecoration(theme),
+          decoration: defaultDecoration(context),
           validator: validator,
           inputFormatters: inputFormatters,
           keyboardType: keyboardType,

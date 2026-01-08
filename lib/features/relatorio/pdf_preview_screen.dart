@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
 
-import '../../resources.dart';
+import '../../utils.dart';
 import '../../widgets.dart';
 
 class PdfPreviewScreen extends StatelessWidget {
@@ -25,7 +25,7 @@ class PdfPreviewScreen extends StatelessWidget {
       body: PdfPreview(
         build: (_) => pdfData,
         allowPrinting: true,
-        allowSharing: true,        
+        allowSharing: true,
         canChangePageFormat: false,
         canChangeOrientation: false,
         canDebug: false,
@@ -34,7 +34,7 @@ class PdfPreviewScreen extends StatelessWidget {
           color: Colors.white,
         ),
         actionBarTheme: PdfActionBarTheme(
-          backgroundColor: AppColors.secondary,
+          backgroundColor: context.colors.secondary,
         ),
       ),
     );

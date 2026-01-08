@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marcahoras3/features/empregos/empregos_list/empregos_list_item.dart';
-import 'package:marcahoras3/presentation_layer/blocs/home/home_bloc.dart';
-import 'package:marcahoras3/presentation_layer/route_args.dart';
-import 'package:marcahoras3/widgets.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../resources.dart';
+import '../../../presentation_layer/blocs.dart';
+import '../../../presentation_layer/route_args.dart';
 import '../../../routes.dart';
-import '../../../utils/localiza/localiza.dart';
-import '../../../utils/uuid_factory.dart';
+import '../../../utils.dart';
+import '../../../widgets.dart';
+import 'empregos_list_item.dart';
 
 class EmpregosListScreen extends StatefulWidget {
   const EmpregosListScreen({super.key});
@@ -56,6 +54,8 @@ class _EmpregosListScreenState extends State<EmpregosListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     final bloc = context.read<HomeBloc>();
     final empregos = bloc.state.empregos;
 
@@ -64,7 +64,7 @@ class _EmpregosListScreenState extends State<EmpregosListScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => showCreateScreen(context: context),
         child: Icon(Icons.add, color: Colors.white),
-        backgroundColor: AppColors.secondary,
+        backgroundColor: colors.secondary,
       ),
       body: SingleChildScrollView(
         child: Padding(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/resources/text_styles.dart';
 
+import '../utils.dart';
 import '../widgets.dart';
 
 class NoDataContainer extends StatelessWidget {
@@ -19,6 +19,7 @@ class NoDataContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: CardContainer(
+        cardColor: context.colors.surface,
         margin: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -26,9 +27,7 @@ class NoDataContainer extends StatelessWidget {
             Text(
               contentLabel,
               textAlign: TextAlign.center,
-              style: AppTextStyles.regularText.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: context.textTheme.labelLarge,
             ),
             const SizedBox(height: 16),
             ShWideButton(

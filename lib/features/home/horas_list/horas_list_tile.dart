@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../resources.dart';
 import '../../../utils.dart';
-import '../../../widgets/icon_label_value.dart';
+import '../../../widgets.dart';
 
 class HorasListTile extends StatelessWidget {
   final Horas hora;
@@ -42,6 +41,7 @@ class HorasListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     final ht = _horasTrabalhadas();
     final vh = _valorHora();
 
@@ -55,9 +55,9 @@ class HorasListTile extends StatelessWidget {
               children: [
                 IconLabelValue(
                   icon: Icons.timeline,
-                  iconColor: AppColors.primary,
+                  iconColor: colors.primary,
                   label: Localiza.find('horasTrabalhadas'),
-                  labelColor: AppColors.primary,
+                  labelColor: colors.primary,
                   value: "$ht",
                 ),
                 IconLabelValue(
@@ -65,13 +65,13 @@ class HorasListTile extends StatelessWidget {
                   iconColor: Color(hora.tipoHora.colorHex),
                   label: Localiza.find('valorReceber'),
                   value: CurrencyHelper.formatAmount(vh * ht),
-                  labelColor: AppColors.primary,
+                  labelColor: colors.primary,
                 ),
                 IconLabelValue(
                   icon: Icons.payment,
-                  iconColor: AppColors.secondary,
+                  iconColor: colors.secondary,
                   label: Localiza.find('salario'),
-                  labelColor: AppColors.primary,
+                  labelColor: colors.primary,
                   value: CurrencyHelper.formatAmount(_salario()),
                 ),
               ],

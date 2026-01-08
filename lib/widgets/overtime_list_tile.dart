@@ -54,21 +54,20 @@ class OvertimeListTile extends StatelessWidget {
   Color _getBadgeColor() {
     switch (horaType) {
       case HorasType.feriado:
-        return AppColors.porcFeriadosColor;
+        return ExtraColors.porcFeriadosColor;
       case HorasType.normal:
-        return AppColors.porcNormalColor;
+        return ExtraColors.porcNormalColor;
       case HorasType.banco:
         return Color(horaStatus.color);
       case HorasType.diferencial:
-        return diferencial?.color ?? AppColors.porcDiferenciadaColor;
+        return diferencial?.color ?? ExtraColors.porcDiferenciadaColor;
       default:
-        return AppColors.disabled;
+        return ExtraColors.disabled;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context);
 
     return ShDetailedListTile(
       optionsList: [
@@ -76,16 +75,16 @@ class OvertimeListTile extends StatelessWidget {
         Localiza.find('apagar'),
       ],
       onOptionSelected: onOptionSelected,
-      title: formatDateByLocale(date, locale),
+      title: formatDateByLocale(date, context.locale),
       badgeLabel: getBadgeLabel(),
       badgeColor: _getBadgeColor(),
       contentList: [
         IconLabelValue(
           icon: Icons.timeline,
-          iconColor: AppColors.secondary,
+          iconColor: context.colors.secondary,
           label: Localiza.find('horasTrabalhadas'),
           value: workedHours,
-          labelColor: AppColors.onSurface,
+          labelColor: context.colors.onSurface,
         ),
         if (!bancoHoras)
           IconLabelValue(
@@ -93,14 +92,16 @@ class OvertimeListTile extends StatelessWidget {
             iconColor: Color(horaType.colorHex),
             label: Localiza.find('valorReceber'),
             value: amount,
-            labelColor: AppColors.onSurface,
+            labelColor: context.colors.onSurface,
           ),
         IconLabelValue(
           icon: Icons.timelapse,
-          iconColor: AppColors.porcFeriadosColor,
-          label: "Horário",
-          value: "Das ${from}, Até: ${to}",
-          labelColor: AppColors.onSurface,
+          iconColor: ExtraColors.porcFeriadosColor,
+          label: Localiza.find('turno'),
+          value: Localiza.find(
+            'dasAte',
+          ).replaceAll('{INI}', from).replaceAll('{END}', to),
+          labelColor: context.colors.onSurface,
         ),
       ],
       onTap: onTap,

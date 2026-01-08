@@ -1,6 +1,4 @@
 library resources;
 
-export "./resources/colors.dart";
-export "./resources/color_scheme.dart";
+export "./resources/app_theme.dart";
 export "./resources/images.dart";
-export "./resources/text_styles.dart";
