@@ -565,7 +565,7 @@ class ExtraColors {
   static const statusAtivo = Color(0xFF5FB800);
   static const statusInativo = Color(0xFFFF847D);
 
-  static const editColor = Color(0x95FFE600);
+  static const editColor = Color(0xFFFF9900);
   static const deleteColor = Color(0x95F20E02);
 
   static const porcNormalColor = Color(0xFF5FB800);

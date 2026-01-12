@@ -16,7 +16,7 @@ class OvertimeListTile extends StatelessWidget {
   final String from, to;
   final VoidCallback? onTap;
   final Diferenciais? diferencial;
-  final ValueChanged<int> onOptionSelected;
+  final List<ShPopupMenuItemData> popupOptions;
 
   const OvertimeListTile({
     required this.horaType,
@@ -28,7 +28,7 @@ class OvertimeListTile extends StatelessWidget {
     required this.salary,
     required this.from,
     required this.to,
-    required this.onOptionSelected,
+    required this.popupOptions,
     this.onTap,
     this.diferencial,
     super.key,
@@ -68,13 +68,8 @@ class OvertimeListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return ShDetailedListTile(
-      optionsList: [
-        Localiza.find('editar'),
-        Localiza.find('apagar'),
-      ],
-      onOptionSelected: onOptionSelected,
+      popupOptions: popupOptions,
       title: formatDateByLocale(date, context.locale),
       badgeLabel: getBadgeLabel(),
       badgeColor: _getBadgeColor(),

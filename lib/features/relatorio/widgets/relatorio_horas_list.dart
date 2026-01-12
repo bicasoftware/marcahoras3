@@ -8,11 +8,14 @@ class RelatorioHorasList extends StatelessWidget {
   final List<ReportHora> horas;
   final bool bancoHoras;
   final List<Diferenciais> diferenciais;
+  final void Function(Horas hora) onEdit, onDelete;
 
   const RelatorioHorasList({
     required this.horas,
     required this.bancoHoras,
     required this.diferenciais,
+    required this.onEdit,
+    required this.onDelete,
     super.key,
   });
 
@@ -37,7 +40,10 @@ class RelatorioHorasList extends StatelessWidget {
             diferencial: diferenciais.firstWhereOrNull(
               (d) => d.weekday == h.date.weekday,
             ),
-            onOptionSelected: (value) {},
+            popupOptions: ShPopupMenuItemData.defaultOptions(
+              onEdit: () => onEdit(h.hora),
+              onDelete: () => onDelete(h.hora),
+            ),
           ),
         );
       }).toList(),

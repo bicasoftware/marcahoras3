@@ -32,6 +32,8 @@ export 'widgets/sh_elevated_button.dart';
 export 'widgets/sh_labeled_list_section.dart';
 export 'widgets/sh_labeled_tile.dart';
 export 'widgets/sh_outlined_button.dart';
+export 'widgets/sh_popup_menu_item.dart';
+export 'widgets/sh_popup_list_tile.dart';
 export 'widgets/sh_radio_list_tile.dart';
 export 'widgets/sh_scrollable_picker.dart';
 export 'widgets/sh_slider_picker.dart';

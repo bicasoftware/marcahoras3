@@ -84,7 +84,7 @@ class _EmpregosListScreenState extends State<EmpregosListScreen> {
                 onDesativar: () {},
                 porcFeriado: e.porcFeriado,
                 porcNormal: e.porcNormal,
-                salario: e.salario,
+                salario: e.getCurrentSalario().valor,
               );
             }).toList(),
           ),

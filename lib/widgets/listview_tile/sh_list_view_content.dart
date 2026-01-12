@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../utils.dart';
 import '../../../../widgets.dart';
 
 class ShListViewContent<T> extends StatelessWidget {
@@ -32,19 +31,12 @@ class ShListViewContent<T> extends StatelessWidget {
         spacing: 4,
         children: dataList.mapIndexed((i, item) {
           return ShDetailedListTile(
-            optionsList: [Localiza.find('editar'), Localiza.find('apagar')],
-            onOptionSelected: (i) {
-              switch (i) {
-                case 0:
-                  onEdit(item);
-                  break;
-                case 1:
-                  onDelete(item);
-                  break;
-              }
-            },
-            hideShadow: true,
             title: buildTitle(item),
+            popupOptions: ShPopupMenuItemData.defaultOptions(
+              onEdit: () => onEdit(item),
+              onDelete: () => onDelete(item),
+            ),
+            hideShadow: true,
             badgeLabel: buildBadgeLabel?.call(item),
             badgeColor: buildBadgeColor?.call(item),
             contentList: buildInfoList(item),

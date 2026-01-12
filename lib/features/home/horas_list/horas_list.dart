@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
-import '../../../widgets/overtime_list_tile.dart';
+import '../../../widgets.dart';
 
 class HorasList extends StatefulWidget {
   final bool isList;
@@ -48,13 +48,10 @@ class _HorasListState extends State<HorasList> {
                 diferencial: widget.diferenciais.firstWhereOrNull(
                   (d) => d.weekday == h.date.weekday,
                 ),
-                onOptionSelected: (value) {
-                  if (value == 0) {
-                    widget.onEdit(h.hora);
-                  } else {
-                    widget.onDelete(h.hora);
-                  }
-                },
+                popupOptions: ShPopupMenuItemData.defaultOptions(
+                  onEdit: () => widget.onEdit(h.hora),
+                  onDelete: () => widget.onDelete(h.hora),
+                ),
               ),
             ),
           )

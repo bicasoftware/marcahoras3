@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../presentation_layer/blocs.dart';
+import '../../screens.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
-import 'relatorio_screen_presenter.dart';
 import 'widgets/relatorio_horas_list.dart';
 import 'widgets/relatorio_totalizer.dart';
 
-class RelatorioScreen extends StatelessWidget with RelatorioScreenPresenter {
+class RelatorioScreen extends StatelessWidget
+    with RelatorioScreenPresenter, CalendarScreenPresenterMixin {
   const RelatorioScreen({super.key});
 
   @override
@@ -70,6 +71,18 @@ class RelatorioScreen extends StatelessWidget with RelatorioScreenPresenter {
                 horas: reportModel.hours,
                 bancoHoras: reportModel.bancoHoras,
                 diferenciais: diferenciais,
+                onEdit: (h) {
+                  showHorasBts(
+                    context: context,
+                    bloc: bloc,
+                    isEdit: true,
+                    selectedHora: h,
+                    data: h.data,
+                  );
+                },
+                onDelete: (h) {
+                  deleteHora(context, h, bloc);
+                },
               ),
             ),
             TotalsContainer(report: reportModel),
