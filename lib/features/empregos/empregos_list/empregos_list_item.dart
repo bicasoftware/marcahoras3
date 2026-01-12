@@ -40,7 +40,7 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
     final weekdays = Localiza.findList('fullWeekDays');
 
     return ShPopupListTile(
-      onTap: () {},
+      onTap: widget.onEdit,
       popupOptions: ShPopupMenuItemData.defaultOptions(
         onEdit: widget.onEdit,
         onDelete: widget.onDelete,

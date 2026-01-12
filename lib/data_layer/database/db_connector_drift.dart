@@ -31,7 +31,7 @@ class DbSalarios extends Table {
   TextColumn get empregoId => text().references(DbEmpregos, #id)();
   TextColumn get vigencia => text().withLength(min: 7, max: 7)();
   RealColumn get valor => real()();
-  BoolColumn get ativo => boolean()();  
+  BoolColumn get ativo => boolean()();
 }
 
 class DbEmpregos extends Table {
@@ -48,7 +48,9 @@ class DbEmpregos extends Table {
   IntColumn get porcFeriado => integer().withDefault(const Constant(100))();
   BoolColumn get ativo => boolean().withDefault(const Constant(false))();
   @JsonKey('carga_horaria')
-  IntColumn get cargaHoraria => integer().withDefault(const Constant(220))();  
+  IntColumn get cargaHoraria => integer().withDefault(const Constant(220))();
+  @JsonKey('dia_fechamento')
+  IntColumn get diaFechamento => integer()();
 
   @JsonKey('status_emprego')
   TextColumn get statusHora =>

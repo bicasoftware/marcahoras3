@@ -30,6 +30,7 @@ class EmpregosState extends BaseState {
   bool? get ativo => emprego.ativo;
   double get salario => emprego.salario;
   List<Salarios> get salarios => emprego.salarios;
+  int? get diaFechamento => emprego.diaFechamento;
 
   EmpregosState copyWith({
     String? id,
@@ -41,6 +42,7 @@ class EmpregosState extends BaseState {
     int? porcFeriado,
     int? porcNormal,
     int? cargaHoraria,
+    int? diaFechamento,
     bool? ativo,
     double? salario,
     StateStatus? status,
@@ -60,6 +62,7 @@ class EmpregosState extends BaseState {
           porcFeriado: porcFeriado ?? this.emprego.porcFeriado,
           porcNormal: porcNormal ?? this.emprego.porcNormal,
           cargaHoraria: cargaHoraria ?? this.emprego.cargaHoraria,
+          diaFechamento: diaFechamento ?? this.emprego.diaFechamento,
           ativo: ativo ?? this.emprego.ativo,
           salario: salario ?? this.emprego.salario,
         );

@@ -128,6 +128,10 @@ class EmpregosBloc extends Cubit<EmpregosState> {
     emit(state.copyWith(valorFixo: (v1, v2)));
   }
 
+  void setDiaFechamento(int day) {
+    emit(state.copyWith(diaFechamento: day));
+  }
+
   Future<void> save() async {
     return state.isEditing ? await update() : await insert();
   }
@@ -148,7 +152,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
           ativo: true,
           empregoId: newEmprego.id!,
           valor: state.salario,
-          vigencia: vigencia,          
+          vigencia: vigencia,
         ),
       );
 

@@ -40,14 +40,12 @@ class ShPopupMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
-      iconAlignment: .start,
-      label: Text(Localiza.find(item.labelKey)),
-      icon: item.icon,
-      onPressed: () {
-        Navigator.of(context).pop();
-        item.onPressed();
-      },
+    return Row(
+      spacing: 12,
+      children: [
+        item.icon,
+        Text(Localiza.find(item.labelKey), textAlign: .center,),
+      ],
     );
   }
 }

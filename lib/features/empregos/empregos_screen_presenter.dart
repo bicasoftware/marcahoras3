@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../dialogs.dart';
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
-import '../../widgets/dialogs/scrollable_time_picker_dialog.dart';
 import 'empregos_screen.dart';
 import 'porcentagens/valor_fixo/valor_fixo_bts.dart';
 import 'salarios/salarios_detail_bts.dart';
@@ -37,6 +37,22 @@ mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
 
     if (newTime != null && newTime != time) {
       isEntrada ? bloc.setEntrada(newTime) : bloc.setSaida(newTime);
+    }
+  }
+
+  void showDiaFechamentoPicker({
+    required BuildContext context,
+    required EmpregosBloc bloc,
+    required int day,
+  }) async {
+    final newDay = await showScrollableDayPickerDialog(
+      context: context,
+      titleMsgKey: 'selecionarDiaFechamento',
+      day: bloc.state.emprego.diaFechamento,
+    );
+
+    if (newDay != null) {
+      bloc.setDiaFechamento(newDay);
     }
   }
 

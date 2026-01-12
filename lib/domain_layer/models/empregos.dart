@@ -16,6 +16,7 @@ class Empregos {
   final int porcNormal;
   final int cargaHoraria;
   final bool ativo;
+  final int diaFechamento;
 
   final double salario;
 
@@ -36,6 +37,7 @@ class Empregos {
     this.cargaHoraria = 220,
     this.ativo = true,
     this.salario = 0.0,
+    this.diaFechamento = 25,
     Iterable<Horas> horas = const [],
     Iterable<Salarios> salarios = const [],
     Iterable<HoraFixo> horaFixoList = const [],
@@ -59,6 +61,7 @@ class Empregos {
     int? cargaHoraria,
     bool? ativo,
     double? salario,
+    int? diaFechamento,
     Iterable<Horas>? horas,
     Iterable<Salarios>? salarios,
     Iterable<HoraFixo>? horaFixoList,
@@ -75,6 +78,7 @@ class Empregos {
       porcNormal: porcNormal ?? this.porcNormal,
       cargaHoraria: cargaHoraria ?? this.cargaHoraria,
       ativo: ativo ?? this.ativo,
+      diaFechamento: diaFechamento ?? this.diaFechamento,
       horas: horas ?? this.horas,
       salarios: salarios ?? this.salarios,
       salario: salario ?? this.salario,
@@ -92,6 +96,7 @@ class Empregos {
       porcNormal: 50,
       porcFeriado: 100,
       saida: TimeOfDay(hour: 17, minute: 00),
+      diaFechamento: 25
     );
   }
 

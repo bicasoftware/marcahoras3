@@ -39,6 +39,7 @@ class _ShDetailedListTileState extends State<ShPopupListTile> {
           .map(
             (item) => PopupMenuItem<int>(
               child: ShPopupMenuItem(item),
+              onTap: item.onPressed,
             ),
           )
           .toList(),
@@ -68,6 +69,7 @@ class _ShDetailedListTileState extends State<ShPopupListTile> {
           _tapPosition = details.globalPosition;
         },
         onLongPress: _showCustomMenu,
+        onTap: widget.onTap,
         splashColor: ExtraColors.splash,
         child: widget.child,
       ),

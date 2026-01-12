@@ -336,10 +336,19 @@ total:
   en_US: Total
 novo:
   pt_BR: Novo
-  en_US: New
+  en_US: New  
 compensada:
   pt_BR: Compensada
   en_US: Compensated
+dia:
+  pt_BR: Dia
+  en_US: Day
+diaFechamento:
+  pt_BR: Dia Fechamento
+  en_US: Closure Day
+selecionarDiaFechamento:
+  pt_BR: Selecionar Dia de Fechamento
+  en_US: Select closure day
 valorInvalido:
   pt_BR: Valor deve ser preenchido
   en_US: Value must be filled

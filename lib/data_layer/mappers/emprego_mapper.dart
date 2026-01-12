@@ -23,6 +23,7 @@ extension EmpregoMapper on EmpregosDto {
       porcNormal: porcNormal ?? 0,
       cargaHoraria: cargaHoraria ?? CargaHoraria.padrao.mensal,
       ativo: ativo ?? false,
+      diaFechamento: diaFechamento!,
       salarios: salarios.map((s) => s.toSalario()).toList(),
       horas: horas.map((h) => h.toHoras()).toList(),
       horaFixoList: horaFixoList.map((f) => f.toModel()).toList(),
@@ -43,6 +44,7 @@ extension EmpregoMapper on EmpregosDto {
       porcFeriado: Value(porcFeriado ?? 0),
       porcNormal: Value(porcNormal ?? 0),
       cargaHoraria: Value(cargaHoraria ?? CargaHoraria.padrao.mensal),
+      diaFechamento: Value(diaFechamento!),
       ativo: Value(ativo ?? false),
     );
   }
@@ -59,8 +61,9 @@ extension EmpregoDtoMapper on Empregos {
       bancoHoras: bancoHoras,
       porcFeriado: porcFeriado,
       porcNormal: porcNormal,
-      cargaHoraria: cargaHoraria,
+      cargaHoraria: cargaHoraria,      
       ativo: ativo,
+      diaFechamento: diaFechamento,
       salarios: mapChildren
           ? this.salarios.map((s) => s.toSalarioDto()).toList()
           : [],

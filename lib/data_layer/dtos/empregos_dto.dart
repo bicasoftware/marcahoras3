@@ -16,6 +16,7 @@ class EmpregosDto extends Equatable {
   final int? porcFeriado;
   final bool? ativo;
   final int? cargaHoraria;
+  final int? diaFechamento;
   final List<HorasDto> horas;
   final List<SalariosDto> salarios;
   final List<HoraFixoDto> horaFixoList;
@@ -33,6 +34,7 @@ class EmpregosDto extends Equatable {
     this.porcFeriado,
     this.ativo,
     this.cargaHoraria,
+    this.diaFechamento,
     this.createdAt,
     this.horas = const [],
     this.salarios = const [],
@@ -55,6 +57,7 @@ class EmpregosDto extends Equatable {
       cargaHoraria,
       horas,
       salarios,
+      diaFechamento,
       horaFixoList,
       diferenciaisList,
       createdAt,
@@ -72,6 +75,7 @@ class EmpregosDto extends Equatable {
       'porc_feriado': porcFeriado,
       'ativo': ativo,
       'carga_horaria': cargaHoraria,
+      'dia_fechamento': diaFechamento,
     };
 
     if (id != null) {
@@ -96,6 +100,9 @@ class EmpregosDto extends Equatable {
       porcNormal: map['porc_normal'],
       porcFeriado: map['porc_feriado'],
       ativo: map['ativo'] != null ? map['ativo'] as bool : null,
+      diaFechamento: map['dia_fechamento'] != null
+          ? map['dia_fechamento'] as int
+          : null,
       cargaHoraria: map['carga_horaria'],
       horas: map['horas'] != null ? HorasDto.fromJsonList(map['horas']) : [],
       salarios: map['salarios'] != null
@@ -130,6 +137,7 @@ class EmpregosDto extends Equatable {
     int? porcFeriado,
     bool? ativo,
     int? cargaHoraria,
+    int? diaFechamento,
     List<HorasDto>? horas,
     List<SalariosDto>? salarios,
     List<HoraFixoDto>? horaFixoList,
@@ -146,6 +154,7 @@ class EmpregosDto extends Equatable {
       porcFeriado: porcFeriado ?? this.porcFeriado,
       ativo: ativo ?? this.ativo,
       cargaHoraria: cargaHoraria ?? this.cargaHoraria,
+      diaFechamento: diaFechamento ?? this.diaFechamento,
       horas: horas ?? this.horas,
       salarios: salarios ?? this.salarios,
       horaFixoList: horaFixoList ?? this.horaFixoList,

@@ -212,6 +212,21 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                       );
                     },
                   ),
+                  LabelFormField<int>(
+                    label: Localiza.find("diaFechamento"),
+                    initialValue: bloc.state.diaFechamento!,
+                    valueFormatter: (t) {
+                      return "${Localiza.find('dia')} $t";
+                    },
+                    icon: Icons.calendar_today_outlined,
+                    onTap: () {
+                      showDiaFechamentoPicker(
+                        context: context,
+                        day: bloc.state.diaFechamento!,
+                        bloc: bloc,
+                      );
+                    },
+                  ),
                   ShRadioListTile(
                     label: Localiza.find("cargaHorariaSemanal"),
                     icon: Icon(Icons.list),
