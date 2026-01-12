@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 class ShAppTheme {
   final TextTheme textTheme;
 
-  const ShAppTheme(this.textTheme);
+  const ShAppTheme({required this.textTheme});
 
   static ColorScheme lightScheme() {
     return const ColorScheme(

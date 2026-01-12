@@ -38,6 +38,20 @@ class Localiza {
     return string.replaceAll(findString, find(replaceWithKey));
   }
 
+  static String findAndReplaceByMap({
+    required String stringKey,
+    required Map<String, String> map,
+  }) {
+    var string =
+        (_parsedYaml.containsKey(stringKey)
+                ? _parsedYaml[stringKey][_locale]
+                : stringKey)
+            as String;
+    
+    map.forEach((k,v) => string = string.replaceAll(k, v));
+    return string;
+  }
+
   static List<String> findList(String keyName) {
     return _parsedYaml.containsKey(keyName)
         ? (_parsedYaml[keyName][_locale] as YamlList)

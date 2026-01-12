@@ -145,13 +145,17 @@ class HomeBloc extends Cubit<HomeState> {
       final empregosList = [...state.empregos];
       empregosList.remove(emprego);
 
-      final e = empregosList.first;
-      final (calendarPage, reportPage) = await _buildPages(
-        emprego: e,
-        mes: state.month,
-        ano: state.year,
-        horas: e.horas,
-      );
+
+      CalendarPageModel? calendarPage;
+      ReportModel? reportPage;
+      if (empregosList.isNotEmpty) {
+        (calendarPage, reportPage) = await _buildPages(
+          emprego: empregosList.first,
+          mes: state.month,
+          ano: state.year,
+          horas: empregosList.first.horas,
+        );
+      }
 
       /// Finally emits a new state with the new [Salarios] list
       emit(

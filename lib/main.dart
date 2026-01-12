@@ -21,14 +21,8 @@ class HorasApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         theme: ShAppTheme(
-          TextTheme(
-            labelLarge: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              fontFamily: 'Outfit',
-            ),
-          ),
-        ).light(),
+          textTheme: ShTextTheme('Outfit').textTheme(),
+        ).theme(ShAppTheme.lightScheme()),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

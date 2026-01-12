@@ -10,7 +10,7 @@ class AddHoraBts extends StatefulWidget {
   final Horas? hora;
   final bool feriado;
   final String empregoId;
-  final TimeOfDay empregoEntrada;
+  final TimeOfDay empregoSaida;
   final bool hideDate;
   final bool bancoHoras;
   final Diferenciais? diferencial;
@@ -18,7 +18,7 @@ class AddHoraBts extends StatefulWidget {
   const AddHoraBts({
     required this.initDate,
     required this.empregoId,
-    required this.empregoEntrada,
+    required this.empregoSaida,
     required this.admissao,
     required this.bancoHoras,
     this.hideDate = false,
@@ -51,34 +51,41 @@ class _AddHoraBtsState extends State<AddHoraBts> {
       _compensada = widget.hora!.horaStatus == HoraStatus.burned;
     } else {
       _horaType = HorasType.normal;
-      _entrada = widget.empregoEntrada;
-      _saida = TimeOfDayHelper.addHours(widget.empregoEntrada, 1);
+      _entrada = widget.empregoSaida;
+      _saida = _entrada.addHour(1);
     }
 
     super.initState();
   }
 
   void _onSave() {
-    final Horas resultHora;
-    if (widget.hora != null) {
-      resultHora = widget.hora!.copyWith(
-        inicio: _entrada,
-        termino: _saida,
-        tipoHora: _horaType,
-        horaStatus: _getHoraStatus(),
+    if (_saida.isSameTimeOrBefore(_entrada)) {
+      showErrorDialog(
+        context: context,
+        errorMsg: Localiza.find('expt_hora_termino_antes_inicio'),
       );
     } else {
-      resultHora = Horas(
-        empregoId: widget.empregoId,
-        inicio: _entrada,
-        termino: _saida,
-        data: _date,
-        tipoHora: _horaType,
-        horaStatus: _getHoraStatus(),
-      );
-    }
+      final Horas resultHora;
+      if (widget.hora != null) {
+        resultHora = widget.hora!.copyWith(
+          inicio: _entrada,
+          termino: _saida,
+          tipoHora: _horaType,
+          horaStatus: _getHoraStatus(),
+        );
+      } else {
+        resultHora = Horas(
+          empregoId: widget.empregoId,
+          inicio: _entrada,
+          termino: _saida,
+          data: _date,
+          tipoHora: _horaType,
+          horaStatus: _getHoraStatus(),
+        );
+      }
 
-    Navigator.of(context).pop(resultHora);
+      Navigator.of(context).pop(resultHora);
+    }
   }
 
   HoraStatus _getHoraStatus() {

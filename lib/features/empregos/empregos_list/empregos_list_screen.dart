@@ -32,7 +32,7 @@ class _EmpregosListScreenState extends State<EmpregosListScreen> {
   }) async {
     await Navigator.of(context).pushNamed(
       Routes.empregosDetail,
-      arguments: EmpregosArguments(Empregos(id: UuidFactory.build()), true),
+      arguments: EmpregosArguments(Empregos.empty(), true),
     );
   }
 

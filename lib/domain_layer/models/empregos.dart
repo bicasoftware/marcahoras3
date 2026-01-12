@@ -83,6 +83,18 @@ class Empregos {
     );
   }
 
+  factory Empregos.empty() {
+    return Empregos(
+      id: UuidFactory.build(),
+      ativo: true,
+      admissao: DateTime.now(),
+      cargaHoraria: CargaHoraria.padrao.mensal,
+      porcNormal: 50,
+      porcFeriado: 100,
+      saida: TimeOfDay(hour: 17, minute: 00),
+    );
+  }
+
   Salarios getSalarioByVigencia(int year, int month) {
     assert(salarios.isNotEmpty);
 
@@ -179,4 +191,37 @@ class Empregos {
         horaFixoList.hashCode ^
         diferenciaisList.hashCode;
   }
+}
+
+enum CargaHoraria {
+  padrao(44, 220),
+  reduzida(40, 200),
+  reduzida2(36, 180),
+  reduzida3(30, 150)
+  ;
+
+  final int mensal;
+  final int semanal;
+
+  const CargaHoraria(this.semanal, this.mensal);
+
+  static CargaHoraria getByMensal(int mensal) {
+    return CargaHoraria.values.firstWhere(
+      (a) => a.mensal == mensal,
+      orElse: () => padrao,
+    );
+  }
+
+  static CargaHoraria getBySemanal(int semanal) {
+    return CargaHoraria.values.firstWhere(
+      (a) => a.semanal == semanal,
+      orElse: () => padrao,
+    );
+  }
+
+  static List<int> get mensais =>
+      CargaHoraria.values.map((c) => c.mensal).toList();
+
+  static List<int> get semanais =>
+      CargaHoraria.values.map((c) => c.semanal).toList();
 }

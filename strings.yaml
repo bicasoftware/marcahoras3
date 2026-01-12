@@ -175,9 +175,15 @@ salvar:
 cargaHoraria:
   pt_BR: Carga Horária Mensal
   en_US: Monthly Working hours
+cargaHorariaSemanal:
+  pt_BR: Carga Horária Semanal
+  en_US: Weekly Working hours
 cargaHorariaAbrev:
   pt_BR: C. Horária
   en_US: W. Hours
+cargaHorariaRadio:
+  pt_BR: "{SEMANAIS} semanais - {MENSAIS} mensais"
+  en_US: "{SEMANAIS} weekly - {MENSAIS} monthly"
 admissao:
   pt_BR: Admissão
   en_US: Admission
@@ -475,3 +481,9 @@ fullWeekDays:
 expt_emprego_null:
   pt_BR: Emprego não encontrado
   en_US: Job not found
+expt_hora_invalida:
+  pt_BR: Horas Selecionadas Inválidas. 
+  en_US: Selected time are not allowed.
+expt_hora_termino_antes_inicio:
+  pt_BR: Horário de Termino antes da Saída. 
+  en_US: Leaving time can't be before entrance time.

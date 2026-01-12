@@ -53,4 +53,12 @@ extension TimeOfDayExt on TimeOfDay {
 
     return addSeconds ? "$tempo:00" : tempo;
   }
+
+  TimeOfDay addHour(int hour) {
+    return TimeOfDay(hour: this.hour + hour, minute: this.minute);
+  }
+
+  bool isSameTimeOrBefore(TimeOfDay compare) {
+    return this.isAtSameTimeAs(compare) || this.isBefore(compare);
+  }
 }

@@ -50,7 +50,7 @@ mixin CalendarScreenPresenterMixin {
         feriado: selectedHora?.tipoHora == HorasType.feriado,
         empregoId: bloc.state.currentEmprego.id!,
         initDate: selectedHora?.data ?? data ?? now,
-        empregoEntrada: bloc.state.currentEmprego.entrada,
+        empregoSaida: bloc.state.currentEmprego.saida,
         hideDate: (selectedHora?.data != null || data != null),
         admissao: bloc.state.currentEmprego.admissao!,
         bancoHoras: bloc.state.currentEmprego.bancoHoras,

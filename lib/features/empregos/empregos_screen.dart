@@ -96,7 +96,12 @@ class _EmpregosScreenState extends State<EmpregosScreen>
         // ],
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 16, top:8),
+        padding: const EdgeInsets.only(
+          left: 16.0,
+          right: 16,
+          bottom: 16,
+          top: 8,
+        ),
         color: colors.surface,
         child: ShWideButton(
           labelId: 'salvar',
@@ -207,13 +212,25 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                       );
                     },
                   ),
-                  ShTogglableTile(
-                    label: Localiza.find("cargaHoraria"),
-                    value: state.cargaHoraria,
-                    options: [220, 200, 180, 160],
-                    onChanged: bloc.setCargaHoraria,
+                  ShRadioListTile(
+                    label: Localiza.find("cargaHorariaSemanal"),
                     icon: Icon(Icons.list),
-                    formatValue: (i) => "$i",
+                    initValue: CargaHoraria.getByMensal(
+                      state.cargaHoraria,
+                    ),
+                    cargaHorarias: CargaHoraria.values,
+                    mapValue: (CargaHoraria c) {
+                      return Localiza.findAndReplaceByMap(
+                        stringKey: 'cargaHorariaRadio',
+                        map: {
+                          "{SEMANAIS}": "${c.semanal}",
+                          "{MENSAIS}": "${c.mensal}",
+                        },
+                      );
+                    },
+                    onChanged: (CargaHoraria c) {
+                      bloc.setCargaHoraria(c.mensal);
+                    },
                   ),
                   if (!bloc.state.isEditing) ...[
                     ShLabeledListSection(

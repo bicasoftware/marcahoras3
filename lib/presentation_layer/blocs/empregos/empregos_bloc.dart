@@ -148,7 +148,7 @@ class EmpregosBloc extends Cubit<EmpregosState> {
           ativo: true,
           empregoId: newEmprego.id!,
           valor: state.salario,
-          vigencia: vigencia,
+          vigencia: vigencia,          
         ),
       );
 

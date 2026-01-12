@@ -54,16 +54,29 @@ class _ShTogglableTileState extends State<ShTogglableTile> {
           textAlign: TextAlign.left,
           style: context.textTheme.labelLarge,
         ),
-        subtitle: ToggleButtons(
-          children: widget.options
-              .map((h) => Expanded(child: Text(widget.formatValue(h))))
-              .toList(),
-          isSelected: _items,
-          constraints: const BoxConstraints(minHeight: 32.0, minWidth: 56.0),
-          onPressed: onItemSelected,
-          color: context.colors.secondary,
-          fillColor: context.colors.onSurface.withAlpha(40),
-          selectedColor: context.colors.onSurface,
+        subtitle: Row(
+          children: [
+            Expanded(
+              child: ToggleButtons(
+                children: widget.options
+                    .map(
+                      (h) => Expanded(
+                        child: Expanded(child: Text(widget.formatValue(h))),
+                      ),
+                    )
+                    .toList(),
+                isSelected: _items,
+                constraints: const BoxConstraints(
+                  minHeight: 32.0,
+                  minWidth: 56.0,
+                ),
+                onPressed: onItemSelected,
+                color: context.colors.secondary,
+                fillColor: context.colors.onSurface.withAlpha(40),
+                selectedColor: context.colors.onSurface,
+              ),
+            ),
+          ],
         ),
       ),
     );
