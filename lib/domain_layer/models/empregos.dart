@@ -198,6 +198,12 @@ class Empregos {
   }
 }
 
+class FechamentoRange {
+  final DateTime inicio, termino;
+
+  const FechamentoRange({required this.inicio, required this.termino});
+}
+
 enum CargaHoraria {
   padrao(44, 220),
   reduzida(40, 200),

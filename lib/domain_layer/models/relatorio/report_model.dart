@@ -1,4 +1,4 @@
-import 'report_hora.dart';
+import '../../models.dart';
 import 'report_values.dart';
 
 class ReportModel {
@@ -10,9 +10,12 @@ class ReportModel {
   final ReportValues? horasBanco, horasCompensadas;
   final List<ReportValues> diferenciadas;
 
+  final FechamentoRange? fechamento;
+
   ReportModel({
     required this.year,
     required this.month,
+    this.fechamento,
     ReportValues? normais,
     ReportValues? feriados,
     ReportValues? total,
@@ -36,6 +39,7 @@ class ReportModel {
     ReportValues? horasBanco,
     ReportValues? horasCompensadas,
     List<ReportValues>? diferenciadas,
+    FechamentoRange? fechamento,
   }) {
     return ReportModel(
       year: year ?? this.year,
@@ -48,6 +52,7 @@ class ReportModel {
       horasBanco: horasBanco ?? this.horasBanco,
       horasCompensadas: horasCompensadas ?? this.horasCompensadas,
       diferenciadas: diferenciadas ?? this.diferenciadas,
+      fechamento: fechamento ?? this.fechamento,
     );
   }
 

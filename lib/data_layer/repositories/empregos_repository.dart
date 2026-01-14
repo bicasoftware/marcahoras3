@@ -10,12 +10,6 @@ class EmpregoRepository implements EmpregosContract {
   }) : _provider = provider;
 
   @override
-  Future<List<Empregos>> list({String? from, String? to}) async {
-    final dtos = await _provider.list(from: from, to: to);
-    return dtos.map((e) => e.toEmprego()).toList();
-  }
-
-  @override
   Future<Empregos> create(Empregos e) async {
     final newEmprego = await _provider.create(e.toEmpregoDto());
     return newEmprego.toEmprego();
@@ -30,5 +24,14 @@ class EmpregoRepository implements EmpregosContract {
   @override
   Future<void> delete(String empregoId) async {
     await _provider.delete(empregoId);
+  }
+
+  @override
+  Future<List<Empregos>> listByVigencia({
+    required int year,
+    required int month,
+  }) async {
+    final dtos = await _provider.listByVigencia(year: year, month: month);
+    return dtos.map((e) => e.toEmprego()).toList();
   }
 }

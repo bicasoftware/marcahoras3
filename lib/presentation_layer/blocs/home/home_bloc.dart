@@ -8,7 +8,7 @@ import 'home_state.dart';
 
 /// Class that holds presentation data to be shown in the first screen the app renders
 class HomeBloc extends Cubit<HomeState> {
-  EmpregoDataLoadUseCase _loadEmpregos;
+  EmpregoDataLoadByVigenciaUseCase _loadEmpregosByVigencia;
   EmpregoDeleteUseCase _empregoDeleteUseCase;
   HorasLoadByRangeUseCase _horasLoadByRangeUseCase;
   HorasCreateUseCase _horasCreateUsecase;
@@ -18,7 +18,7 @@ class HomeBloc extends Cubit<HomeState> {
   CalendarPageGeneratorUseCase _calendarPageGeneratorUseCase;
 
   HomeBloc({
-    required EmpregoDataLoadUseCase empregoDataLoadUseCase,
+    required EmpregoDataLoadByVigenciaUseCase empregoDataLoadByVigenciaUseCase,
     required EmpregoDeleteUseCase empregoDeleteUseCase,
     required HorasLoadByRangeUseCase horasLoadByRangeUseCase,
     required HorasCreateUseCase horasCreateUsecase,
@@ -26,7 +26,7 @@ class HomeBloc extends Cubit<HomeState> {
     required HorasDeleteUseCase horasDeleteUseCase,
     required int year,
     required int month,
-  }) : _loadEmpregos = empregoDataLoadUseCase,
+  }) : _loadEmpregosByVigencia = empregoDataLoadByVigenciaUseCase,
        _empregoDeleteUseCase = empregoDeleteUseCase,
        _calendarPageGeneratorUseCase = CalendarPageGeneratorUseCase(),
        _horasLoadByRangeUseCase = horasLoadByRangeUseCase,
@@ -50,6 +50,7 @@ class HomeBloc extends Cubit<HomeState> {
     required int mes,
     required int ano,
     required List<Horas> horas,
+    required FechamentoRange fechamento,
   }) async {
     final salario = emprego.getSalarioByVigencia(ano, mes);
 
@@ -72,6 +73,7 @@ class HomeBloc extends Cubit<HomeState> {
       horas: horas,
       valorFixo: emprego.getValorFixoByVigencia(ano, mes),
       diferenciais: emprego.diferenciaisList,
+      fechamento: fechamento,
     ).generate();
 
     return (calendarPage, reportPage);
@@ -91,8 +93,7 @@ class HomeBloc extends Cubit<HomeState> {
       emit(state.copyWith(status: StateLoadingStatus()));
       await _niceDelay();
 
-      final (from, to) = getFormatedDateRange(state.year, state.month);
-      final empregos = await _loadEmpregos(from, to);
+      final empregos = await _loadEmpregosByVigencia(state.year, state.month);
 
       CalendarPageModel? calendarPage;
       ReportModel? reportPage;
@@ -104,6 +105,11 @@ class HomeBloc extends Cubit<HomeState> {
           mes: state.month,
           ano: state.year,
           horas: emprego.horas,
+          fechamento: getFechamentoRange(
+            state.year,
+            state.month,
+            emprego.diaFechamento,
+          ),
         );
 
         calendarPage = c;
@@ -145,7 +151,6 @@ class HomeBloc extends Cubit<HomeState> {
       final empregosList = [...state.empregos];
       empregosList.remove(emprego);
 
-
       CalendarPageModel? calendarPage;
       ReportModel? reportPage;
       if (empregosList.isNotEmpty) {
@@ -154,6 +159,11 @@ class HomeBloc extends Cubit<HomeState> {
           mes: state.month,
           ano: state.year,
           horas: empregosList.first.horas,
+          fechamento: getFechamentoRange(
+            state.year,
+            state.month,
+            emprego.diaFechamento,
+          ),
         );
       }
 
@@ -253,6 +263,11 @@ class HomeBloc extends Cubit<HomeState> {
         ano: year,
         mes: month,
         horas: horasList,
+        fechamento: getFechamentoRange(
+          state.year,
+          state.month,
+          currentEmprego.diaFechamento,
+        ),
       );
 
       final empregosList = [...state.empregos];
@@ -297,6 +312,11 @@ class HomeBloc extends Cubit<HomeState> {
         mes: state.month,
         ano: state.year,
         horas: horasList,
+        fechamento: getFechamentoRange(
+          state.year,
+          state.month,
+          state.currentEmprego.diaFechamento,
+        ),
       );
 
       final updatedEmprego = state.currentEmprego.copyWith(horas: horasList);
@@ -342,6 +362,11 @@ class HomeBloc extends Cubit<HomeState> {
         mes: state.month,
         ano: state.year,
         horas: horasList,
+        fechamento: getFechamentoRange(
+          state.year,
+          state.month,
+          state.currentEmprego.diaFechamento,
+        ),
       );
 
       final updatedEmprego = state.currentEmprego.copyWith(horas: horasList);
@@ -385,6 +410,11 @@ class HomeBloc extends Cubit<HomeState> {
         mes: state.month,
         ano: state.year,
         horas: horasList,
+        fechamento: getFechamentoRange(
+          state.year,
+          state.month,
+          state.currentEmprego.diaFechamento,
+        ),
       );
 
       final updatedEmprego = state.currentEmprego.copyWith(horas: horasList);

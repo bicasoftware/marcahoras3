@@ -85,7 +85,10 @@ class EmpregosDto extends Equatable {
     return data;
   }
 
-  factory EmpregosDto.fromJson(Map<String, dynamic> map) {
+  factory EmpregosDto.fromJson(
+    Map<String, dynamic> map, [
+    bool mapChildren = true,
+  ]) {
     final emprego = EmpregosDto(
       id: map['id'],
       descricao: map['descricao'],
@@ -104,19 +107,62 @@ class EmpregosDto extends Equatable {
           ? map['dia_fechamento'] as int
           : null,
       cargaHoraria: map['carga_horaria'],
-      horas: map['horas'] != null ? HorasDto.fromJsonList(map['horas']) : [],
-      salarios: map['salarios'] != null
-          ? SalariosDto.fromJsonList(map['salarios'])
-          : [],
-      horaFixoList: map['horas_fixo'] != null
-          ? HoraFixoDto.fromJsonList(map['horas_fixo'])
-          : [],
-      diferenciaisList: map['diferenciais'] != null
-          ? DiferenciaisDto.fromJsonList(map['diferenciais'])
-          : [],
       createdAt: map['created_at'] is int
           ? getDateFromMillis(map['created_at'])
           : parseDate(map['created_at']),
+    );
+
+    if (mapChildren) {
+      emprego.copyWith(
+        horas: map['horas'] != null ? HorasDto.fromJsonList(map['horas']) : [],
+        salarios: map['salarios'] != null
+            ? SalariosDto.fromJsonList(map['salarios'])
+            : [],
+        horaFixoList: map['horas_fixo'] != null
+            ? HoraFixoDto.fromJsonList(map['horas_fixo'])
+            : [],
+        diferenciaisList: map['diferenciais'] != null
+            ? DiferenciaisDto.fromJsonList(map['diferenciais'])
+            : [],
+      );
+    }
+
+    return emprego;
+  }
+
+  factory EmpregosDto.fromJsonWithChildren(
+    dynamic e, {
+    dynamic horas,
+    dynamic salarios,
+    dynamic horaFixo,
+    dynamic diferenciais,
+  }) {
+    final emprego = EmpregosDto(
+      id: e['id'],
+      descricao: e['descricao'],
+      admissao: e['admissao'] is int
+          ? parseDateFromMillis(e['admissao'])
+          : e['admissao'] as String,
+      entrada: e['entrada'],
+      saida: e['saida'],
+      bancoHoras: e['banco_horas'] != null ? e['banco_horas'] as bool : null,
+      porcNormal: e['porc_normal'],
+      porcFeriado: e['porc_feriado'],
+      ativo: e['ativo'] != null ? e['ativo'] as bool : null,
+      diaFechamento: e['dia_fechamento'] != null
+          ? e['dia_fechamento'] as int
+          : null,
+      cargaHoraria: e['carga_horaria'],
+      createdAt: e['created_at'] is int
+          ? getDateFromMillis(e['created_at'])
+          : parseDate(e['created_at']),
+
+      horas: horas != null ? HorasDto.fromJsonList(horas) : [],
+      salarios: salarios != null ? SalariosDto.fromJsonList(salarios) : [],
+      horaFixoList: horaFixo != null ? HoraFixoDto.fromJsonList(horaFixo) : [],
+      diferenciaisList: diferenciais != null
+          ? DiferenciaisDto.fromJsonList(diferenciais)
+          : [],
     );
 
     return emprego;

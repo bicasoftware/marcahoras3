@@ -3,7 +3,6 @@ import 'package:collection/collection.dart';
 import '../../domain_layer/models.dart';
 import '../../resources.dart';
 import '../../utils.dart';
-import 'models/report_values.dart';
 
 class ReportPageGenerator {
   final int month;
@@ -16,6 +15,7 @@ class ReportPageGenerator {
   final List<Horas> horas;
   final ValorFixo? valorFixo;
   final List<Diferenciais> diferenciais;
+  final FechamentoRange fechamento;
 
   const ReportPageGenerator({
     required this.year,
@@ -27,6 +27,7 @@ class ReportPageGenerator {
     required this.salario,
     required this.horas,
     required this.diferenciais,
+    required this.fechamento,
     this.valorFixo,
   });
 
@@ -48,39 +49,43 @@ class ReportPageGenerator {
   List<ReportHora> _generateHorasList(ValorFixo? valorFixo) {
     if (horas.isEmpty) return [];
 
-    return horas.sorted((a, b) => a.data.compareTo(b.data)).map((h) {
-      int porc = 1;
+    return horas
+        .where((h) => h.data.isSameDayOfBefore(fechamento.termino))
+        .sorted((a, b) => a.data.compareTo(b.data))
+        .map((h) {
+          int porc = 1;
 
-      switch (h.tipoHora) {
-        case HorasType.normal:
-          porc = porcNormal;
-        case HorasType.feriado:
-          porc = porcFeriado;
-        case HorasType.diferencial:
-          porc =
-              diferenciais
-                  .firstWhereOrNull((d) => d.weekday == h.data.weekday)
-                  ?.percentage ??
-              1;
-        case HorasType.unknown:
-        case HorasType.banco:
-          porc = 1;
-      }
+          switch (h.tipoHora) {
+            case HorasType.normal:
+              porc = porcNormal;
+            case HorasType.feriado:
+              porc = porcFeriado;
+            case HorasType.diferencial:
+              porc =
+                  diferenciais
+                      .firstWhereOrNull((d) => d.weekday == h.data.weekday)
+                      ?.percentage ??
+                  1;
+            case HorasType.unknown:
+            case HorasType.banco:
+              porc = 1;
+          }
 
-      final valor = _calcValorReceber(h, valorFixo, porc);
+          final valor = _calcValorReceber(h, valorFixo, porc);
 
-      return ReportHora(
-        date: h.data,
-        salary: CurrencyHelper.formatAmount(salario.valor),
-        workedHours: TimeOfDayHelper.formatDayInRange(h.inicio, h.termino),
-        from: h.inicio.asString(),
-        to: h.termino.asString(),
-        type: h.tipoHora,
-        amount: CurrencyHelper.formatAmount(valor),
-        porc: porc,
-        hora: h,
-      );
-    }).toList();
+          return ReportHora(
+            date: h.data,
+            salary: CurrencyHelper.formatAmount(salario.valor),
+            workedHours: TimeOfDayHelper.formatDayInRange(h.inicio, h.termino),
+            from: h.inicio.asString(),
+            to: h.termino.asString(),
+            type: h.tipoHora,
+            amount: CurrencyHelper.formatAmount(valor),
+            porc: porc,
+            hora: h,
+          );
+        })
+        .toList();
   }
 
   double _calcValorReceber(Horas h, ValorFixo? valorFixo, int porc) {
@@ -97,19 +102,23 @@ class ReportPageGenerator {
   List<ReportHora> _generateBancoHorasList() {
     if (horas.isEmpty) return [];
 
-    return horas.sorted((a, b) => a.data.compareTo(b.data)).map((h) {
-      return ReportHora(
-        date: h.data,
-        salary: CurrencyHelper.formatAmount(salario.valor),
-        workedHours: TimeOfDayHelper.formatDayInRange(h.inicio, h.termino),
-        from: h.inicio.asString(),
-        to: h.termino.asString(),
-        type: HorasType.banco,
-        amount: CurrencyHelper.formatAmount(0.0),
-        porc: 0,
-        hora: h,
-      );
-    }).toList();
+    return horas
+        .where((h) => h.data.isSameDayOfBefore(fechamento.termino))
+        .sorted((a, b) => a.data.compareTo(b.data))
+        .map((h) {
+          return ReportHora(
+            date: h.data,
+            salary: CurrencyHelper.formatAmount(salario.valor),
+            workedHours: TimeOfDayHelper.formatDayInRange(h.inicio, h.termino),
+            from: h.inicio.asString(),
+            to: h.termino.asString(),
+            type: HorasType.banco,
+            amount: CurrencyHelper.formatAmount(0.0),
+            porc: 0,
+            hora: h,
+          );
+        })
+        .toList();
   }
 
   ReportModel _prepareReport({
@@ -204,6 +213,7 @@ class ReportPageGenerator {
       horasBanco: banco,
       horasCompensadas: compensadas,
       total: totais,
+      fechamento: fechamento,
     );
   }
 }

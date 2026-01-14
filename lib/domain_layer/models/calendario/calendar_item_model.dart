@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../domain_layer/models.dart';
-import '../../../../resources.dart';
+import '../../models.dart';
+import '../../../resources.dart';
 
 sealed class CalendarItemModel {
   final Horas? horas;

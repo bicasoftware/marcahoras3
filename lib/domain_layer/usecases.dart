@@ -9,7 +9,6 @@ export 'usecases/empregos/emprego_add_usecase.dart';
 export 'usecases/empregos/emprego_data_load_usecase.dart';
 export 'usecases/empregos/emprego_delete_usecase.dart';
 export 'usecases/empregos/emprego_update_usecase.dart';
-export 'usecases/empregos/empregos_load_all_usecase.dart';
 export 'usecases/hora_fixo/hora_fixo_delete_usecase.dart';
 export 'usecases/hora_fixo/hora_fixo_save_usecase.dart';
 export 'usecases/hora_fixo/hora_fixo_update_usecase.dart';

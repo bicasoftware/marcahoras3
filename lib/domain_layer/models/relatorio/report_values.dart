@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-import '../../../domain_layer/models/horas.dart';
 import '../../../resources.dart';
 import '../../../utils.dart';
+import '../../models.dart';
 
 @immutable
 class ReportValues {

@@ -13,9 +13,6 @@ class EmpregosProvider implements EmpregosProviderContract {
   $$DbEmpregosTableTableManager get _table => _db.managers.dbEmpregos;
   $$DbHorasTableTableManager get _tableHoras => _db.managers.dbHoras;
   $$DbSalariosTableTableManager get _tableSalarios => _db.managers.dbSalarios;
-  $$DbHoraFixoTableTableManager get _tableHoraFixo => _db.managers.dbHoraFixo;
-  $$DbDiferenciaisTableTableManager get _tableDiff =>
-      _db.managers.dbDiferenciais;
 
   const EmpregosProvider({required AppDatabase db}) : _db = db;
 
@@ -40,54 +37,61 @@ class EmpregosProvider implements EmpregosProviderContract {
   }
 
   @override
-  Future<List<EmpregosDto>> list({String? from, String? to}) async {
-    final empregos = await _table.get();
-    final empregosDtoList = <EmpregosDto>[];
-
-    final horas = await _tableHoras
-        .filter((h) => h.data.isBetween(parseDate(from)!, parseDate(to)!))
-        .get();
-
-    final horasDto = horas.map((h) => HorasDto.fromJson(h.toJson())).toList();
-
-    final salarios = await _tableSalarios.get();
-    final salariosDto = salarios
-        .map((s) => SalariosDto.fromJson(s.toJson()))
-        .toList();
-
-    final valorFixo = await _tableHoraFixo.get();
-    final valorFixoDto = valorFixo
-        .map((h) => HoraFixoDto.fromJson(h.toJson()))
-        .toList();
-
-    final diferenciais = await _tableDiff.get();
-    final diferenciaisDto = diferenciais
-        .map((d) => DiferenciaisDto.fromJson(d.toJson()))
-        .toList();
-
-    empregos.forEach((e) {
-      final empregoDto = EmpregosDto.fromJson(e.toJson());
-      empregosDtoList.add(
-        empregoDto.copyWith(
-          horas: horasDto.where((h) => h.empregoId == e.id).toList(),
-          salarios: salariosDto.where((s) => s.empregoId == e.id).toList(),
-          horaFixoList: valorFixoDto.where((h) => h.idEmprego == e.id).toList(),
-          diferenciaisList: diferenciaisDto
-              .where((h) => h.idEmprego == e.id)
-              .toList(),
-        ),
-      );
-    });
-
-    return empregosDtoList;
-  }
-
-  @override
   Future<EmpregosDto> update(EmpregosDto emprego) async {
     await _table
         .filter((e) => e.id.equals(emprego.id))
         .update((_) => emprego.toCompanion());
 
     return emprego;
+  }
+
+  @override
+  Future<List<EmpregosDto>> listByVigencia({
+    required int year,
+    required int month,
+  }) async {
+    final empregos = await _table
+        .withReferences(
+          (prefetch) => prefetch(
+            dbHorasRefs: false,
+            dbSalariosRefs: true,
+            dbDiferenciaisRefs: true,
+            dbHoraFixoRefs: true,
+          ),
+        )
+        .get();
+    final empregosList = <EmpregosDto>[];
+
+    for (final e in empregos) {
+      final (from, to) = getFormatedDateRangeByFechamento(
+        year,
+        month,
+        e.$1.diaFechamento,
+      );
+
+      final results = await Future.wait([
+        e.$2.dbSalariosRefs.get(),
+        e.$2.dbDiferenciaisRefs.get(),
+        e.$2.dbHoraFixoRefs.get(),
+        _tableHoras
+            .filter((h) => h.empregoId.id.equals(e.$1.id))
+            .filter((h) => h.data.isBetween(parseDate(from)!, parseDate(to)!))
+            .get(),
+      ]);
+      
+      final empregoDto = EmpregosDto.fromJsonWithChildren(
+        e.$1.toJson(),
+        salarios: results[0].map((s) => s.toJson()).toList(),
+        diferenciais: results[1].map((d) => d.toJson()).toList(),
+        horaFixo: results[2].map((h) => h.toJson()).toList(),
+        horas: results[3].map((e) => e.toJson()),
+      );
+
+      empregosList.add(
+        empregoDto,
+      );
+    }
+
+    return empregosList;
   }
 }

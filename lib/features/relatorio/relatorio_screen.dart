@@ -12,6 +12,10 @@ class RelatorioScreen extends StatelessWidget
     with RelatorioScreenPresenter, CalendarScreenPresenterMixin {
   const RelatorioScreen({super.key});
 
+  String formatFechamento(DateTime ini, DateTime end, Locale locale) {
+    return "De: ${formatDateByLocale(ini, locale)} - ${formatDateByLocale(end, locale)}";
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
@@ -54,12 +58,24 @@ class RelatorioScreen extends StatelessWidget
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    vigencia,
+                    "Vigência de $vigencia",
                     textAlign: TextAlign.start,
                     style: context.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: context.colors.onSurface,
                       fontSize: 18,
+                    ),
+                  ),
+                  Text(
+                    formatFechamento(
+                      reportModel.fechamento!.inicio,
+                      reportModel.fechamento!.termino,
+                      context.locale,
+                    ),
+                    textAlign: TextAlign.start,
+                    style: context.textTheme.bodyLarge?.copyWith(
+                      color: context.colors.secondary,
+                      fontSize: 16,
                     ),
                   ),
                   const Divider(),

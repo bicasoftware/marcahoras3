@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:intl/intl.dart';
 
+import '../domain_layer/models.dart';
+
 final _fmt = DateFormat('dd-MM-yyyy');
 final _fmtServer = DateFormat('yyyy-MM-dd');
 final _timeFmt = DateFormat('hh:MM:ss');
@@ -73,32 +75,33 @@ DateTime getLastDayOfMonth(DateTime date) {
 }
 
 bool isSameWeekday(int weekday, DateTime compareDate) {
-  if(compareDate.weekday == 7 && weekday == 0) return true;
+  if (compareDate.weekday == 7 && weekday == 0) return true;
   return compareDate.weekday == weekday;
 }
 
-(String, String) getFormatedDateRange(int year, int month) {
-  final vigencia = DateTime(year, month, 1);
-  final endDate = DateTime(
-    vigencia.year,
-    vigencia.month + 1,
-    1,
-  ).add(Duration(days: -1));
-
-  final fInitDate = formatDate(vigencia, true);
-  final fEndDate = formatDate(endDate, true);
-  return (fInitDate, fEndDate);
+(String, String) getFormatedDateRangeByFechamento(
+  int year,
+  int month,
+  int diaFechamento,
+) {
+  return (
+    formatDate(DateTime(year, month - 1, diaFechamento + 1), true),
+    formatDate(DateTime(year, month + 1, 0), true),
+  );
 }
 
-(DateTime, DateTime) getDateRangeByVigencia(int year, int month) {
-  final initDate = DateTime(year, month, 1);
-  final endDate = DateTime(
-    initDate.year,
-    initDate.month + 1,
-    1,
-  ).add(Duration(days: -1));
+(String, String) getFormatedDateRange(int year, int month) {
+  return (
+    formatDate(DateTime(year, month, 1), true),
+    formatDate(DateTime(year, month + 1, 0), true),
+  );
+}
 
-  return (initDate, endDate);
+FechamentoRange getFechamentoRange(int year, int month, int diaFechamento) {
+  final initDate = DateTime(year, month - 1, diaFechamento + 1);
+  final endDate = DateTime(year, month, diaFechamento);
+
+  return FechamentoRange(inicio: initDate, termino: endDate);
 }
 
 extension DateHelper on DateTime {

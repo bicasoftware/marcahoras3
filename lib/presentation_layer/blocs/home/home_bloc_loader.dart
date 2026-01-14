@@ -34,12 +34,14 @@ class _HomeBlocLoaderState extends State<HomeBlocLoader> {
       create: (_) => HomeBloc(
         month: _initialDate.month,
         year: _initialDate.year,
-        empregoDataLoadUseCase: EmpregoDataLoadUseCase(empregoRepo),
         empregoDeleteUseCase: EmpregoDeleteUseCase(empregoRepo),
         horasLoadByRangeUseCase: HorasLoadByRangeUseCase(horasRepo),
         horasCreateUsecase: HorasCreateUseCase(repo: horasRepo),
         horasDeleteUseCase: HorasDeleteUseCase(repo: horasRepo),
         horasUpdateUseCase: HorasUpdateUseCase(repo: horasRepo),
+        empregoDataLoadByVigenciaUseCase: EmpregoDataLoadByVigenciaUseCase(
+          empregoRepo,
+        ),
       )..load(resync: true),
       child: widget.child,
     );

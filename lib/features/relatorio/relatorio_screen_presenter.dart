@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
 import '../../utils.dart';
-import 'models/report_model.dart';
 import 'pdf_preview_screen.dart';
 
 mixin RelatorioScreenPresenter {
