@@ -7,7 +7,8 @@ class BottomSheetHelper {
   static Future<T?> showModalBts<T>({
     required BuildContext context,
     required Widget body,
-    String? label,
+    String? title,
+    String? subtitle,
     bool useRootNavigation = false,
     Color? bgColor,
     Color? barrierColor,
@@ -41,13 +42,12 @@ class BottomSheetHelper {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ?leading,
-                  if (label != null)
+                  if (title != null)
                     Text(
-                      label,
+                      title,
                       style: context.textTheme.labelLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        color: context.colors.onSurface,
                       ),
                       textAlign: TextAlign.start,
                     ),

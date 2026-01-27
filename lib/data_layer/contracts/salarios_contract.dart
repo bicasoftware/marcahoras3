@@ -1,4 +1,4 @@
-import '../models.dart';
+import '../../domain_layer/models.dart';
 
 abstract class SalariosContract {
   Future<Salarios> create(Salarios salario);

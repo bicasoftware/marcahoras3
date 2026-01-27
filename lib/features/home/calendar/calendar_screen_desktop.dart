@@ -99,7 +99,7 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
                 CalendarPage(
                   diferenciais: bloc.state.currentEmprego.diferenciaisList,
                   page: bloc.state.getCalendarPage(),
-                  onCalendarItemTap: (h, d) async {
+                  onCalendarItemTap: (h, d, f) async {
                     showHorasBts(
                       context: context,
                       bloc: bloc,

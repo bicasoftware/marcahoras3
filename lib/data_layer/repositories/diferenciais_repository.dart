@@ -1,7 +1,7 @@
 import 'package:marcahoras3/data_layer/mappers/diferenciais_mapper.dart';
 import 'package:marcahoras3/utils/uuid_factory.dart';
 
-import '../../domain_layer/contracts.dart';
+import '../contracts.dart';
 import '../../domain_layer/models/diferenciais.dart';
 
 class DiferenciaisRepository {  

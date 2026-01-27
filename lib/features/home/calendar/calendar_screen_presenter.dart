@@ -16,6 +16,7 @@ mixin CalendarScreenPresenterMixin {
     Horas? selectedHora,
     DateTime? data,
     bool isEdit = false,
+    Feriados? feriado,
   }) async {
     final locale = Localizations.localeOf(context);
     final now = DateTime.now();
@@ -27,7 +28,7 @@ mixin CalendarScreenPresenterMixin {
         margin: EdgeInsets.only(right: 12),
         child: Icon(Icons.calendar_month),
       ),
-      label: !isEdit
+      title: !isEdit
           ? Localiza.find("novahora")
           : formatDateByLocale(data, locale),
       trailing: isEdit
@@ -47,7 +48,7 @@ mixin CalendarScreenPresenterMixin {
           : null,
       body: AddHoraBts(
         hora: selectedHora,
-        feriado: selectedHora?.tipoHora == HorasType.feriado,
+        feriado: feriado,
         empregoId: bloc.state.currentEmprego.id!,
         initDate: selectedHora?.data ?? data ?? now,
         empregoSaida: bloc.state.currentEmprego.saida,

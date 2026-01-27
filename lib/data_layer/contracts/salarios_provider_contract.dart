@@ -1,4 +1,4 @@
-import '../../../data_layer/dtos.dart';
+import '../dtos.dart';
 
 abstract class SalariosProviderContract {
   Future<SalariosDto> create(SalariosDto salario);

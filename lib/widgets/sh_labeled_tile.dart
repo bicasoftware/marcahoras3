@@ -6,7 +6,7 @@ class ShLabeledTile extends StatelessWidget {
   final String value;
   final String label;
   final VoidCallback? onTap;
-  final IconData icon;
+  final Icon icon;
   final Widget? trailing;
   final EdgeInsets padding;
 

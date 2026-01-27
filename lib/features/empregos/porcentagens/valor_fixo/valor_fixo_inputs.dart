@@ -93,12 +93,12 @@ class _ValorFixoInputsState extends State<ValorFixoInputs> {
             ShLabeledTile(
               label: Localiza.find('valorFixoNormal'),
               value: CurrencyHelper.formatAmount(widget.initNormalValue),
-              icon: Icons.monetization_on,
+              icon: Icon(Icons.monetization_on),
             ),
             ShLabeledTile(
               label: Localiza.find('valorFixoFeriados'),
               value: CurrencyHelper.formatAmount(widget.initFeriadoValue),
-              icon: Icons.monetization_on,
+              icon: Icon(Icons.monetization_on),
             ),
           ],
         ],

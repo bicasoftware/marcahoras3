@@ -40,7 +40,7 @@ class _ShTimeRangePickerState extends State<ShTimeRangePicker> {
           child: ShLabeledTile(
             value: TimeOfDayHelper.formatTime(_entrada),
             label: Localiza.find('das'),
-            icon: Icons.timelapse,
+            icon: Icon(Icons.timelapse),
             onTap: () async {
               final time = await showScrollableTimePickerDialog(
                 context: context,
@@ -61,7 +61,7 @@ class _ShTimeRangePickerState extends State<ShTimeRangePicker> {
           child: ShLabeledTile(
             value: TimeOfDayHelper.formatTime(_saida),
             label: Localiza.find('ate'),
-            icon: Icons.timelapse,
+            icon: Icon(Icons.timelapse),
             onTap: () async {
               final time = await showScrollableTimePickerDialog(
                 context: context,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain_layer/models.dart';
+import '../../../resources.dart';
 import '../../../utils.dart';
 import '../../../widgets.dart';
 
@@ -8,7 +9,7 @@ class AddHoraBts extends StatefulWidget {
   final DateTime initDate;
   final DateTime admissao;
   final Horas? hora;
-  final bool feriado;
+  final Feriados? feriado;
   final String empregoId;
   final TimeOfDay empregoSaida;
   final bool hideDate;
@@ -23,7 +24,7 @@ class AddHoraBts extends StatefulWidget {
     required this.bancoHoras,
     this.hideDate = false,
     this.hora,
-    this.feriado = false,
+    this.feriado,
     this.diferencial,
     super.key,
   });
@@ -50,7 +51,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
       _saida = widget.hora!.termino;
       _compensada = widget.hora!.horaStatus == HoraStatus.burned;
     } else {
-      _horaType = HorasType.normal;
+      _horaType = widget.feriado != null ? HorasType.feriado : HorasType.normal;
       _entrada = widget.empregoSaida;
       _saida = _entrada.addHour(1);
     }
@@ -126,7 +127,13 @@ class _AddHoraBtsState extends State<AddHoraBts> {
 
                 setState(() => _date = date ?? _date);
               },
-              icon: Icons.calendar_month,
+              icon: Icon(Icons.calendar_month),
+            ),
+          if (widget.feriado != null)
+            ShLabeledTile(
+              label: "Feriado:",
+              value: widget.feriado!.name,
+              icon: Icon(Icons.info, color: ExtraColors.porcFeriadosColor),
             ),
           ShTimeRangePicker(
             initTime: _entrada,

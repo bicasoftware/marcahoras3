@@ -4,7 +4,7 @@ import 'package:marcahoras3/widgets.dart';
 class ShCustomLabelTile extends StatelessWidget {
   final String label;
   final VoidCallback? onTap;
-  final IconData icon;
+  final Icon icon;
   final Widget? trailing;
   final EdgeInsets? padding;
   final Widget child;
@@ -29,7 +29,7 @@ class ShCustomLabelTile extends StatelessWidget {
           label,
           style: theme.labelLarge,
         ),
-        leading: Icon(icon),
+        leading: icon,
         contentPadding: padding,
         trailing: trailing,
         subtitle: child,

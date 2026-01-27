@@ -77,8 +77,19 @@ class DbHoraFixo extends Table {
   TextColumn get vigencia => text()();
 }
 
+
+class DbFeriados extends Table {
+  TextColumn get id => text().unique()();
+  @JsonKey('date')
+  DateTimeColumn get date => dateTime()();
+  @JsonKey('name')
+  TextColumn get name => text()();
+  @JsonKey('type')
+  TextColumn get type => text()();
+}
+
 @DriftDatabase(
-  tables: [DbHoras, DbSalarios, DbEmpregos, DbDiferenciais, DbHoraFixo],
+  tables: [DbHoras, DbSalarios, DbEmpregos, DbDiferenciais, DbHoraFixo, DbFeriados],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());

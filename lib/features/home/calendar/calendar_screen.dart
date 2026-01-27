@@ -132,45 +132,17 @@ class _CalendarScreenState extends State<CalendarScreen>
                                 diferenciais:
                                     bloc.state.currentEmprego.diferenciaisList,
                                 page: bloc.state.getCalendarPage(),
-                                onCalendarItemTap: (h, d) async {
+                                onCalendarItemTap: (h, d, f) async {
                                   showHorasBts(
                                     context: context,
                                     bloc: bloc,
                                     selectedHora: h,
                                     data: d,
                                     isEdit: h != null,
+                                    feriado: f,
                                   );
                                 },
-                              ),
-                              // Padding(
-                              //   padding: const EdgeInsets.only(
-                              //     top: 4,
-                              //     bottom: 8,
-                              //   ),
-                              //   child: CalendarActions(),
-                              // ),
-                              // Container(
-                              //   child: ShWideButton(
-                              //     onTap: () => showHorasBts(
-                              //       context: context,
-                              //       bloc: bloc,
-                              //     ),
-                              //     labelId: 'adicionar',
-                              //   ),
-                              // ),
-                              // Container(
-                              //   padding: EdgeInsets.symmetric(horizontal: 16),
-                              //   child: Row(
-                              //     children: [
-                              //       Spacer(),
-                              //       FloatingActionButton.extended(
-                              //         onPressed: () {},
-                              //         label: Text(Localiza.find('adicionar')),
-                              //         icon: Icon(Icons.add),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
+                              ),                              
                               HorasList(
                                 diferenciais:
                                     bloc.state.currentEmprego.diferenciaisList,

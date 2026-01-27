@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'data_layer/database/db_connector_drift.dart';
-import 'domain_layer/contracts.dart';
+import 'data_layer/contracts.dart';
 
 enum Flavor { offline, online, sqlite, desktop, web }
 

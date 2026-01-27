@@ -14,6 +14,7 @@ class HomeBloc extends Cubit<HomeState> {
   HorasCreateUseCase _horasCreateUsecase;
   HorasUpdateUseCase _horasUpdateUseCase;
   HorasDeleteUseCase _horasDeleteUseCase;
+  ListFeriadosUseCase _feriadosUseCase;
 
   CalendarPageGeneratorUseCase _calendarPageGeneratorUseCase;
 
@@ -24,6 +25,7 @@ class HomeBloc extends Cubit<HomeState> {
     required HorasCreateUseCase horasCreateUsecase,
     required HorasUpdateUseCase horasUpdateUseCase,
     required HorasDeleteUseCase horasDeleteUseCase,
+    required ListFeriadosUseCase feriadosUseCase,
     required int year,
     required int month,
   }) : _loadEmpregosByVigencia = empregoDataLoadByVigenciaUseCase,
@@ -33,6 +35,7 @@ class HomeBloc extends Cubit<HomeState> {
        _horasCreateUsecase = horasCreateUsecase,
        _horasUpdateUseCase = horasUpdateUseCase,
        _horasDeleteUseCase = horasDeleteUseCase,
+       _feriadosUseCase = feriadosUseCase,
        super(
          HomeState(
            status: StateLoadingStatus(),
@@ -51,6 +54,7 @@ class HomeBloc extends Cubit<HomeState> {
     required int ano,
     required List<Horas> horas,
     required FechamentoRange fechamento,
+    List<Feriados>? feriados,
   }) async {
     final salario = emprego.getSalarioByVigencia(ano, mes);
 
@@ -60,6 +64,7 @@ class HomeBloc extends Cubit<HomeState> {
       year: ano,
       admissao: emprego.admissao!,
       bancoHoras: emprego.bancoHoras,
+      feriados: feriados ?? state.feriados,
     );
 
     final reportPage = await ReportPageGenerator(
@@ -93,6 +98,7 @@ class HomeBloc extends Cubit<HomeState> {
       emit(state.copyWith(status: StateLoadingStatus()));
       await _niceDelay();
 
+      final feriadosAno = await _feriadosUseCase(state.year);
       final empregos = await _loadEmpregosByVigencia(state.year, state.month);
 
       CalendarPageModel? calendarPage;
@@ -110,6 +116,7 @@ class HomeBloc extends Cubit<HomeState> {
             state.month,
             emprego.diaFechamento,
           ),
+          feriados: feriadosAno,
         );
 
         calendarPage = c;
@@ -123,6 +130,7 @@ class HomeBloc extends Cubit<HomeState> {
           empregoPos: 0,
           calendarPage: calendarPage,
           reportPage: reportPage,
+          feriados: feriadosAno,
         ),
       );
     } on Exception catch (e) {
@@ -213,35 +221,67 @@ class HomeBloc extends Cubit<HomeState> {
         ? (now.year, now.month)
         : (e.admissao!.year, e.admissao!.month);
 
-    await _updateCalendar(year, month, e, index);
+    await _updateCalendar(
+      year: year,
+      month: month,
+      emprego: e,
+      empregoPos: index,
+    );
   }
 
   void incMonth() async {
-    state.month == 12
-        ? await _updateCalendar(state.year + 1, 1)
-        : await _updateCalendar(state.year, state.month + 1);
+    /// If state.month is 12, incrementing it will change the year
+    /// therefore, a lookup for the holidays is required before updating the calendar
+    if (state.month == 12) {
+      int newYear = state.year + 1;
+      final feriados = await _feriadosUseCase(newYear);
+      await _updateCalendar(year: newYear, month: 1, feriados: feriados);
+    } else {
+      await _updateCalendar(year: state.year, month: state.month + 1);
+    }
+    // state.month == 12
+    //     ? await _updateCalendar(state.year + 1, 1)
+    //     : await _updateCalendar(state.year, state.month + 1);
   }
 
   void decMonth() async {
-    state.month == 1
-        ? await _updateCalendar(state.year - 1, 12)
-        : await _updateCalendar(state.year, state.month - 1);
+    /// If state.month is 1, decrementing it will change the year
+    /// therefore, a lookup for the holidays is required before updating the calendar
+    if (state.month == 1) {
+      final newYear = state.year - 1;
+      final feriados = await _feriadosUseCase(newYear);
+      await _updateCalendar(year: newYear, month: 12, feriados: feriados);
+    } else {
+      await _updateCalendar(year: state.year, month: state.month - 1);
+    }
+    // state.month == 1
+    //     ? await _updateCalendar(state.year - 1, 12)
+    //     : await _updateCalendar(state.year, state.month - 1);
   }
 
   void setMonth(int month) async {
-    await _updateCalendar(state.year, month + 1);
+    /// Setting the month, don't change the year, so its not necessary
+    /// to lookup for feriados again
+    await _updateCalendar(year: state.year, month: month + 1);
   }
 
   void setYear(int newYear) async {
-    await _updateCalendar(newYear, state.month);
+    /// The year changed, so a feriados lookup is required
+    final feriados = await _feriadosUseCase(newYear);
+    await _updateCalendar(
+      year: newYear,
+      month: state.month,
+      feriados: feriados,
+    );
   }
 
-  Future<void> _updateCalendar(
-    int year,
-    int month, [
+  Future<void> _updateCalendar({
+    required int year,
+    required int month,
     Empregos? emprego,
     int? empregoPos,
-  ]) async {
+    List<Feriados>? feriados,
+  }) async {
     final currentEmprego = emprego ?? state.currentEmprego;
 
     /// If the user tryes to go to a month before the date when they started working
@@ -264,8 +304,8 @@ class HomeBloc extends Cubit<HomeState> {
         mes: month,
         horas: horasList,
         fechamento: getFechamentoRange(
-          state.year,
-          state.month,
+          year,
+          month,
           currentEmprego.diaFechamento,
         ),
       );

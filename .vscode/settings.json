@@ -10,7 +10,7 @@
     "**/.dart_tool": true,
     "**/ios": false,
     "**/macos": true,
-    "**/web": true,
+    // "**/web": true,
     "**/build": true,
     "**.flutter-plugins-dependencies": true,
     "**.metadata": true,

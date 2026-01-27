@@ -1,4 +1,4 @@
-import '../models.dart';
+import '../../domain_layer/models.dart';
 
 abstract class EmpregosContract {
   Future<List<Empregos>> listByVigencia({required int year, required int month});

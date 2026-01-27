@@ -1,12 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-import '../../models.dart';
 import '../../../resources.dart';
+import '../../models.dart';
 
 sealed class CalendarItemModel {
   final Horas? horas;
   final DateTime? date;
   final bool? isToday;
+  final Feriados? feriado;
   final bool enabled;
 
   CalendarItemModel({
@@ -14,6 +15,7 @@ sealed class CalendarItemModel {
     required this.date,
     required this.isToday,
     this.enabled = true,
+    this.feriado,
   });
 }
 
@@ -27,8 +29,8 @@ class CalendarItemEmpty extends CalendarItemModel {
 }
 
 class CalendarItemDateOnly extends CalendarItemModel {
-  CalendarItemDateOnly(DateTime data, bool isToday)
-    : super(date: data, horas: null, isToday: isToday);
+  CalendarItemDateOnly(DateTime data, bool isToday, [Feriados? feriado])
+    : super(date: data, horas: null, isToday: isToday, feriado: feriado);
 }
 
 class CalendarItemBancoHoras extends CalendarItemModel implements Equatable {
@@ -36,7 +38,8 @@ class CalendarItemBancoHoras extends CalendarItemModel implements Equatable {
     required Horas horas,
     required DateTime date,
     required bool isToday,
-  }) : super(horas: horas, date: date, isToday: isToday);
+    Feriados? feriado,
+  }) : super(horas: horas, date: date, isToday: isToday, feriado: feriado);
 
   HorasType get horaType => horas?.tipoHora ?? HorasType.unknown;
 
@@ -56,7 +59,8 @@ class CalendarItemComplete extends CalendarItemModel implements Equatable {
     required Horas horas,
     required DateTime date,
     required bool isToday,
-  }) : super(horas: horas, date: date, isToday: isToday);
+    Feriados? feriado,
+  }) : super(horas: horas, date: date, isToday: isToday, feriado: feriado);
 
   @override
   List<Object?> get props => [horas, date];

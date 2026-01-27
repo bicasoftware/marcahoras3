@@ -10,81 +10,74 @@ class CalendarioPageGenerator {
     required int year,
     required DateTime admissao,
     required bool bancoHoras,
+    required List<Feriados> feriados,
   }) {
     /// Get the first date
     /// so by using the first week day
     /// we fill the calendar page with empty [CalendarItemModel]
     /// till the first valid date is the same as the weekday position
-    final initDate = DateTime(year, month);
+    final initDate = DateTime(year, month, 1);
+    final endDate = DateTime(year, month + 1, 0);
 
     final today = DateTime.now();
 
     /// Fills the calendar with previous months days, but disabled
-    var beginEmptyItems = <CalendarItemModel>[];
-    if (initDate.weekday < 7) {
-      var prevMonthDate = DateTime(year, month).subtract(Duration(days: 1));
+    final beginEmptyItems = initDate.weekday == DateTime.sunday
+        ? []
+        : List<CalendarItemEmpty>.filled(
+            initDate.weekday,
+            CalendarItemEmpty(),
+          );
 
-      for (int i = initDate.weekday; i > 0; i--) {
-        beginEmptyItems.add(CalendarItemDisabled(prevMonthDate, false));
+    final listDays = List<CalendarItemModel>.generate(endDate.day, (i) {
+      final currentDate = DateTime(year, month, i + 1);
+      final feriado = feriados.firstWhereOrNull(
+        (f) => f.date.isSameDay(currentDate),
+      );
 
-        prevMonthDate = prevMonthDate.subtract(Duration(days: 1));
-      }
-
-      beginEmptyItems = beginEmptyItems.reversed.toList();
-    }
-
-    final calendarDays = <CalendarItemModel>[];
-
-    var currentDate = DateTime(year, month);
-    while (currentDate.month == initDate.month) {
       /// If the current date is before the day the user started working,
       /// the calendar item is disabled
       if (currentDate.isBefore(admissao)) {
-        calendarDays.add(
-          CalendarItemDisabled(currentDate, today.isSameDay(currentDate)),
-        );
-      } else {
-        final hora = horas.firstWhereOrNull(
-          (h) => h.data.isSameDay(currentDate),
-        );
-
-        if (hora != null) {
-          calendarDays.add(
-            bancoHoras
-                ? CalendarItemBancoHoras(
-                  date: currentDate,
-                  horas: hora,
-                  isToday: today.isSameDay(currentDate),
-                )
-                : CalendarItemComplete(
-                  date: currentDate,
-                  horas: hora,
-                  isToday: today.isSameDay(currentDate),
-                ),
-          );
-        } else {
-          calendarDays.add(
-            CalendarItemDateOnly(currentDate, today.isSameDay(currentDate)),
-          );
-        }
+        return CalendarItemDisabled(currentDate, today.isSameDay(currentDate));
       }
 
-      currentDate = currentDate.add(Duration(days: 1));
-    }
+      final hora = horas.firstWhereOrNull(
+        (h) => h.data.isSameDay(currentDate),
+      );
 
-    /// Fills the rest of the calendar items next month days, but disabled
-    var endEmptyDays = <CalendarItemModel>[];
-    while (currentDate.weekday < 7) {
-      endEmptyDays.add(CalendarItemDisabled(currentDate, false));
+      if (hora != null) {
+        return bancoHoras
+            ? CalendarItemBancoHoras(
+                date: currentDate,
+                horas: hora,
+                isToday: today.isSameDay(currentDate),
+                feriado: feriado,
+              )
+            : CalendarItemComplete(
+                date: currentDate,
+                horas: hora,
+                isToday: today.isSameDay(currentDate),
+                feriado: feriado,
+              );
+      }
+      
+      return CalendarItemDateOnly(
+        currentDate,
+        today.isSameDay(currentDate),
+        feriado,
+      );
+    });
 
-      currentDate = currentDate.add(Duration(days: 1));
-    }
+    final endEmptyDays = List<CalendarItemEmpty>.generate(
+      endDate.weekday == DateTime.sunday ? 0 : (6 - endDate.weekday),
+      (_) => CalendarItemEmpty(),
+    );
 
     return CalendarPageModel(
       month: month,
       year: year,
       horas: horas,
-      items: [...beginEmptyItems, ...calendarDays, ...endEmptyDays],
+      items: [...beginEmptyItems, ...listDays, ...endEmptyDays],
     );
   }
 }

@@ -72,7 +72,7 @@ class _ValorFixoBtsState extends State<ValorFixoBts> {
             ShLabeledTile(
               value: formatVigencia(_year, _month, locale, "MMMM yyyy"),
               label: Localiza.find("vigencia"),
-              icon: Icons.calendar_month,
+              icon: Icon(Icons.calendar_month),
               onTap: () async {
                 final newVig = await showVigenciaPickerDialog(
                   context: context,

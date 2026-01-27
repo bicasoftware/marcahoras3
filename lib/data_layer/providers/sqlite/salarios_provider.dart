@@ -1,6 +1,6 @@
 import 'package:sane_uuid/uuid.dart';
 
-import '../../../domain_layer/contracts.dart';
+import '../../contracts.dart';
 import '../../database/db_connector_drift.dart';
 import '../../dtos/salarios_dto.dart';
 import '../../mappers.dart';

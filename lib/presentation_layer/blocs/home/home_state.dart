@@ -11,6 +11,7 @@ class HomeState extends BaseState {
   final int year;
   final CalendarPageModel calendarPage;
   final ReportModel reportPage;
+  final List<Feriados> feriados;
 
   HomeState({
     required this.year,
@@ -21,6 +22,7 @@ class HomeState extends BaseState {
     this.isDarkMode = false,
     required this.calendarPage,
     required this.reportPage,
+    this.feriados = const [],
     required super.status,
   }) : empregos = UnmodifiableListView(empregos);
 
@@ -34,6 +36,7 @@ class HomeState extends BaseState {
     int? month,
     CalendarPageModel? calendarPage,
     ReportModel? reportPage,
+    List<Feriados>? feriados,
   }) {
     final newState = HomeState(
       status: status ?? this.status,
@@ -45,10 +48,11 @@ class HomeState extends BaseState {
       month: month ?? this.month,
       calendarPage: calendarPage ?? this.calendarPage,
       reportPage: reportPage ?? this.reportPage,
+      feriados: feriados ?? this.feriados,
     );
 
     return newState;
-  }  
+  }
 
   Empregos get currentEmprego => empregos[empregoPos];
 

@@ -1,4 +1,4 @@
-import '../../domain_layer/contracts.dart';
+import '../contracts.dart';
 import '../../domain_layer/models.dart';
 import '../mappers/emprego_mapper.dart';
 

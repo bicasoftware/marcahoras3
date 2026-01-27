@@ -8,7 +8,7 @@ import 'calendar_item.dart';
 class CalendarPage extends StatelessWidget {
   final CalendarPageModel page;
   final List<Diferenciais> diferenciais;
-  final void Function(Horas? hora, DateTime? data)? onCalendarItemTap;
+  final void Function(Horas? hora, DateTime? data, Feriados? feriado)? onCalendarItemTap;
 
   const CalendarPage({
     required this.page,
@@ -34,7 +34,9 @@ class CalendarPage extends StatelessWidget {
         children: page.items.map((it) {
           switch (it) {
             case CalendarItemEmpty():
-              return CalendarItem();
+              return CalendarItem(
+                enabled: false,
+              );
             case CalendarItemDisabled():
               return CalendarItem(
                 monthDay: it.date!.day,
@@ -48,6 +50,7 @@ class CalendarPage extends StatelessWidget {
                 isToday: it.isToday ?? false,
                 data: it.date,
                 onCalendarItemTap: onCalendarItemTap,
+                feriado: it.feriado,
               );
             case CalendarItemComplete():
               return CalendarItem(
@@ -58,8 +61,9 @@ class CalendarPage extends StatelessWidget {
                 data: it.date,
                 hora: it.horas,
                 onCalendarItemTap: onCalendarItemTap,
+                feriado: it.feriado,
                 diferencial: diferenciais.firstWhereOrNull(
-                  (d) => isSameWeekday(d.weekday, it.date ?? now)
+                  (d) => isSameWeekday(d.weekday, it.date ?? now),
                 ),
               );
             case CalendarItemBancoHoras():
@@ -72,6 +76,7 @@ class CalendarPage extends StatelessWidget {
                 hora: it.horas,
                 onCalendarItemTap: onCalendarItemTap,
                 type: HorasType.banco,
+                feriado: it.feriado,
               );
           }
         }).toList(),

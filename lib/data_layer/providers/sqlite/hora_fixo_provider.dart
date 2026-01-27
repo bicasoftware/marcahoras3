@@ -1,5 +1,5 @@
 import 'package:marcahoras3/data_layer/mappers/hora_fixo_mapper.dart';
-import 'package:marcahoras3/domain_layer/contracts.dart';
+import 'package:marcahoras3/data_layer/contracts.dart';
 import 'package:sane_uuid/uuid.dart';
 
 import '../../database/db_connector_drift.dart';

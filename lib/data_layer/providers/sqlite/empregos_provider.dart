@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:sane_uuid/uuid.dart';
 
-import '../../../domain_layer/contracts.dart';
+import '../../contracts.dart';
 import '../../../utils.dart';
 import '../../database/db_connector_drift.dart';
 import '../../dtos.dart';

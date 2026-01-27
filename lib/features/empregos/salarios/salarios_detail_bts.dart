@@ -1,11 +1,9 @@
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:marcahoras3/utils/currency_helper.dart';
-import 'package:marcahoras3/utils/date_utils.dart';
-import 'package:marcahoras3/widgets/dialogs/vigencia_picker_dialog.dart';
 
-import '../../../utils/localiza/localiza.dart';
+import '../../../dialogs.dart';
+import '../../../utils.dart';
 import '../../../widgets.dart';
 
 class SalariosDetailBts extends StatefulWidget {
@@ -89,7 +87,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
             ShLabeledTile(
               value: formatVigencia(_year, _month, locale, "MMMM yyyy"),
               label: Localiza.find("vigencia"),
-              icon: Icons.calendar_month,
+              icon: Icon(Icons.calendar_month),
               onTap: () async {
                 final newVig = await showVigenciaPickerDialog(
                   context: context,

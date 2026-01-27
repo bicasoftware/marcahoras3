@@ -1,4 +1,4 @@
-import '../../data_layer/dtos.dart';
+import '../dtos.dart';
 
 abstract class RegisterContract {
   Future<AuthenticationDataDto> register(String email, String password);

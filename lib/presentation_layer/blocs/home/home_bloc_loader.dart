@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../app_config.dart';
+import '../../../data_layer/providers.dart';
 import '../../../data_layer/respositories.dart';
 import '../../../domain_layer/usecases.dart';
 import '../../blocs.dart';
@@ -41,6 +43,14 @@ class _HomeBlocLoaderState extends State<HomeBlocLoader> {
         horasUpdateUseCase: HorasUpdateUseCase(repo: horasRepo),
         empregoDataLoadByVigenciaUseCase: EmpregoDataLoadByVigenciaUseCase(
           empregoRepo,
+        ),
+        feriadosUseCase: ListFeriadosUseCase(
+          repository: FeriadosRepository(
+            provider: FeriadosProvider(
+              db: AppConfig.shared.db!,
+              client: http.Client(),
+            ),
+          ),
         ),
       )..load(resync: true),
       child: widget.child,

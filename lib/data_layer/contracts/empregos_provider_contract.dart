@@ -1,4 +1,4 @@
-import '../../../data_layer/dtos.dart';
+import '../dtos.dart';
 
 abstract class EmpregosProviderContract {
   Future<List<EmpregosDto>> listByVigencia({

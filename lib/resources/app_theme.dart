@@ -575,4 +575,6 @@ class ExtraColors {
   static const bancoBurnedColor = Color(0xFFFF847D);
 
   static const splash = Color(0xFFDDA4A0);
+  static const holidayFillColor = Color(0x78FF9900);
+  static const todayFillColor = Color(0x6E5FB800);
 }

@@ -8,10 +8,11 @@ class CalendarItem extends StatelessWidget {
   final HorasType type;
   final Diferenciais? diferencial;
   final bool isToday;
+  final Feriados? feriado;
   final DateTime? data;
   final Horas? hora;
   final bool enabled;
-  final void Function(Horas? hora, DateTime? data)? onCalendarItemTap;
+  final void Function(Horas? hora, DateTime? data, Feriados? feriado)? onCalendarItemTap;
   final bool bancoHoras;
 
   const CalendarItem({
@@ -22,6 +23,7 @@ class CalendarItem extends StatelessWidget {
     this.isToday = false,
     this.enabled = true,
     this.bancoHoras = false,
+    this.feriado,
     this.hora,
     this.data,
     this.diferencial,
@@ -29,6 +31,15 @@ class CalendarItem extends StatelessWidget {
   });
 
   bool get _enabled => monthDay == -1 && weekDay == -1;
+
+  Color getFillColor(ColorScheme colors) {
+    if (!enabled) return colors.surfaceContainer;
+    if(feriado != null) {
+      return ExtraColors.porcFeriadosColor.withAlpha(60);
+    }
+    if (isToday) return ExtraColors.todayFillColor.withAlpha(60);
+    return colors.surface;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,22 +49,16 @@ class CalendarItem extends StatelessWidget {
     return AbsorbPointer(
       absorbing: !enabled,
       child: Ink(
-        decoration: monthDay > -1
-            ? BoxDecoration(
-                color: enabled
-                    ? isToday
-                          ? colors.secondary.withAlpha(50)
-                          : colors.surface
-                    : colors.surfaceContainer,
-                border: Border.all(color: colors.shadow.withAlpha(20)),
-                borderRadius: BorderRadius.circular(8),
-              )
-            : null,
+        decoration: BoxDecoration(
+          color: getFillColor(colors),
+          border: Border.all(color: colors.shadow.withAlpha(20)),
+          borderRadius: BorderRadius.circular(8),
+        ),
         child: InkWell(
           splashColor: ExtraColors.splash,
           onTap: () {
             if (onCalendarItemTap != null) {
-              onCalendarItemTap!(hora, data);
+              onCalendarItemTap!(hora, data, feriado);
             }
           },
           child: _enabled

@@ -1,5 +1,5 @@
 import '../../data_layer/mappers/salarios_mapper.dart';
-import '../../domain_layer/contracts.dart';
+import '../contracts.dart';
 import '../../domain_layer/models/salarios.dart';
 
 class SalariosRepository implements SalariosContract {

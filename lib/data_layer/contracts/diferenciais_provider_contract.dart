@@ -1,4 +1,4 @@
-import '../../../data_layer/dtos.dart';
+import '../dtos.dart';
 
 abstract class DiferenciaisProviderContract {
   Future<DiferenciaisDto> insertDiferencial(DiferenciaisDto diferencial);

@@ -1,4 +1,4 @@
-import '../../../data_layer/dtos.dart';
+import '../dtos.dart';
 
 abstract class HorasProviderContract {
   Future<List<HorasDto>> list(String empregoId, String from, String to);

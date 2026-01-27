@@ -1,4 +1,4 @@
-import '../models.dart';
+import '../../domain_layer/models.dart';
 
 abstract class HorasContract {
   Future<List<Horas>> list(String empregoId, String from, String to);

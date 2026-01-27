@@ -8,6 +8,7 @@ class CalendarPageGeneratorUseCase {
     required int year,
     required DateTime admissao,
     required bool bancoHoras,
+    required List<Feriados> feriados,
   }) async {
     return await CalendarioPageGenerator.generate(
       horas: horas,
@@ -15,6 +16,7 @@ class CalendarPageGeneratorUseCase {
       year: year,
       admissao: admissao,
       bancoHoras: bancoHoras,
+      feriados: feriados,
     );
   }
 }
