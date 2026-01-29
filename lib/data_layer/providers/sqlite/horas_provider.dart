@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:sane_uuid/uuid.dart';
 
-import '../../contracts.dart';
 import '../../../utils.dart';
+import '../../contracts.dart';
 import '../../database/db_connector_drift.dart';
 import '../../dtos/horas_dto.dart';
 import '../../mappers.dart';
@@ -34,16 +34,15 @@ class HorasProvider implements HorasProviderContract {
   Future<List<HorasDto>> list(String empregoId, String from, String to) async {
     final fromDate = parseDate(from);
     final toDate = parseDate(to);
-    final horas =
-        await _table
-            .filter(
-              (h) =>
-                  h.empregoId.id.equals(empregoId) &
-                  h.data.isBetween(fromDate!, toDate!),
-            )
-            .get();
+    final horas = await _table
+        .filter(
+          (h) =>
+              h.empregoId.id.equals(empregoId) &
+              h.data.isBetween(fromDate!, toDate!),
+        )
+        .get();
 
-    return horas.map((h) => HorasDto.fromJson(h.toJson())).toList();
+    return horas.map((h) => HorasMapper.fromJson(h.toJson())).toList();
   }
 
   @override

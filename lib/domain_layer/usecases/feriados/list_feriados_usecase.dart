@@ -7,7 +7,7 @@ class ListFeriadosUseCase {
   ListFeriadosUseCase({required FeriadosRepository repository})
     : _repository = repository;
 
-  Future<List<Feriados>> call(int year) async {
-    return await _repository.getFeriasByYear(year);
+  Future<List<Anos>> call() async {
+    return await _repository.getFeriados();
   }
 }

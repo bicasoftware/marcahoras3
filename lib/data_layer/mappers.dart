@@ -1,5 +1,6 @@
 library mappers;
 
+export './mappers/anos_mapper.dart';
 export './mappers/diferenciais_mapper.dart';
 export './mappers/emprego_mapper.dart';
 export './mappers/feriados_mapper.dart';

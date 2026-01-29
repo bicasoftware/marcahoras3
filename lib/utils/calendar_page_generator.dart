@@ -32,7 +32,7 @@ class CalendarioPageGenerator {
     final listDays = List<CalendarItemModel>.generate(endDate.day, (i) {
       final currentDate = DateTime(year, month, i + 1);
       final feriado = feriados.firstWhereOrNull(
-        (f) => f.date.isSameDay(currentDate),
+        (f) => f.data.isSameDay(currentDate),
       );
 
       /// If the current date is before the day the user started working,

@@ -18,6 +18,44 @@ extension HorasMapper on HorasDto {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{
+      'emprego_id': empregoId,
+      'data': formatDate(data!, true),
+      'inicio': inicio,
+      'termino': termino,
+      'tipo_hora': tipoHora,
+      'hora_status': horaStatus,
+      'id': ?id,
+    };
+
+    return map;
+  }
+
+  static HorasDto fromJson(Map<String, dynamic> map) {
+    return HorasDto(
+      id: map['id'] != null ? map['id'] as String : "",
+      empregoId: map['emprego_id'] != null ? map['emprego_id'] as String : "",
+      data: map['data'] is int
+          ? getDateFromMillis(map['data'])
+          : parseDate(map['data']),
+      inicio: map['inicio'] != null ? map['inicio'] as String : null,
+      termino: map['termino'] != null ? map['termino'] as String : null,
+      tipoHora: map['tipo_hora'] != null ? map['tipo_hora'] as String : null,
+      horaStatus: map['hora_status'] != null
+          ? map['hora_status'] as String
+          : null,
+      createdAt: map['created_at'] is int
+          ? getDateFromMillis(map['created_at'])
+          : parseDate(map['created_at']),
+    );
+  }
+
+  static List<HorasDto> fromJsonList(dynamic list) {
+    if (list.isEmpty) return [];
+    return list.map<HorasDto>((h) => fromJson(h)).toList();
+  }
+
   DbHorasCompanion toCompanion({String? newId}) {
     return DbHorasCompanion(
       id: Value(newId ?? id!),
@@ -30,6 +68,8 @@ extension HorasMapper on HorasDto {
     );
   }
 }
+
+
 
 extension HorasDtoMapper on Horas {
   HorasDto toHorasDto([String? newId]) {

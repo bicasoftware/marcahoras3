@@ -8,39 +8,13 @@ class HoraFixoDto {
   final num? valorFeriado;
   final String? vigencia;
 
-  HoraFixoDto({
+  const HoraFixoDto({
     required this.id,
     required this.idEmprego,
     required this.valorNormal,
     required this.valorFeriado,
     required this.vigencia,
   });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'emprego_id': idEmprego,
-      'valor_normal': valorNormal,
-      'valor_feriados': valorFeriado,
-      'vigencia': vigencia,
-    };
-  }
-
-  factory HoraFixoDto.fromJson(Map<String, dynamic> json) {
-    return HoraFixoDto(
-      id: json['id'],
-      idEmprego: json['emprego_id'],
-      valorNormal: (json['valor_normal'] ?? 0.0) as num,
-      valorFeriado: (json['valor_feriados'] ?? 0.0) as num,
-      vigencia: json['vigencia'],
-    );
-  }
-
-  static List<HoraFixoDto> fromJsonList(List<dynamic> jsonList) {
-    return jsonList
-        .map((json) => HoraFixoDto.fromJson(json as Map<String, dynamic>))
-        .toList();
-  }
 
   HoraFixoDto copyWith({
     String? id,
@@ -56,5 +30,30 @@ class HoraFixoDto {
       valorFeriado: valorFeriado ?? this.valorFeriado,
       vigencia: vigencia ?? this.vigencia,
     );
+  }
+
+  @override
+  bool operator ==(covariant HoraFixoDto other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.idEmprego == idEmprego &&
+        other.valorNormal == valorNormal &&
+        other.valorFeriado == valorFeriado &&
+        other.vigencia == vigencia;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        idEmprego.hashCode ^
+        valorNormal.hashCode ^
+        valorFeriado.hashCode ^
+        vigencia.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'HoraFixoDto(id: $id, idEmprego: $idEmprego, valorNormal: $valorNormal, valorFeriado: $valorFeriado, vigencia: $vigencia)';
   }
 }

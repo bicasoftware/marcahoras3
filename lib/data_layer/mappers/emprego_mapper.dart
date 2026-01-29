@@ -1,15 +1,18 @@
 import 'package:drift/drift.dart';
 import 'package:intl/intl.dart';
-import 'package:marcahoras3/data_layer/mappers/diferenciais_mapper.dart';
-import 'package:marcahoras3/data_layer/mappers/hora_fixo_mapper.dart';
 
 import '../../domain_layer/models.dart';
 import '../../utils.dart';
 import '../database/db_connector_drift.dart';
 import '../dtos.dart';
-import 'horas_mapper.dart';
-import 'salarios_mapper.dart';
+import '../mappers.dart';
 
+/// The default for a mapper extension class should be:
+/// toModel()
+/// toJson()
+/// fromJson()
+/// fromJsonList()
+/// toCompanion()
 extension EmpregoMapper on EmpregosDto {
   Empregos toEmprego() {
     return Empregos(
@@ -29,6 +32,71 @@ extension EmpregoMapper on EmpregosDto {
       horaFixoList: horaFixoList.map((f) => f.toModel()).toList(),
       diferenciaisList: diferenciaisList.map((d) => d.toModel()).toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{
+      'descricao': descricao,
+      'admissao': admissao,
+      'entrada': entrada,
+      'saida': saida,
+      'banco_horas': bancoHoras,
+      'porc_normal': porcNormal,
+      'porc_feriado': porcFeriado,
+      'ativo': ativo,
+      'carga_horaria': cargaHoraria,
+      'dia_fechamento': diaFechamento,
+    };
+
+    if (id != null) {
+      data['id'] = id;
+    }
+
+    return data;
+  }
+
+  static EmpregosDto fromJson(
+    dynamic e, {
+    dynamic horas,
+    dynamic salarios,
+    dynamic horaFixo,
+    dynamic diferenciais,
+  }) {
+    final emprego = EmpregosDto(
+      id: e['id'],
+      descricao: e['descricao'],
+      admissao: e['admissao'] is int
+          ? parseDateFromMillis(e['admissao'])
+          : e['admissao'] as String,
+      entrada: e['entrada'],
+      saida: e['saida'],
+      bancoHoras: e['banco_horas'] != null ? e['banco_horas'] as bool : null,
+      porcNormal: e['porc_normal'],
+      porcFeriado: e['porc_feriado'],
+      ativo: e['ativo'] != null ? e['ativo'] as bool : null,
+      diaFechamento: e['dia_fechamento'] != null
+          ? e['dia_fechamento'] as int
+          : null,
+      cargaHoraria: e['carga_horaria'],
+      createdAt: e['created_at'] is int
+          ? getDateFromMillis(e['created_at'])
+          : parseDate(e['created_at']),
+
+      horas: horas != null ? HorasMapper.fromJsonList(horas) : [],
+      salarios: salarios != null ? SalariosMapper.fromJsonList(salarios) : [],
+      horaFixoList: horaFixo != null
+          ? HoraFixoDtoMapper.fromJsonList(horaFixo)
+          : [],
+      diferenciaisList: diferenciais != null
+          ? DiferenciaisDtoMapper.fromJsonList(diferenciais)
+          : [],
+    );
+
+    return emprego;
+  }
+
+  static List<EmpregosDto> fromJsonList(List<dynamic> data) {
+    return data.map((e) => fromJson(e)).toList();
   }
 
   DbEmpregosCompanion toCompanion({
@@ -61,7 +129,7 @@ extension EmpregoDtoMapper on Empregos {
       bancoHoras: bancoHoras,
       porcFeriado: porcFeriado,
       porcNormal: porcNormal,
-      cargaHoraria: cargaHoraria,      
+      cargaHoraria: cargaHoraria,
       ativo: ativo,
       diaFechamento: diaFechamento,
       salarios: mapChildren

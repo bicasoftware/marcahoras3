@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-import '../../utils.dart';
-
 @immutable
 class HorasDto {
   final String? id;
@@ -24,44 +22,6 @@ class HorasDto {
     this.horaStatus,
   });
 
-  JsonObj toJson() {
-    final map = <String, dynamic>{
-      'emprego_id': empregoId,
-      'data': formatDate(data!, true),
-      'inicio': inicio,
-      'termino': termino,
-      'tipo_hora': tipoHora,
-      'hora_status': horaStatus,
-      'id': ?id,
-    };
-
-    return map;
-  }
-
-  factory HorasDto.fromJson(JsonObj map) {
-    return HorasDto(
-      id: map['id'] != null ? map['id'] as String : "",
-      empregoId: map['emprego_id'] != null ? map['emprego_id'] as String : "",
-      data: map['data'] is int
-          ? getDateFromMillis(map['data'])
-          : parseDate(map['data']),
-      inicio: map['inicio'] != null ? map['inicio'] as String : null,
-      termino: map['termino'] != null ? map['termino'] as String : null,
-      tipoHora: map['tipo_hora'] != null ? map['tipo_hora'] as String : null,
-      horaStatus: map['hora_status'] != null
-          ? map['hora_status'] as String
-          : null,
-      createdAt: map['created_at'] is int
-          ? getDateFromMillis(map['created_at'])
-          : parseDate(map['created_at']),
-    );
-  }
-
-  static List<HorasDto> fromJsonList(dynamic list) {
-    if (list.isEmpty) return [];
-    return list.map<HorasDto>((h) => HorasDto.fromJson(h)).toList();
-  }
-
   HorasDto copyWithId(String id) {
     return HorasDto(
       id: id,
@@ -72,5 +32,36 @@ class HorasDto {
       tipoHora: this.tipoHora,
       horaStatus: this.horaStatus,
     );
+  }
+
+  @override
+  bool operator ==(covariant HorasDto other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.empregoId == empregoId &&
+        other.data == data &&
+        other.inicio == inicio &&
+        other.termino == termino &&
+        other.tipoHora == tipoHora &&
+        other.createdAt == createdAt &&
+        other.horaStatus == horaStatus;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        empregoId.hashCode ^
+        data.hashCode ^
+        inicio.hashCode ^
+        termino.hashCode ^
+        tipoHora.hashCode ^
+        createdAt.hashCode ^
+        horaStatus.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'HorasDto(id: $id, empregoId: $empregoId, data: $data, inicio: $inicio, termino: $termino, tipoHora: $tipoHora, createdAt: $createdAt, horaStatus: $horaStatus)';
   }
 }

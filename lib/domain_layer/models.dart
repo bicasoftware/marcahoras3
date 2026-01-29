@@ -4,6 +4,7 @@ export './models/calendario/calendar_item_model.dart';
 export './models/calendario/calendar_page_model.dart';
 export './models/diferenciais.dart';
 export './models/empregos.dart';
+export './models/feriados/anos.dart';
 export './models/feriados/feriados.dart';
 export './models/hora_fixo.dart';
 export './models/horas.dart';

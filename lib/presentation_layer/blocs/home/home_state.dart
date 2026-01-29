@@ -11,7 +11,7 @@ class HomeState extends BaseState {
   final int year;
   final CalendarPageModel calendarPage;
   final ReportModel reportPage;
-  final List<Feriados> feriados;
+  final UnmodifiableListView<Anos> anos;
 
   HomeState({
     required this.year,
@@ -22,9 +22,10 @@ class HomeState extends BaseState {
     this.isDarkMode = false,
     required this.calendarPage,
     required this.reportPage,
-    this.feriados = const [],
+    Iterable<Anos> anos = const [],
     required super.status,
-  }) : empregos = UnmodifiableListView(empregos);
+  }) : empregos = UnmodifiableListView(empregos),
+       anos = UnmodifiableListView(anos);
 
   HomeState copyWith({
     StateStatus? status,
@@ -36,7 +37,7 @@ class HomeState extends BaseState {
     int? month,
     CalendarPageModel? calendarPage,
     ReportModel? reportPage,
-    List<Feriados>? feriados,
+    List<Anos>? anos,
   }) {
     final newState = HomeState(
       status: status ?? this.status,
@@ -48,7 +49,7 @@ class HomeState extends BaseState {
       month: month ?? this.month,
       calendarPage: calendarPage ?? this.calendarPage,
       reportPage: reportPage ?? this.reportPage,
-      feriados: feriados ?? this.feriados,
+      anos: anos ?? this.anos,
     );
 
     return newState;
@@ -70,6 +71,17 @@ class HomeState extends BaseState {
     if (currentEmprego.salarios.isEmpty) return false;
 
     return currentEmprego.bancoHoras;
+  }
+
+  List<Feriados> getFeriados([int? searchYear]) {
+    return anos
+            .firstWhereOrNull((f) => f.ano == (searchYear ?? year))
+            ?.feriados ??
+        [];
+  }
+
+  List<int> getYears() {
+    return anos.map((a) => a.ano).toList();
   }
 
   List<ReportHora> reportShortData() {

@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:sane_uuid/uuid.dart';
 
-import '../../contracts.dart';
 import '../../../utils.dart';
+import '../../contracts.dart';
 import '../../database/db_connector_drift.dart';
 import '../../dtos.dart';
 import '../../mappers.dart';
@@ -78,8 +78,8 @@ class EmpregosProvider implements EmpregosProviderContract {
             .filter((h) => h.data.isBetween(parseDate(from)!, parseDate(to)!))
             .get(),
       ]);
-      
-      final empregoDto = EmpregosDto.fromJsonWithChildren(
+
+      final empregoDto = EmpregoMapper.fromJson(
         e.$1.toJson(),
         salarios: results[0].map((s) => s.toJson()).toList(),
         diferenciais: results[1].map((d) => d.toJson()).toList(),

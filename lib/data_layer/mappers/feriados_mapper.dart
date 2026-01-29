@@ -1,35 +1,23 @@
-import 'package:drift/drift.dart';
-import 'package:sane_uuid/uuid.dart';
-
 import '../../domain_layer/models.dart';
-import '../database/db_connector_drift.dart';
+import '../../utils.dart';
 import '../dtos.dart';
 
 extension FeriadosMapper on FeriadosDto {
   Feriados toFeriado() {
     return Feriados(
-      date: this.date!,
-      name: this.name ?? '',
-      type: this.type ?? '',
+      data: this.data!,
+      nome: this.nome ?? '',
     );
   }
 
-  DbFeriadosCompanion toCompanion() {
-    return DbFeriadosCompanion(
-      id: Value(Uuid.v4().toString()),
-      date: Value(this.date!),
-      name: Value(this.name ?? ''),
-      type: Value(this.type ?? ''),
-    );
-  }
-}
-
-extension FeriadosDtoMapper on Feriados {
-  FeriadosDto toFeriadoDto() {
+  static FeriadosDto fromJson(Map<String, dynamic> json) {
     return FeriadosDto(
-      date: this.date,
-      name: this.name,
-      type: this.type,
+      data: parseDate(json['data']),
+      nome: json['nome'],
     );
+  }
+
+  static List<FeriadosDto> fromJsonList(List<dynamic> jsonList) {
+    return jsonList.map((json) => fromJson(json)).toList();
   }
 }

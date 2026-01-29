@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain_layer/models.dart';
@@ -64,7 +65,7 @@ class HomeBloc extends Cubit<HomeState> {
       year: ano,
       admissao: emprego.admissao!,
       bancoHoras: emprego.bancoHoras,
-      feriados: feriados ?? state.feriados,
+      feriados: feriados ?? state.getFeriados(ano),
     );
 
     final reportPage = await ReportPageGenerator(
@@ -98,7 +99,10 @@ class HomeBloc extends Cubit<HomeState> {
       emit(state.copyWith(status: StateLoadingStatus()));
       await _niceDelay();
 
-      final feriadosAno = await _feriadosUseCase(state.year);
+      final feriadosAno = await _feriadosUseCase();
+      final feriados =
+          feriadosAno.firstWhereOrNull((f) => f.ano == state.year)?.feriados ??
+          [];
       final empregos = await _loadEmpregosByVigencia(state.year, state.month);
 
       CalendarPageModel? calendarPage;
@@ -116,7 +120,7 @@ class HomeBloc extends Cubit<HomeState> {
             state.month,
             emprego.diaFechamento,
           ),
-          feriados: feriadosAno,
+          feriados: feriados,
         );
 
         calendarPage = c;
@@ -130,7 +134,7 @@ class HomeBloc extends Cubit<HomeState> {
           empregoPos: 0,
           calendarPage: calendarPage,
           reportPage: reportPage,
-          feriados: feriadosAno,
+          anos: feriadosAno,
         ),
       );
     } on Exception catch (e) {
@@ -222,65 +226,38 @@ class HomeBloc extends Cubit<HomeState> {
         : (e.admissao!.year, e.admissao!.month);
 
     await _updateCalendar(
-      year: year,
-      month: month,
+      year,
+      month,
       emprego: e,
       empregoPos: index,
     );
   }
 
   void incMonth() async {
-    /// If state.month is 12, incrementing it will change the year
-    /// therefore, a lookup for the holidays is required before updating the calendar
-    if (state.month == 12) {
-      int newYear = state.year + 1;
-      final feriados = await _feriadosUseCase(newYear);
-      await _updateCalendar(year: newYear, month: 1, feriados: feriados);
-    } else {
-      await _updateCalendar(year: state.year, month: state.month + 1);
-    }
-    // state.month == 12
-    //     ? await _updateCalendar(state.year + 1, 1)
-    //     : await _updateCalendar(state.year, state.month + 1);
+    state.month == 12
+        ? await _updateCalendar(state.year + 1, 1)
+        : await _updateCalendar(state.year, state.month + 1);
   }
 
   void decMonth() async {
-    /// If state.month is 1, decrementing it will change the year
-    /// therefore, a lookup for the holidays is required before updating the calendar
-    if (state.month == 1) {
-      final newYear = state.year - 1;
-      final feriados = await _feriadosUseCase(newYear);
-      await _updateCalendar(year: newYear, month: 12, feriados: feriados);
-    } else {
-      await _updateCalendar(year: state.year, month: state.month - 1);
-    }
-    // state.month == 1
-    //     ? await _updateCalendar(state.year - 1, 12)
-    //     : await _updateCalendar(state.year, state.month - 1);
+    state.month == 1
+        ? await _updateCalendar(state.year - 1, 12)
+        : await _updateCalendar(state.year, state.month - 1);
   }
 
   void setMonth(int month) async {
-    /// Setting the month, don't change the year, so its not necessary
-    /// to lookup for feriados again
-    await _updateCalendar(year: state.year, month: month + 1);
+    await _updateCalendar(state.year, month + 1);
   }
 
   void setYear(int newYear) async {
-    /// The year changed, so a feriados lookup is required
-    final feriados = await _feriadosUseCase(newYear);
-    await _updateCalendar(
-      year: newYear,
-      month: state.month,
-      feriados: feriados,
-    );
+    await _updateCalendar(newYear, state.month);
   }
 
-  Future<void> _updateCalendar({
-    required int year,
-    required int month,
+  Future<void> _updateCalendar(
+    int year,
+    int month, {
     Empregos? emprego,
     int? empregoPos,
-    List<Feriados>? feriados,
   }) async {
     final currentEmprego = emprego ?? state.currentEmprego;
 
@@ -308,6 +285,7 @@ class HomeBloc extends Cubit<HomeState> {
           month,
           currentEmprego.diaFechamento,
         ),
+        feriados: state.getFeriados(year),
       );
 
       final empregosList = [...state.empregos];

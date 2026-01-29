@@ -1,0 +1,399 @@
+{
+	"anos": [
+		{
+			"ano": 2023,
+			"feriados": [
+				{
+					"data": "2023-01-01",
+					"nome": "Confraternização mundial"
+				},
+				{
+					"data": "2023-02-21",
+					"nome": "Carnaval"
+				},
+				{
+					"data": "2023-04-07",
+					"nome": "Sexta-feira Santa"
+				},
+				{
+					"data": "2023-04-09",
+					"nome": "Páscoa"
+				},
+				{
+					"data": "2023-04-21",
+					"nome": "Tiradentes"
+				},
+				{
+					"data": "2023-05-01",
+					"nome": "Dia do trabalho"
+				},
+				{
+					"data": "2023-06-08",
+					"nome": "Corpus Christi"
+				},
+				{
+					"data": "2023-09-07",
+					"nome": "Independência do Brasil"
+				},
+				{
+					"data": "2023-10-12",
+					"nome": "Nossa Senhora Aparecida"
+				},
+				{
+					"data": "2023-11-02",
+					"nome": "Finados"
+				},
+				{
+					"data": "2023-11-15",
+					"nome": "Proclamação da República"
+				},
+				{
+					"data": "2023-12-25",
+					"nome": "Natal"
+				}
+			]
+		},
+		{
+			"ano": 2024,
+			"feriados": [
+				{
+					"data": "2024-01-01",
+					"nome": "Confraternização mundial"
+				},
+				{
+					"data": "2024-02-13",
+					"nome": "Carnaval"
+				},
+				{
+					"data": "2024-03-29",
+					"nome": "Sexta-feira Santa"
+				},
+				{
+					"data": "2024-03-31",
+					"nome": "Páscoa"
+				},
+				{
+					"data": "2024-04-21",
+					"nome": "Tiradentes"
+				},
+				{
+					"data": "2024-05-01",
+					"nome": "Dia do trabalho"
+				},
+				{
+					"data": "2024-05-30",
+					"nome": "Corpus Christi"
+				},
+				{
+					"data": "2024-09-07",
+					"nome": "Independência do Brasil"
+				},
+				{
+					"data": "2024-10-12",
+					"nome": "Nossa Senhora Aparecida"
+				},
+				{
+					"data": "2024-11-02",
+					"nome": "Finados"
+				},
+				{
+					"data": "2024-11-15",
+					"nome": "Proclamação da República"
+				},
+				{
+					"data": "2024-11-20",
+					"nome": "Dia da consciência negra"
+				},
+				{
+					"data": "2024-12-25",
+					"nome": "Natal"
+				}
+			]
+		},
+		{
+			"ano": 2025,
+			"feriados": [
+				{
+					"data": "2025-01-01",
+					"nome": "Confraternização mundial"
+				},
+				{
+					"data": "2025-03-04",
+					"nome": "Carnaval"
+				},
+				{
+					"data": "2025-04-18",
+					"nome": "Sexta-feira Santa"
+				},
+				{
+					"data": "2025-04-20",
+					"nome": "Páscoa"
+				},
+				{
+					"data": "2025-04-21",
+					"nome": "Tiradentes"
+				},
+				{
+					"data": "2025-05-01",
+					"nome": "Dia do trabalho"
+				},
+				{
+					"data": "2025-06-19",
+					"nome": "Corpus Christi"
+				},
+				{
+					"data": "2025-09-07",
+					"nome": "Independência do Brasil"
+				},
+				{
+					"data": "2025-10-12",
+					"nome": "Nossa Senhora Aparecida"
+				},
+				{
+					"data": "2025-11-02",
+					"nome": "Finados"
+				},
+				{
+					"data": "2025-11-15",
+					"nome": "Proclamação da República"
+				},
+				{
+					"data": "2025-11-20",
+					"nome": "Dia da consciência negra"
+				},
+				{
+					"data": "2025-12-25",
+					"nome": "Natal"
+				}
+			]
+		},
+		{
+			"ano": 2026,
+			"feriados": [
+				{
+					"data": "2026-01-01",
+					"nome": "Confraternização mundial"
+				},
+				{
+					"data": "2026-02-17",
+					"nome": "Carnaval"
+				},
+				{
+					"data": "2026-04-03",
+					"nome": "Sexta-feira Santa"
+				},
+				{
+					"data": "2026-04-05",
+					"nome": "Páscoa"
+				},
+				{
+					"data": "2026-04-21",
+					"nome": "Tiradentes"
+				},
+				{
+					"data": "2026-05-01",
+					"nome": "Dia do trabalho"
+				},
+				{
+					"data": "2026-06-04",
+					"nome": "Corpus Christi"
+				},
+				{
+					"data": "2026-09-07",
+					"nome": "Independência do Brasil"
+				},
+				{
+					"data": "2026-10-12",
+					"nome": "Nossa Senhora Aparecida"
+				},
+				{
+					"data": "2026-11-02",
+					"nome": "Finados"
+				},
+				{
+					"data": "2026-11-15",
+					"nome": "Proclamação da República"
+				},
+				{
+					"data": "2026-11-20",
+					"nome": "Dia da consciência negra"
+				},
+				{
+					"data": "2026-12-25",
+					"nome": "Natal"
+				}
+			]
+		},
+		{
+			"ano": 2027,
+			"feriados": [
+				{
+					"data": "2027-01-01",
+					"nome": "Confraternização mundial"
+				},
+				{
+					"data": "2027-02-09",
+					"nome": "Carnaval"
+				},
+				{
+					"data": "2027-03-26",
+					"nome": "Sexta-feira Santa"
+				},
+				{
+					"data": "2027-03-28",
+					"nome": "Páscoa"
+				},
+				{
+					"data": "2027-04-21",
+					"nome": "Tiradentes"
+				},
+				{
+					"data": "2027-05-01",
+					"nome": "Dia do trabalho"
+				},
+				{
+					"data": "2027-05-27",
+					"nome": "Corpus Christi"
+				},
+				{
+					"data": "2027-09-07",
+					"nome": "Independência do Brasil"
+				},
+				{
+					"data": "2027-10-12",
+					"nome": "Nossa Senhora Aparecida"
+				},
+				{
+					"data": "2027-11-02",
+					"nome": "Finados"
+				},
+				{
+					"data": "2027-11-15",
+					"nome": "Proclamação da República"
+				},
+				{
+					"data": "2027-11-20",
+					"nome": "Dia da consciência negra"
+				},
+				{
+					"data": "2027-12-25",
+					"nome": "Natal"
+				}
+			]
+		},
+		{
+			"ano": 2028,
+			"feriados": [
+				{
+					"data": "2028-01-01",
+					"nome": "Confraternização mundial"
+				},
+				{
+					"data": "2028-02-29",
+					"nome": "Carnaval"
+				},
+				{
+					"data": "2028-04-14",
+					"nome": "Sexta-feira Santa"
+				},
+				{
+					"data": "2028-04-16",
+					"nome": "Páscoa"
+				},
+				{
+					"data": "2028-04-21",
+					"nome": "Tiradentes"
+				},
+				{
+					"data": "2028-05-01",
+					"nome": "Dia do trabalho"
+				},
+				{
+					"data": "2028-06-15",
+					"nome": "Corpus Christi"
+				},
+				{
+					"data": "2028-09-07",
+					"nome": "Independência do Brasil"
+				},
+				{
+					"data": "2028-10-12",
+					"nome": "Nossa Senhora Aparecida"
+				},
+				{
+					"data": "2028-11-02",
+					"nome": "Finados"
+				},
+				{
+					"data": "2028-11-15",
+					"nome": "Proclamação da República"
+				},
+				{
+					"data": "2028-11-20",
+					"nome": "Dia da consciência negra"
+				},
+				{
+					"data": "2028-12-25",
+					"nome": "Natal"
+				}
+			]
+		},
+		{
+			"ano": 2029,
+			"feriados": [
+				{
+					"data": "2029-01-01",
+					"nome": "Confraternização mundial"
+				},
+				{
+					"data": "2029-02-13",
+					"nome": "Carnaval"
+				},
+				{
+					"data": "2029-03-30",
+					"nome": "Sexta-feira Santa"
+				},
+				{
+					"data": "2029-04-01",
+					"nome": "Páscoa"
+				},
+				{
+					"data": "2029-04-21",
+					"nome": "Tiradentes"
+				},
+				{
+					"data": "2029-05-01",
+					"nome": "Dia do trabalho"
+				},
+				{
+					"data": "2029-05-31",
+					"nome": "Corpus Christi"
+				},
+				{
+					"data": "2029-09-07",
+					"nome": "Independência do Brasil"
+				},
+				{
+					"data": "2029-10-12",
+					"nome": "Nossa Senhora Aparecida"
+				},
+				{
+					"data": "2029-11-02",
+					"nome": "Finados"
+				},
+				{
+					"data": "2029-11-15",
+					"nome": "Proclamação da República"
+				},
+				{
+					"data": "2029-11-20",
+					"nome": "Dia da consciência negra"
+				},
+				{
+					"data": "2029-12-25",
+					"nome": "Natal"
+				}
+			]
+		}
+	]
+}

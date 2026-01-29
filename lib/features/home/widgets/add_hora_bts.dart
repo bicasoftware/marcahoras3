@@ -132,7 +132,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
           if (widget.feriado != null)
             ShLabeledTile(
               label: "Feriado:",
-              value: widget.feriado!.name,
+              value: widget.feriado!.nome,
               icon: Icon(Icons.info, color: ExtraColors.porcFeriadosColor),
             ),
           ShTimeRangePicker(

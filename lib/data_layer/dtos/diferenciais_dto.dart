@@ -16,36 +16,6 @@ class DiferenciaisDto {
     required this.color,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'emprego_id': idEmprego,
-      'weekday': weekday,
-      'percentage': percentage,
-      'color': color,
-    };
-  }
-
-  factory DiferenciaisDto.fromJson(Map<String, dynamic> json) {
-    return DiferenciaisDto(
-      id: json['id'],
-      idEmprego: json['emprego_id'],
-      weekday: json['weekday'],
-      percentage: json['percentage'],
-      color: json['color'],
-    );
-  }
-
-  static List<Map<String, dynamic>> toJsonList(List<DiferenciaisDto> list) {
-    return list.map((d) => d.toJson()).toList();
-  }
-
-  static List<DiferenciaisDto> fromJsonList(List<dynamic> jsonList) {
-    return jsonList
-        .map((json) => DiferenciaisDto.fromJson(json as Map<String, dynamic>))
-        .toList();
-  }
-
   DiferenciaisDto copyWith({
     String? id,
     String? idEmprego,
@@ -60,5 +30,30 @@ class DiferenciaisDto {
       percentage: percentage ?? this.percentage,
       color: color ?? this.color,
     );
+  }
+
+  @override
+  bool operator ==(covariant DiferenciaisDto other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.idEmprego == idEmprego &&
+        other.weekday == weekday &&
+        other.percentage == percentage &&
+        other.color == color;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        idEmprego.hashCode ^
+        weekday.hashCode ^
+        percentage.hashCode ^
+        color.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'DiferenciaisDto(id: $id, idEmprego: $idEmprego, weekday: $weekday, percentage: $percentage, color: $color)';
   }
 }

@@ -116,6 +116,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                       CalendarioScreenHeader(
                         year: bloc.state.year,
                         month: bloc.state.month,
+                        yearList: bloc.state.getYears(),
                         onMonthAdd: () => addMonth(context, bloc),
                         onMonthDec: () => decMonth(context, bloc),
                         onYearChanged: bloc.setYear,

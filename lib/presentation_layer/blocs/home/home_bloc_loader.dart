@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../app_config.dart';
 import '../../../data_layer/providers.dart';
@@ -46,10 +45,7 @@ class _HomeBlocLoaderState extends State<HomeBlocLoader> {
         ),
         feriadosUseCase: ListFeriadosUseCase(
           repository: FeriadosRepository(
-            provider: FeriadosProvider(
-              db: AppConfig.shared.db!,
-              client: http.Client(),
-            ),
+            provider: FeriadosProvider(),
           ),
         ),
       )..load(resync: true),

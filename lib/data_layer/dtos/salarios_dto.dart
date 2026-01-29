@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-import '../../utils/date_utils.dart';
-
 @immutable
 class SalariosDto {
   final String? id;
@@ -20,42 +18,6 @@ class SalariosDto {
     required this.ativo,
   });
 
-  // Factory method to create a SalariosDto instance from a JSON object
-  factory SalariosDto.fromJson(Map<String, dynamic> json) {
-    return SalariosDto(
-      id: json['id'] as String,
-      empregoId: json['emprego_id'] as String,
-      vigencia: json['vigencia'],
-      valor: json['valor'] as num,
-      ativo: json['ativo'] as bool,
-      createdAt:
-          json['created_at'] is int
-              ? getDateFromMillis(json['created_at'])
-              : parseDate(json['created_at']),
-    );
-  }
-
-  static List<SalariosDto> fromJsonList(dynamic salarios) {
-    if (salarios.isEmpty) return [];
-    return salarios.map<SalariosDto>((it) => SalariosDto.fromJson(it)).toList();
-  }
-
-  // Method to convert SalariosDto instance to a JSON object
-  Map<String, dynamic> toJson() {
-    final salarioMap = {
-      'emprego_id': empregoId,
-      'vigencia': vigencia,
-      'valor': valor.toString(),
-      'ativo': ativo,
-    };
-
-    if (id != null) {
-      salarioMap['id'] = id;
-    }
-
-    return salarioMap;
-  }
-
   SalariosDto copyWith({String? id, String? empregoId}) {
     return SalariosDto(
       id: id ?? this.id,
@@ -65,6 +27,29 @@ class SalariosDto {
       vigencia: vigencia,
       createdAt: createdAt,
     );
+  }
+
+  @override
+  bool operator ==(covariant SalariosDto other) {
+    if (identical(this, other)) return true;
+  
+    return 
+      other.id == id &&
+      other.empregoId == empregoId &&
+      other.vigencia == vigencia &&
+      other.valor == valor &&
+      other.ativo == ativo &&
+      other.createdAt == createdAt;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+      empregoId.hashCode ^
+      vigencia.hashCode ^
+      valor.hashCode ^
+      ativo.hashCode ^
+      createdAt.hashCode;
   }
 
   @override

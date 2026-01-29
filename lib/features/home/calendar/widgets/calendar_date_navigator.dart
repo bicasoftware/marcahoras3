@@ -7,11 +7,13 @@ class CalendarDateNavigator extends StatefulWidget
     implements PreferredSizeWidget {
   final int year;
   final int month;
+  final List<int> yearList;
   final VoidCallback onMonthAdd, onMonthDec;
   final void Function(int year) onYearChanged, onMonthChanged;
 
   const CalendarDateNavigator({
     required this.year,
+    required this.yearList,
     required this.month,
     required this.onMonthAdd,
     required this.onMonthDec,
@@ -28,24 +30,13 @@ class CalendarDateNavigator extends StatefulWidget
 }
 
 class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
-  final _yearList = <String>[];
-  late final DateTime today;
-
-  @override
-  void initState() {
-    super.initState();
-
-    today = DateTime.now();
-    for (int i = today.year - 5; i < today.year + 2; i++) {
-      _yearList.add("$i");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
-    final hintedYear = today.year.toString();
+
+    final today = DateTime.now();
+    final hintedYear = today.year;
     final hintedMonth = Localiza.findList('months')[today.month - 1];
 
     return Container(
@@ -107,10 +98,11 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
                   BottomSheetHelper.showGridBts(
                     context: context,
                     axisCount: 3,
-                    items: _yearList,
-                    hintedItem: hintedYear,
+                    items: widget.yearList.map((y) => y.toString()).toList(),
+                    hintedItem: hintedYear.toString(),
                     onItemSelected: (pos) {
-                      widget.onYearChanged(int.parse(_yearList[pos]));
+
+                      widget.onYearChanged(widget.yearList[pos]);
                     },
                   );
                 },

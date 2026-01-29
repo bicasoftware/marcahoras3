@@ -6,12 +6,14 @@ import 'widgets/calendar_date_navigator.dart';
 class CalendarioScreenHeader extends StatefulWidget {
   final int month;
   final int year;
+  final List<int> yearList;
   final VoidCallback onMonthAdd, onMonthDec;
   final void Function(int year) onYearChanged, onMonthChanged;
 
   const CalendarioScreenHeader({
     required this.month,
     required this.year,
+    required this.yearList,
     required this.onMonthAdd,
     required this.onMonthDec,
     required this.onYearChanged,
@@ -40,6 +42,7 @@ class _CalendarioScreenHeaderState extends State<CalendarioScreenHeader> {
           CalendarDateNavigator(
             year: widget.year,
             month: widget.month,
+            yearList: widget.yearList,
             onYearChanged: widget.onYearChanged,
             onMonthChanged: widget.onMonthChanged,
             onMonthAdd: widget.onMonthAdd,
