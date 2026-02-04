@@ -81,7 +81,7 @@ class PorcentagensTile extends StatelessWidget {
             onTap: toggleType,
           )
         else
-          ShLabeledListSection(label: Localiza.find("valorFixo")),
+          ShLabeledListSection("valorFixo"),
 
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 400),

@@ -16,6 +16,9 @@ horas:
 salarios:
   pt_BR: Salários
   en_US: Salaries
+horarios:
+  pt_BR: Horários
+  en_US: Timeframe
 jaTenhoCadastro:
   pt_BR: Já Tem uma conta? Clique para entrar.
   en_US: Already have an account? Click to enter.
@@ -37,6 +40,9 @@ horarioInvalido:
 preencherAdmissao:
   pt_BR: Toque para adicionar a data de admissão
   en_US: Tap to add admission date
+tapToAdd:
+  pt_BR: Toque para adicionar
+  en_US: Tap to add
 admissaoVazia:
   pt_BR: Admissão não pode ser vazia
   en_US: Admission date can't be empty
@@ -230,7 +236,7 @@ horasDiferenciais:
   pt_BR: Horas Diferenciais
   en_US: Differential overtime
 horasDiferenciaisVazia:
-  pt_BR: Nenhuma Hora Diferencial
+  pt_BR: Nenhuma Hora Diferencial Encontrada
   en_US: Differential overtime
 diferencial:
   pt_BR: Diferencial

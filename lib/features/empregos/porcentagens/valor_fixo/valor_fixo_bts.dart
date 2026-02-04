@@ -93,10 +93,7 @@ class _ValorFixoBtsState extends State<ValorFixoBts> {
 
             Container(
               margin: EdgeInsets.only(bottom: 16),
-              child: ShWideButton(
-                onTap: _validate,
-                labelId: "salvar",
-              ),
+              child: ShFormButton.save(_validate),
             ),
           ],
         ),

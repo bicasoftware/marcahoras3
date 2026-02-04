@@ -56,6 +56,7 @@ class SalariosTile extends StatelessWidget {
 
     return isEditing
         ? ShListViewTile<Salarios>(
+            outerLabelId: 'salarios',
             dataList: salarios,
             onAdd: onAdd,
             onEdit: onEdit,
@@ -69,33 +70,12 @@ class SalariosTile extends StatelessWidget {
                 _isAtual(s) ? colors.secondary : colors.primary,
             buildInfoList: (s) {
               return [
-                Row(
-                  spacing: 8,
-                  children: [
-                    Icon(
-                      Icons.monetization_on_outlined,
-                      color: Colors.green,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            Localiza.find('valor'),
-                            style: theme.labelMedium!.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            CurrencyHelper.formatAmount(s.valor),
-                            style: theme.labelMedium,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                IconLabelValue(
+                  label: Localiza.find('valor'),
+                  value: CurrencyHelper.formatAmount(s.valor),
+                  labelColor: colors.secondary,
+                  icon: Icons.currency_exchange,
+                  iconColor: colors.secondary,
                 ),
               ];
             },

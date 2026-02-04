@@ -28,10 +28,7 @@ class ShDefaultErrorScaffold extends StatelessWidget {
                 style: context.textTheme.labelLarge,
               ),
               const SizedBox(height: 16),
-              ShWideButton(
-                onTap: onRetry,
-                labelId: 'atualizar',
-              ),
+              ShFormButton.update(onRetry),
             ],
           ),
           padding: EdgeInsets.all(16),

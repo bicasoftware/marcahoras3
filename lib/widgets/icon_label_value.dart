@@ -27,7 +27,7 @@ class IconLabelValue extends StatelessWidget {
             margin: EdgeInsets.only(right: 8),
             child: Icon(
               icon,
-              size: 16,
+              size: 24,
               color: iconColor,
             ),
           ),
@@ -36,6 +36,7 @@ class IconLabelValue extends StatelessWidget {
             style: context.textTheme.labelLarge?.copyWith(
               fontWeight: FontWeight.normal,
               color: labelColor,
+              fontSize: 16,
             ),
           ),
 

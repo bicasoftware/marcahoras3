@@ -87,7 +87,7 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
             ),
             if (widget.diferenciais.isNotEmpty) ...<Widget>[
               const Divider(),
-              ShLabeledListSection(label: Localiza.find("diferenciais")),
+              ShLabeledListSection("diferenciais"),
               ...widget.diferenciais
                   .map(
                     (d) => _DiferenciaisItem(

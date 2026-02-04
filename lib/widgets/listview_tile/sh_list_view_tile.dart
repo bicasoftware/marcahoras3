@@ -13,6 +13,7 @@ class ShListViewTile<T> extends StatelessWidget {
   final List<Widget> Function(T item) buildInfoList;
   final String? heroTag;
   final bool showBadge;
+  final String? outerLabelId;
 
   const ShListViewTile({
     required this.dataList,
@@ -21,69 +22,42 @@ class ShListViewTile<T> extends StatelessWidget {
     required this.onDelete,
     required this.buildTitle,
     required this.buildInfoList,
+    this.showBadge = true,
+    this.outerLabelId,
     this.buildBadgeLabel,
     this.buildBadgeColor,
-    this.showBadge = true,
     this.heroTag,
   });
 
   @override
   Widget build(BuildContext context) {
-    return IndicatorTile(
-      child: dataList.isEmpty
-          ? _NoDataOnList(
-              label: Localiza.find("horasDiferenciaisVazia"),
-              onTap: onAdd,
-            )
-          : ListTile(
-              contentPadding: EdgeInsets.all(0),
-              isThreeLine: true,
-              trailing: FloatingActionButton.small(
-                heroTag: heroTag,
-                backgroundColor: context.colors.secondary,
-                foregroundColor: context.colors.onSecondary,
-                child: Icon(Icons.add),
-                onPressed: onAdd,
-              ),
-              subtitle: ShListViewContent(
-                dataList: dataList,
-                onEdit: onEdit,
-                onDelete: onDelete,
-                buildTitle: buildTitle,
-                buildBadgeLabel: buildBadgeLabel,
-                buildBadgeColor: buildBadgeColor,
-                buildInfoList: buildInfoList,
-              ),
+    return Column(      
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (outerLabelId != null) ShLabeledListSection(outerLabelId!),
+        IndicatorTile(
+          child: ListTile(
+            contentPadding: .only(left: 8),
+            isThreeLine: true,
+            trailing: FloatingActionButton.small(
+              heroTag: heroTag,
+              backgroundColor: context.colors.secondary,
+              foregroundColor: context.colors.onSecondary,
+              child: Icon(Icons.add),
+              onPressed: onAdd,
             ),
-    );
-  }
-}
-
-class _NoDataOnList extends StatelessWidget {
-  final String label;
-  final VoidCallback onTap;
-
-  const _NoDataOnList({
-    required this.label,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            label,
-            style: context.textTheme.labelLarge,
+            subtitle: ShListViewContent(
+              dataList: dataList,
+              onEdit: onEdit,
+              onDelete: onDelete,
+              buildTitle: buildTitle,
+              buildBadgeLabel: buildBadgeLabel,
+              buildBadgeColor: buildBadgeColor,
+              buildInfoList: buildInfoList,
+            ),
           ),
-          const SizedBox(height: 16),
-          ShWideButton(onTap: onTap, labelId: 'adicionar'),
-        ],
-      ),
-      padding: EdgeInsets.all(16),
+        ),
+      ],
     );
   }
 }

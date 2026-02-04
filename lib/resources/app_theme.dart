@@ -27,7 +27,7 @@ class ShAppTheme {
       onErrorContainer: Color(0xff73332d),
       surface: Color(0xfffdf7ff),
       onSurface: Color(0xff1c1b20),
-      onSurfaceVariant: Color(0xff49454e),
+      onSurfaceVariant: Color(0xFF66616D),
       outline: Color(0xff7a757f),
       outlineVariant: Color(0xffcac4cf),
       shadow: Color(0xff000000),
@@ -347,6 +347,11 @@ class ShAppTheme {
     canvasColor: colorScheme.surface,
   );
 
+  static const saveButtonColor = Color(0xFFB1281F); // Same as secondary color
+  static const onSaveButtonColor = Color(0xFFFFFFFF); // Same as secondary color
+  static const addButtonColor = Color(0xffe9ddff); 
+  static const onAddButtonColor = Color(0xFF000000); 
+
   /// Custom Color 1
   static const customColor1 = ExtendedColor(
     seed: Color(0xff67e100),
@@ -560,7 +565,7 @@ class ColorFamily {
 
 class ExtraColors {
   static const tabBarBgColor = Color(0xff65558f);
-  static const disabled = Color(0x60757575);
+  static const disabled = Color(0x60757575);  
 
   static const statusAtivo = Color(0xFF5FB800);
   static const statusInativo = Color(0xFFFF847D);
@@ -568,13 +573,16 @@ class ExtraColors {
   static const editColor = Color(0xFFFF9900);
   static const deleteColor = Color(0x95F20E02);
 
-  static const porcNormalColor = Color(0xFF5FB800);
-  static const porcFeriadosColor = Color(0xFFFF847D);
+  static const porcNormalColor = statusAtivo;
+  static const porcFeriadosColor = statusInativo;
   static const porcDiferenciadaColor = Color(0x935900FF);
   static const bancoHorasColor = Color(0xFF29BDFC);
-  static const bancoBurnedColor = Color(0xFFFF847D);
+  static const bancoBurnedColor = statusInativo;
 
   static const splash = Color(0xFFDDA4A0);
   static const holidayFillColor = Color(0x78FF9900);
   static const todayFillColor = Color(0x6E5FB800);
+
+  static const saveButtonColor = Color(0xFFB1281F); // Same as secondary color
+  static const addButtonColor = Color(0xffe9ddff); // same as PrimaryFixed
 }

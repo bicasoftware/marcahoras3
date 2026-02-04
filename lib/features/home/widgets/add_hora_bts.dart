@@ -160,10 +160,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
                     setState(() => _horaType = type);
                   },
                 ),
-          ShWideButton(
-            labelId: 'salvar',
-            onTap: _onSave,
-          ),
+          ShFormButton.save(_onSave),
           const SizedBox(height: 8),
         ],
       ),

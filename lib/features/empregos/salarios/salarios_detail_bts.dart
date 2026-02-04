@@ -108,10 +108,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
 
             Container(
               margin: EdgeInsets.only(bottom: 16),
-              child: ShWideButton(
-                onTap: _validate,
-                labelId: "salvar",
-              ),
+              child: ShFormButton.save(_validate),
             ),
           ],
         ),

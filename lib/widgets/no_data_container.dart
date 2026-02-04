@@ -30,9 +30,10 @@ class NoDataContainer extends StatelessWidget {
               style: context.textTheme.labelLarge,
             ),
             const SizedBox(height: 16),
-            ShWideButton(
+            ShFormButton(
               onTap: helperButtonTap,
-              labelId: helperButtonLabel,
+              textId: helperButtonLabel,
+              icon: Icons.add,
             ),
           ],
         ),

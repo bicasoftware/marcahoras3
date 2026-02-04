@@ -4,6 +4,7 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:marcahoras3/widgets/listview_tile/sh_empty_list_tile.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
@@ -88,25 +89,16 @@ class _EmpregosScreenState extends State<EmpregosScreen>
         label: !bloc.state.isEditing
             ? Localiza.find("adicionar")
             : Localiza.find("editarEmprego"),
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(Icons.save_outlined, color: AppColors.onSecondary),
-        //     onPressed: () => _validate(bloc),
-        //   ),
-        // ],
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.only(
           left: 16.0,
           right: 16,
-          bottom: 16,
+          bottom: 32,
           top: 8,
         ),
         color: colors.surface,
-        child: ShWideButton(
-          labelId: 'salvar',
-          onTap: () => _validate(bloc),
-        ),
+        child: ShFormButton.save(() => _validate(bloc)),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 8),
@@ -155,7 +147,7 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                       );
                     },
                   ),
-                  ShLabeledListSection(label: Localiza.find('salarios')),
+                  // ShLabeledListSection('salarios'),
                   SalariosTile(
                     salarios: state.emprego.salarios,
                     horaFixoList: state.emprego.horaFixoList,
@@ -168,6 +160,7 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                       bloc.setSalario(ctrSalarioMasked.numberValue);
                     },
                   ),
+                  ShLabeledListSection('horarios'),
                   LabelFormField<TimeOfDay>(
                     label: Localiza.find("entradaHora"),
                     initialValue:
@@ -248,9 +241,7 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                     },
                   ),
                   if (!bloc.state.isEditing) ...[
-                    ShLabeledListSection(
-                      label: Localiza.find("porcentagensExtras"),
-                    ),
+                    ShLabeledListSection("porcentagensExtras"),
                     ShSwitchTile(
                       value: state.bancoHoras,
                       label: Localiza.find("bancoHoras"),
@@ -273,38 +264,46 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                     onAdd: () => insertHoraFixo(bloc),
                     onEdit: (HoraFixo h) => updateHoraFixo(bloc, h),
                     onDelete: (h) => deleteHoraFixo(bloc, h),
-                  ),
-                  ShLabeledListSection(
-                    label: Localiza.find('horasDiferenciais'),
-                  ),
-                  ShListViewTile<Diferenciais>(
-                    dataList: bloc.state.emprego.diferenciaisList,
-                    onAdd: () => onAddDiferencial(bloc),
-                    onEdit: (d) => onUpdateDiferencial(d, bloc),
-                    onDelete: (d) => onDeleteDiferencial(d, bloc),
-                    buildTitle: (d) => weekDays[d.weekday],
-                    buildBadgeLabel: (d) => Localiza.find('diferencial'),
-                    buildBadgeColor: (d) => d.color,
-                    buildInfoList: (d) {
-                      return [
-                        IconLabelValue(
-                          label: "${d.percentage}%",
-                          value: CurrencyHelper.formatAmount(
-                            CalcHelper.calcPorcentagemHora(
-                              salario:
-                                  state.emprego.getCurrentSalarioAlt()?.valor ??
-                                  0,
-                              cargaHoraria: state.emprego.cargaHoraria,
-                              porcentagem: d.percentage,
-                            ),
-                          ),
-                          icon: Icons.monetization_on,
-                          labelColor: colors.onSurface,
-                          iconColor: colors.onSurface,
+                  ),                 
+                  // ShLabeledListSection('horasDiferenciais'),
+                  bloc.state.emprego.diferenciaisList.isEmpty
+                      ? ShEmptyListViewTile(
+                          upperLabelId: 'horasDiferenciais',
+                          descriptionId: 'horasDiferenciaisVazia',
+                          buttonTextId: 'adicionar',
+                          icon: Icons.add_chart,
+                          onTap: () => onAddDiferencial(bloc),
+                        )
+                      : ShListViewTile<Diferenciais>(
+                          dataList: bloc.state.emprego.diferenciaisList,
+                          onAdd: () => onAddDiferencial(bloc),
+                          onEdit: (d) => onUpdateDiferencial(d, bloc),
+                          onDelete: (d) => onDeleteDiferencial(d, bloc),
+                          buildTitle: (d) => weekDays[d.weekday],
+                          buildBadgeLabel: (d) => Localiza.find('diferencial'),
+                          buildBadgeColor: (d) => d.color,
+                          buildInfoList: (d) {
+                            return [
+                              IconLabelValue(
+                                label: "${d.percentage}%",
+                                labelColor: colors.onSurface,
+                                icon: Icons.list,
+                                iconColor: colors.secondary,
+                                value: CurrencyHelper.formatAmount(
+                                  CalcHelper.calcPorcentagemHora(
+                                    salario:
+                                        state.emprego
+                                            .getCurrentSalarioAlt()
+                                            ?.valor ??
+                                        0,
+                                    cargaHoraria: state.emprego.cargaHoraria,
+                                    porcentagem: d.percentage,
+                                  ),
+                                ),
+                              ),
+                            ];
+                          },
                         ),
-                      ];
-                    },
-                  ),
                 ],
               ),
             ),

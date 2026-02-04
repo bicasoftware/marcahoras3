@@ -96,12 +96,11 @@ class _DiffBtsState extends State<DiffBts> {
           ),
           Container(
             margin: EdgeInsets.only(bottom: 16),
-            child: ShWideButton(
-              onTap: () {
+            child: ShFormButton.save(
+              () {
                 Navigator.of(context).pop();
                 widget.onSave(_porc, _weekDay, _color);
               },
-              labelId: "salvar",
             ),
           ),
         ],
