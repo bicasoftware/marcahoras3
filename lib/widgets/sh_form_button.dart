@@ -25,6 +25,14 @@ class ShFormButton extends StatelessWidget {
        icon = Icons.save,
        bgColor = ExtraColors.saveButtonColor,
        fgColor = ShAppTheme.onSaveButtonColor;
+  
+  ShFormButton.saveLight(
+    this.onTap, {
+    super.key,
+  }) : textId = 'salvar',
+       icon = Icons.save,
+       bgColor = ShAppTheme.addButtonColor,
+       fgColor = ShAppTheme.onAddButtonColor;
 
   ShFormButton.update(this.onTap, {super.key})
     : textId = 'atualizar',
@@ -32,11 +40,13 @@ class ShFormButton extends StatelessWidget {
       bgColor = ShAppTheme.saveButtonColor,
       fgColor = ShAppTheme.onSaveButtonColor;
 
-  ShFormButton.add(this.onTap, {super.key})
-    : textId = 'adicionar',
-      icon = Icons.add,
-      bgColor = ShAppTheme.addButtonColor,
-      fgColor = ShAppTheme.onAddButtonColor;
+  ShFormButton.add(
+    this.onTap, {
+    super.key,
+  }) : textId = 'adicionar',
+       icon = Icons.add,
+       bgColor = ShAppTheme.addButtonColor,
+       fgColor = ShAppTheme.onAddButtonColor;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +55,7 @@ class ShFormButton extends StatelessWidget {
       child: FilledButton(
         style: ButtonStyle(
           backgroundColor: WidgetStatePropertyAll<Color>(bgColor!),
-          foregroundColor: WidgetStatePropertyAll<Color>(fgColor!),          
+          foregroundColor: WidgetStatePropertyAll<Color>(fgColor!),
           shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.0),

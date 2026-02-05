@@ -160,7 +160,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
                     setState(() => _horaType = type);
                   },
                 ),
-          ShFormButton.save(_onSave),
+          ShFormButton.saveLight(_onSave),
           const SizedBox(height: 8),
         ],
       ),

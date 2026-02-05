@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain_layer/models.dart';
 import '../../../presentation_layer/blocs.dart';
 import '../../../presentation_layer/route_args.dart';
+import '../../../resources.dart';
 import '../../../routes.dart';
 import '../../../utils.dart';
 import '../../../widgets.dart';
@@ -54,17 +55,17 @@ class _EmpregosListScreenState extends State<EmpregosListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-
     final bloc = context.read<HomeBloc>();
     final empregos = bloc.state.empregos;
 
     return Scaffold(
       appBar: ShAppBar(label: Localiza.find("empregos")),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
+        label: ShText('adicionar'),
+        icon: Icon(Icons.add),
+        backgroundColor: ShAppTheme.addButtonColor,
+        foregroundColor: ShAppTheme.onAddButtonColor,
         onPressed: () => showCreateScreen(context: context),
-        child: Icon(Icons.add, color: Colors.white),
-        backgroundColor: colors.secondary,
       ),
       body: SingleChildScrollView(
         child: Padding(

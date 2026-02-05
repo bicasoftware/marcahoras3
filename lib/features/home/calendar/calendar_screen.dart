@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../presentation_layer/blocs.dart';
+import '../../../resources.dart';
 import '../../../utils.dart';
 import '../../../widgets.dart';
 import '../horas_list/horas_list.dart';
@@ -27,7 +28,6 @@ class _CalendarScreenState extends State<CalendarScreen>
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
     final tbarHeight = MediaQuery.of(context).viewPadding.top;
-    final textTheme = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
 
     return BlocHelper<HomeBloc, HomeState>(
@@ -53,21 +53,14 @@ class _CalendarScreenState extends State<CalendarScreen>
           ? Scaffold(body: Container())
           : Scaffold(
               floatingActionButton: FloatingActionButton.extended(
+                icon: Icon(Icons.add),
+                backgroundColor: ShAppTheme.addButtonColor,
+                foregroundColor: ShAppTheme.onAddButtonColor,
                 onPressed: () => showHorasBts(
                   context: context,
                   bloc: bloc,
                 ),
-                label: Text(
-                  Localiza.find('hora'),
-                  style: textTheme.labelLarge?.copyWith(
-                    color: colors.onSecondary,
-                  ),
-                ),
-                icon: Icon(
-                  Icons.add_box,
-                  color: colors.onSecondary,
-                ),
-                backgroundColor: colors.secondary,
+                label: ShText('hora'),
               ),
               body: AnnotatedRegion<SystemUiOverlayStyle>(
                 value: SystemUiOverlayStyle.light.copyWith(
@@ -125,7 +118,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                       Expanded(
                         child: RefreshIndicator(
                           onRefresh: () => bloc.load(resync: true),
-                          child: ListView(                                                        
+                          child: ListView(
                             physics: NeverScrollableScrollPhysics(),
                             padding: EdgeInsets.symmetric(vertical: 12),
                             children: [
@@ -143,7 +136,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                                     feriado: f,
                                   );
                                 },
-                              ),                              
+                              ),
                               HorasList(
                                 diferenciais:
                                     bloc.state.currentEmprego.diferenciaisList,

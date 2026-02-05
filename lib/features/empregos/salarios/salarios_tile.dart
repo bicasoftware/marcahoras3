@@ -51,7 +51,6 @@ class SalariosTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context);
-    final theme = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
 
     return isEditing
