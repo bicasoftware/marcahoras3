@@ -79,6 +79,16 @@ bool isSameWeekday(int weekday, DateTime compareDate) {
   return compareDate.weekday == weekday;
 }
 
+(String, String) getFormatedDateRangeFull(
+  int year,
+  int month,
+  int diaFechamento,
+) {
+  return (
+    formatDate(DateTime(year, month - 1, diaFechamento + 1), true),
+    formatDate(DateTime(year, month + 1, diaFechamento), true),
+  );
+}
 (String, String) getFormatedDateRangeByFechamento(
   int year,
   int month,

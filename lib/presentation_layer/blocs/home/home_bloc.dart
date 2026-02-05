@@ -88,9 +88,10 @@ class HomeBloc extends Cubit<HomeState> {
   Future<List<Horas>> _listHoras({
     required int year,
     required int month,
+    required int fechamento,
     required String empregoId,
   }) async {
-    final (initDate, endDate) = getFormatedDateRange(year, month);
+    final (initDate, endDate) = getFormatedDateRangeFull(year, month, fechamento);
     return await _horasLoadByRangeUseCase(empregoId, initDate, endDate);
   }
 
@@ -272,6 +273,7 @@ class HomeBloc extends Cubit<HomeState> {
       final horasList = await _listHoras(
         year: year,
         month: month,
+        fechamento: currentEmprego.diaFechamento,
         empregoId: currentEmprego.id!,
       );
 
@@ -322,6 +324,7 @@ class HomeBloc extends Cubit<HomeState> {
       final horasList = await _listHoras(
         year: state.year,
         month: state.month,
+        fechamento: state.currentEmprego.diaFechamento,
         empregoId: state.currentEmprego.id!,
       );
 
@@ -372,6 +375,7 @@ class HomeBloc extends Cubit<HomeState> {
       final horasList = await _listHoras(
         year: state.year,
         month: state.month,
+        fechamento: state.currentEmprego.diaFechamento,
         empregoId: state.currentEmprego.id!,
       );
 
@@ -420,6 +424,7 @@ class HomeBloc extends Cubit<HomeState> {
       final horasList = await _listHoras(
         year: state.year,
         month: state.month,
+        fechamento: state.currentEmprego.diaFechamento,
         empregoId: state.currentEmprego.id!,
       );
 

@@ -74,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen>
           : Scaffold(
               body: TabBarView(
                 controller: controller,
-                physics: NeverScrollableScrollPhysics(),
                 children: [
                   EmpregosListScreen(),
                   CalendarScreen(),
