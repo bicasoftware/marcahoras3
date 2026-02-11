@@ -21,18 +21,22 @@ class EmpregosDropdown extends StatelessWidget {
     return DropdownButtonHideUnderline(
       child: DropdownButton<Empregos>(
         dropdownColor: colors.primary,
+        iconEnabledColor: colors.onPrimary,
+        iconDisabledColor: colors.onPrimary,
         value: bloc.state.currentEmprego,
         focusColor: colors.onPrimary,
         items: bloc.state.empregos
             .map(
               (e) => DropdownMenuItem<Empregos>(
                 value: e,
-                child: Text(
-                  e.descricao,
-                  textAlign: TextAlign.justify,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: colors.onPrimary,
-                    fontWeight: FontWeight.bold,
+                child: Container(
+                  margin: .only(right: 8),
+                  child: Text(
+                    e.descricao,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: colors.onPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -40,11 +44,12 @@ class EmpregosDropdown extends StatelessWidget {
             .toList(),
 
         onChanged: (e) async {
-          if (e != null) {
-            bloc.setEmpregoPos(e);
-          } else {
+          if (e == null) {
             onAdd();
+            return;
           }
+
+          if (e != bloc.state.currentEmprego) bloc.setEmpregoPos(e);
         },
       ),
     );

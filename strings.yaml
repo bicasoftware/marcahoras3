@@ -361,6 +361,9 @@ valorInvalido:
 porcentagensExtras:
   pt_BR: Porcentagens Extras
   en_US: Overtime percentages
+horasFeitas:
+  pt_BR: Horas extras feitas
+  en_US: Overtime made
 dasAte:
   pt_BR: Das {INI} - Até {END}
   en_US: From {INI} - To {END}

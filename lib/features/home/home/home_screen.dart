@@ -9,39 +9,8 @@ import '../../../screens.dart';
 import '../../../utils.dart';
 import '../../../widgets.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  late final TabController controller;
-
-  int pos = 0;
-
-  @override
-  void initState() {
-    final pos = context.read<HomeBloc>().state.navPos;
-    controller = TabController(
-      length: 3,
-      vsync: this,
-      animationDuration: Duration(milliseconds: 300),
-      initialIndex: pos,
-    )..addListener(_onNavigate);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.removeListener(_onNavigate);
-    controller.dispose();
-    super.dispose();
-  }
-
-  void _onNavigate() {}
 
   Future<void> showCreateScreen(BuildContext context) async {
     await Navigator.of(context).pushNamed(
@@ -69,42 +38,9 @@ class _HomeScreenState extends State<HomeScreen>
           helperButtonTap: () => showCreateScreen(context),
         ),
       ),
-      child: bloc.state.empregos.isEmpty
-          ? Scaffold(body: Container())
-          : Scaffold(
-              body: TabBarView(
-                controller: controller,
-                children: [
-                  EmpregosListScreen(),
-                  CalendarScreen(),
-                  RelatorioScreen(),
-                ],
-              ),
-              bottomNavigationBar: BottomNavigationBar(
-                enableFeedback: true,
-                selectedFontSize: 14,
-                unselectedFontSize: 13,
-                currentIndex: bloc.state.navPos,
-                onTap: (value) {
-                  controller.animateTo(value);
-                  bloc.setNavPos(value);
-                },
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.work),
-                    label: Localiza.find("empregos"),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.calendar_month),
-                    label: Localiza.find("calendario"),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.list_alt),
-                    label: Localiza.find("relatorios"),
-                  ),
-                ],
-              ),
-            ),
+      child: Scaffold(
+        body: bloc.state.empregos.isEmpty ? Container() : CalendarScreen(),
+      ),
     );
   }
 }

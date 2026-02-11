@@ -28,30 +28,26 @@ class HorasList extends StatefulWidget {
 class _HorasListState extends State<HorasList> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: 4,
+    return ListView(
+      padding: .zero,
       children: widget.horas
           .map(
-            (h) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: OvertimeListTile(
-                horaType: h.type,
-                horaStatus: h.hora.horaStatus,
-                bancoHoras: widget.bancoHoras,
-                date: h.date,
-                workedHours: h.workedHours,
-                amount: h.amount,
-                salary: h.salary,
-                from: h.from,
-                to: h.to,
-                diferencial: widget.diferenciais.firstWhereOrNull(
-                  (d) => d.weekday == h.date.weekday,
-                ),
-                popupOptions: ShPopupMenuItemData.defaultOptions(
-                  onEdit: () => widget.onEdit(h.hora),
-                  onDelete: () => widget.onDelete(h.hora),
-                ),
+            (h) => OvertimeListTile(
+              horaType: h.type,
+              horaStatus: h.hora.horaStatus,
+              bancoHoras: widget.bancoHoras,
+              date: h.date,
+              workedHours: h.workedHours,
+              amount: h.amount,
+              salary: h.salary,
+              from: h.from,
+              to: h.to,
+              diferencial: widget.diferenciais.firstWhereOrNull(
+                (d) => d.weekday == h.date.weekday,
+              ),
+              popupOptions: ShPopupMenuItemData.defaultOptions(
+                onEdit: () => widget.onEdit(h.hora),
+                onDelete: () => widget.onDelete(h.hora),
               ),
             ),
           )

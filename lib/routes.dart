@@ -1,5 +1,6 @@
 class Routes {
   static const String empregosDetail = "/add_details";
+  static const String empregos = "/empregos";
   static const String relatorio = "/reports";
   static const String calendar = "/calendar";
   static const String home = "/home";
@@ -7,6 +8,7 @@ class Routes {
 
 enum ERoutes {  
   empregosDetail("/add_details"),
+  empregos("/empregos"),
   relatorio("/reports"),
   calendar("/calendar"),
   home("/home"),

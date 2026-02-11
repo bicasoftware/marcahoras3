@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils.dart';
 import 'calendar_header.dart';
 import 'widgets/calendar_date_navigator.dart';
 
@@ -29,13 +30,7 @@ class _CalendarioScreenHeaderState extends State<CalendarioScreenHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(8),
-          bottomRight: Radius.circular(8),
-        ),
-      ),
+      color: context.colors.primary,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -49,6 +44,7 @@ class _CalendarioScreenHeaderState extends State<CalendarioScreenHeader> {
             onMonthDec: widget.onMonthDec,
           ),
           const CalendarHeader(),
+          const SizedBox(height: 8),
         ],
       ),
     );

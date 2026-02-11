@@ -34,6 +34,9 @@ class HorasApp extends StatelessWidget {
           Routes.empregosDetail: (_) {
             return EmpregosBlocLoader(child: const EmpregosScreen());
           },
+          Routes.empregos: (_) {
+            return const EmpregosListScreen();
+          },
           Routes.relatorio: (_) => const RelatorioScreen(),
           Routes.calendar: (_) => const CalendarScreen(),
           Routes.home: (c) => const HomeScreen(),

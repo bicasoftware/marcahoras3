@@ -33,12 +33,12 @@ class CalendarItem extends StatelessWidget {
   bool get _enabled => monthDay == -1 && weekDay == -1;
 
   Color getFillColor(ColorScheme colors) {
-    if (!enabled) return colors.surfaceContainer;
+    if (!enabled) return colors.primary;
     if(feriado != null) {
       return ExtraColors.porcFeriadosColor.withAlpha(60);
     }
     if (isToday) return ExtraColors.todayFillColor.withAlpha(60);
-    return colors.surface;
+    return colors.primary;
   }
 
   @override
@@ -48,11 +48,10 @@ class CalendarItem extends StatelessWidget {
 
     return AbsorbPointer(
       absorbing: !enabled,
-      child: Ink(
+      child: Container(
         decoration: BoxDecoration(
           color: getFillColor(colors),
-          border: Border.all(color: colors.shadow.withAlpha(20)),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: InkWell(
           splashColor: ExtraColors.splash,
@@ -70,7 +69,7 @@ class CalendarItem extends StatelessWidget {
                     Text(
                       '$monthDay',
                       style: textTheme.bodyLarge?.copyWith(
-                        color: enabled ? colors.onSurface : colors.outline,
+                        color: enabled ? colors.onPrimary : colors.outline,
                       ),
                     ),
                     Container(
