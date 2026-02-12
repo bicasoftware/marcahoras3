@@ -28,30 +28,35 @@ class HorasList extends StatefulWidget {
 class _HorasListState extends State<HorasList> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: .zero,
-      children: widget.horas
-          .map(
-            (h) => OvertimeListTile(
-              horaType: h.type,
-              horaStatus: h.hora.horaStatus,
-              bancoHoras: widget.bancoHoras,
-              date: h.date,
-              workedHours: h.workedHours,
-              amount: h.amount,
-              salary: h.salary,
-              from: h.from,
-              to: h.to,
-              diferencial: widget.diferenciais.firstWhereOrNull(
-                (d) => d.weekday == h.date.weekday,
-              ),
-              popupOptions: ShPopupMenuItemData.defaultOptions(
-                onEdit: () => widget.onEdit(h.hora),
-                onDelete: () => widget.onDelete(h.hora),
-              ),
+    return ListView.separated(
+      padding: .symmetric(horizontal: 8),
+      itemCount: widget.horas.length,
+      separatorBuilder: (_, _) => Container(
+        height: 8,
+      ),
+      itemBuilder: (_, i) {
+        final h = widget.horas[i];
+        return IndicatorTile(
+          child: OvertimeListTile(
+            horaType: h.type,
+            horaStatus: h.hora.horaStatus,
+            bancoHoras: widget.bancoHoras,
+            date: h.date,
+            workedHours: h.workedHours,
+            amount: h.amount,
+            salary: h.salary,
+            from: h.from,
+            to: h.to,
+            diferencial: widget.diferenciais.firstWhereOrNull(
+              (d) => d.weekday == h.date.weekday,
             ),
-          )
-          .toList(),
+            popupOptions: ShPopupMenuItemData.defaultOptions(
+              onEdit: () => widget.onEdit(h.hora),
+              onDelete: () => widget.onDelete(h.hora),
+            ),
+          ),
+        );
+      },      
     );
   }
 }

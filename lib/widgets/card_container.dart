@@ -32,7 +32,6 @@ class CardContainer extends StatelessWidget {
     return OutlinedCard(
       padding: padding,
       margin: margin,
-      hasShadow: hasShadow,
       cardColor: cardColor,
       outlineColor: context.colors.outline,
       child: Column(

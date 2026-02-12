@@ -20,26 +20,29 @@ class IndicatorTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Ink(
-          decoration: hideShadow
-              ? null
-              : BoxDecoration(
-                  color: context.colors.surface,
-                  border: Border.all(
-                    color: context.colors.primary.withAlpha(20),
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 2,
-                      color: context.colors.shadow.withAlpha(8),
-                      offset: Offset(1, 3),
+        // Magic [Material] so the Ink widget respect parent bounds
+        Material(
+          child: Ink(
+            decoration: hideShadow
+                ? null
+                : BoxDecoration(
+                    color: context.colors.surface,
+                    border: Border.all(
+                      color: context.colors.primary.withAlpha(20),
                     ),
-                  ],
-                ),
-          child: InkWell(
-            child: child,
-            onTap: onTap,
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 2,
+                        color: context.colors.shadow.withAlpha(8),
+                        offset: Offset(1, 3),
+                      ),
+                    ],
+                  ),
+            child: InkWell(              
+              child: child,
+              onTap: onTap,
+            ),
           ),
         ),
         Positioned(

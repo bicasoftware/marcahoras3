@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../presentation_layer/blocs.dart';
-import '../../../resources.dart';
 import '../../../routes.dart';
 import '../../../utils.dart';
 import '../../../widgets.dart';
@@ -28,7 +28,6 @@ class _CalendarScreenState extends State<CalendarScreen>
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
-    final tbarHeight = MediaQuery.of(context).viewPadding.top;
     final colors = context.colors;
     final textTheme = context.textTheme;
 
@@ -53,209 +52,238 @@ class _CalendarScreenState extends State<CalendarScreen>
       ),
       child: bloc.state.empregos.isEmpty
           ? Scaffold(body: Container())
-          : Scaffold(
-              floatingActionButton: FloatingActionButton.extended(
-                icon: Icon(Icons.add),
-                backgroundColor: ShAppTheme.addButtonColor,
-                foregroundColor: ShAppTheme.onAddButtonColor,
-                onPressed: () => showHorasBts(
-                  context: context,
-                  bloc: bloc,
-                ),
-                label: ShText('hora'),
-              ),
-              body: AnnotatedRegion<SystemUiOverlayStyle>(
+          : SafeArea(
+              bottom: true,
+              top: true,
+              child: AnnotatedRegion<SystemUiOverlayStyle>(
                 value: SystemUiOverlayStyle.light.copyWith(
                   systemNavigationBarColor: colors.primary,
                 ),
-                child: AbsorbPointer(
-                  absorbing: bloc.state.status is StateLoadingStatus,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      /// Container de Empregos
-                      Container(
-                        height: tbarHeight == 0.0 ? 8.0 : tbarHeight,
-                        color: colors.primary,
-                      ),
-                      if (bloc.state.hasEmpregos())
+                child: Scaffold(
+                  backgroundColor: colors.surface,
+                  floatingActionButton: bloc.state.hasReportData()
+                      ? FloatingActionButton.extended(
+                          icon: Icon(Icons.add),
+                          backgroundColor: colors.secondary,
+                          foregroundColor: colors.onSecondary,
+                          onPressed: () => showHorasBts(
+                            context: context,
+                            bloc: bloc,
+                          ),
+                          label: ShText('hora'),
+                        )
+                      : null,
+                  body: AbsorbPointer(
+                    absorbing: bloc.state.status is StateLoadingStatus,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        if (bloc.state.hasEmpregos())
+                          Container(
+                            color: colors.primary,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 2,
+                            ),
+                            child: Row(
+                              spacing: 8,
+                              children: [
+                                Expanded(
+                                  child: OutlinedCard(
+                                    cardColor: colors.primary,
+                                    outlineColor: colors.onPrimary,
+                                    margin: .only(bottom: 2),
+                                    child: EmpregosDropdown(
+                                      onAdd: () => showEmpregosScreen(
+                                        context: context,
+                                        bloc: bloc,
+                                        isInsert: true,
+                                      ),
+                                      onEdit: () => showEmpregosScreen(
+                                        context: context,
+                                        bloc: bloc,
+                                        isInsert: false,
+                                      ),
+                                      onDelete: () =>
+                                          showOnDeleteDialog(context, bloc),
+                                    ),
+                                  ),
+                                ),
+                                OutlinedCard(
+                                  cardColor: colors.primary,
+                                  outlineColor: colors.onPrimary,
+                                  margin: .only(bottom: 2),
+                                  child: TextButton.icon(
+                                    onPressed: () {
+                                      Navigator.of(
+                                        context,
+                                      ).pushNamed(Routes.empregos);
+                                    },
+                                    icon: Icon(
+                                      Icons.work_history,
+                                      color: colors.onPrimary,
+                                    ),
+                                    label: ShText(
+                                      'Empregos',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                            color: colors.onPrimary,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                        /// Container de cabeçalho de dias da semana
+                        CalendarioScreenHeader(
+                          year: bloc.state.year,
+                          month: bloc.state.month,
+                          yearList: bloc.state.getYears(),
+                          onMonthAdd: () => addMonth(context, bloc),
+                          onMonthDec: () => decMonth(context, bloc),
+                          onYearChanged: bloc.setYear,
+                          onMonthChanged: bloc.setMonth,
+                        ),
+                        Divider(
+                          height: 0,
+                          color: colors.onPrimary.withAlpha(60),
+                          thickness: 2,
+                          endIndent: 8,
+                          indent: 8,
+                        ),
                         Container(
-                          color: colors.primary,
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: Row(
-                            spacing: 8,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: colors.onPrimary.withAlpha(80),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: EmpregosDropdown(
-                                    onAdd: () => showEmpregosScreen(
-                                      context: context,
-                                      bloc: bloc,
-                                      isInsert: true,
-                                    ),
-                                    onEdit: () => showEmpregosScreen(
-                                      context: context,
-                                      bloc: bloc,
-                                      isInsert: false,
-                                    ),
-                                    onDelete: () =>
-                                        showOnDeleteDialog(context, bloc),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: colors.onPrimary.withAlpha(80),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: TextButton.icon(
-                                  onPressed: () {
-                                    Navigator.of(
-                                      context,
-                                    ).pushNamed(Routes.empregos);
-                                  },
-                                  icon: Icon(
-                                    Icons.work_history,
-                                    color: colors.onPrimary,
-                                  ),
-                                  label: ShText(
-                                    'Empregos',
-                                    style: Theme.of(context).textTheme.bodyLarge
-                                        ?.copyWith(
-                                          color: colors.onPrimary,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                                ),
+                          padding: .only(bottom: 8),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(16),
+                              bottomRight: Radius.circular(16),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black38,
+                                offset: Offset(.2, 1.5),
+                                blurRadius: .5,
                               ),
                             ],
                           ),
-                        ),
-
-                      /// Container de cabeçalho de dias da semana
-                      CalendarioScreenHeader(
-                        year: bloc.state.year,
-                        month: bloc.state.month,
-                        yearList: bloc.state.getYears(),
-                        onMonthAdd: () => addMonth(context, bloc),
-                        onMonthDec: () => decMonth(context, bloc),
-                        onYearChanged: bloc.setYear,
-                        onMonthChanged: bloc.setMonth,
-                      ),
-                      Divider(
-                        height: 0,
-                        color: colors.onPrimary.withAlpha(60),
-                        thickness: 2,
-                        endIndent: 8,
-                        indent: 8,
-                      ),
-                      Container(
-                        padding: .only(bottom: 8),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(16),
-                            bottomRight: Radius.circular(16),
+                          child: CalendarPage(
+                            diferenciais:
+                                bloc.state.currentEmprego.diferenciaisList,
+                            page: bloc.state.getCalendarPage(),
+                            onCalendarItemTap: (h, d, f) async {
+                              showHorasBts(
+                                context: context,
+                                bloc: bloc,
+                                selectedHora: h,
+                                data: d,
+                                isEdit: h != null,
+                                feriado: f,
+                              );
+                            },
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black38,
-                              offset: Offset(.2, 1.5),
-                              blurRadius: .5,
-                            ),
-                          ],
                         ),
-                        child: CalendarPage(
-                          diferenciais:
-                              bloc.state.currentEmprego.diferenciaisList,
-                          page: bloc.state.getCalendarPage(),
-                          onCalendarItemTap: (h, d, f) async {
-                            showHorasBts(
-                              context: context,
-                              bloc: bloc,
-                              selectedHora: h,
-                              data: d,
-                              isEdit: h != null,
-                              feriado: f,
-                            );
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: Card(
-                          margin: .all(8),
-                          color: colors.surface,
-                          elevation: 4,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: .symmetric(
-                                  horizontal: 16.0,
+                        bloc.state.hasReportData()
+                            ? Expanded(
+                                child: OutlinedCard(
+                                  margin: .all(8),
+                                  cardColor: colors.surface,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        padding: .symmetric(
+                                          horizontal: 16.0,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            ShText(
+                                              "horasFeitas",
+                                              style: textTheme.bodyLarge
+                                                  ?.copyWith(
+                                                    fontWeight: .bold,
+                                                    color: colors.onSurface,
+                                                  ),
+                                            ),
+                                            const Spacer(),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  Routes.relatorio,
+                                                );
+                                              },
+                                              child: ShText('verTodas'),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: .only(bottom: 8),
+                                        child: Divider(
+                                          color: colors.primary.withAlpha(80),
+                                          radius: BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
+                                          height: 1,
+                                          indent: 8,
+                                          endIndent: 8,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: HorasList(
+                                          diferenciais: bloc
+                                              .state
+                                              .currentEmprego
+                                              .diferenciaisList,
+                                          isList: true,
+                                          bancoHoras: bloc.state.bancoHoras,
+                                          horas: bloc.state.reportShortData(),
+                                          onDelete: (h) =>
+                                              deleteHora(context, h, bloc),
+                                          onEdit: (h) {
+                                            showHorasBts(
+                                              context: context,
+                                              bloc: bloc,
+                                              selectedHora: h,
+                                              data: h.data,
+                                              isEdit: true,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                child: Row(
-                                  children: [
-                                    ShText(
-                                      "horasFeitas",
-                                      style: textTheme.bodyLarge?.copyWith(
-                                        fontWeight: .bold,
-                                        color: colors.onSurface,
+                              )
+                            : Expanded(
+                                child: Center(
+                                  child: IntrinsicHeight(
+                                    child: OutlinedCard(
+                                      margin: .all(8),
+                                      cardColor: colors.surface,
+                                      child: ShEmptyListItem(
+                                        descriptionId: 'horasMesVazia',
+                                        extraDescriptionId:
+                                            'horasMesVaziaExtra',
+                                        icon: FontAwesomeIcons.calendarPlus,
+                                        onAddTap: () => showHorasBts(
+                                          context: context,
+                                          bloc: bloc,
+                                        ),
                                       ),
                                     ),
-                                    const Spacer(),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          Routes.relatorio,
-                                        );
-                                      },
-                                      child: ShText('verTodas'),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                              const Divider(
-                                thickness: 1,
-                              ),
-                              Expanded(
-                                child: HorasList(
-                                  diferenciais: bloc
-                                      .state
-                                      .currentEmprego
-                                      .diferenciaisList,
-                                  isList: true,
-                                  bancoHoras: bloc.state.bancoHoras,
-                                  horas: bloc.state.reportShortData(),
-                                  onDelete: (h) => deleteHora(context, h, bloc),
-                                  onEdit: (h) {
-                                    showHorasBts(
-                                      context: context,
-                                      bloc: bloc,
-                                      selectedHora: h,
-                                      data: h.data,
-                                      isEdit: true,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

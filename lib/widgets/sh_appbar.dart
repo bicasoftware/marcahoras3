@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../utils.dart';
 
@@ -22,6 +23,7 @@ class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return AppBar(
       backgroundColor: context.colors.primary,
       foregroundColor: context.colors.onPrimary,
@@ -38,6 +40,11 @@ class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
           : null,
       actions: actions,
       bottom: bottom,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: colors.primary,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.light,
+      ),
     );
   }
 

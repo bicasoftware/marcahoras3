@@ -18,39 +18,42 @@ class EmpregosDropdown extends StatelessWidget {
     final bloc = context.read<HomeBloc>();
     final colors = Theme.of(context).colorScheme;
 
-    return DropdownButtonHideUnderline(
-      child: DropdownButton<Empregos>(
-        dropdownColor: colors.primary,
-        iconEnabledColor: colors.onPrimary,
-        iconDisabledColor: colors.onPrimary,
-        value: bloc.state.currentEmprego,
-        focusColor: colors.onPrimary,
-        items: bloc.state.empregos
-            .map(
-              (e) => DropdownMenuItem<Empregos>(
-                value: e,
-                child: Container(
-                  margin: .only(right: 8),
-                  child: Text(
-                    e.descricao,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: colors.onPrimary,
-                      fontWeight: FontWeight.bold,
+    return Padding(
+      padding: .symmetric(horizontal: 8),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<Empregos>(
+          dropdownColor: colors.primary,
+          iconEnabledColor: colors.onPrimary,
+          iconDisabledColor: colors.onPrimary,
+          value: bloc.state.currentEmprego,
+          focusColor: colors.onPrimary,
+          items: bloc.state.empregos
+              .map(
+                (e) => DropdownMenuItem<Empregos>(
+                  value: e,
+                  child: Container(
+                    margin: .only(right: 8),
+                    child: Text(
+                      e.descricao,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: colors.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
-            .toList(),
-
-        onChanged: (e) async {
-          if (e == null) {
-            onAdd();
-            return;
-          }
-
-          if (e != bloc.state.currentEmprego) bloc.setEmpregoPos(e);
-        },
+              )
+              .toList(),
+      
+          onChanged: (e) async {
+            if (e == null) {
+              onAdd();
+              return;
+            }
+      
+            if (e != bloc.state.currentEmprego) bloc.setEmpregoPos(e);
+          },
+        ),
       ),
     );
   }

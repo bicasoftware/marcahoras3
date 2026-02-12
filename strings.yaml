@@ -83,7 +83,7 @@ tipoHora:
   pt_BR: Tipo de Hora
   en_US: Overtime type
 verTodas:
-  pt_BR: Ver Horas
+  pt_BR: Ver todas
   en_US: See overtime
 email:
   pt_BR: Email  
@@ -238,6 +238,12 @@ horasDiferenciais:
 horasDiferenciaisVazia:
   pt_BR: Nenhuma Hora Diferencial Encontrada
   en_US: Differential overtime
+horasMesVazia:
+  pt_BR: Nenhuma Hora-extra esse mês
+  en_US: No overtime this month
+horasMesVaziaExtra:
+  pt_BR: Clique em Adicionar ou no Calendário para adicionar uma Hora-Extra
+  en_US: Click on Add or on the Calendar to add a new overtime
 diferencial:
   pt_BR: Diferencial
   en_US: Differencial
@@ -362,7 +368,7 @@ porcentagensExtras:
   pt_BR: Porcentagens Extras
   en_US: Overtime percentages
 horasFeitas:
-  pt_BR: Horas extras feitas
+  pt_BR: Últimas Horas-Extras
   en_US: Overtime made
 dasAte:
   pt_BR: Das {INI} - Até {END}

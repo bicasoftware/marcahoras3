@@ -3,22 +3,25 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:marcahoras3/resources.dart';
 import 'package:yaml/yaml.dart';
 
 import 'app_config.dart';
 import 'data_layer/database/db_connector_drift.dart';
 import 'data_layer/providers.dart';
 import 'main.dart';
-import 'resources.dart';
 import 'utils/localiza/localiza.dart';
 import 'utils/vault/vault_manager.dart';
 
 void main() async {
-  final mySystemTheme = SystemUiOverlayStyle.light.copyWith(
-    systemNavigationBarColor: ExtraColors.tabBarBgColor,
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      systemNavigationBarColor: ShAppTheme.lightScheme().primary,
+      statusBarColor: ShAppTheme.lightScheme().primary,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.dark,
+    ),
   );
-
-  SystemChrome.setSystemUIOverlayStyle(mySystemTheme);
 
   final bindings = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: bindings);
