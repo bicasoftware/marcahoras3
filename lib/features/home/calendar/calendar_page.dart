@@ -21,63 +21,64 @@ class CalendarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final now = DateTime.now();
 
-    return GridView.count(
-      crossAxisCount: 7,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      childAspectRatio: 1.1,
-      crossAxisSpacing: 2,
-      mainAxisSpacing: 2,
-      padding: EdgeInsets.zero,
-      children: page.items.map((it) {
-        switch (it) {
-          case CalendarItemEmpty():
-            return CalendarItem(
-              enabled: false,
-            );
-          case CalendarItemDisabled():
-            return CalendarItem(
-              monthDay: it.date!.day,
-              isToday: it.isToday ?? false,
-              data: it.date,
-              enabled: false,
-            );
-          case CalendarItemDateOnly():
-            return CalendarItem(
-              monthDay: it.date!.day,
-              isToday: it.isToday ?? false,
-              data: it.date,
-              onCalendarItemTap: onCalendarItemTap,
-              feriado: it.feriado,
-            );
-          case CalendarItemComplete():
-            return CalendarItem(
-              type: it.horaType,
-              monthDay: it.date?.day ?? -1,
-              weekDay: it.weekDay,
-              isToday: it.isToday ?? false,
-              data: it.date,
-              hora: it.horas,
-              onCalendarItemTap: onCalendarItemTap,
-              feriado: it.feriado,
-              diferencial: diferenciais.firstWhereOrNull(
-                (d) => isSameWeekday(d.weekday, it.date ?? now),
-              ),
-            );
-          case CalendarItemBancoHoras():
-            return CalendarItem(
-              bancoHoras: true,
-              monthDay: it.date?.day ?? -1,
-              weekDay: it.weekDay,
-              isToday: it.isToday ?? false,
-              data: it.date,
-              hora: it.horas,
-              onCalendarItemTap: onCalendarItemTap,
-              type: HorasType.banco,
-              feriado: it.feriado,
-            );
-        }
-      }).toList(),
+    return Padding(
+      padding: const .symmetric(horizontal: 8.0),
+      child: GridView.count(
+        crossAxisCount: 7,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        childAspectRatio: 1.1,
+        padding: EdgeInsets.zero,
+        children: page.items.map((it) {
+          switch (it) {
+            case CalendarItemEmpty():
+              return CalendarItem(
+                enabled: false,
+              );
+            case CalendarItemDisabled():
+              return CalendarItem(
+                monthDay: it.date!.day,
+                isToday: it.isToday ?? false,
+                data: it.date,
+                enabled: false,
+              );
+            case CalendarItemDateOnly():
+              return CalendarItem(
+                monthDay: it.date!.day,
+                isToday: it.isToday ?? false,
+                data: it.date,
+                onCalendarItemTap: onCalendarItemTap,
+                feriado: it.feriado,
+              );
+            case CalendarItemComplete():
+              return CalendarItem(
+                type: it.horaType,
+                monthDay: it.date?.day ?? -1,
+                weekDay: it.weekDay,
+                isToday: it.isToday ?? false,
+                data: it.date,
+                hora: it.horas,
+                onCalendarItemTap: onCalendarItemTap,
+                feriado: it.feriado,
+                diferencial: diferenciais.firstWhereOrNull(
+                  (d) => isSameWeekday(d.weekday, it.date ?? now),
+                ),
+              );
+            case CalendarItemBancoHoras():
+              return CalendarItem(
+                bancoHoras: true,
+                monthDay: it.date?.day ?? -1,
+                weekDay: it.weekDay,
+                isToday: it.isToday ?? false,
+                data: it.date,
+                hora: it.horas,
+                onCalendarItemTap: onCalendarItemTap,
+                type: HorasType.banco,
+                feriado: it.feriado,
+              );
+          }
+        }).toList(),
+      ),
     );
   }
 }

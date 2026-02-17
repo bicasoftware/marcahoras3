@@ -7,9 +7,10 @@ class CalendarHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Container(
-      padding: EdgeInsets.only(bottom: 8),
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      color: colors.onPrimaryFixedVariant.withAlpha(80),
+      padding: .all(8),
       child: Row(
         children: Localiza.findList(
           'weekDays',

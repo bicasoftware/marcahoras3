@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,23 +56,25 @@ class _CalendarScreenState extends State<CalendarScreen>
           ? Scaffold(body: Container())
           : SafeArea(
               bottom: true,
-              top: true,
+              top: !Platform.isIOS,
               child: AnnotatedRegion<SystemUiOverlayStyle>(
                 value: SystemUiOverlayStyle.light.copyWith(
                   systemNavigationBarColor: colors.primary,
+                  statusBarColor: colors.primary,
+                  systemStatusBarContrastEnforced: false,
                 ),
                 child: Scaffold(
                   backgroundColor: colors.surface,
                   floatingActionButton: bloc.state.hasReportData()
                       ? FloatingActionButton.extended(
                           icon: Icon(Icons.add),
-                          backgroundColor: colors.secondary,
-                          foregroundColor: colors.onSecondary,
+                          label: ShText('hora'),
+                          backgroundColor: colors.primaryFixed,
+                          foregroundColor: colors.onPrimaryFixed,
                           onPressed: () => showHorasBts(
                             context: context,
                             bloc: bloc,
                           ),
-                          label: ShText('hora'),
                         )
                       : null,
                   body: AbsorbPointer(
@@ -83,10 +87,18 @@ class _CalendarScreenState extends State<CalendarScreen>
                         if (bloc.state.hasEmpregos())
                           Container(
                             color: colors.primary,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 2,
-                            ),
+                            // Gambiarra pra que a statusbar do iOS fique na cor primary
+                            padding: Platform.isIOS
+                                ? EdgeInsets.only(
+                                    left: 12,
+                                    right: 12,
+                                    bottom: 2,
+                                    top: kToolbarHeight,
+                                  )
+                                : EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 2,
+                                  ),
                             child: Row(
                               spacing: 8,
                               children: [
@@ -116,13 +128,9 @@ class _CalendarScreenState extends State<CalendarScreen>
                                   outlineColor: colors.onPrimary,
                                   margin: .only(bottom: 2),
                                   child: TextButton.icon(
-                                    onPressed: () {
-                                      Navigator.of(
-                                        context,
-                                      ).pushNamed(Routes.empregos);
-                                    },
+                                    iconAlignment: .end,
                                     icon: Icon(
-                                      Icons.work_history,
+                                      Icons.keyboard_arrow_right_rounded,
                                       color: colors.onPrimary,
                                     ),
                                     label: ShText(
@@ -135,6 +143,11 @@ class _CalendarScreenState extends State<CalendarScreen>
                                             fontWeight: FontWeight.bold,
                                           ),
                                     ),
+                                    onPressed: () {
+                                      Navigator.of(
+                                        context,
+                                      ).pushNamed(Routes.empregos);
+                                    },
                                   ),
                                 ),
                               ],
@@ -151,17 +164,10 @@ class _CalendarScreenState extends State<CalendarScreen>
                           onYearChanged: bloc.setYear,
                           onMonthChanged: bloc.setMonth,
                         ),
-                        Divider(
-                          height: 0,
-                          color: colors.onPrimary.withAlpha(60),
-                          thickness: 2,
-                          endIndent: 8,
-                          indent: 8,
-                        ),
                         Container(
-                          padding: .only(bottom: 8),
+                          padding: .symmetric(vertical: 8),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary,
+                            color: colors.primary,
                             borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(16),
                               bottomRight: Radius.circular(16),

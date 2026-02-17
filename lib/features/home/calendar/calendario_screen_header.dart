@@ -44,7 +44,6 @@ class _CalendarioScreenHeaderState extends State<CalendarioScreenHeader> {
             onMonthDec: widget.onMonthDec,
           ),
           const CalendarHeader(),
-          const SizedBox(height: 8),
         ],
       ),
     );

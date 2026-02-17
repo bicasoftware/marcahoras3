@@ -4,7 +4,6 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:marcahoras3/widgets/listview_tile/sh_empty_list_tile.dart';
 
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
@@ -264,7 +263,7 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                     onAdd: () => insertHoraFixo(bloc),
                     onEdit: (HoraFixo h) => updateHoraFixo(bloc, h),
                     onDelete: (h) => deleteHoraFixo(bloc, h),
-                  ),                 
+                  ),
                   // ShLabeledListSection('horasDiferenciais'),
                   bloc.state.emprego.diferenciaisList.isEmpty
                       ? ShEmptyListViewTile(
