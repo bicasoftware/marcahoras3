@@ -33,8 +33,8 @@ class HomeScreen extends StatelessWidget {
       ),
       noDataChild: Scaffold(
         body: NoDataContainer(
-          contentLabel: Localiza.find("empregosEmpty"),
-          helperButtonLabel: Localiza.find("adicionarEmprego"),
+          labelId: "empregosVazio",
+          extraLabelId: "empregosVazioExtra",
           helperButtonTap: () => showCreateScreen(context),
         ),
       ),

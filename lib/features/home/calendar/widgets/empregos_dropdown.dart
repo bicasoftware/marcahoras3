@@ -5,13 +5,7 @@ import '../../../../domain_layer/models.dart';
 import '../../../../presentation_layer/blocs.dart';
 
 class EmpregosDropdown extends StatelessWidget {
-  final VoidCallback onAdd, onEdit, onDelete;
-
-  const EmpregosDropdown({
-    required this.onAdd,
-    required this.onEdit,
-    required this.onDelete,
-  });
+  const EmpregosDropdown();
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +16,7 @@ class EmpregosDropdown extends StatelessWidget {
       padding: .symmetric(horizontal: 8),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<Empregos>(
+          isExpanded: true,
           dropdownColor: colors.primary,
           iconEnabledColor: colors.onPrimary,
           iconDisabledColor: colors.onPrimary,
@@ -31,10 +26,14 @@ class EmpregosDropdown extends StatelessWidget {
               .map(
                 (e) => DropdownMenuItem<Empregos>(
                   value: e,
+                  
                   child: Container(
                     margin: .only(right: 8),
                     child: Text(
                       e.descricao,
+                      overflow: .fade,
+                      maxLines: 1,
+                      softWrap: false,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: colors.onPrimary,
                         fontWeight: FontWeight.bold,
@@ -44,14 +43,11 @@ class EmpregosDropdown extends StatelessWidget {
                 ),
               )
               .toList(),
-      
+
           onChanged: (e) async {
-            if (e == null) {
-              onAdd();
-              return;
+            if (e != bloc.state.currentEmprego) {
+              bloc.setEmpregoPos(e!);
             }
-      
-            if (e != bloc.state.currentEmprego) bloc.setEmpregoPos(e);
           },
         ),
       ),

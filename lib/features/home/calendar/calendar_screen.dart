@@ -43,8 +43,8 @@ class _CalendarScreenState extends State<CalendarScreen>
       ),
       noDataChild: Scaffold(
         body: NoDataContainer(
-          contentLabel: Localiza.find("empregosEmpty"),
-          helperButtonLabel: Localiza.find("adicionarEmprego"),
+          labelId: "empregoVazio",
+          extraLabelId: 'empregosVazioExtra',
           helperButtonTap: () => showEmpregosScreen(
             context: context,
             bloc: bloc,
@@ -107,20 +107,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                                     cardColor: colors.primary,
                                     outlineColor: colors.onPrimary,
                                     margin: .only(bottom: 2),
-                                    child: EmpregosDropdown(
-                                      onAdd: () => showEmpregosScreen(
-                                        context: context,
-                                        bloc: bloc,
-                                        isInsert: true,
-                                      ),
-                                      onEdit: () => showEmpregosScreen(
-                                        context: context,
-                                        bloc: bloc,
-                                        isInsert: false,
-                                      ),
-                                      onDelete: () =>
-                                          showOnDeleteDialog(context, bloc),
-                                    ),
+                                    child: EmpregosDropdown(),
                                   ),
                                 ),
                                 OutlinedCard(

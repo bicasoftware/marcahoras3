@@ -35,8 +35,8 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
       return Scaffold(
         body: Center(
           child: NoDataContainer(
-            contentLabel: Localiza.find("empregosEmpty"),
-            helperButtonLabel: Localiza.find("adicionarEmprego"),
+            labelId: "empregosVazio",
+            extraLabelId: "empregosVazioExtra",
             helperButtonTap: () => showEmpregosScreen(
               context: context,
               bloc: bloc,
@@ -72,19 +72,7 @@ class _CalendarScreenDesktopState extends State<CalendarScreenDesktop>
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: EmpregosDropdown(
-                      onAdd: () => showEmpregosScreen(
-                        context: context,
-                        bloc: bloc,
-                        isInsert: true,
-                      ),
-                      onEdit: () => showEmpregosScreen(
-                        context: context,
-                        bloc: bloc,
-                        isInsert: false,
-                      ),
-                      onDelete: () => showOnDeleteDialog(context, bloc),
-                    ),
+                    child: EmpregosDropdown(),
                   ),
                 ),
                 CalendarioScreenHeader(

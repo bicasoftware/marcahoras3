@@ -241,9 +241,15 @@ horasDiferenciaisVazia:
 horasMesVazia:
   pt_BR: Nenhuma Hora-extra esse mês
   en_US: No overtime this month
+empregosVazio:
+  pt_BR: Nenhum Emprego adicionado
+  en_US: No overtime this month
 horasMesVaziaExtra:
   pt_BR: Clique em Adicionar ou no Calendário para adicionar uma Hora-Extra
   en_US: Click on Add or on the Calendar to add a new overtime
+empregosVazioExtra:
+  pt_BR: Clique em Adicionar para criar um novo Emprego
+  en_US: Click on Add to create a new Job
 diferencial:
   pt_BR: Diferencial
   en_US: Differencial

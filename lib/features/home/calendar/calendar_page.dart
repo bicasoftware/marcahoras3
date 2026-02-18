@@ -26,6 +26,8 @@ class CalendarPage extends StatelessWidget {
       child: GridView.count(
         crossAxisCount: 7,
         shrinkWrap: true,
+        crossAxisSpacing: 2,
+        mainAxisSpacing: 2,
         physics: const NeverScrollableScrollPhysics(),
         childAspectRatio: 1.1,
         padding: EdgeInsets.zero,
