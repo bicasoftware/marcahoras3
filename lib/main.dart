@@ -30,32 +30,29 @@ class HorasApp extends StatelessWidget {
         ],
         supportedLocales: const [Locale('pt', 'BR'), Locale('en', 'US')],
         initialRoute: Routes.home,
-        routes: {
-          Routes.empregosDetail: (_) {
-            return EmpregosBlocLoader(child: const EmpregosScreen());
-          },
-          Routes.empregos: (_) {
-            return const EmpregosListScreen();
-          },
-          Routes.relatorio: (_) => const RelatorioScreen(),
-          Routes.calendar: (_) => const CalendarScreen(),
-          Routes.home: (c) => const HomeScreen(),
-        },
-        onGenerateRoute: (settings) {
-          switch (ERoutes.fromRouteName(settings.name)) {
-            case ERoutes.relatorio:
-              return ShPageFadeTransition(page: const RelatorioScreen());
-            case ERoutes.empregosDetail:
-              return ShPageFadeTransition(page: const EmpregosScreen());
-            case ERoutes.calendar:
-              return ShPageFadeTransition(page: const CalendarScreen());
-            case ERoutes.home:
-              return ShPageFadeTransition(page: const HomeScreen());
+        onGenerateRoute: (s) {
+          switch (s.name) {
+            case Routes.calendar:
+              return MaterialPageRoute(
+                builder: (_) => CalendarScreen(),
+              );
+            case Routes.empregosDetail:
+              return ShPageFadeTransition(
+                page: EmpregosBlocLoader(child: const EmpregosScreen()),
+                settings: s,
+              );
+            case Routes.empregos:
+              return MaterialPageRoute(
+                builder: (_) => const EmpregosListScreen(),
+              );
+            case Routes.relatorio:
+              return ShPageFadeTransition(
+                page: const RelatorioScreen(),
+                settings: s,
+              );
             default:
-              null;
+              return MaterialPageRoute(builder: (_) => HomeScreen());
           }
-
-          return null;
         },
       ),
     );

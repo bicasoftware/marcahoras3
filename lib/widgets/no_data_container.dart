@@ -39,25 +39,5 @@ class NoDataContainer extends StatelessWidget {
         ),
       ),
     );
-
-    // return Center(
-    //   child: CardContainer(
-    //     cardColor: context.colors.surface,
-    //     margin: EdgeInsets.all(16),
-    //     child: Column(
-    //       crossAxisAlignment: CrossAxisAlignment.stretch,
-    //       children: [
-    //         Text(
-    //           contentLabel,
-    //           textAlign: TextAlign.center,
-    //           style: context.textTheme.labelLarge,
-    //         ),
-    //         const SizedBox(height: 16),
-    //         ShFormButton.add(helperButtonTap),
-    //       ],
-    //     ),
-    //     padding: EdgeInsets.all(16),
-    //   ),
-    // );
   }
 }

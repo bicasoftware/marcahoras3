@@ -13,8 +13,8 @@ class ShFormButton extends StatelessWidget {
     required this.textId,
     required this.icon,
     required this.onTap,
-    this.bgColor,
-    this.fgColor,
+    required this.bgColor,
+    required this.fgColor,
     super.key,
   });
 

@@ -31,7 +31,6 @@ class _CalendarScreenState extends State<CalendarScreen>
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
     final colors = context.colors;
-    final textTheme = context.textTheme;
 
     return BlocHelper<HomeBloc, HomeState>(
       bloc: bloc,
@@ -67,6 +66,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                   backgroundColor: colors.surface,
                   floatingActionButton: bloc.state.hasReportData()
                       ? FloatingActionButton.extended(
+                          heroTag: 'FAB',
                           icon: Icon(Icons.add),
                           label: ShText('hora'),
                           backgroundColor: colors.primaryFixed,
@@ -183,98 +183,47 @@ class _CalendarScreenState extends State<CalendarScreen>
                             },
                           ),
                         ),
-                        bloc.state.hasReportData()
-                            ? Expanded(
-                                child: OutlinedCard(
-                                  margin: .all(8),
-                                  cardColor: colors.surface,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        padding: .symmetric(
-                                          horizontal: 16.0,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            ShText(
-                                              "horasFeitas",
-                                              style: textTheme.bodyLarge
-                                                  ?.copyWith(
-                                                    fontWeight: .bold,
-                                                    color: colors.onSurface,
-                                                  ),
-                                            ),
-                                            const Spacer(),
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pushNamed(
-                                                  context,
-                                                  Routes.relatorio,
-                                                );
-                                              },
-                                              child: ShText('verTodas'),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: .only(bottom: 8),
-                                        child: Divider(
-                                          color: colors.primary.withAlpha(80),
-                                          radius: BorderRadius.all(
-                                            Radius.circular(8),
-                                          ),
-                                          height: 1,
-                                          indent: 8,
-                                          endIndent: 8,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: HorasList(
-                                          diferenciais: bloc
-                                              .state
-                                              .currentEmprego
-                                              .diferenciaisList,
-                                          isList: true,
-                                          bancoHoras: bloc.state.bancoHoras,
-                                          horas: bloc.state.reportShortData(),
-                                          onDelete: (h) =>
-                                              deleteHora(context, h, bloc),
-                                          onEdit: (h) {
-                                            showHorasBts(
-                                              context: context,
-                                              bloc: bloc,
-                                              selectedHora: h,
-                                              data: h.data,
-                                              isEdit: true,
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : Expanded(
-                                child: Center(
-                                  child: IntrinsicHeight(
-                                    child: OutlinedCard(
-                                      margin: .all(8),
-                                      cardColor: colors.surface,
-                                      child: ShEmptyListItem(
-                                        descriptionId: 'horasMesVazia',
-                                        extraDescriptionId:
-                                            'horasMesVaziaExtra',
-                                        icon: FontAwesomeIcons.calendarPlus,
-                                        onAddTap: () => showHorasBts(
-                                          context: context,
-                                          bloc: bloc,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                        Expanded(
+                          child: ShFeatureCard(
+                            cardLabelId: "horasFeitas",
+                            seeMoreLabelId: "verTodas",
+                            hasData: bloc.state.hasReportData(),
+                            isOutlined: bloc.state.hasReportData(),
+                            noDataLabelId: 'horasMesVazia',
+                            noDataExtraLabelId: 'horasMesVaziaExtra',
+                            noDataIcon: FontAwesomeIcons.calendarPlus,
+                            onSeeMoreTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.relatorio,
+                              );
+                            },
+                            noDataTap: () => showHorasBts(
+                              context: context,
+                              bloc: bloc,
+                            ),
+                            child: Hero(
+                              tag: Routes.relatorio,
+                              child: HorasList(
+                                diferenciais:
+                                    bloc.state.currentEmprego.diferenciaisList,
+                                isList: true,
+                                bancoHoras: bloc.state.bancoHoras,
+                                horas: bloc.state.reportShortData(),
+                                onDelete: (h) => deleteHora(context, h, bloc),
+                                onEdit: (h) {
+                                  showHorasBts(
+                                    context: context,
+                                    bloc: bloc,
+                                    selectedHora: h,
+                                    data: h.data,
+                                    isEdit: true,
+                                  );
+                                },
                               ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

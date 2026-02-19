@@ -2,6 +2,7 @@ library widgets;
 
 export 'widgets/bloc_helper.dart';
 export 'widgets/bottomsheets/bottomsheethelper.dart';
+export 'widgets/buttons/sh_elevated_button.dart';
 export 'widgets/card_container.dart';
 export 'widgets/dialogs/confirmation_dialog.dart';
 export 'widgets/dialogs/dialog_helper.dart';
@@ -30,7 +31,7 @@ export 'widgets/sh_custom_label_tile.dart';
 export 'widgets/sh_default_error_scaffold.dart';
 export 'widgets/sh_detailed_list_tile.dart';
 export 'widgets/sh_drop_down.dart';
-export 'widgets/sh_elevated_button.dart';
+export 'widgets/sh_feature_card.dart';
 export 'widgets/sh_form_button.dart';
 export 'widgets/sh_labeled_list_section.dart';
 export 'widgets/sh_labeled_tile.dart';

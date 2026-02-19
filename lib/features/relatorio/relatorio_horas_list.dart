@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../../../domain_layer/models.dart';
-import '../../../widgets.dart';
+import '../../domain_layer/models.dart';
+import '../../widgets.dart';
 
 class RelatorioHorasList extends StatelessWidget {
   final List<ReportHora> horas;
@@ -22,7 +22,7 @@ class RelatorioHorasList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.all(8),
+      padding: .symmetric(horizontal: 8, vertical: 2),
       physics: BouncingScrollPhysics(),
       children: horas.map((h) {
         return Container(
@@ -36,7 +36,7 @@ class RelatorioHorasList extends StatelessWidget {
             amount: h.amount,
             salary: h.salary,
             from: h.from,
-            to: h.to,
+            to: h.to,            
             diferencial: diferenciais.firstWhereOrNull(
               (d) => d.weekday == h.date.weekday,
             ),

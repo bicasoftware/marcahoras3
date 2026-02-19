@@ -325,6 +325,12 @@ feriados:
 normais:
   pt_BR: Normais
   en_US: Overtime
+horasNormais:
+  pt_BR: Horas Extras Normais
+  en_US: Regular Overtime
+horasFeriados:
+  pt_BR: Horas Extras Feriado/Domingo
+  en_US: Holiday Overtime
 porcentagem:
   pt_BR: Porcentagem
   en_US: Percentage
@@ -409,6 +415,12 @@ reportSemiTotal:
 reportFooterTempo:
   pt_BR: "Total de horas feitas no período: {HORAS}"
   en_US: "Total hours worked in the period: {HORAS}"
+reportTotal:
+  pt_BR: "Total de horas extras feitas:"
+  en_US: "Total overtime:"
+reportTotalReceber:
+  pt_BR: "Total a receber:"
+  en_US: "Total to receive:"
 reportFooterValor:
   pt_BR: "Total a receber - {VALOR}"
   en_US: "Amount to receive - {VALOR}"

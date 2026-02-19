@@ -33,7 +33,7 @@ class _ShDetailedListTileState extends State<ShDetailedListTile> {
   @override
   Widget build(BuildContext context) {
     return ShPopupListTile(
-      hideShadow: true,
+      hideShadow: false,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(

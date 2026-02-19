@@ -61,6 +61,7 @@ class _EmpregosListScreenState extends State<EmpregosListScreen> {
     return Scaffold(
       appBar: ShAppBar(label: Localiza.find("empregos")),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'FAB',
         label: ShText('adicionar'),
         icon: Icon(Icons.add),
         backgroundColor: ShAppTheme.addButtonColor,
