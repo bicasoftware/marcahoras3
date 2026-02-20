@@ -26,6 +26,7 @@ class ReportTotalsBts extends StatelessWidget {
       child: Container(
         child: Column(
           children: [
+            if(report.normais.workedMinutes > 0)
             ShParcialTotalsTile(
               labelId: 'horasNormais',
               amount: report.normais.amount,
@@ -34,14 +35,15 @@ class ReportTotalsBts extends StatelessWidget {
               themeColor: ExtraColors.porcNormalColor,
               totalWorkedMinutes: report.total.workedMinutes,
             ),
-            ShParcialTotalsTile(
-              labelId: 'horasFeriados',
-              amount: report.feriados.amount,
-              workedMinutes: report.feriados.workedMinutes,
-              percent: report.feriados.porc,
-              themeColor: ExtraColors.porcFeriadosColor,
-              totalWorkedMinutes: report.total.workedMinutes,
-            ),
+            if(report.feriados.workedMinutes > 0)
+              ShParcialTotalsTile(
+                labelId: 'horasFeriados',
+                amount: report.feriados.amount,
+                workedMinutes: report.feriados.workedMinutes,
+                percent: report.feriados.porc,
+                themeColor: ExtraColors.porcFeriadosColor,
+                totalWorkedMinutes: report.total.workedMinutes,
+              ),
             ...[
               for (final dif in report.diferenciadas)
                 ShParcialTotalsTile(
