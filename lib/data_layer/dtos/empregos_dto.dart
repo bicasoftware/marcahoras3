@@ -18,7 +18,6 @@ class EmpregosDto extends Equatable {
   final int? diaFechamento;
   final List<HorasDto> horas;
   final List<SalariosDto> salarios;
-  final List<HoraFixoDto> horaFixoList;
   final List<DiferenciaisDto> diferenciaisList;
   final DateTime? createdAt;
 
@@ -37,7 +36,6 @@ class EmpregosDto extends Equatable {
     this.createdAt,
     this.horas = const [],
     this.salarios = const [],
-    this.horaFixoList = const [],
     this.diferenciaisList = const [],
   });
 
@@ -57,7 +55,6 @@ class EmpregosDto extends Equatable {
       horas,
       salarios,
       diaFechamento,
-      horaFixoList,
       diferenciaisList,
       createdAt,
     ];
@@ -77,7 +74,6 @@ class EmpregosDto extends Equatable {
     int? diaFechamento,
     List<HorasDto>? horas,
     List<SalariosDto>? salarios,
-    List<HoraFixoDto>? horaFixoList,
     List<DiferenciaisDto>? diferenciaisList,
   }) {
     return EmpregosDto(
@@ -94,7 +90,6 @@ class EmpregosDto extends Equatable {
       diaFechamento: diaFechamento ?? this.diaFechamento,
       horas: horas ?? this.horas,
       salarios: salarios ?? this.salarios,
-      horaFixoList: horaFixoList ?? this.horaFixoList,
       diferenciaisList: diferenciaisList ?? this.diferenciaisList,
     );
   }

@@ -66,19 +66,8 @@ class DbDiferenciais extends Table {
   TextColumn get color => text()();
 }
 
-class DbHoraFixo extends Table {
-  TextColumn get id => text().unique()();
-  @JsonKey('id_emprego')
-  TextColumn get idEmprego => text().references(DbEmpregos, #id)();
-  @JsonKey('valor_normal')
-  RealColumn get valorNormal => real().withDefault(Constant(0.0))();
-  @JsonKey('valor_feriados')
-  RealColumn get valorFeriado => real().withDefault(Constant(0.0))();
-  TextColumn get vigencia => text()();
-}
-
 @DriftDatabase(
-  tables: [DbHoras, DbSalarios, DbEmpregos, DbDiferenciais, DbHoraFixo],
+  tables: [DbHoras, DbSalarios, DbEmpregos, DbDiferenciais],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());

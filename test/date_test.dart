@@ -14,4 +14,11 @@ void main() {
     assert(inicio == "2024-10-01");
     assert(termino == "2024-10-31");
   });
+
+  test('Vigencia 1 é anterior ao ano, mes e fechamento', () {
+
+    final priorVigencia = compareVigenciaByYearMonth(2026, 1, 24, '2025-01');
+    print(priorVigencia);
+
+  });
 }

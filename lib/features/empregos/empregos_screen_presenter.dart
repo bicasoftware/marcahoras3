@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../dialogs.dart';
 import '../../domain_layer/models.dart';
-import '../../presentation_layer/blocs.dart';
+import '../../presentation_layer/blocs/empregos/empregos_bloc.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
 import 'empregos_screen.dart';
-import 'porcentagens/valor_fixo/valor_fixo_bts.dart';
 import 'salarios/salarios_detail_bts.dart';
 
 mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
@@ -66,10 +65,9 @@ mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
         onSave: (valor, vigencia) async {
           showLoadingDialog(context: context);
 
-          await bloc.insertSalario(
+          bloc.addAumento(
             valor: valor,
             vigencia: vigencia,
-            empregoId: bloc.state.emprego.id!,
           );
 
           Navigator.of(context).pop();
@@ -96,7 +94,7 @@ mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
     if (shouldDelete) {
       showLoadingDialog(context: context);
 
-      await bloc.deleteSalario(salario: salario);
+      bloc.deleteSalario(salario);
 
       Navigator.of(context).pop();
     }
@@ -107,12 +105,16 @@ mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
       context: context,
       body: SalariosDetailBts(
         value: salario.valor,
-        vigencia: salario.vigencia,
+        vigencia: parseVigencia(salario.vigencia),
         title: Localiza.find("editarSalario"),
         onSave: (valor, vigencia) async {
           showLoadingDialog(context: context);
-          await bloc.updateSalario(
-            salario.copyWith(valor: valor, vigencia: vigencia),
+          bloc.editSalario(
+            original: salario,
+            fresh: salario.copyWith(
+              valor: valor,
+              vigencia: vigencia,
+            ),
           );
 
           Navigator.of(context).pop();
@@ -121,79 +123,79 @@ mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
     );
   }
 
-  Future<void> _showValorFixoBts({
-    required EmpregosBloc bloc,
-    required bool isInsert,
-    HoraFixo? horaFixo,
-  }) async {
-    await BottomSheetHelper.showModalBts(
-      context: context,
-      dismissible: true,
-      showDragHandle: false,
-      body: ValorFixoBts(
-        isInsert: isInsert,
-        valorFixo: horaFixo?.toValorFixo() ?? (0, 0),
-        vigencia: DateTime.now(),
-        onSave: (valorFixo, vigencia) async {
-          showLoadingDialog(context: context);
-          if (isInsert) {
-            await bloc.insertHoraFixo(
-              valorFixo: valorFixo,
-              vigencia: vigencia,
-              empregoId: bloc.state.emprego.id!,
-            );
-          } else {
-            await bloc.updateHoraFixo(
-              horaFixo!.copyWith(
-                valorNormal: valorFixo.$1,
-                valorFeriado: valorFixo.$2,
-                vigencia: vigencia,
-              ),
-            );
-          }
+  // Future<void> _showValorFixoBts({
+  //   required EmpregosBlocAlt bloc,
+  //   required bool isInsert,
+  //   HoraFixo? horaFixo,
+  // }) async {
+  //   await BottomSheetHelper.showModalBts(
+  //     context: context,
+  //     dismissible: true,
+  //     showDragHandle: false,
+  //     body: ValorFixoBts(
+  //       isInsert: isInsert,
+  //       valorFixo: horaFixo?.toValorFixo() ?? (0, 0),
+  //       vigencia: DateTime.now(),
+  //       onSave: (valorFixo, vigencia) async {
+  //         showLoadingDialog(context: context);
+  //         if (isInsert) {
+  //           await bloc.insertHoraFixo(
+  //             valorFixo: valorFixo,
+  //             vigencia: vigencia,
+  //             empregoId: bloc.state.emprego.id!,
+  //           );
+  //         } else {
+  //           await bloc.updateHoraFixo(
+  //             horaFixo!.copyWith(
+  //               valorNormal: valorFixo.$1,
+  //               valorFeriado: valorFixo.$2,
+  //               vigencia: vigencia,
+  //             ),
+  //           );
+  //         }
 
-          Navigator.of(context).pop();
-        },
-      ),
-    );
-  }
+  //         Navigator.of(context).pop();
+  //       },
+  //     ),
+  //   );
+  // }
 
-  Future<void> insertHoraFixo(EmpregosBloc bloc) async {
-    return await _showValorFixoBts(
-      bloc: bloc,
-      isInsert: true,
-    );
-  }
+  // Future<void> insertHoraFixo(EmpregosBlocAlt bloc) async {
+  //   return await _showValorFixoBts(
+  //     bloc: bloc,
+  //     isInsert: true,
+  //   );
+  // }
 
-  Future<void> updateHoraFixo(EmpregosBloc bloc, HoraFixo horaFixo) async {
-    return await _showValorFixoBts(
-      bloc: bloc,
-      isInsert: false,
-      horaFixo: horaFixo,
-    );
-  }
+  // Future<void> updateHoraFixo(EmpregosBlocAlt bloc, HoraFixo horaFixo) async {
+  //   return await _showValorFixoBts(
+  //     bloc: bloc,
+  //     isInsert: false,
+  //     horaFixo: horaFixo,
+  //   );
+  // }
 
-  void deleteHoraFixo(EmpregosBloc bloc, HoraFixo horaFixo) async {
-    final shouldDelete = await showConfirmationDialog(
-      context: context,
-      titleMsg: Localiza.findAndReplace(
-        stringKey: 'deleteDialogTitle',
-        findString: '{value}',
-        replaceWithKey: 'valorFixo',
-      ),
-      descriptionText: Localiza.findAndReplace(
-        stringKey: 'deleteDialogMsg',
-        findString: '{value}',
-        replaceWithKey: 'valorFixo',
-      ),
-    );
+  // void deleteHoraFixo(EmpregosBlocAlt bloc, HoraFixo horaFixo) async {
+  //   final shouldDelete = await showConfirmationDialog(
+  //     context: context,
+  //     titleMsg: Localiza.findAndReplace(
+  //       stringKey: 'deleteDialogTitle',
+  //       findString: '{value}',
+  //       replaceWithKey: 'valorFixo',
+  //     ),
+  //     descriptionText: Localiza.findAndReplace(
+  //       stringKey: 'deleteDialogMsg',
+  //       findString: '{value}',
+  //       replaceWithKey: 'valorFixo',
+  //     ),
+  //   );
 
-    if (shouldDelete) {
-      showLoadingDialog(context: context);
+  //   if (shouldDelete) {
+  //     showLoadingDialog(context: context);
 
-      await bloc.deleteHoraFixo(horaFixo);
+  //     await bloc.deleteHoraFixo(horaFixo);
 
-      Navigator.of(context).pop();
-    }
-  }
+  //     Navigator.of(context).pop();
+  //   }
+  // }
 }

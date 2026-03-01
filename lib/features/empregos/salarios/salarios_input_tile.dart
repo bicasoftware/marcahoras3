@@ -7,7 +7,7 @@ import '../../../utils.dart';
 
 class SalariosInputTile extends StatelessWidget {
   final MoneyMaskedTextController controller;
-  final ValueChanged<String> onSalarioValueChanged;
+  final ValueChanged<double> onSalarioValueChanged;
 
   const SalariosInputTile({
     super.key,
@@ -25,7 +25,7 @@ class SalariosInputTile extends StatelessWidget {
       hint: CurrencyHelper.formatAmount(1000),
       labelStyle: theme.labelLarge,
       icon: Icons.monetization_on,
-      onValueChanged: onSalarioValueChanged,
+      onValueChanged: (_) => onSalarioValueChanged(controller.numberValue),
       validator: (s) {
         if (controller.numberValue <= 0.0) {
           return Localiza.find('salarioInvalido');

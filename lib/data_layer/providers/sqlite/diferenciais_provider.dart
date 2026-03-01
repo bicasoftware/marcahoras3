@@ -1,4 +1,4 @@
-import 'package:sane_uuid/uuid.dart';
+import 'package:marcahoras3/utils.dart';
 
 import '../../contracts.dart';
 import '../../database/db_connector_drift.dart';
@@ -13,7 +13,7 @@ class DiferenciaisProvider extends DiferenciaisProviderContract {
 
   @override
   Future<DiferenciaisDto> insertDiferencial(DiferenciaisDto diferencial) async {
-    final id = Uuid.v4().toString();
+    final id = generateId();
     await _db
         .into(_db.dbDiferenciais)
         .insert(diferencial.toCompanion(newId: id));
@@ -45,5 +45,11 @@ class DiferenciaisProvider extends DiferenciaisProviderContract {
     });
 
     return difList;
+  }
+
+  @override
+  Future<bool> deleteMany(String empregoId) async {
+    await _table.filter((d) => d.idEmprego.id.equals(empregoId)).delete();
+    return true;
   }
 }

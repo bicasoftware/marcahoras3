@@ -5,4 +5,5 @@ abstract class DiferenciaisProviderContract {
   Future<List<DiferenciaisDto>> insertMany(List<DiferenciaisDto> difList);
   Future<DiferenciaisDto> updateDiferencial(DiferenciaisDto diferencial);
   Future<bool> deleteDiferencial(String id);
+  Future<bool> deleteMany(String empregoId);
 }

@@ -76,22 +76,20 @@ class ShFeatureCard extends StatelessWidget {
                 Expanded(child: child),
               ],
             )
-          : Expanded(
-              child: Center(
-                child: IntrinsicHeight(
-                  child: OutlinedCard(
-                    margin: .all(8),
-                    cardColor: colors.surface,
-                    child: ShEmptyListItem(
-                      descriptionId: noDataLabelId,
-                      extraDescriptionId: noDataExtraLabelId,
-                      icon: noDataIcon,
-                      onAddTap: noDataTap,
-                    ),
-                  ),
+          : Center(
+            child: IntrinsicHeight(
+              child: OutlinedCard(
+                margin: .all(8),
+                cardColor: colors.surface,
+                child: ShEmptyListItem(
+                  descriptionId: noDataLabelId,
+                  extraDescriptionId: noDataExtraLabelId,
+                  icon: noDataIcon,
+                  onAddTap: noDataTap,
                 ),
               ),
             ),
+          ),
     );
   }
 }

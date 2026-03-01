@@ -14,7 +14,6 @@ class AppConfig {
   EmpregosProviderContract? empregosProvider;
   SalariosProviderContract? salariosProvider;
   DiferenciaisProviderContract? diferenciaisProvider;
-  HoraFixoProviderContract? fixoProvider;
   AppDatabase? db;
 
   AppConfig(
@@ -26,7 +25,6 @@ class AppConfig {
     this.salariosProvider,
     this.horasProvider,
     this.diferenciaisProvider,
-    this.fixoProvider,
     this.db,
   );
 
@@ -41,7 +39,6 @@ class AppConfig {
     EmpregosProviderContract? empregosProvider,
     SalariosProviderContract? salariosProvider,
     DiferenciaisProviderContract? diferenciaisProvider,
-    HoraFixoProviderContract? fixoProvider,
     AppDatabase? db,
   }) {
     return shared = AppConfig(
@@ -53,7 +50,6 @@ class AppConfig {
       salariosProvider,
       horasProvider,
       diferenciaisProvider,
-      fixoProvider,
       db,
     );
   }

@@ -16,7 +16,7 @@ class HorasProvider implements HorasProviderContract {
 
   @override
   Future<HorasDto> create(HorasDto hora) async {
-    final id = Uuid.v4().toString();
+    final id = generateId();
 
     final int h = await _db
         .into(_db.dbHoras)

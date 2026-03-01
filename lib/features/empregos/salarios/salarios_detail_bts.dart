@@ -10,7 +10,7 @@ class SalariosDetailBts extends StatefulWidget {
   final double value;
   final DateTime vigencia;
   final String title;
-  final void Function(double value, DateTime vigencia) onSave;
+  final void Function(double value, String vigencia) onSave;
 
   const SalariosDetailBts({
     required this.title,
@@ -43,7 +43,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
   void _validate() {
     if (_formKey.currentState?.validate() ?? false) {
       Navigator.of(context).pop();
-      widget.onSave(amountController.numberValue, DateTime(_year, _month, 1));
+      widget.onSave(amountController.numberValue, "${_year}-${_month}");
     }
   }
 
@@ -75,10 +75,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
                 final amount = amountController.numberValue;
                 if (amount <= 0.0) {
                   return Localiza.find('salarioInvalido');
-                } else if (amount < widget.value) {
-                  return Localiza.find('salarioMenor');
                 }
-
                 return null;
               },
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],

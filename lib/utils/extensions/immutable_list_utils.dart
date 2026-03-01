@@ -18,22 +18,22 @@ extension ImmutableListHelpers<T> on List<T> {
   }
 
   /// Returns a hard copy, with the updated item
-  List<T> iUpdateItem(T newItem, T oldItem) {
-    final index = this.indexWhere((it) => it == oldItem);
+  List<T> iUpdateItem({required T fresh, required T original}) {
+    final index = this.indexWhere((it) => it == original);
     final newList = this.iCopy();
-    newList[index] = newItem;
+    newList[index] = fresh;
 
     return newList;
   }
 
   /// Returns a hard copy, with the updated item
   List<T> iUpdateWhere({
-    required T newItem,
+    required T fresh,
     required bool Function(T) where,
   }) {
     final index = this.indexWhere(where);
     final newList = this.iCopy();
-    newList[index] = newItem;
+    newList[index] = fresh;
 
     return newList;
   }
@@ -41,6 +41,12 @@ extension ImmutableListHelpers<T> on List<T> {
   List<T> iDelete(T toDeleteItem) {
     final newList = [...this];
     newList.removeAt(this.indexOf(toDeleteItem));
+    return newList;
+  }
+
+  List<T> iDeleteAt(int pos) {
+    final newList = [...this];
+    newList.removeAt(pos);
     return newList;
   }
 }

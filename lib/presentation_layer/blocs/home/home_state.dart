@@ -65,8 +65,8 @@ class HomeState extends BaseState {
 
   bool hasEmpregos() => empregos.isNotEmpty;
 
-  Salarios getSalarioByVigencia(int year, int month) {
-    return currentEmprego.getSalarioByVigencia(year, month);
+  Salarios getSalarioByVigencia(int year, int month, int fechamento) {
+    return currentEmprego.getSalarioByVigencia(year, month, fechamento);
   }
 
   bool get bancoHoras {

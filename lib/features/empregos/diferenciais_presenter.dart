@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../domain_layer/models.dart';
-import '../../presentation_layer/blocs.dart';
+import '../../presentation_layer/blocs/empregos/empregos_bloc.dart';
 import '../../resources.dart';
 import '../../utils/localiza/localiza.dart';
 import '../../widgets.dart';
@@ -19,7 +19,7 @@ mixin DiferenciaisPresenterMixin on State<EmpregosScreen> {
         onSave: (int porc, int weekDay, Color color) async {
           showLoadingDialog(context: context);
 
-          await bloc.insertDiferencial(
+          bloc.addDiferenciada(
             porc: porc,
             weekDay: weekDay,
             color: color,
@@ -49,7 +49,7 @@ mixin DiferenciaisPresenterMixin on State<EmpregosScreen> {
     if (shouldDelete) {
       showLoadingDialog(context: context);
 
-      await bloc.deleteDiferenciais(dife);
+      bloc.deleteDiferenciada(dife);
 
       Navigator.of(context).pop();
     }
@@ -64,8 +64,13 @@ mixin DiferenciaisPresenterMixin on State<EmpregosScreen> {
         color: dife.color,
         onSave: (porc, weekDay, color) async {
           showLoadingDialog(context: context);
-          await bloc.updateDiferenciais(
-            dife.copyWith(percentage: porc, weekday: weekDay),
+          bloc.editDiferenciada(
+            original: dife,
+            fresh: dife.copyWith(
+              percentage: porc,
+              weekday: weekDay,
+              color: color,
+            ),
           );
 
           Navigator.of(context).pop();

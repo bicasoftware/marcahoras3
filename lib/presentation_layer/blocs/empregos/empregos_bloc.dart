@@ -1,57 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sane_uuid/uuid.dart';
 
+import '../../../data_layer/respositories.dart';
 import '../../../domain_layer/models.dart';
-import '../../../domain_layer/usecases.dart';
 import '../../../utils.dart';
 import 'empregos_state.dart';
 
 class EmpregosBloc extends Cubit<EmpregosState> {
-  final EmpregoInsertUseCase _insertUseCase;
-  final EmpregoUpdateUseCase _updateUseCase;
-  final SalarioCreateUseCase _salariosCreateUseCase;
-  final SalarioUpdateUseCase _salariosUpdateUseCase;
-  final SalarioDeleteUseCase _salariosDeleteUseCase;
-  final DiferencialSaveUseCase _diferencialSaveUseCase;
-  final DiferencialDeleteUseCase _diferencialDeleteUseCase;
-  final DiferencialUpdateUseCase _diferencialUpdateUseCase;
-  final DiferencialInsertManyUseCase _diferencialInsertManyUseCase;
-  final HoraFixoDeleteUseCase _horaFixoDeleteUseCase;
-  final HoraFixoSaveUseCase _horaFixoSaveUseCase;
-  final HoraFixoUpdateUseCase _horaFixoUpdateUseCase;
+  final EmpregoRepository empregoRepository;
+  final SalariosRepository salariosRepository;
+  final DiferenciaisRepository diferenciaisRepository;
 
   EmpregosBloc({
-    required EmpregoInsertUseCase insertUseCase,
-    required EmpregoUpdateUseCase updateUseCase,
-    required SalarioCreateUseCase salariosCreateUseCase,
-    required SalarioUpdateUseCase salariosUpdateUseCase,
-    required SalarioDeleteUseCase salariosDeleteUseCase,
-    required DiferencialDeleteUseCase diferencialDeleteUseCase,
-    required DiferencialSaveUseCase diferencialSaveUseCase,
-    required DiferencialUpdateUseCase diferencialUpdateUseCase,
-    required HoraFixoDeleteUseCase horaFixoDeleteUseCase,
-    required HoraFixoSaveUseCase horaFixoSaveUseCase,
-    required HoraFixoUpdateUseCase horaFixoUpdateUseCase,
-    required DiferencialInsertManyUseCase diferencialInsertManyUseCase,
-  }) : _insertUseCase = insertUseCase,
-       _updateUseCase = updateUseCase,
-       _salariosUpdateUseCase = salariosUpdateUseCase,
-       _salariosCreateUseCase = salariosCreateUseCase,
-       _salariosDeleteUseCase = salariosDeleteUseCase,
-       _horaFixoDeleteUseCase = horaFixoDeleteUseCase,
-       _horaFixoSaveUseCase = horaFixoSaveUseCase,
-       _horaFixoUpdateUseCase = horaFixoUpdateUseCase,
-
-       _diferencialSaveUseCase = diferencialSaveUseCase,
-       _diferencialInsertManyUseCase = diferencialInsertManyUseCase,
-       _diferencialDeleteUseCase = diferencialDeleteUseCase,
-       _diferencialUpdateUseCase = diferencialUpdateUseCase,
-       super(
+    required this.empregoRepository,
+    required this.diferenciaisRepository,
+    required this.salariosRepository,
+  }) : super(
          EmpregosState(
-           emprego: Empregos(),
+           emprego: Empregos.empty(),
            status: StateSuccessStatus(),
-           useValorFixo: false,
+           isInsert: true,
          ),
        );
 
@@ -59,29 +27,19 @@ class EmpregosBloc extends Cubit<EmpregosState> {
     emit(
       state.copyWith(
         emprego: emprego,
-        isEditing: !isInsert,
-        useValorFixo: emprego.horaFixoList.isNotEmpty,
-        valorFixo: emprego.getCurrentValorFixo() ?? (0, 0),
+        isInsert: isInsert,
       ),
     );
   }
 
   bool validate() {
-    bool validPercent = state.useValorFixo
-        ? state.valorFixo.$1 > 0 && state.valorFixo.$2 > 0
-        : state.porcFeriado != null && state.porcNormal != null;
-
-    final result = [
-      state.descricao?.isNotEmpty ?? false,
+    return [
+      state.descricao.isNotEmpty,
       state.admissao != null,
-      state.entrada != null,
-      state.saida != null,
-      validPercent,
-      state.ativo != null,
-      ((state.salario != 0.0) || state.emprego.salarios.isNotEmpty),
+      state.saida.isAfter(state.entrada),
+      (state.porcFeriado > 0 && state.porcNormal > 0),
+      state.isValidSalario(),
     ].every((it) => it);
-
-    return result;
   }
 
   void setDescricao(String descricao) {
@@ -89,7 +47,9 @@ class EmpregosBloc extends Cubit<EmpregosState> {
   }
 
   void setSalario(double salario) {
-    emit(state.copyWith(salario: salario));
+    if (state.isInsert) {
+      emit(state.setSalario(salario));
+    }
   }
 
   void setAdmissao(DateTime admissao) {
@@ -116,357 +76,78 @@ class EmpregosBloc extends Cubit<EmpregosState> {
     emit(state.copyWith(cargaHoraria: carga));
   }
 
-  void toggleBancoHoras() {
-    emit(state.copyWith(bancoHoras: !state.bancoHoras));
-  }
-
-  void toggleValorFixo(bool value) {
-    emit(state.copyWith(useValorFixo: value));
-  }
-
-  void setValorFixo(double v1, double v2) {
-    emit(state.copyWith(valorFixo: (v1, v2)));
+  void setBancoHoras(bool enabled) {
+    emit(state.copyWith(bancoHoras: enabled));
   }
 
   void setDiaFechamento(int day) {
     emit(state.copyWith(diaFechamento: day));
   }
 
-  Future<void> save() async {
-    return state.isEditing ? await update() : await insert();
-  }
-
-  /// Insert a new Emprego, Insert a new [Salarios] and returns an [Emprego] model
-  Future<void> insert() async {
-    try {
-      emit(state.emitLoading());
-      final vigencia = getVigencia(state.admissao!);
-
-      /// Calls [Empregos] Post endpoint
-      final newEmprego = await _insertUseCase(state.emprego);
-
-      /// When first creating a new [Emprego], it is required it to have a [Salario]
-      /// so we also call the [Salarios] endpoint and insert a new [Salarios]
-      final firstSalario = await _salariosCreateUseCase(
-        Salarios(
-          ativo: true,
-          empregoId: newEmprego.id!,
-          valor: state.salario,
-          vigencia: vigencia,
-        ),
-      );
-
-      /// Cria nova entrada para valor extra fixado
-      final valorFixado = state.useValorFixo
-          ? await _horaFixoSaveUseCase(
-              HoraFixo(
-                idEmprego: newEmprego.id!,
-                valorNormal: state.valorFixo.$1,
-                valorFeriado: state.valorFixo.$2,
-                vigencia: vigencia,
-              ),
-            )
-          : null;
-
-      if (state.emprego.diferenciaisList.isNotEmpty)
-        await _diferencialInsertManyUseCase(state.emprego.diferenciaisList);
-
-      final updatedEmprego = newEmprego.copyWith(
-        salarios: [firstSalario],
-        horaFixoList: valorFixado != null ? [valorFixado] : [],
-        diferenciaisList: state.emprego.diferenciaisList,
-      );
-
-      /// Finally we emit a new state
-      emit(
-        state.copyWith(emprego: updatedEmprego, status: StateSuccessStatus()),
-      );
-    } on Exception catch (e) {
-      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
-
-      rethrow;
-    }
-  }
-
-  /// Updates an Emprego and returns a [Emprego] model
-  Future<void> update() async {
-    try {
-      emit(state.emitLoading());
-
-      /// Call [Empregos] Patch endpoint
-      final updatedEmprego = await _updateUseCase(state.emprego);
-
-      /// Finally emits a new state
-      emit(
-        state.copyWith(emprego: updatedEmprego, status: StateSuccessStatus()),
-      );
-    } on Exception catch (e) {
-      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
-
-      rethrow;
-    }
-  }
-
-  /// Updates a [Salarios] instance
-  Future<void> updateSalario(Salarios salario) async {
-    try {
-      emit(state.emitLoading());
-
-      /// Calls the Patch [Salarios] endpoint which return the updated data
-      final newSalario = await _salariosUpdateUseCase(salario);
-
-      /// Find in the current [Salarios] list the related [Salarios] index
-      final index = state.emprego.salarios.indexWhere(
-        (s) => s.id == salario.id,
-      );
-
-      /// Generates a new list from the old [Salarios] list
-      final salariosList = [...state.emprego.salarios];
-
-      /// Updates the new list with the data returned from server
-      salariosList[index] = newSalario;
-
-      /// Finally, emits the new state with the new generated list
-      emit(
-        state.copyWith(
-          status: StateSuccessStatus(),
-          emprego: state.emprego.copyWith(salarios: salariosList),
-        ),
-      );
-    } on Exception catch (e) {
-      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
-
-      rethrow;
-    }
-  }
-
-  /// Creates a new [Salarios] model
-  Future<void> insertSalario({
-    required double valor,
-    required DateTime vigencia,
-    required String empregoId,
-  }) async {
-    try {
-      emit(state.emitLoading());
-
-      /// Calls the Patch [Salarios] endpoint which return the updated data
-      final newSalario = await _salariosCreateUseCase(
-        Salarios(
-          empregoId: empregoId,
-          ativo: true,
-          valor: valor,
-          vigencia: vigencia,
-        ),
-      );
-
-      /// Generates a new list from the old [Salarios] list
-      final salariosList = [...state.emprego.salarios, newSalario];
-
-      /// Finally, emits the new state with the new generated list
-      emit(
-        state.copyWith(
-          status: StateSuccessStatus(),
-          emprego: state.emprego.copyWith(salarios: salariosList),
-        ),
-      );
-    } on Exception catch (e) {
-      emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
-
-      rethrow;
-    }
-  }
-
-  /// Creates delete the [Salarios] model by its id
-  Future<void> deleteSalario({required Salarios salario}) async {
-    return _prepareState(() async {
-      /// Calls the Delete [Salarios] endpoint which return only 200 response code
-      await _salariosDeleteUseCase(salario.id!);
-
-      /// Generates a new list from the old [Salarios] list
-      final salariosList = [...state.emprego.salarios];
-      salariosList.removeWhere((s) => s.id == salario.id);
-
-      /// Finally, emits the new state with the new generated list
-      return state.copyWith(
-        status: StateSuccessStatus(),
-        emprego: state.emprego.copyWith(salarios: salariosList),
-      );
-    });
-  }
-
-  /// CRUD for [HoraFixo]
-  ///
-  ///
-
-  /// Creates a new [HoraFixo] model
-  Future<void> insertHoraFixo({
-    required ValorFixo valorFixo,
-    required DateTime vigencia,
-    required String empregoId,
-  }) async {
-    return _prepareState(() async {
-      /// Calls the [HoraFixoSaveUseCase]
-      final newHoraFixo = await _horaFixoSaveUseCase(
-        HoraFixo(
-          idEmprego: empregoId,
-          valorNormal: valorFixo.$1,
-          valorFeriado: valorFixo.$2,
-          vigencia: vigencia,
-        ),
-      );
-
-      /// Generates a new list from the old [HoraFixo] list
-      final horaFixoList = [
-        ...state.emprego.horaFixoList,
-        ?newHoraFixo,
-      ];
-
-      /// Returns the new [EmpregosState]
-      return state.copyWith(
-        status: StateSuccessStatus(),
-        emprego: state.emprego.copyWith(horaFixoList: horaFixoList),
-      );
-    });
-  }
-
-  /// Updates a [HoraFixo] instance
-  Future<void> updateHoraFixo(HoraFixo horaFixo) async {
-    return _prepareState(() async {
-      /// Calls the [HoraFixoUpdateUseCase]
-      final newhoraFixo = await _horaFixoUpdateUseCase(horaFixo);
-
-      /// Generates a new list from the old [HoraFixo] list
-      final horaFixoList = state.emprego.horaFixoList.iCopy();
-
-      /// Updates the new list with the data returned from the usecase
-      if (newhoraFixo != null) {
-        horaFixoList.iUpdateWhere(
-          newItem: newhoraFixo,
-          where: (s) => s.id == horaFixo.id,
-        );
-      }
-
-      /// Returns the new [EmpregosState]
-      return state.copyWith(
-        status: StateSuccessStatus(),
-        emprego: state.emprego.copyWith(horaFixoList: horaFixoList),
-      );
-    });
-  }
-
-  /// Creates delete the [HoraFixo] model by its id
-  Future<void> deleteHoraFixo(HoraFixo horaFixo) async {
-    return _prepareState(() async {
-      /// Calls the Delete [HoraFixoDeleteUsecase]
-      final deleted = await _horaFixoDeleteUseCase(horaFixo.id!);
-
-      /// Generates a new list from the old [HoraFixo] list
-      final horaFixoList = state.emprego.horaFixoList.iCopy();
-
-      if (deleted) {
-        horaFixoList.removeWhere((s) => s.id == horaFixo.id!);
-      }
-
-      /// Return the new [EmpregosState]
-      return state.copyWith(
-        status: StateSuccessStatus(),
-        emprego: state.emprego.copyWith(horaFixoList: horaFixoList),
-      );
-    });
-  }
-
-  /// CRUD for [Diferenciais]
-  ///
-  ///
-
-  /// Creates a new [Diferenciais] model
-  Future<void> insertDiferencial({
+  void addDiferenciada({
     required int porc,
     required int weekDay,
     required Color color,
-  }) async {
-    return _prepareState(() async {
-      Diferenciais? dif = Diferenciais(
-        id: Uuid.v4().toString(),
-        idEmprego: state.emprego.id!,
-        percentage: porc,
-        weekday: weekDay,
-        color: color,
-      );
-
-      /// If is not editing the [Empregos] don't call the provider
-      if (state.isEditing) {
-        dif = await _diferencialSaveUseCase(dif);
-      }
-
-      /// Creates a new List<[Diferenciais]> with the new value
-      final difList = [...state.emprego.diferenciaisList, ?dif];
-
-      return state.copyWith(
-        status: StateSuccessStatus(),
-        emprego: state.emprego.copyWith(diferenciaisList: difList),
-      );
-    });
+  }) {
+    emit(state.addDiferenciada(porc: porc, weekDay: weekDay, color: color));
   }
 
-  /// Updates a [Diferenciais] instance
-  Future<void> updateDiferenciais(Diferenciais diferencial) async {
-    return _prepareState(() async {
-      Diferenciais? dif = diferencial.copyWith();
-
-      if (state.isEditing) dif = await _diferencialUpdateUseCase(diferencial);
-
-      List<Diferenciais> difList = state.emprego.diferenciaisList.iCopy();
-
-      if (dif != null) {
-        /// Creates a new List<[Diferenciais]> with the updated value
-        difList = difList.iUpdateWhere(
-          newItem: dif,
-          where: (d) => d.id == diferencial.id,
-        );
-      }
-
-      /// Emit the new state
-      return state.copyWith(
-        status: StateSuccessStatus(),
-        emprego: state.emprego.copyWith(diferenciaisList: difList),
-      );
-    });
+  void deleteDiferenciada(Diferenciais dif) {
+    emit(state.deleteDiferenciada(dif));
   }
 
-  /// Delete the [Diferenciais] model
-  Future<void> deleteDiferenciais(Diferenciais diferenciais) async {
-    return _prepareState(() async {
-      final deleted = state.isEditing
-          ? await _diferencialDeleteUseCase(diferenciais.id!)
-          : true;
-
-      final difList = await state.emprego.diferenciaisList.iCopy();
-
-      /// Creates a new list with the removed item
-      if (deleted) {
-        difList.removeWhere((s) => s.id == diferenciais.id!);
-      }
-
-      return state.copyWith(
-        status: StateSuccessStatus(),
-        emprego: state.emprego.copyWith(diferenciaisList: difList),
-      );
-    });
+  void editDiferenciada({
+    required Diferenciais original,
+    required Diferenciais fresh,
+  }) {
+    emit(
+      state.editDiferenciada(
+        original: original, fresh: fresh,
+      ),
+    );
   }
 
-  Future<void> _prepareState(
-    Future<EmpregosState> Function() prepareNewState,
-  ) async {
+  void addAumento({required double valor, required String vigencia}) {
+    emit(state.addAumento(valor, vigencia));
+  }
+
+  void deleteSalario(Salarios salario) => emit(state.deleteSalario(salario));
+
+  void editSalario({
+    required Salarios original,
+    required Salarios fresh,
+  }) {
+    emit(state.editSalario(original: original, fresh: fresh));
+  }
+
+  Future<void> persist() async {
     try {
-      emit(state.emitLoading());
+      emit(
+        state.copyWith(
+          status: StateLoadingStatus(),
+        ),
+      );
+
+      Empregos emprego;
+      if (state.isInsert) {
+        emprego = await empregoRepository.create(state.emprego);
+      } else {
+        emprego = await empregoRepository.update(state.emprego);
+        await diferenciaisRepository.deleteMany(emprego.id!);
+        await salariosRepository.deleteMany(emprego.id!);
+      }
+
+      /// Clean and re-add all difs on the database;
+      await diferenciaisRepository.insertMany(state.difList);
+      await salariosRepository.insertMany(state.salariosList);
 
       emit(
-        await prepareNewState(),
+        state.copyWith(
+          status: StateSuccessStatus(),
+        ),
       );
     } on Exception catch (e) {
       emit(state.copyWith(status: StateErrorStatus(errorMsg: e.toString())));
-
       rethrow;
     }
   }

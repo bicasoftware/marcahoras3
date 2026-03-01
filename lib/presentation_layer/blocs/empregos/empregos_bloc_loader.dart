@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app_config.dart';
 import '../../../data_layer/respositories.dart';
-import '../../../domain_layer/usecases.dart';
+import '../../blocs.dart';
 import '../../route_args.dart';
-import 'empregos_bloc.dart';
 
 class EmpregosBlocLoader extends StatefulWidget {
   final Widget child;
@@ -21,7 +20,7 @@ class _EmpregosBlocLoaderState extends State<EmpregosBlocLoader> {
   Widget build(BuildContext context) {
     final empregoArgs =
         ModalRoute.of(context)?.settings.arguments as EmpregosArguments;
-        
+
     final empregoRepo = EmpregoRepository(
       provider: AppConfig.shared.empregosProvider!,
     );
@@ -33,24 +32,11 @@ class _EmpregosBlocLoaderState extends State<EmpregosBlocLoader> {
       provider: AppConfig.shared.diferenciaisProvider!,
     );
 
-    final fixoRepo = HoraFixoRepository(
-      provider: AppConfig.shared.fixoProvider!,
-    );
-
     return BlocProvider(
       create: (_) => EmpregosBloc(
-        insertUseCase: EmpregoInsertUseCase(empregoRepo),
-        updateUseCase: EmpregoUpdateUseCase(empregoRepo),
-        salariosCreateUseCase: SalarioCreateUseCase(salarioRepo),
-        salariosUpdateUseCase: SalarioUpdateUseCase(salarioRepo),
-        salariosDeleteUseCase: SalarioDeleteUseCase(salarioRepo),
-        diferencialDeleteUseCase: DiferencialDeleteUseCase(difRepo),
-        diferencialSaveUseCase: DiferencialSaveUseCase(difRepo),
-        diferencialUpdateUseCase: DiferencialUpdateUseCase(difRepo),
-        diferencialInsertManyUseCase: DiferencialInsertManyUseCase(difRepo),
-        horaFixoDeleteUseCase: HoraFixoDeleteUseCase(fixoRepo),
-        horaFixoSaveUseCase: HoraFixoSaveUseCase(fixoRepo),
-        horaFixoUpdateUseCase: HoraFixoUpdateUseCase(fixoRepo),
+        empregoRepository: empregoRepo,
+        diferenciaisRepository: difRepo,
+        salariosRepository: salarioRepo,
       )..load(emprego: empregoArgs.emprego, isInsert: empregoArgs.isInsert),
       child: widget.child,
     );

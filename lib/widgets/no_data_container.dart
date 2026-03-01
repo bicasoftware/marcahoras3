@@ -22,19 +22,17 @@ class NoDataContainer extends StatelessWidget {
 
     final colors = context.colors;
 
-    return Expanded(
-      child: Center(
-        child: IntrinsicHeight(
-          child: OutlinedCard(
-            margin: .all(8),
-            cardColor: colors.surface,
-            child: ShEmptyListItem(
-              descriptionId: labelId,
-              extraDescriptionId: extraLabelId,
-              addButtonLabel: helperButtonLabel,
-              icon: FontAwesomeIcons.addressCard,              
-              onAddTap: helperButtonTap,
-            ),
+    return Center(
+      child: IntrinsicHeight(
+        child: OutlinedCard(
+          margin: .all(8),
+          cardColor: colors.surface,
+          child: ShEmptyListItem(
+            descriptionId: labelId,
+            extraDescriptionId: extraLabelId,
+            addButtonLabel: helperButtonLabel,
+            icon: FontAwesomeIcons.addressCard,              
+            onAddTap: helperButtonTap,
           ),
         ),
       ),

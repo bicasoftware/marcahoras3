@@ -4,35 +4,43 @@ import 'package:flutter/material.dart';
 import '../../../domain_layer/models.dart';
 import '../../../utils.dart';
 
+@immutable
 class EmpregosState extends BaseState {
-  final Empregos emprego;
+  final bool isInsert;
+  final Empregos _emprego, _oldEmprego;
 
-  final bool isEditing;
-  final bool useValorFixo;
-  final (double, double) valorFixo;
+  final UnmodifiableListView<Salarios> _salarios;
+  final UnmodifiableListView<Diferenciais> _difList;
+  final UnmodifiableListView<Horas> _horas;
+
+  Empregos get emprego => _emprego;
+  bool get hasChanged => _emprego == _oldEmprego;
+
+  String get descricao => _emprego.descricao;
+  DateTime? get admissao => _emprego.admissao;
+  TimeOfDay get entrada => _emprego.entrada;
+  TimeOfDay get saida => _emprego.saida;
+  bool get bancoHoras => _emprego.bancoHoras;
+  int get porcFeriado => _emprego.porcFeriado;
+  int get porcNormal => _emprego.porcNormal;
+  int get cargaHoraria => _emprego.cargaHoraria;
+  int get diaFechamento => _emprego.diaFechamento;
+  bool get ativo => _emprego.ativo;
 
   EmpregosState({
-    required Empregos emprego,
-    this.isEditing = false,
-    this.useValorFixo = false,
-    this.valorFixo = (0, 0),
     required super.status,
-  }) : emprego = emprego;
-
-  DateTime? get admissao => emprego.admissao;
-  String? get descricao => emprego.descricao;
-  TimeOfDay? get entrada => emprego.entrada;
-  TimeOfDay? get saida => emprego.saida;
-  bool get bancoHoras => emprego.bancoHoras;
-  int? get porcFeriado => emprego.porcFeriado;
-  int? get porcNormal => emprego.porcNormal;
-  int get cargaHoraria => emprego.cargaHoraria;
-  bool? get ativo => emprego.ativo;
-  double get salario => emprego.salario;
-  List<Salarios> get salarios => emprego.salarios;
-  int? get diaFechamento => emprego.diaFechamento;
+    required this.isInsert,
+    required Empregos emprego,
+  }) : _emprego = emprego,
+       _oldEmprego = emprego.copyWith(),
+       this._salarios = UnmodifiableListView(emprego.salarios),
+       this._difList = UnmodifiableListView(emprego.diferenciaisList),
+       this._horas = UnmodifiableListView(emprego.horas);
 
   EmpregosState copyWith({
+    StateStatus? status,
+    bool? isInsert,
+    Empregos? emprego,
     String? id,
     String? descricao,
     DateTime? admissao,
@@ -42,56 +50,127 @@ class EmpregosState extends BaseState {
     int? porcFeriado,
     int? porcNormal,
     int? cargaHoraria,
-    int? diaFechamento,
     bool? ativo,
-    double? salario,
-    StateStatus? status,
-    Empregos? emprego,
-    bool? isEditing,
-    bool? useValorFixo,
-    (double, double)? valorFixo,
+    int? diaFechamento,
+    bool? showValorFixadoTile,
+    List<Salarios>? salarios,
+    List<Diferenciais>? diferenciadas,
+    List<Horas>? horas,
   }) {
-    final updtEmprego =
-        emprego ??
-        this.emprego.copyWith(
-          descricao: descricao ?? this.emprego.descricao,
-          admissao: admissao ?? this.emprego.admissao,
-          entrada: entrada ?? this.emprego.entrada,
-          saida: saida ?? this.emprego.saida,
-          bancoHoras: bancoHoras ?? this.emprego.bancoHoras,
-          porcFeriado: porcFeriado ?? this.emprego.porcFeriado,
-          porcNormal: porcNormal ?? this.emprego.porcNormal,
-          cargaHoraria: cargaHoraria ?? this.emprego.cargaHoraria,
-          diaFechamento: diaFechamento ?? this.emprego.diaFechamento,
-          ativo: ativo ?? this.emprego.ativo,
-          salario: salario ?? this.emprego.salario,
-        );
-
     return EmpregosState(
-      emprego: updtEmprego,
+      isInsert: isInsert ?? this.isInsert,
       status: status ?? this.status,
-      isEditing: isEditing ?? this.isEditing,
-      useValorFixo: useValorFixo ?? this.useValorFixo,
-      valorFixo: valorFixo ?? this.valorFixo,
+      emprego:
+          emprego ??
+          this._emprego.copyWith(
+            descricao: descricao ?? this._emprego.descricao,
+            admissao: admissao ?? this._emprego.admissao,
+            entrada: entrada ?? this._emprego.entrada,
+            saida: saida ?? this._emprego.saida,
+            bancoHoras: bancoHoras ?? this._emprego.bancoHoras,
+            porcFeriado: porcFeriado ?? this._emprego.porcFeriado,
+            porcNormal: porcNormal ?? this._emprego.porcNormal,
+            cargaHoraria: cargaHoraria ?? this._emprego.cargaHoraria,
+            diaFechamento: diaFechamento ?? this._emprego.diaFechamento,
+            ativo: ativo ?? this._emprego.ativo,
+            diferenciaisList: diferenciadas ?? this._difList,
+            horas: horas ?? this._horas,
+            salarios: salarios ?? this._salarios,
+          ),
     );
   }
 
-  EmpregosState emitLoading() => this.copyWith(status: StateLoadingStatus());
+  List<Horas> get horasList => _horas;
+  List<Salarios> get salariosList => _salarios;
+  List<Diferenciais> get difList => _difList;
 
-  ValorFixo getCurrentValorFixo() {
-    if (emprego.horaFixoList.isNotEmpty) {
-      return emprego.horaFixoList.first.toValorFixo();
+  Salarios getCurrentSalario() {
+    if (_salarios.length == 1) {
+      return _salarios.first;
     }
-    return (0, 0);
+    return _salarios
+        .sorted(
+          (Salarios a, Salarios b) => compareVigencias(a.vigencia, b.vigencia),
+        )
+        .last;
   }
 
-  bool get usingFixedValue {
-    return emprego.horaFixoList.length > 0;
+  bool isValidSalario() {
+    return isInsert ? _salarios.first.valor > 0 : _salarios.isNotEmpty;
   }
 
-  List<HoraFixo> getHoraFixoList() {
-    return emprego.horaFixoList.sorted(
-      (a, b) => b.vigencia.compareTo(a.vigencia),
+  EmpregosState setSalario(double salario) {
+    assert(salariosList.length == 1);
+    return this.copyWith(
+      salarios: _salarios.iUpdateItem(
+        original: _salarios.first,
+        fresh: _salarios.first.copyWith(empregoId: _emprego.id, valor: salario),
+      ),
+    );
+  }
+
+  EmpregosState addAumento(double valor, String vigencia) {
+    return this.copyWith(
+      salarios: [
+        ..._salarios,
+        Salarios(
+          id: generateId(),
+          empregoId: _emprego.id!,
+          valor: valor,
+          vigencia: vigencia,
+          ativo: true,
+        ),
+      ],
+    );
+  }
+
+  EmpregosState deleteSalario(Salarios salario) {
+    return this.copyWith(
+      salarios: salariosList.iDelete(salario),
+    );
+  }
+
+  EmpregosState editSalario({
+    required Salarios fresh,
+    required Salarios original,
+  }) {
+    return this.copyWith(
+      salarios: salariosList.iUpdateItem(
+        original: original,
+        fresh: fresh,
+      ),
+    );
+  }
+
+  EmpregosState addDiferenciada({
+    required int porc,
+    required int weekDay,
+    required Color color,
+  }) {
+    return this.copyWith(
+      diferenciadas: [
+        ...this._difList,
+        Diferenciais(
+          id: generateId(),
+          idEmprego: _emprego.id!,
+          weekday: weekDay,
+          percentage: porc,
+          color: color,
+        ),
+      ],
+    );
+  }
+
+  EmpregosState deleteDiferenciada(Diferenciais dif) {
+    return this.copyWith(diferenciadas: _difList.iDelete(dif));
+  }
+
+  EmpregosState editDiferenciada({
+    required Diferenciais original,
+    required Diferenciais fresh,
+  }) {
+    return this.copyWith(
+      diferenciadas: this.difList.iUpdateItem(fresh: fresh, original: original),
     );
   }
 
@@ -99,17 +178,24 @@ class EmpregosState extends BaseState {
   bool operator ==(covariant EmpregosState other) {
     if (identical(this, other)) return true;
 
-    return other.emprego == emprego &&
-        other.isEditing == isEditing &&
-        other.useValorFixo == useValorFixo &&
-        other.valorFixo == valorFixo;
+    return other.isInsert == isInsert &&
+        other._oldEmprego == _oldEmprego &&
+        other._salarios == _salarios &&
+        other._difList == _difList &&
+        other._horas == _horas;
   }
 
   @override
   int get hashCode {
-    return emprego.hashCode ^
-        isEditing.hashCode ^
-        useValorFixo.hashCode ^
-        valorFixo.hashCode;
+    return isInsert.hashCode ^
+        _oldEmprego.hashCode ^
+        _salarios.hashCode ^
+        _difList.hashCode ^
+        _horas.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'EmpregosStateAlt(isInsert: $isInsert, _oldEmprego: $_oldEmprego, _salarios: $_salarios, _difList: $_difList, _horas: $_horas)';
   }
 }

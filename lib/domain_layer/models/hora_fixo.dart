@@ -39,6 +39,8 @@ class HoraFixo {
     return (valorNormal, valorFeriado);
   }
 
+  bool validate() => valorNormal > 0 && valorFeriado > 0;
+
   @override
   bool operator ==(covariant HoraFixo other) {
     if (identical(this, other)) return true;

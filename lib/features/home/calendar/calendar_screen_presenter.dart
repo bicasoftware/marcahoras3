@@ -108,7 +108,7 @@ mixin CalendarScreenPresenterMixin {
       arguments: isInsert
           ? EmpregosArguments(
               Empregos(
-                id: UuidFactory.build(),
+                id: generateId(),
               ),
               true,
             )

@@ -66,8 +66,31 @@ String formatVigencia(int year, int month, [Locale? locale, String? mask]) {
   ).format(DateTime(year, month, 1));
 }
 
-DateTime getVigencia(DateTime date) {
-  return DateTime(date.year, date.month, date.day, 0, 0, 0, 0, 0);
+bool compareVigenciaByYearMonth(
+  int year,
+  int month,
+  int fechamento,
+  String vigencia,
+) {
+  final checkingVigencia = DateTime(year, month, fechamento - 1);
+  final currentVigencia = DateFormat(
+    'yyyy-MM-dd',
+  ).parse("$vigencia-$fechamento");
+  return checkingVigencia.isBefore(currentVigencia);
+}
+
+int compareVigencias(String old, String fresh) {
+  final oldVig = DateFormat('yyyy-MM').parse(old);
+  final freshVig = DateFormat('yyyy-MM').parse(fresh);
+  return oldVig.compareTo(freshVig);
+}
+
+String getVigencia(DateTime date) {
+  return "${date.year}-${date.month}";
+}
+
+String buildVigencia(int year, int month) {
+  return "$year-${month.toString().padLeft(2, '0')}";
 }
 
 DateTime getLastDayOfMonth(DateTime date) {
@@ -89,6 +112,7 @@ bool isSameWeekday(int weekday, DateTime compareDate) {
     formatDate(DateTime(year, month + 1, diaFechamento), true),
   );
 }
+
 (String, String) getFormatedDateRangeByFechamento(
   int year,
   int month,

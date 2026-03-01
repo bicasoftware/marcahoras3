@@ -39,7 +39,7 @@ void main() {
       'iUpdateItem should return a new list with the first matching item updated',
       () {
         final original = [1, 2, 3];
-        final newList = original.iUpdateItem(4, 2);
+        final newList = original.iUpdateItem(fresh: 4, original: 2);
 
         expect(newList, equals([1, 4, 3]));
         expect(newList, isNot(same(original)));
@@ -49,7 +49,7 @@ void main() {
     test('iUpdateItem should throw StateError if item is not found', () {
       final original = [1, 2, 3];
 
-      expect(() => original.iUpdateItem(4, 5), throwsRangeError);
+      expect(() => original.iUpdateItem(fresh: 4, original: 5), throwsRangeError);
     });
 
     test(
@@ -57,7 +57,7 @@ void main() {
         () {
       final original = [1, 2, 3];
       final newList = original.iUpdateWhere(
-        newItem: 4,
+        fresh: 4,
         where: (item) => item == 2,
       );
 
@@ -69,7 +69,7 @@ void main() {
       final original = [1, 2, 3];
 
       expect(
-        () => original.iUpdateWhere(newItem: 4, where: (item) => item == 5),
+        () => original.iUpdateWhere(fresh: 4, where: (item) => item == 5),
         throwsRangeError,
       );
     });

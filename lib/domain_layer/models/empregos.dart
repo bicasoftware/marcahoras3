@@ -88,53 +88,62 @@ class Empregos {
   }
 
   factory Empregos.empty() {
+    final now = DateTime.now();
     return Empregos(
-      id: UuidFactory.build(),
+      id: generateId(),
       ativo: true,
-      admissao: DateTime.now(),
+      admissao: now,
       cargaHoraria: CargaHoraria.padrao.mensal,
       porcNormal: 50,
       porcFeriado: 100,
       saida: TimeOfDay(hour: 17, minute: 00),
-      diaFechamento: 25
+      diaFechamento: 25,
+      salarios: [
+        Salarios(
+          id: generateId(),
+          empregoId: '',
+          vigencia: buildVigencia(now.year, now.month),
+          valor: 0,
+          ativo: true,
+        ),
+      ],
     );
   }
 
-  Salarios getSalarioByVigencia(int year, int month) {
+  Salarios getSalarioByVigencia(int year, int month, int fechamento) {
     assert(salarios.isNotEmpty);
 
     if (salarios.length == 1) return salarios.first;
-    final _vig = DateTime(year, month, 1);
     return salarios
         .sorted((a, b) => a.vigencia.compareTo(b.vigencia))
         .reversed
-        .firstWhere((s) => s.vigencia.isSameDayOfBefore(_vig));
+        .firstWhere(
+          (s) =>
+              compareVigenciaByYearMonth(year, month, fechamento, s.vigencia),
+        );
   }
 
-  Salarios getCurrentSalario() {
-    if (salarios.length == 1) {
-      return salarios.first;
-    }
-
-    return salarios.sorted((a, b) => a.vigencia.compareTo(b.vigencia)).last;
-  }
-
-  Salarios? getCurrentSalarioAlt() {
+  double getCurrentSalario() {
     final today = DateTime.now();
     int year = today.year;
     int month = today.month;
 
     if (salarios.length == 1) {
-      return salarios.first;
+      return salarios.first.valor;
     } else {
-      final _vig = DateTime(year, month, 1);
-
       final atual = salarios
           .sorted((a, b) => a.vigencia.compareTo(b.vigencia))
           .reversed
-          .firstWhereOrNull((s) => s.vigencia.isSameDayOfBefore(_vig));
+          .firstWhereOrNull(
+            (s) => compareVigenciaByYearMonth(
+              year,
+              month,
+              diaFechamento,
+              s.vigencia,
+            ),
+          );
 
-      return atual;
+      return atual?.valor ?? 0;
     }
   }
 
@@ -195,6 +204,11 @@ class Empregos {
         salarios.hashCode ^
         horaFixoList.hashCode ^
         diferenciaisList.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'Empregos(id: $id, descricao: $descricao, admissao: $admissao, entrada: $entrada, saida: $saida, bancoHoras: $bancoHoras, porcFeriado: $porcFeriado, porcNormal: $porcNormal, cargaHoraria: $cargaHoraria, ativo: $ativo, diaFechamento: $diaFechamento, salario: $salario, horas: $horas, salarios: $salarios, horaFixoList: $horaFixoList, diferenciaisList: $diferenciaisList)';
   }
 }
 

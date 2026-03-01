@@ -55,7 +55,7 @@ class _EmpregosListScreenState extends State<EmpregosListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<HomeBloc>();
+    final bloc = context.watch<HomeBloc>();
     final empregos = bloc.state.empregos;
 
     return Scaffold(
@@ -68,28 +68,24 @@ class _EmpregosListScreenState extends State<EmpregosListScreen> {
         foregroundColor: ShAppTheme.onAddButtonColor,
         onPressed: () => showCreateScreen(context: context),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            spacing: 8,
-            children: empregos.map((e) {
-              return EmpregosListItem(
-                descricao: e.descricao,
-                cargaHoraria: "${e.cargaHoraria}",
-                ativo: e.ativo,
-                diferenciais: e.diferenciaisList,
-                onDelete: () => showOnDeleteDialog(context, bloc),
-                onNew: () => showCreateScreen(context: context),
-                onEdit: () => showEditScreen(context: context, emprego: e),
-                onDesativar: () {},
-                porcFeriado: e.porcFeriado,
-                porcNormal: e.porcNormal,
-                salario: e.getCurrentSalario().valor,
-              );
-            }).toList(),
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: empregos.map((e) {
+            return EmpregosListItem(
+              descricao: e.descricao,
+              cargaHoraria: "${e.cargaHoraria}",
+              ativo: e.ativo,
+              diferenciais: e.diferenciaisList,
+              onDelete: () => showOnDeleteDialog(context, bloc),
+              onNew: () => showCreateScreen(context: context),
+              onEdit: () => showEditScreen(context: context, emprego: e),
+              onDesativar: () {},
+              porcFeriado: e.porcFeriado,
+              porcNormal: e.porcNormal,
+              salario: e.getCurrentSalario(),
+            );
+          }).toList(),
         ),
       ),
     );

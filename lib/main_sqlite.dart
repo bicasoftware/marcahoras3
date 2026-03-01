@@ -41,7 +41,6 @@ void main() async {
     horasProvider: HorasProvider(db: database),
     empregosProvider: EmpregosProvider(db: database),
     diferenciaisProvider: DiferenciaisProvider(db: database),
-    fixoProvider: HoraFixoProvider(db: database),
     db: database,
   );
 

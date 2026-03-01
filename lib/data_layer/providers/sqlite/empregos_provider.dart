@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:sane_uuid/uuid.dart';
 
 import '../../../utils.dart';
 import '../../contracts.dart';
@@ -18,11 +17,10 @@ class EmpregosProvider implements EmpregosProviderContract {
 
   @override
   Future<EmpregosDto> create(EmpregosDto e) async {
-    final newId = Uuid.v4().toString();
     await _table.create(
-      (it) => e.toCompanion(newId: newId),
+      (it) => e.toCompanion(),
     );
-    return e.copyWith(id: newId);
+    return e;
   }
 
   @override
@@ -56,7 +54,6 @@ class EmpregosProvider implements EmpregosProviderContract {
             dbHorasRefs: false,
             dbSalariosRefs: true,
             dbDiferenciaisRefs: true,
-            dbHoraFixoRefs: true,
           ),
         )
         .get();
@@ -72,7 +69,6 @@ class EmpregosProvider implements EmpregosProviderContract {
       final results = await Future.wait([
         e.$2.dbSalariosRefs.get(),
         e.$2.dbDiferenciaisRefs.get(),
-        e.$2.dbHoraFixoRefs.get(),
         _tableHoras
             .filter((h) => h.empregoId.id.equals(e.$1.id))
             .filter((h) => h.data.isBetween(parseDate(from)!, parseDate(to)!))
@@ -83,8 +79,7 @@ class EmpregosProvider implements EmpregosProviderContract {
         e.$1.toJson(),
         salarios: results[0].map((s) => s.toJson()).toList(),
         diferenciais: results[1].map((d) => d.toJson()).toList(),
-        horaFixo: results[2].map((h) => h.toJson()).toList(),
-        horas: results[3].map((e) => e.toJson()),
+        horas: results[2].map((e) => e.toJson()),
       );
 
       empregosList.add(

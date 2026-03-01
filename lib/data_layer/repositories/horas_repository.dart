@@ -12,7 +12,7 @@ class HorasRepository implements HorasContract {
 
   @override
   Future<Horas> create(Horas horas) async {
-    final newId = UuidFactory.build();
+    final newId = generateId();
     final dto = horas.toHorasDto(newId);
     final newHora = await _provider.create(dto);
     return newHora.toHoras();

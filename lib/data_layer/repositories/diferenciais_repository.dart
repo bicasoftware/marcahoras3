@@ -1,18 +1,19 @@
-import 'package:marcahoras3/data_layer/mappers/diferenciais_mapper.dart';
-import 'package:marcahoras3/utils/uuid_factory.dart';
-
-import '../contracts.dart';
 import '../../domain_layer/models/diferenciais.dart';
+import '../../utils/uuid_factory.dart';
+import '../contracts.dart';
+import '../mappers/diferenciais_mapper.dart';
 
-class DiferenciaisRepository {  
+class DiferenciaisRepository {
   final DiferenciaisProviderContract _provider;
 
   DiferenciaisRepository({
-    required DiferenciaisProviderContract provider,    
+    required DiferenciaisProviderContract provider,
   }) : _provider = provider;
 
   Future<Diferenciais?> saveDiferencial(Diferenciais diferencial) async {
-    final newDif = await _provider.insertDiferencial(diferencial.toDto(UuidFactory.build()));
+    final newDif = await _provider.insertDiferencial(
+      diferencial.toDto(generateId()),
+    );
     return Diferenciais.fromDTO(newDif);
   }
 
@@ -29,5 +30,9 @@ class DiferenciaisRepository {
   Future<void> insertMany(List<Diferenciais> difList) async {
     final dl = difList.map((d) => d.toDto()).toList();
     await _provider.insertMany(dl);
+  }
+
+  Future<void> deleteMany(String empregoId) async {
+    await _provider.deleteMany(empregoId);
   }
 }

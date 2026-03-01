@@ -4,4 +4,6 @@ abstract class SalariosContract {
   Future<Salarios> create(Salarios salario);
   Future<Salarios> update(Salarios salario);
   Future<void> delete(String salarioId);
+  Future<void> deleteMany(String empregoId);
+  Future<List<Salarios>> insertMany(List<Salarios> salarios);
 }

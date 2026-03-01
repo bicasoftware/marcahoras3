@@ -47,7 +47,7 @@ class HomeBloc extends Cubit<HomeState> {
          ),
        );
 
-  Future<void> _niceDelay() => Future.delayed(Duration(milliseconds: 200));
+  Future<void> _niceDelay() => Future.delayed(Duration(milliseconds: 400));
 
   Future<(CalendarPageModel calendarPage, ReportModel reportPage)> _buildPages({
     required Empregos emprego,
@@ -57,7 +57,7 @@ class HomeBloc extends Cubit<HomeState> {
     required FechamentoRange fechamento,
     List<Feriados>? feriados,
   }) async {
-    final salario = emprego.getSalarioByVigencia(ano, mes);
+    final salario = emprego.getSalarioByVigencia(ano, mes, emprego.diaFechamento);
 
     final calendarPage = await _calendarPageGeneratorUseCase(
       horas: horas,

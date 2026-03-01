@@ -1,6 +1,6 @@
 import '../../data_layer/mappers/salarios_mapper.dart';
-import '../contracts.dart';
 import '../../domain_layer/models/salarios.dart';
+import '../contracts.dart';
 
 class SalariosRepository implements SalariosContract {
   final SalariosProviderContract _provider;
@@ -24,5 +24,16 @@ class SalariosRepository implements SalariosContract {
   @override
   Future<void> delete(String salarioId) async {
     await _provider.delete(salarioId);
+  }
+
+  @override
+  Future<List<Salarios>> insertMany(List<Salarios> salarios) async {
+    await _provider.insertMany(salarios.map((s) => s.toSalarioDto()).toList());
+    return salarios;
+  }
+
+  @override
+  Future<void> deleteMany(String empregoId) async {
+    await _provider.deleteMany(empregoId);
   }
 }

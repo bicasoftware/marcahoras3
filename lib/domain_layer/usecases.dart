@@ -1,6 +1,7 @@
 library usecases;
 
 export 'usecases/calendar/calendar_page_generator_usecase.dart';
+export 'usecases/diferenciais/diferencial_delete_many_usecase.dart';
 export 'usecases/diferenciais/diferencial_delete_usecase.dart';
 export 'usecases/diferenciais/diferencial_insert_many_usecase.dart';
 export 'usecases/diferenciais/diferencial_save_usecase.dart';
@@ -10,9 +11,6 @@ export 'usecases/empregos/emprego_data_load_usecase.dart';
 export 'usecases/empregos/emprego_delete_usecase.dart';
 export 'usecases/empregos/emprego_update_usecase.dart';
 export 'usecases/feriados/list_feriados_usecase.dart';
-export 'usecases/hora_fixo/hora_fixo_delete_usecase.dart';
-export 'usecases/hora_fixo/hora_fixo_save_usecase.dart';
-export 'usecases/hora_fixo/hora_fixo_update_usecase.dart';
 export 'usecases/horas/horas_create_usecase.dart';
 export 'usecases/horas/horas_delete_usecase.dart';
 export 'usecases/horas/horas_load_by_range_usecase.dart';

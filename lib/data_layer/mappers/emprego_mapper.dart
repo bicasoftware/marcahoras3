@@ -29,7 +29,6 @@ extension EmpregoMapper on EmpregosDto {
       diaFechamento: diaFechamento!,
       salarios: salarios.map((s) => s.toSalario()).toList(),
       horas: horas.map((h) => h.toHoras()).toList(),
-      horaFixoList: horaFixoList.map((f) => f.toModel()).toList(),
       diferenciaisList: diferenciaisList.map((d) => d.toModel()).toList(),
     );
   }
@@ -83,10 +82,7 @@ extension EmpregoMapper on EmpregosDto {
           : parseDate(e['created_at']),
 
       horas: horas != null ? HorasMapper.fromJsonList(horas) : [],
-      salarios: salarios != null ? SalariosMapper.fromJsonList(salarios) : [],
-      horaFixoList: horaFixo != null
-          ? HoraFixoDtoMapper.fromJsonList(horaFixo)
-          : [],
+      salarios: salarios != null ? SalariosMapper.fromJsonList(salarios) : [],      
       diferenciaisList: diferenciais != null
           ? DiferenciaisDtoMapper.fromJsonList(diferenciais)
           : [],
@@ -135,10 +131,7 @@ extension EmpregoDtoMapper on Empregos {
       salarios: mapChildren
           ? this.salarios.map((s) => s.toSalarioDto()).toList()
           : [],
-      horas: mapChildren ? this.horas.map((h) => h.toHorasDto()).toList() : [],
-      horaFixoList: mapChildren
-          ? this.horaFixoList.map((f) => f.toDto()).toList()
-          : [],
+      horas: mapChildren ? this.horas.map((h) => h.toHorasDto()).toList() : [],      
       diferenciaisList: mapChildren
           ? this.diferenciaisList.map((d) => d.toDto()).toList()
           : [],

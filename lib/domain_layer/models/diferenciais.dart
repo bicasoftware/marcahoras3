@@ -46,4 +46,30 @@ class Diferenciais {
       color: color ?? this.color,
     );
   }
+
+  @override
+  bool operator ==(covariant Diferenciais other) {
+    if (identical(this, other)) return true;
+  
+    return 
+      other.id == id &&
+      other.idEmprego == idEmprego &&
+      other.weekday == weekday &&
+      other.percentage == percentage &&
+      other.color == color;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+      idEmprego.hashCode ^
+      weekday.hashCode ^
+      percentage.hashCode ^
+      color.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'Diferenciais(id: $id, idEmprego: $idEmprego, weekday: $weekday, percentage: $percentage, color: $color)';
+  }
 }

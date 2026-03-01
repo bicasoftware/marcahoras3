@@ -10,7 +10,7 @@ class HorasListTile extends StatelessWidget {
 
   const HorasListTile({required this.hora, required this.emprego, super.key});
 
-  double _salario() => emprego.getCurrentSalario().valor;
+  double _salario() => emprego.getCurrentSalario();
 
   double _valorHora() {
     final porc = hora.tipoHora == HorasType.normal

@@ -10,7 +10,7 @@ extension SalariosMapper on SalariosDto {
     return Salarios(
       id: id,
       empregoId: empregoId!,
-      vigencia: parseVigencia(vigencia!),
+      vigencia: vigencia!,
       valor: valor?.toDouble() ?? 0.0,
       ativo: ativo ?? false,
     );
@@ -68,7 +68,7 @@ extension SalariosDtoMapper on Salarios {
     return SalariosDto(
       id: id,
       empregoId: empregoId,
-      vigencia: formatVigenciaDate(vigencia),
+      vigencia: vigencia,
       valor: valor.toDouble(),
       ativo: ativo,
     );
