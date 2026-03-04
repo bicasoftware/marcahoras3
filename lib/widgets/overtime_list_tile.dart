@@ -69,8 +69,9 @@ class OvertimeListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShDetailedListTile(
-      popupOptions: popupOptions,
       title: formatDateByLocale(date, context.locale),
+      padding: .all(16),
+      popupOptions: popupOptions,
       badgeLabel: getBadgeLabel(),
       badgeColor: _getBadgeColor(),
       contentList: [

@@ -32,179 +32,184 @@ class _CalendarScreenState extends State<CalendarScreen>
     final bloc = context.watch<HomeBloc>();
     final colors = context.colors;
 
-    return SafeArea(
-      bottom: true,
-      top: !Platform.isIOS,
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light.copyWith(
-          systemNavigationBarColor: colors.primary,
-          statusBarColor: colors.primary,
-          systemStatusBarContrastEnforced: false,
-        ),
-        child: Scaffold(
-          backgroundColor: colors.surface,
-          floatingActionButton: bloc.state.hasReportData()
-              ? FloatingActionButton.extended(
-                  heroTag: 'FAB',
-                  icon: Icon(Icons.add),
-                  label: ShText('hora'),
-                  backgroundColor: colors.primaryFixed,
-                  foregroundColor: colors.onPrimaryFixed,
-                  onPressed: () => showHorasBts(
-                    context: context,
-                    bloc: bloc,
-                  ),
-                )
-              : null,
-          body: AbsorbPointer(
-            absorbing: bloc.state.status is StateLoadingStatus,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                if (bloc.state.hasEmpregos())
-                  Container(
-                    color: colors.primary,
-                    // Gambiarra pra que a statusbar do iOS fique na cor primary
-                    padding: Platform.isIOS
-                        ? EdgeInsets.only(
-                            left: 12,
-                            right: 12,
-                            bottom: 2,
-                            top: kToolbarHeight,
-                          )
-                        : EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 2,
-                          ),
-                    child: Row(
-                      spacing: 8,
-                      children: [
-                        Expanded(
-                          child: OutlinedCard(
-                            cardColor: colors.primary,
-                            outlineColor: colors.onPrimary,
-                            margin: .only(bottom: 2),
-                            child: EmpregosDropdown(),
-                          ),
+    return bloc.state.hasEmpregos()
+        ? SafeArea(
+            bottom: true,
+            top: !Platform.isIOS,
+            child: AnnotatedRegion<SystemUiOverlayStyle>(
+              value: SystemUiOverlayStyle.light.copyWith(
+                systemNavigationBarColor: colors.primary,
+                statusBarColor: colors.primary,
+                systemStatusBarContrastEnforced: false,
+              ),
+              child: Scaffold(
+                backgroundColor: colors.surface,
+                floatingActionButton: bloc.state.hasReportData()
+                    ? FloatingActionButton.extended(
+                        heroTag: 'FAB',
+                        icon: Icon(Icons.add),
+                        label: ShText('hora'),
+                        backgroundColor: colors.primaryFixed,
+                        foregroundColor: colors.onPrimaryFixed,
+                        onPressed: () => showHorasBts(
+                          context: context,
+                          bloc: bloc,
                         ),
-                        OutlinedCard(
-                          cardColor: colors.primary,
-                          outlineColor: colors.onPrimary,
-                          margin: .only(bottom: 2),
-                          child: TextButton.icon(
-                            iconAlignment: .end,
-                            icon: Icon(
-                              Icons.keyboard_arrow_right_rounded,
-                              color: colors.onPrimary,
-                            ),
-                            label: ShText(
-                              'Empregos',
-                              style: Theme.of(context).textTheme.bodyLarge
-                                  ?.copyWith(
+                      )
+                    : null,
+                body: AbsorbPointer(
+                  absorbing: bloc.state.status is StateLoadingStatus,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      if (bloc.state.hasEmpregos())
+                        Container(
+                          color: colors.primary,
+                          // Gambiarra pra que a statusbar do iOS fique na cor primary
+                          padding: Platform.isIOS
+                              ? EdgeInsets.only(
+                                  left: 12,
+                                  right: 12,
+                                  bottom: 2,
+                                  top: kToolbarHeight,
+                                )
+                              : EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 2,
+                                ),
+                          child: Row(
+                            spacing: 8,
+                            children: [
+                              Expanded(
+                                child: OutlinedCard(
+                                  cardColor: colors.primary,
+                                  outlineColor: colors.onPrimary,
+                                  margin: .only(bottom: 2),
+                                  child: EmpregosDropdown(),
+                                ),
+                              ),
+                              OutlinedCard(
+                                cardColor: colors.primary,
+                                outlineColor: colors.onPrimary,
+                                margin: .only(bottom: 2),
+                                child: TextButton.icon(
+                                  iconAlignment: .end,
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_right_rounded,
                                     color: colors.onPrimary,
-                                    fontWeight: FontWeight.bold,
                                   ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(
-                                context,
-                              ).pushNamed(Routes.empregos);
-                            },
+                                  label: ShText(
+                                    'Empregos',
+                                    style: Theme.of(context).textTheme.bodyLarge
+                                        ?.copyWith(
+                                          color: colors.onPrimary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(
+                                      context,
+                                    ).pushNamed(Routes.empregos);
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
 
-                /// Container de cabeçalho de dias da semana
-                CalendarioScreenHeader(
-                  year: bloc.state.year,
-                  month: bloc.state.month,
-                  yearList: bloc.state.getYears(),
-                  onMonthAdd: () => addMonth(context, bloc),
-                  onMonthDec: () => decMonth(context, bloc),
-                  onYearChanged: bloc.setYear,
-                  onMonthChanged: bloc.setMonth,
-                ),
-                Container(
-                  padding: .symmetric(vertical: 8),
-                  decoration: BoxDecoration(
-                    color: colors.primary,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(16),
-                      bottomRight: Radius.circular(16),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black38,
-                        offset: Offset(.2, 1.5),
-                        blurRadius: .5,
+                      /// Container de cabeçalho de dias da semana
+                      CalendarioScreenHeader(
+                        year: bloc.state.year,
+                        month: bloc.state.month,
+                        yearList: bloc.state.getYears(),
+                        onMonthAdd: () => addMonth(context, bloc),
+                        onMonthDec: () => decMonth(context, bloc),
+                        onYearChanged: bloc.setYear,
+                        onMonthChanged: bloc.setMonth,
+                      ),
+                      Container(
+                        padding: .symmetric(vertical: 8),
+                        decoration: BoxDecoration(
+                          color: colors.primary,
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(16),
+                            bottomRight: Radius.circular(16),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black38,
+                              offset: Offset(.2, 1.5),
+                              blurRadius: .5,
+                            ),
+                          ],
+                        ),
+                        child: CalendarPage(
+                          diferenciais:
+                              bloc.state.currentEmprego.diferenciaisList,
+                          page: bloc.state.getCalendarPage(),
+                          onCalendarItemTap: (h, d, f) async {
+                            showHorasBts(
+                              context: context,
+                              bloc: bloc,
+                              selectedHora: h,
+                              data: d,
+                              isEdit: h != null,
+                              feriado: f,
+                            );
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: ShFeatureCard(
+                          cardLabelId: "horasFeitas",
+                          seeMoreLabelId: "verTodas",
+                          hasData: bloc.state.hasReportData(),
+                          isOutlined: bloc.state.hasReportData(),
+                          noDataLabelId: 'horasMesVazia',
+                          noDataExtraLabelId: 'horasMesVaziaExtra',
+                          noDataIcon: FontAwesomeIcons.calendarPlus,
+                          onSeeMoreTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.relatorio,
+                            );
+                          },
+                          noDataTap: () => showHorasBts(
+                            context: context,
+                            bloc: bloc,
+                          ),
+                          child: Hero(
+                            tag: Routes.relatorio,
+                            child: HorasList(
+                              diferenciais:
+                                  bloc.state.currentEmprego.diferenciaisList,
+                              isList: true,
+                              bancoHoras: bloc.state.bancoHoras,
+                              horas: bloc.state.reportShortData(),
+                              onDelete: (h) => deleteHora(context, h, bloc),
+                              onEdit: (h) {
+                                showHorasBts(
+                                  context: context,
+                                  bloc: bloc,
+                                  selectedHora: h,
+                                  data: h.data,
+                                  isEdit: true,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  child: CalendarPage(
-                    diferenciais: bloc.state.currentEmprego.diferenciaisList,
-                    page: bloc.state.getCalendarPage(),
-                    onCalendarItemTap: (h, d, f) async {
-                      showHorasBts(
-                        context: context,
-                        bloc: bloc,
-                        selectedHora: h,
-                        data: d,
-                        isEdit: h != null,
-                        feriado: f,
-                      );
-                    },
-                  ),
                 ),
-                Expanded(
-                  child: ShFeatureCard(
-                    cardLabelId: "horasFeitas",
-                    seeMoreLabelId: "verTodas",
-                    hasData: bloc.state.hasReportData(),
-                    isOutlined: bloc.state.hasReportData(),
-                    noDataLabelId: 'horasMesVazia',
-                    noDataExtraLabelId: 'horasMesVaziaExtra',
-                    noDataIcon: FontAwesomeIcons.calendarPlus,
-                    onSeeMoreTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        Routes.relatorio,
-                      );
-                    },
-                    noDataTap: () => showHorasBts(
-                      context: context,
-                      bloc: bloc,
-                    ),
-                    child: Hero(
-                      tag: Routes.relatorio,
-                      child: HorasList(
-                        diferenciais:
-                            bloc.state.currentEmprego.diferenciaisList,
-                        isList: true,
-                        bancoHoras: bloc.state.bancoHoras,
-                        horas: bloc.state.reportShortData(),
-                        onDelete: (h) => deleteHora(context, h, bloc),
-                        onEdit: (h) {
-                          showHorasBts(
-                            context: context,
-                            bloc: bloc,
-                            selectedHora: h,
-                            data: h.data,
-                            isEdit: true,
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          )
+        : Container(
+          color: colors.primary,
+        );
   }
 }

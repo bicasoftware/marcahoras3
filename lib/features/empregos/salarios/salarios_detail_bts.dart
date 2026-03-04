@@ -50,6 +50,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final colors = context.colors;
     final locale = Localizations.localeOf(context);
 
     return Padding(
@@ -66,6 +67,7 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
               style: theme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             ShTextTile(
+              themeColor: colors.primary,
               controller: amountController,
               label: Localiza.find("salario"),
               hint: CurrencyHelper.formatAmount(1000),

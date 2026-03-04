@@ -1,0 +1,78 @@
+import 'package:flutter/material.dart';
+
+import '../../utils.dart';
+import '../../widgets.dart';
+
+class ShFormItem extends StatelessWidget {
+  final String labelId;
+  final IconData? icon;
+  final Color? themeColor;
+  final Widget child;
+  final VoidCallback? onTap;
+  final String? Function<T>(T?)? validator;
+  final EdgeInsets? padding;
+
+  const ShFormItem({
+    required this.labelId,
+    required this.icon,
+    required this.themeColor,
+    required this.child,
+    this.padding = const .symmetric(horizontal: 16, vertical: 8),
+    this.onTap,
+    this.validator,
+  });
+
+  ShFormItem.noIcon({
+    required this.labelId,
+    required this.child,
+    this.padding = const .symmetric(horizontal: 16, vertical: 8),
+    this.validator,
+    this.onTap,
+  }) : this.icon = null,
+       this.themeColor = null;
+
+  ShFormItem.clean({
+    required this.child,
+    this.padding = const .symmetric(horizontal: 16, vertical: 8),
+    this.onTap,
+    this.validator,
+  }) : this.icon = null,
+       this.themeColor = null,
+       this.labelId = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return ShCustomFormField(
+      validator: validator,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: 8,
+          children: [
+            OutlinedCard(
+              cardColor: context.colors.surfaceContainer,
+              padding: padding,
+              child: Column(
+                crossAxisAlignment: .stretch,
+                children: [
+                  if (labelId.isNotEmpty) ShFormLabel.title(labelId),
+                  ListTile(
+                    contentPadding: .zero,
+                    title: child,
+                    leading: icon != null
+                        ? ShFormIcon(
+                            icon: icon!,
+                            themeColor: themeColor!,
+                          )
+                        : null,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

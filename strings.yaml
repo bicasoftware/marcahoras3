@@ -430,6 +430,12 @@ gerarPDF:
 semConexaoInternet:
   pt_BR: Sem conexão com a internet
   en_US: No internet connection
+diaSemana:
+  pt_BR: Dia da Semana
+  en_US: Weekday
+cor:
+  pt_BR: Cor
+  en_US: Color
 months:
   pt_BR:
     - Janeiro

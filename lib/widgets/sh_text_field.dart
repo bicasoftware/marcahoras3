@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../utils.dart';
+import '../widgets.dart';
 
 class ShTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -55,31 +56,20 @@ class ShTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        if (label?.isNotEmpty ?? false)
-          Text(
-            label!,
-            style:
-                labelStyle ??
-                context.textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-        const SizedBox(height: 4),
-        TextFormField(
-          controller: controller,
-          autofocus: false,
-          decoration: defaultDecoration(context),
-          validator: validator,
-          inputFormatters: inputFormatters,
-          keyboardType: keyboardType,
-          maxLength: maxChars,
-          onChanged: onValueChanged,
-        ),
-      ],
+    final colors = context.colors;
+    return OutlinedCard(
+      padding: .all(8),
+      cardColor: colors.surfaceContainerHighest,
+      child: TextFormField(
+        controller: controller,
+        autofocus: false,
+        decoration: defaultDecoration(context),
+        validator: validator,
+        inputFormatters: inputFormatters,
+        keyboardType: keyboardType,
+        maxLength: maxChars,
+        onChanged: onValueChanged,
+      ),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:sane_uuid/uuid.dart';
 
 import '../../../utils.dart';
 import '../../contracts.dart';

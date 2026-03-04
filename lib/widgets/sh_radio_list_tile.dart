@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../domain_layer/models.dart';
-import '../utils.dart';
 import '../widgets.dart';
 
 class ShRadioListTile extends StatefulWidget {
@@ -42,29 +41,21 @@ class _ShRadioListTileState extends State<ShRadioListTile> {
 
   @override
   Widget build(BuildContext context) {
-    return IndicatorTile(
-      child: ListTile(
-        // leading: widget.icon,
-        title: Text(
-          widget.label,
-          textAlign: TextAlign.left,
-          style: context.textTheme.labelLarge,
-        ),
-        subtitle: RadioGroup<CargaHoraria>(
-          groupValue: selected,
-          onChanged: (i) => onItemSelected(i ?? widget.cargaHorarias.first),
-          child: Column(
-            children: widget.cargaHorarias.mapIndexed((int i, CargaHoraria v) {
-              return RadioListTile<CargaHoraria>(
-                contentPadding: .zero,
-                title: Text(
-                  widget.mapValue(v),
-                  style: context.textTheme.bodyMedium,
-                ),
-                value: v,
-              );
-            }).toList(),
-          ),
+    return ShFormItem.noIcon(
+      labelId: widget.label,
+      child: RadioGroup<CargaHoraria>(
+        groupValue: selected,
+        onChanged: (i) => onItemSelected(i ?? widget.cargaHorarias.first),
+        child: Column(
+          children: widget.cargaHorarias.mapIndexed((int i, CargaHoraria v) {
+            return RadioListTile<CargaHoraria>(
+              contentPadding: .zero,
+              title: ShFormLabelValue(
+                widget.mapValue(v),
+              ),
+              value: v,
+            );
+          }).toList(),
         ),
       ),
     );

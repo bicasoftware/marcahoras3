@@ -36,7 +36,6 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
-    final textTheme = theme.textTheme;
     final weekdays = Localiza.findList('fullWeekDays');
 
     return ShPopupListTile(
@@ -45,60 +44,53 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
         onEdit: widget.onEdit,
         onDelete: widget.onDelete,
       ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: OutlinedCard(
+        cardColor: colors.surfaceContainer,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              spacing: 4,
-              children: [
-                CircleAvatar(
-                  backgroundColor: colors.secondary,
-                  child: Icon(Icons.work, color: colors.onPrimary),
-                ),
-                Expanded(
-                  child: Text(
-                    widget.descricao,
-                    style: textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const Divider(),
-            _EmpregoItem(
-              label: Localiza.find("salario"),
-              value: CurrencyHelper.formatAmount(widget.salario),
-            ),
-            _EmpregoItem(
-              label: Localiza.find("cargaHoraria"),
-              value: widget.cargaHoraria,
-            ),
-            _EmpregoItem(
-              label: Localiza.find("porcNormal"),
-              value: "${widget.porcNormal} %",
-            ),
-            _EmpregoItem(
-              label: Localiza.find("porcFeriado"),
-              value: "${widget.porcFeriado} %",
-            ),
-            if (widget.diferenciais.isNotEmpty) ...<Widget>[
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                spacing: 4,
+                children: [
+                  ShFormIcon(icon: Icons.work, themeColor: colors.secondary),
+                  ShFormLabel.title(widget.descricao),
+                ],
+              ),
               const Divider(),
-              ShLabeledListSection("diferenciais"),
-              ...widget.diferenciais
-                  .map(
-                    (d) => _DiferenciaisItem(
-                      color: d.color,
-                      percent: d.percentage,
-                      weekday: weekdays[d.weekday],
-                    ),
-                  )
-                  .toList(),
+              _EmpregoItem(
+                labelId: "salario",
+                value: CurrencyHelper.formatAmount(widget.salario),
+              ),
+              _EmpregoItem(
+                labelId: "cargaHoraria",
+                value: widget.cargaHoraria,
+              ),
+              _EmpregoItem(
+                labelId: "porcNormal",
+                value: "${widget.porcNormal} %",
+              ),
+              _EmpregoItem(
+                labelId: "porcFeriado",
+                value: "${widget.porcFeriado} %",
+              ),
+              if (widget.diferenciais.isNotEmpty) ...<Widget>[
+                const Divider(),
+                ShFormLabel.title("diferenciais"),
+                ...widget.diferenciais
+                    .map(
+                      (d) => _DiferenciaisItem(
+                        color: d.color,
+                        percent: d.percentage,
+                        weekday: weekdays[d.weekday],
+                      ),
+                    )
+                    .toList(),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -106,29 +98,20 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
 }
 
 class _EmpregoItem extends StatelessWidget {
-  final String label, value;
+  final String labelId, value;
   const _EmpregoItem({
-    required this.label,
+    required this.labelId,
     required this.value,
   });
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return Row(
       children: [
         Expanded(
-          child: Text(
-            label,
-            style: textTheme.bodyLarge,
-          ),
+          child: ShFormLabel.subtitle(labelId),
         ),
-        Text(
-          value,
-          style: textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        ShFormLabel.title(value),
       ],
     );
   }
@@ -147,27 +130,17 @@ class _DiferenciaisItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final colors = Theme.of(context).colorScheme;
     return Row(
+      spacing: 8,
       children: [
         CircleAvatar(
           backgroundColor: color,
           radius: 8,
         ),
-        const SizedBox(width: 8),
         Expanded(
-          child: Text(
-            weekday,
-            style: textTheme.bodyLarge?.copyWith(color: colors.onSurface),
-          ),
+          child: ShFormLabel.subtitle(weekday),
         ),
-        Text(
-          "$percent %",
-          style: textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        ShFormLabel.title("$percent %"),
       ],
     );
   }

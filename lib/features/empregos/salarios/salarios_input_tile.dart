@@ -17,13 +17,15 @@ class SalariosInputTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
+    final colors = context.colors;
+    final textTheme = context.textTheme;
 
     return ShTextTile(
+      themeColor: colors.primary,
       controller: controller,
       label: Localiza.find('salario'),
       hint: CurrencyHelper.formatAmount(1000),
-      labelStyle: theme.labelLarge,
+      labelStyle: textTheme.labelLarge,
       icon: Icons.monetization_on,
       onValueChanged: (_) => onSalarioValueChanged(controller.numberValue),
       validator: (s) {

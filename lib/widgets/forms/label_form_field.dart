@@ -7,19 +7,22 @@ class LabelFormField<T> extends StatelessWidget {
   final String label;
   final T initialValue;
   final String Function(T) valueFormatter;
-  final IconData? icon;
   final EdgeInsets? padding;
   final Widget? trailing;
   final VoidCallback onTap;
   final String? Function(T?)? validator;
   final AutovalidateMode? autovalidateMode;
 
+  final IconData icon;
+  final Color themeColor;
+
   const LabelFormField({
     required this.label,
     required this.initialValue,
     required this.valueFormatter,
-    this.icon,
-    this.padding,
+    required this.icon,
+    required this.themeColor,
+    this.padding = const .symmetric(horizontal: 16, vertical: 8),
     this.trailing,
     required this.onTap,
     this.validator,
@@ -29,21 +32,19 @@ class LabelFormField<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomizableFormField(
-      label: label,
-      child: ListTile(
-        title: Text(label, style: context.textTheme.labelLarge),
-        leading: Icon(icon, color: context.colors.secondary),
-        contentPadding: padding,
-        trailing: trailing,
-        subtitle: Text(valueFormatter(initialValue)),
-      ),
-      onTap: onTap,
-      validator: validator,
-      autovalidateMode: autovalidateMode,
+    final colors = context.colors;
+    return ShFormItem(
+      labelId: label,
       padding: padding,
       icon: icon,
-      trailing: trailing,
-    );
+      themeColor: themeColor,
+      onTap: onTap,
+      child: Text(
+        valueFormatter(initialValue),
+        style: context.textTheme.labelLarge?.copyWith(
+          color: colors.onSurfaceVariant,
+        ),
+      ),
+    );    
   }
 }

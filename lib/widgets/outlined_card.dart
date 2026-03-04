@@ -34,9 +34,11 @@ class OutlinedCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             blurRadius: 1,
-            color: outlineColor ??Colors.black26,
+            color: outlineColor ??Colors.black12,
+            offset: Offset(.1,1),
           ),
         ],
+        border: BoxBorder.all(color: outlineColor ?? Colors.black26, width: .2),
         borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
       ),
       child: child,

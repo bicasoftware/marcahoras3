@@ -11,6 +11,7 @@ class ShDetailedListTile extends StatefulWidget {
   final VoidCallback? onTap;
   final bool hideShadow;
   final List<ShPopupMenuItemData>? popupOptions;
+  final EdgeInsets? padding;
 
   const ShDetailedListTile({
     required this.title,
@@ -20,6 +21,7 @@ class ShDetailedListTile extends StatefulWidget {
     this.badgeColor,
     this.onTap,
     this.popupOptions,
+    this.padding,
     super.key,
   });
 
@@ -35,7 +37,7 @@ class _ShDetailedListTileState extends State<ShDetailedListTile> {
     return ShPopupListTile(
       hideShadow: false,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: widget.padding ?? .symmetric(vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

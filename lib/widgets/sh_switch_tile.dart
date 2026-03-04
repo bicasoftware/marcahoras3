@@ -17,14 +17,12 @@ class ShSwitchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IndicatorTile(
+    return OutlinedCard(
+      cardColor: context.colors.surfaceContainer,
+      padding: .symmetric(vertical: 8),
       child: SwitchListTile(
         value: value,
-        title: Text(
-          label,
-          style: context.textTheme.labelLarge,
-        ),
-        contentPadding: const .only(left: 16),
+        title: ShFormLabelValue(label),
         onChanged: onTap,
       ),
     );

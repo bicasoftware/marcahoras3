@@ -63,36 +63,52 @@ class _DiffBtsState extends State<DiffBts> {
             Localiza.find("addDiferecencial"),
             style: theme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
-          Row(
-            spacing: 8,
-            children: [
-              Expanded(
-                child: ShSliderPicker(
-                  label: Localiza.find("porcentagem"),
-                  value: _porc,
-                  onChanged: _setPorc,
-                  minValue: 50,
-                  maxValue: 300,
+          IntrinsicHeight(
+            child: Row(
+              spacing: 8,
+              crossAxisAlignment: .stretch,
+              children: [
+                Expanded(
+                  flex: 7,
+                  child: ShFormSlider(
+                    labelId: "porcentagem",
+                    padding: .all(8),
+                    themeColor: context.colors.secondaryFixed,
+                    value: _porc,
+                    onChanged: _setPorc,
+                    minValue: 50,
+                    maxValue: 300,
+                  ),
                 ),
-              ),
-              ShColorPicker(
-                initialColor: Colors.purple,
-                onColorSelected: (c) {
-                  setState(() {
-                    _color = c;
-                  });
-                },
-              ),
-            ],
+                Expanded(
+                  flex: 3,
+                  child: ShFormItem.noIcon(
+                    labelId: 'cor',
+                    padding: .all(8),
+                    child: ShColorPicker(
+                      initialColor: Colors.purple,
+                      onColorSelected: (c) {
+                        setState(() {
+                          _color = c;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          ShGridviewTile(
-            axisCount: 3,
-            items: _weekDaysList,
-            initialItem: _weekDay,
-            formatItem: <String>(int item) => _weekDaysExt[item],
-            onSelected: (t) {
-              _setWeekDay(t);
-            },
+          ShFormItem.noIcon(            
+            labelId: 'diaSemana',
+            child: ShGridviewTile(
+              axisCount: 3,
+              items: _weekDaysList,
+              initialItem: _weekDay,
+              formatItem: <String>(int item) => _weekDaysExt[item],
+              onSelected: (t) {
+                _setWeekDay(t);
+              },
+            ),
           ),
           Container(
             margin: EdgeInsets.only(bottom: 16),

@@ -31,33 +31,29 @@ class ShListViewTile<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(      
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        if (outerLabelId != null) ShLabeledListSection(outerLabelId!),
-        IndicatorTile(
-          child: ListTile(
-            contentPadding: .only(left: 8),
-            isThreeLine: true,
-            trailing: FloatingActionButton.small(
-              heroTag: heroTag,
-              backgroundColor: context.colors.secondary,
-              foregroundColor: context.colors.onSecondary,
-              child: Icon(Icons.add),
-              onPressed: onAdd,
-            ),
-            subtitle: ShListViewContent(
-              dataList: dataList,
-              onEdit: onEdit,
-              onDelete: onDelete,
-              buildTitle: buildTitle,
-              buildBadgeLabel: buildBadgeLabel,
-              buildBadgeColor: buildBadgeColor,
-              buildInfoList: buildInfoList,
-            ),
-          ),
+    return ShFormItem.noIcon(
+      labelId: outerLabelId ?? '',
+      padding: .only(top: 16, left: 16, right: 16),
+      child: ListTile(
+        contentPadding: .zero,
+        isThreeLine: true,
+        trailing: FloatingActionButton.small(
+          heroTag: heroTag,
+          backgroundColor: context.colors.secondary,
+          foregroundColor: context.colors.onSecondary,
+          child: Icon(Icons.add),
+          onPressed: onAdd,
         ),
-      ],
-    );
+        subtitle: ShListViewContent(
+          dataList: dataList,
+          onEdit: onEdit,
+          onDelete: onDelete,
+          buildTitle: buildTitle,
+          buildBadgeLabel: buildBadgeLabel,
+          buildBadgeColor: buildBadgeColor,
+          buildInfoList: buildInfoList,
+        ),
+      ),
+    );    
   }
 }

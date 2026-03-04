@@ -97,20 +97,9 @@ class _ShColorPickerState extends State<ShColorPicker> {
       ),
       onPressed: _showColorPicker,
       child: Container(
-        width: 64,
-        height: 64,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.black26),
-        ),
-        child: Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: _currentColor,
-            shape: BoxShape.circle,
-          ),
+        child: CircleAvatar(
+          radius: 24,
+          backgroundColor: _currentColor,
         ),
       ),
     );

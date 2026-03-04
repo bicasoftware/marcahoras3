@@ -33,11 +33,9 @@ class _ShGridviewTileState extends State<ShGridviewTile> {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: widget.axisCount,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      childAspectRatio: 3.1,
+    return Wrap(
+      alignment: .start,
+      direction: .horizontal,
       children: widget.items.mapIndexed(
         (int i, int item) {
           return GestureDetector(
@@ -47,7 +45,8 @@ class _ShGridviewTileState extends State<ShGridviewTile> {
             },
             child: Container(
               width: 100,
-              margin: EdgeInsets.all(2),
+              margin: .only(right: 8, bottom: 4),
+              padding: .all(4),
               decoration: BoxDecoration(
                 color: item == _selectedItem
                     ? context.colors.primary.withAlpha(20)
