@@ -47,8 +47,8 @@ class Localiza {
                 ? _parsedYaml[stringKey][_locale]
                 : stringKey)
             as String;
-    
-    map.forEach((k,v) => string = string.replaceAll(k, v));
+
+    map.forEach((k, v) => string = string.replaceAll(k, v));
     return string;
   }
 
@@ -60,3 +60,5 @@ class Localiza {
         : [keyName];
   }
 }
+
+findText(String labelId) => Localiza.find(labelId);

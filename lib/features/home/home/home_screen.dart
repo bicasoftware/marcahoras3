@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,34 +22,27 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
-    
-    return SafeArea(
-      bottom: true,
-      top: !Platform.isIOS,
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light.copyWith(
-          systemStatusBarContrastEnforced: false,
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(
+        systemStatusBarContrastEnforced: false,
+      ),
+      child: BlocHelper<HomeBloc, HomeState>(
+        bloc: bloc,
+        hasData: (s) => s.empregos.isEmpty,
+        showErrorWidget: true,
+        errorWidget: (err) => ShDefaultErrorScaffold(
+          errorMsg: err.errorMsg,
+          onRetry: () => bloc.load(resync: true),
         ),
-        child: BlocHelper<HomeBloc, HomeState>(
-          bloc: bloc,
-          hasData: (s) => s.empregos.isEmpty,
-          showErrorWidget: true,
-          errorWidget: (err) => ShDefaultErrorScaffold(
-            errorMsg: err.errorMsg,
-            onRetry: () => bloc.load(resync: true),
+        noDataChild: Scaffold(
+          body: NoDataContainer(
+            labelId: "empregosVazio",
+            extraLabelId: "empregosVazioExtra",
+            helperButtonTap: () => showCreateScreen(context),
           ),
-          noDataChild: Scaffold(
-            body: NoDataContainer(
-              labelId: "empregosVazio",
-              extraLabelId: "empregosVazioExtra",
-              helperButtonTap: () => showCreateScreen(context),
-            ),
-          ),
-          child: CalendarScreen(),
-          // child: Scaffold(
-          //   body: bloc.state.empregos.isEmpty ? Container() : CalendarScreen(),
-          // ),
         ),
+        child: CalendarScreen(),
       ),
     );
   }

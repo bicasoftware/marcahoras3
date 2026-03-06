@@ -59,6 +59,13 @@ String formatVigenciaDate(DateTime vigencia, [Locale? locale, String? mask]) {
   return "${vig[0].toUpperCase()}${vig.substring(1, vig.length)}";
 }
 
+String formatVigenciaString(String vigencia, Locale locale) {
+  final split = vigencia.split('-').map((i) => int.parse(i)).toList();
+
+  final vig = DateFormat('MMMM yyyy', locale.languageCode).format(DateTime(split[0], split[1], 1));
+  return "${vig[0].toUpperCase()}${vig.substring(1, vig.length)}";
+}
+
 String formatVigencia(int year, int month, [Locale? locale, String? mask]) {
   return DateFormat(
     mask ?? 'yyyy MMM',

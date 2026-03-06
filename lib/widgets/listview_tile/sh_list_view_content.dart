@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../widgets.dart';
+import '../../utils.dart';
 
 class ShListViewContent<T> extends StatelessWidget {
   final List<T> dataList;
@@ -23,14 +24,22 @@ class ShListViewContent<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 1000),
-      margin: EdgeInsets.only(left: 4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 4,
-        children: dataList.mapIndexed((i, item) {
-          return ShDetailedListTile(
+    final colors = context.colors;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      spacing: 4,
+      children: dataList.mapIndexed((i, item) {
+        return Container(
+          padding: .symmetric(vertical: 8, horizontal: 16),
+          decoration: BoxDecoration(
+            color: colors.surfaceContainer,
+            borderRadius: .all(.circular(16)),
+            border: .all(
+              color: colors.primaryFixedDim,
+              width: 1,
+            ),
+          ),
+          child: ShDetailedListTile(
             title: buildTitle(item),
             popupOptions: ShPopupMenuItemData.defaultOptions(
               onEdit: () => onEdit(item),
@@ -40,9 +49,9 @@ class ShListViewContent<T> extends StatelessWidget {
             badgeLabel: buildBadgeLabel?.call(item),
             badgeColor: buildBadgeColor?.call(item),
             contentList: buildInfoList(item),
-          );
-        }).toList(),
-      ),
+          ),
+        );
+      }).toList(),
     );
   }
 }

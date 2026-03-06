@@ -49,8 +49,8 @@ class _ShGridviewTileState extends State<ShGridviewTile> {
               padding: .all(4),
               decoration: BoxDecoration(
                 color: item == _selectedItem
-                    ? context.colors.primary.withAlpha(20)
-                    : context.colors.surface,
+                    ? context.colors.surface
+                    : context.colors.surfaceContainer,
                 border: Border.all(
                   color: context.colors.primary.withAlpha(20),
                 ),

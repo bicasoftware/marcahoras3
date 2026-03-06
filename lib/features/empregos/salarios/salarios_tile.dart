@@ -48,6 +48,7 @@ class SalariosTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final locale = Localizations.localeOf(context);
 
     return ShListViewTile<Salarios>(
       outerLabelId: 'salarios',
@@ -55,19 +56,16 @@ class SalariosTile extends StatelessWidget {
       onAdd: onAdd,
       onEdit: onEdit,
       onDelete: onDelete,
-      buildTitle: (s) => s.vigencia,
+      buildTitle: (s) => formatVigenciaString(s.vigencia, locale),
       buildBadgeLabel: (s) {
         return Localiza.find(_isAtual(s) ? 'atual' : 'Aumento');
       },
       buildBadgeColor: (s) => _isAtual(s) ? colors.secondary : colors.primary,
       buildInfoList: (s) {
         return [
-          IconLabelValue(
-            label: Localiza.find('valor'),
-            value: CurrencyHelper.formatAmount(s.valor),
-            labelColor: colors.secondary,
-            icon: Icons.currency_exchange,
-            iconColor: colors.secondary,
+          Container(
+            padding: .all(4),
+            child: ShFormLabel.subtitle(CurrencyHelper.formatAmount(s.valor)),
           ),
         ];
       },

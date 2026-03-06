@@ -11,10 +11,10 @@ Future<bool> showConfirmationDialog({
 }) async {
   bool response = false;
 
-  await showDialog<bool>(
+  await showAdaptiveDialog<bool>(
     context: context,
     builder: (context) {
-      return AlertDialog(
+      return AlertDialog.adaptive(
         title: Text(titleMsg),
         actions: [
           TextButton(

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,17 +31,62 @@ class _CalendarScreenState extends State<CalendarScreen>
     final colors = context.colors;
 
     return bloc.state.hasEmpregos()
-        ? SafeArea(
-            bottom: true,
-            top: !Platform.isIOS,
-            child: AnnotatedRegion<SystemUiOverlayStyle>(
-              value: SystemUiOverlayStyle.light.copyWith(
-                systemNavigationBarColor: colors.primary,
-                statusBarColor: colors.primary,
-                systemStatusBarContrastEnforced: false,
-              ),
+        ? AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle.light.copyWith(
+              systemNavigationBarColor: colors.primary,
+              statusBarColor: colors.primary,
+              systemStatusBarContrastEnforced: false,
+            ),
+            child: SafeArea(
+              bottom: true,
+              top: false,
               child: Scaffold(
                 backgroundColor: colors.surface,
+                appBar: ShTooledAppBar(
+                  content: Container(
+                    padding: .only(top: 8),
+                    child: Row(
+                      spacing: 8,
+                      children: [
+                        Expanded(
+                          child: OutlinedCard(
+                            cardColor: colors.primary,
+                            outlineColor: colors.onPrimary,
+                            margin: .only(bottom: 2),
+                            child: EmpregosDropdown(),
+                            hasShadow: false,
+                          ),
+                        ),
+                        OutlinedCard(
+                          cardColor: colors.primary,
+                          outlineColor: colors.onPrimary,
+                          hasShadow: false,
+                          margin: .only(bottom: 2),
+                          child: TextButton.icon(
+                            iconAlignment: .end,
+                            icon: Icon(
+                              Icons.keyboard_arrow_right_rounded,
+                              color: colors.onPrimary,
+                            ),
+                            label: ShText(
+                              'Empregos',
+                              style: Theme.of(context).textTheme.bodyLarge
+                                  ?.copyWith(
+                                    color: colors.onPrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(
+                                context,
+                              ).pushNamed(Routes.empregos);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 floatingActionButton: bloc.state.hasReportData()
                     ? FloatingActionButton.extended(
                         heroTag: 'FAB',
@@ -64,61 +107,6 @@ class _CalendarScreenState extends State<CalendarScreen>
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      if (bloc.state.hasEmpregos())
-                        Container(
-                          color: colors.primary,
-                          // Gambiarra pra que a statusbar do iOS fique na cor primary
-                          padding: Platform.isIOS
-                              ? EdgeInsets.only(
-                                  left: 12,
-                                  right: 12,
-                                  bottom: 2,
-                                  top: kToolbarHeight,
-                                )
-                              : EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 2,
-                                ),
-                          child: Row(
-                            spacing: 8,
-                            children: [
-                              Expanded(
-                                child: OutlinedCard(
-                                  cardColor: colors.primary,
-                                  outlineColor: colors.onPrimary,
-                                  margin: .only(bottom: 2),
-                                  child: EmpregosDropdown(),
-                                ),
-                              ),
-                              OutlinedCard(
-                                cardColor: colors.primary,
-                                outlineColor: colors.onPrimary,
-                                margin: .only(bottom: 2),
-                                child: TextButton.icon(
-                                  iconAlignment: .end,
-                                  icon: Icon(
-                                    Icons.keyboard_arrow_right_rounded,
-                                    color: colors.onPrimary,
-                                  ),
-                                  label: ShText(
-                                    'Empregos',
-                                    style: Theme.of(context).textTheme.bodyLarge
-                                        ?.copyWith(
-                                          color: colors.onPrimary,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(
-                                      context,
-                                    ).pushNamed(Routes.empregos);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
                       /// Container de cabeçalho de dias da semana
                       CalendarioScreenHeader(
                         year: bloc.state.year,
@@ -209,7 +197,7 @@ class _CalendarScreenState extends State<CalendarScreen>
             ),
           )
         : Container(
-          color: colors.primary,
-        );
+            color: colors.primary,
+          );
   }
 }

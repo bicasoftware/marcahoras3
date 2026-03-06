@@ -30,37 +30,41 @@ class BottomSheetHelper {
           topRight: topRadius,
         ),
       ),
-      builder: (context) => Padding(
-        padding: MediaQuery.of(context).viewInsets,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ?leading,
-                  if (title != null)
-                    Text(
-                      title,
-                      style: context.textTheme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+      builder: (context) => SafeArea(
+        top: false,
+        bottom: true,
+        child: Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ?leading,
+                    if (title != null)
+                      Text(
+                        title,
+                        style: context.textTheme.labelLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.start,
                       ),
-                      textAlign: TextAlign.start,
-                    ),
-                  if (trailing != null) ...[
-                    const Spacer(),
-                    trailing,
+                    if (trailing != null) ...[
+                      const Spacer(),
+                      trailing,
+                    ],
+                    const Divider(),
                   ],
-                  const Divider(),
-                ],
+                ),
               ),
-            ),
-            body,
-          ],
+              body,
+            ],
+          ),
         ),
       ),
     );

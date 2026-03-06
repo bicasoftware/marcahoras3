@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils.dart';
+import '../widgets.dart';
 
 class IconLabelValue extends StatelessWidget {
   final String label;
@@ -19,35 +20,19 @@ class IconLabelValue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Container(
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        spacing: 8,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(right: 8),
-            child: Icon(
-              icon,
-              size: 24,
-              color: iconColor,
-            ),
+          ShFormIcon(
+            icon: icon,
+            themeColor: iconColor ?? colors.primary,
           ),
-          Text(
-            label,
-            style: context.textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.normal,
-              color: labelColor,
-              fontSize: 16,
-            ),
-          ),
-
+          ShFormLabel.subtitle(label),
           const Spacer(),
-          Text(
-            value,
-            style: context.textTheme.labelLarge?.copyWith(
-              // fontWeight: FontWeight.bold,
-              color: context.colors.onSurface,
-            ),
-          ),
+          ShFormLabel.title(value),
         ],
       ),
     );

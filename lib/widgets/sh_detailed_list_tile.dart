@@ -44,14 +44,14 @@ class _ShDetailedListTileState extends State<ShDetailedListTile> {
             Row(
               children: [
                 Expanded(
-                  child: IconLabel(
-                    icon: Icon(
-                      Icons.date_range,
-                      color: context.colors.secondary,
-                    ),
-                    label: widget.title,
-                    labelColor: context.colors.onSurface,
-                  ),
+                  child: 
+                  Row(
+                    spacing: 8,
+                    children: [
+                      ShFormIcon(icon: Icons.date_range, themeColor: context.colors.primary),
+                      ShFormLabel.title(widget.title),
+                    ],
+                  )                  
                 ),
                 if (_showBadge)
                   Badge(

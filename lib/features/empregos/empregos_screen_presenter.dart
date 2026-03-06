@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../dialogs.dart';
 import '../../domain_layer/models.dart';
-import '../../presentation_layer/blocs/empregos/empregos_bloc.dart';
+import '../../presentation_layer/blocs.dart';
 import '../../utils.dart';
 import '../../widgets.dart';
 import 'empregos_screen.dart';
@@ -123,79 +123,41 @@ mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
     );
   }
 
-  // Future<void> _showValorFixoBts({
-  //   required EmpregosBlocAlt bloc,
-  //   required bool isInsert,
-  //   HoraFixo? horaFixo,
-  // }) async {
-  //   await BottomSheetHelper.showModalBts(
-  //     context: context,
-  //     dismissible: true,
-  //     showDragHandle: false,
-  //     body: ValorFixoBts(
-  //       isInsert: isInsert,
-  //       valorFixo: horaFixo?.toValorFixo() ?? (0, 0),
-  //       vigencia: DateTime.now(),
-  //       onSave: (valorFixo, vigencia) async {
-  //         showLoadingDialog(context: context);
-  //         if (isInsert) {
-  //           await bloc.insertHoraFixo(
-  //             valorFixo: valorFixo,
-  //             vigencia: vigencia,
-  //             empregoId: bloc.state.emprego.id!,
-  //           );
-  //         } else {
-  //           await bloc.updateHoraFixo(
-  //             horaFixo!.copyWith(
-  //               valorNormal: valorFixo.$1,
-  //               valorFeriado: valorFixo.$2,
-  //               vigencia: vigencia,
-  //             ),
-  //           );
-  //         }
+  Future<void> validate(
+    GlobalKey<FormState> formKey,
+    EmpregosBloc bloc,
+    HomeBloc homeBloc,
+    bool popWhenDone,
+  ) async {
+    final valid = formKey.currentState?.validate() ?? false;
+    if (valid) {
+      if (bloc.validate()) {
+        await awaitableTask(
+          context: context,
+          actualTask: () async {
+            await bloc.persist();
+            await homeBloc.load();
+            Navigator.of(context).pop();
+          },
+          popWhenDone: popWhenDone,
+        );
+      }
+    }
+  }
 
-  //         Navigator.of(context).pop();
-  //       },
-  //     ),
-  //   );
-  // }
-
-  // Future<void> insertHoraFixo(EmpregosBlocAlt bloc) async {
-  //   return await _showValorFixoBts(
-  //     bloc: bloc,
-  //     isInsert: true,
-  //   );
-  // }
-
-  // Future<void> updateHoraFixo(EmpregosBlocAlt bloc, HoraFixo horaFixo) async {
-  //   return await _showValorFixoBts(
-  //     bloc: bloc,
-  //     isInsert: false,
-  //     horaFixo: horaFixo,
-  //   );
-  // }
-
-  // void deleteHoraFixo(EmpregosBlocAlt bloc, HoraFixo horaFixo) async {
-  //   final shouldDelete = await showConfirmationDialog(
-  //     context: context,
-  //     titleMsg: Localiza.findAndReplace(
-  //       stringKey: 'deleteDialogTitle',
-  //       findString: '{value}',
-  //       replaceWithKey: 'valorFixo',
-  //     ),
-  //     descriptionText: Localiza.findAndReplace(
-  //       stringKey: 'deleteDialogMsg',
-  //       findString: '{value}',
-  //       replaceWithKey: 'valorFixo',
-  //     ),
-  //   );
-
-  //   if (shouldDelete) {
-  //     showLoadingDialog(context: context);
-
-  //     await bloc.deleteHoraFixo(horaFixo);
-
-  //     Navigator.of(context).pop();
-  //   }
-  // }
+  bool canPop({
+    required GlobalKey<FormState> formKey,
+    required Empregos ogEmprego,
+    required EmpregosBloc bloc,
+  }) {
+    /// Sempre retorna false se for insert,
+    /// Sempre retorna false se houve mudança de dados ao atualizar
+    /// Assim, se for insert ou se o usuário tiver alterando algum dado
+    /// e clicar em voltar, mostrar dialog confirmando alteração ou cancelar
+    if(bloc.state.isInsert) {
+      return false;
+    } else {
+      return !bloc.state.didChangeData(ogEmprego);
+    }
+  }
 }

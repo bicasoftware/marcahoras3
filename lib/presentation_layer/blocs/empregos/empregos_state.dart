@@ -27,12 +27,29 @@ class EmpregosState extends BaseState {
   int get diaFechamento => _emprego.diaFechamento;
   bool get ativo => _emprego.ativo;
 
+  bool didChangeData(Empregos oldEmprego) {
+    return [
+      _emprego.descricao != oldEmprego.descricao,
+      _emprego.admissao != oldEmprego.admissao,
+      _emprego.entrada != oldEmprego.entrada,
+      _emprego.saida != oldEmprego.saida,
+      _emprego.bancoHoras != oldEmprego.bancoHoras,
+      _emprego.porcFeriado != oldEmprego.porcFeriado,
+      _emprego.porcNormal != oldEmprego.porcNormal,
+      _emprego.cargaHoraria != oldEmprego.cargaHoraria,
+      _emprego.diaFechamento != oldEmprego.diaFechamento,
+      _emprego.ativo != oldEmprego.ativo,
+      !DeepCollectionEquality().equals(_salarios, oldEmprego.salarios),
+      !DeepCollectionEquality().equals(_difList, oldEmprego.diferenciaisList),
+    ].any((it) => it);
+  }
+
   EmpregosState({
     required super.status,
     required this.isInsert,
     required Empregos emprego,
-  }) : _emprego = emprego,
-       _oldEmprego = emprego.copyWith(),
+  }) : _emprego = emprego.copyWith(),
+       _oldEmprego = emprego,
        this._salarios = UnmodifiableListView(emprego.salarios),
        this._difList = UnmodifiableListView(emprego.diferenciaisList),
        this._horas = UnmodifiableListView(emprego.horas);

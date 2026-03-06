@@ -83,17 +83,19 @@ class _SalariosDetailBtsState extends State<SalariosDetailBts> {
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               keyboardType: TextInputType.number,
             ),
-            ShLabeledTile(
-              value: formatVigencia(_year, _month, locale, "MMMM yyyy"),
-              label: Localiza.find("vigencia"),
-              icon: Icon(Icons.calendar_month),
+            LabelFormField(
+              initialValue: formatVigencia(_year, _month, locale, "MMMM yyyy"),
+              label: "vigencia",
+              icon: Icons.calendar_month,
+              valueFormatter: (v) => v,
+              themeColor: colors.primary,
               onTap: () async {
                 final newVig = await showVigenciaPickerDialog(
                   context: context,
-                  titleMsg: Localiza.find('vigencia'),
+                  titleMsg: findText('vigencia'),
                   descriptionText: '',
-                  ano: widget.vigencia.year,
-                  mes: widget.vigencia.month,
+                  ano: _year,
+                  mes: _month,
                 );
 
                 if (newVig != null) {

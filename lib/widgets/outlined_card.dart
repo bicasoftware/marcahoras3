@@ -8,14 +8,14 @@ class OutlinedCard extends StatelessWidget {
   final Gradient? gradient;
   final Widget child;
   final double borderRadius;
-  final int shadowAlpha;
+  final bool hasShadow;
 
   const OutlinedCard({
     required this.child,
+    this.borderRadius = 8,
+    this.hasShadow = true,
     this.cardColor,
     this.outlineColor,
-    this.shadowAlpha = 40,
-    this.borderRadius = 8,
     this.padding,
     this.margin,
     this.gradient,
@@ -31,13 +31,15 @@ class OutlinedCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: cardColor ?? colors.surface,
         gradient: gradient,
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 1,
-            color: outlineColor ??Colors.black12,
-            offset: Offset(.1,1),
-          ),
-        ],
+        boxShadow: hasShadow
+            ? [
+                BoxShadow(
+                  blurRadius: 1,
+                  color: outlineColor ?? Colors.black12,
+                  offset: Offset(.1, 1),
+                ),
+              ]
+            : null,
         border: BoxBorder.all(color: outlineColor ?? Colors.black26, width: .2),
         borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
       ),

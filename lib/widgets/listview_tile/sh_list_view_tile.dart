@@ -31,19 +31,20 @@ class ShListViewTile<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return ShFormItem.noIcon(
-      labelId: outerLabelId ?? '',
+      labelId: outerLabelId ?? '',      
       padding: .only(top: 16, left: 16, right: 16),
+      trailing: OutlinedCard(
+        child: IconButton(
+          icon: Icon(Icons.add, color: colors.onSurface),
+          onPressed: onAdd,
+        ),
+      ),
       child: ListTile(
         contentPadding: .zero,
         isThreeLine: true,
-        trailing: FloatingActionButton.small(
-          heroTag: heroTag,
-          backgroundColor: context.colors.secondary,
-          foregroundColor: context.colors.onSecondary,
-          child: Icon(Icons.add),
-          onPressed: onAdd,
-        ),
         subtitle: ShListViewContent(
           dataList: dataList,
           onEdit: onEdit,
@@ -54,6 +55,6 @@ class ShListViewTile<T> extends StatelessWidget {
           buildInfoList: buildInfoList,
         ),
       ),
-    );    
+    );
   }
 }

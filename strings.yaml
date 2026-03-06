@@ -346,7 +346,7 @@ valorHora:
 horasExtras:
   pt_BR: Horas Extras
   en_US: Overtime
-back:
+voltar:
   pt_BR: Voltar  
   en_US: Go back
 next:
@@ -436,6 +436,13 @@ diaSemana:
 cor:
   pt_BR: Cor
   en_US: Color
+confirmarDescartar:
+  pt_BR: 'Deseja descartar as alterações?'
+  en_US: 'Do you like to discard changes?'
+descartar:
+  pt_BR: 'Descartar'
+  en_US: 'Discard'
+  
 months:
   pt_BR:
     - Janeiro

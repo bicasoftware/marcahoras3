@@ -169,41 +169,44 @@ class Empregos {
   @override
   bool operator ==(covariant Empregos other) {
     if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.descricao == descricao &&
-        other.admissao == admissao &&
-        other.entrada == entrada &&
-        other.saida == saida &&
-        other.bancoHoras == bancoHoras &&
-        other.porcFeriado == porcFeriado &&
-        other.porcNormal == porcNormal &&
-        other.cargaHoraria == cargaHoraria &&
-        other.ativo == ativo &&
-        other.salario == salario &&
-        other.horas == horas &&
-        other.salarios == salarios &&
-        other.diferenciaisList == diferenciaisList &&
-        other.horaFixoList == horaFixoList;
+  
+    return 
+      other.id == id &&
+      other.descricao == descricao &&
+      other.admissao == admissao &&
+      other.entrada == entrada &&
+      other.saida == saida &&
+      other.bancoHoras == bancoHoras &&
+      other.porcFeriado == porcFeriado &&
+      other.porcNormal == porcNormal &&
+      other.cargaHoraria == cargaHoraria &&
+      other.ativo == ativo &&
+      other.diaFechamento == diaFechamento &&
+      other.salario == salario &&
+      other.horas == horas &&
+      other.salarios == salarios &&
+      other.horaFixoList == horaFixoList &&
+      other.diferenciaisList == diferenciaisList;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        descricao.hashCode ^
-        admissao.hashCode ^
-        entrada.hashCode ^
-        saida.hashCode ^
-        bancoHoras.hashCode ^
-        porcFeriado.hashCode ^
-        porcNormal.hashCode ^
-        cargaHoraria.hashCode ^
-        ativo.hashCode ^
-        salario.hashCode ^
-        horas.hashCode ^
-        salarios.hashCode ^
-        horaFixoList.hashCode ^
-        diferenciaisList.hashCode;
+      descricao.hashCode ^
+      admissao.hashCode ^
+      entrada.hashCode ^
+      saida.hashCode ^
+      bancoHoras.hashCode ^
+      porcFeriado.hashCode ^
+      porcNormal.hashCode ^
+      cargaHoraria.hashCode ^
+      ativo.hashCode ^
+      diaFechamento.hashCode ^
+      salario.hashCode ^
+      horas.hashCode ^
+      salarios.hashCode ^
+      horaFixoList.hashCode ^
+      diferenciaisList.hashCode;
   }
 
   @override

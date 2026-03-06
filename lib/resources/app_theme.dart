@@ -25,7 +25,7 @@ class ShAppTheme {
       onError: Color(0xffffffff),
       errorContainer: Color(0xffffdad6),
       onErrorContainer: Color(0xff73332d),
-      surface: Color(0xfffdf7ff),
+      surface: Color(0xFFE9E1F0),
       onSurface: Color(0xff1c1b20),
       onSurfaceVariant: Color(0xFF66616D),
       outline: Color(0xff7a757f),

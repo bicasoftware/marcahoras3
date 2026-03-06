@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/widgets/sh_gridview_tile.dart';
 
 import '../../../../utils.dart';
 import '../../../../widgets.dart';
@@ -52,74 +51,78 @@ class _DiffBtsState extends State<DiffBts> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 8,
-        children: [
-          Text(
-            Localiza.find("addDiferecencial"),
-            style: theme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          IntrinsicHeight(
-            child: Row(
-              spacing: 8,
-              crossAxisAlignment: .stretch,
-              children: [
-                Expanded(
-                  flex: 7,
-                  child: ShFormSlider(
-                    labelId: "porcentagem",
-                    padding: .all(8),
-                    themeColor: context.colors.secondaryFixed,
-                    value: _porc,
-                    onChanged: _setPorc,
-                    minValue: 50,
-                    maxValue: 300,
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: ShFormItem.noIcon(
-                    labelId: 'cor',
-                    padding: .all(8),
-                    child: ShColorPicker(
-                      initialColor: Colors.purple,
-                      onColorSelected: (c) {
-                        setState(() {
-                          _color = c;
-                        });
-                      },
+    return SafeArea(
+      top: false,
+      bottom: true,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: 8,
+          children: [
+            Text(
+              Localiza.find("addDiferecencial"),
+              style: theme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            IntrinsicHeight(
+              child: Row(
+                spacing: 8,
+                crossAxisAlignment: .stretch,
+                children: [
+                  Expanded(
+                    flex: 7,
+                    child: ShFormSlider(
+                      labelId: "porcentagem",
+                      padding: .all(8),
+                      themeColor: context.colors.secondaryFixed,
+                      value: _porc,
+                      onChanged: _setPorc,
+                      minValue: 50,
+                      maxValue: 300,
                     ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    flex: 3,
+                    child: ShFormItem.noIcon(
+                      labelId: 'cor',
+                      padding: .all(8),
+                      child: ShColorPicker(
+                        initialColor: _color,
+                        onColorSelected: (c) {
+                          setState(() {
+                            _color = c;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          ShFormItem.noIcon(            
-            labelId: 'diaSemana',
-            child: ShGridviewTile(
-              axisCount: 3,
-              items: _weekDaysList,
-              initialItem: _weekDay,
-              formatItem: <String>(int item) => _weekDaysExt[item],
-              onSelected: (t) {
-                _setWeekDay(t);
-              },
+            ShFormItem.noIcon(            
+              labelId: 'diaSemana',
+              child: ShGridviewTile(
+                axisCount: 3,
+                items: _weekDaysList,
+                initialItem: _weekDay,
+                formatItem: <String>(int item) => _weekDaysExt[item],
+                onSelected: (t) {
+                  _setWeekDay(t);
+                },
+              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.only(bottom: 16),
-            child: ShFormButton.save(
-              () {
-                Navigator.of(context).pop();
-                widget.onSave(_porc, _weekDay, _color);
-              },
+            Container(
+              margin: EdgeInsets.only(bottom: 16),
+              child: ShFormButton.save(
+                () {
+                  Navigator.of(context).pop();
+                  widget.onSave(_porc, _weekDay, _color);
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

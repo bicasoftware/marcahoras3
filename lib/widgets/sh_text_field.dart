@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../utils.dart';
-import '../widgets.dart';
 
 class ShTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -56,10 +55,8 @@ class ShTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    return OutlinedCard(
+    return Container(
       padding: .all(8),
-      cardColor: colors.surfaceContainerHighest,
       child: TextFormField(
         controller: controller,
         autofocus: false,
@@ -69,6 +66,9 @@ class ShTextField extends StatelessWidget {
         keyboardType: keyboardType,
         maxLength: maxChars,
         onChanged: onValueChanged,
+        onTapOutside: (_) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
       ),
     );
   }
