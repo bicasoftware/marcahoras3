@@ -238,20 +238,19 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                           ),
                         ],
                       ),
-                      LabelFormField<int>(
-                        label: Localiza.find("diaFechamento"),
-                        themeColor: colors.primary,
-                        initialValue: state.diaFechamento,
-                        valueFormatter: (t) {
-                          return "${Localiza.find('dia')} $t";
-                        },
+                      ShDropdownTile<int>(
+                        labelId: 'diaFechamento',
+                        selectedItem: state.diaFechamento,
+                        items: List.generate(29, (i) => i + 1),
                         icon: Icons.calendar_today_outlined,
-                        onTap: () {
-                          showDiaFechamentoPicker(
-                            context: context,
-                            day: state.diaFechamento,
-                            bloc: bloc,
-                          );
+                        themeColor: colors.secondary,
+                        onItemChanged: (value) {
+                          if (value != null) {
+                            bloc.setDiaFechamento(value);
+                          }
+                        },
+                        formatItem: (int item) {
+                          return "$item".padLeft(2, '0');
                         },
                       ),
 

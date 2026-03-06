@@ -39,22 +39,6 @@ mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
     }
   }
 
-  void showDiaFechamentoPicker({
-    required BuildContext context,
-    required EmpregosBloc bloc,
-    required int day,
-  }) async {
-    final newDay = await showScrollableDayPickerDialog(
-      context: context,
-      titleMsgKey: 'selecionarDiaFechamento',
-      day: bloc.state.emprego.diaFechamento,
-    );
-
-    if (newDay != null) {
-      bloc.setDiaFechamento(newDay);
-    }
-  }
-
   void handleAumento(EmpregosBloc bloc) async {
     await BottomSheetHelper.showModalBts(
       context: context,
