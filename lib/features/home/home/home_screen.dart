@@ -23,27 +23,22 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light.copyWith(
-        systemStatusBarContrastEnforced: false,
+    return BlocHelper<HomeBloc, HomeState>(
+      bloc: bloc,
+      hasData: (s) => s.empregos.isEmpty,
+      showErrorWidget: true,
+      errorWidget: (err) => ShDefaultErrorScaffold(
+        errorMsg: err.errorMsg,
+        onRetry: () => bloc.load(resync: true),
       ),
-      child: BlocHelper<HomeBloc, HomeState>(
-        bloc: bloc,
-        hasData: (s) => s.empregos.isEmpty,
-        showErrorWidget: true,
-        errorWidget: (err) => ShDefaultErrorScaffold(
-          errorMsg: err.errorMsg,
-          onRetry: () => bloc.load(resync: true),
+      noDataChild: Scaffold(
+        body: NoDataContainer(
+          labelId: "empregosVazio",
+          extraLabelId: "empregosVazioExtra",
+          helperButtonTap: () => showCreateScreen(context),
         ),
-        noDataChild: Scaffold(
-          body: NoDataContainer(
-            labelId: "empregosVazio",
-            extraLabelId: "empregosVazioExtra",
-            helperButtonTap: () => showCreateScreen(context),
-          ),
-        ),
-        child: CalendarScreen(),
       ),
+      child: CalendarScreen(),
     );
   }
 }

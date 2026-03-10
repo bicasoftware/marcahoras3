@@ -21,7 +21,7 @@ class ShPanelButton extends StatelessWidget {
     final colors = context.colors;
     final theme = context.textTheme;
     return Material(
-      color: colors.onPrimaryFixedVariant.withAlpha(80),
+      color: colors.onPrimaryFixedVariant,
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
         onTap: onTap,

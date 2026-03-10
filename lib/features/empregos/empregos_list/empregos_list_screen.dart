@@ -57,41 +57,35 @@ class _EmpregosListScreenState extends State<EmpregosListScreen> {
   Widget build(BuildContext context) {
     final bloc = context.watch<HomeBloc>();
     final empregos = bloc.state.empregos;
-    final colors = context.colors;
 
-    return SafeArea(
-      top: false,
-      bottom: true,
-      child: Scaffold(
-        backgroundColor: colors.surface,
-        appBar: ShAppBar(label: Localiza.find("empregos")),
-        floatingActionButton: FloatingActionButton.extended(
-          heroTag: 'FAB',
-          label: ShText('adicionar'),
-          icon: Icon(Icons.add),
-          backgroundColor: ShAppTheme.addButtonColor,
-          foregroundColor: ShAppTheme.onAddButtonColor,
-          onPressed: () => showCreateScreen(context: context),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView(
-            children: empregos.map((e) {
-              return EmpregosListItem(
-                descricao: e.descricao,
-                cargaHoraria: "${e.cargaHoraria}",
-                ativo: e.ativo,
-                diferenciais: e.diferenciaisList,
-                onDelete: () => showOnDeleteDialog(context, bloc),
-                onNew: () => showCreateScreen(context: context),
-                onEdit: () => showEditScreen(context: context, emprego: e),
-                onDesativar: () {},
-                porcFeriado: e.porcFeriado,
-                porcNormal: e.porcNormal,
-                salario: e.getCurrentSalario(),
-              );
-            }).toList(),
-          ),
+    return ShScaffold(
+      appBar: ShAppBar(label: Localiza.find("empregos")),
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'FAB',
+        label: ShText('adicionar'),
+        icon: Icon(Icons.add),
+        backgroundColor: ShAppTheme.addButtonColor,
+        foregroundColor: ShAppTheme.onAddButtonColor,
+        onPressed: () => showCreateScreen(context: context),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: empregos.map((e) {
+            return EmpregosListItem(
+              descricao: e.descricao,
+              cargaHoraria: "${e.cargaHoraria}",
+              ativo: e.ativo,
+              diferenciais: e.diferenciaisList,
+              onDelete: () => showOnDeleteDialog(context, bloc),
+              onNew: () => showCreateScreen(context: context),
+              onEdit: () => showEditScreen(context: context, emprego: e),
+              onDesativar: () {},
+              porcFeriado: e.porcFeriado,
+              porcNormal: e.porcNormal,
+              salario: e.getCurrentSalario(),
+            );
+          }).toList(),
         ),
       ),
     );

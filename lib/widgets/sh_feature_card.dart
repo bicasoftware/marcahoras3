@@ -32,64 +32,59 @@ class ShFeatureCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textTheme = context.textTheme;
-    return OutlinedCard(
-      margin: .all(8),
-      cardColor: colors.surface,
-      outlineColor: isOutlined ? null : Colors.transparent,
-      child: hasData
-          ? Column(
-              children: [
-                Container(
-                  padding: .only(left: 16.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ShText(
-                          cardLabelId,
-                          style: textTheme.bodyLarge?.copyWith(
-                            fontWeight: .bold,
-                            color: colors.onSurface,
-                          ),
+    return hasData
+        ? Column(
+            children: [
+              Container(
+                padding: .only(left: 16.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ShText(
+                        cardLabelId,
+                        style: textTheme.bodyLarge?.copyWith(
+                          fontWeight: .bold,
+                          color: colors.onSurface,
                         ),
                       ),
-                      TextButton.icon(
-                        label: ShText(seeMoreLabelId),
-                        iconAlignment: .end,
-                        icon: Icon(Icons.keyboard_arrow_right_outlined),
-                        onPressed: onSeeMoreTap,
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: .only(bottom: 8),
-                  child: Divider(
-                    color: colors.primary.withAlpha(80),
-                    radius: BorderRadius.all(
-                      Radius.circular(8),
                     ),
-                    height: 1,
-                    indent: 8,
-                    endIndent: 8,
+                    TextButton.icon(
+                      label: ShText(seeMoreLabelId),
+                      iconAlignment: .end,
+                      icon: Icon(Icons.keyboard_arrow_right_outlined),
+                      onPressed: onSeeMoreTap,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: .only(bottom: 8),
+                child: Divider(
+                  color: colors.primary.withAlpha(80),
+                  radius: BorderRadius.all(
+                    Radius.circular(8),
                   ),
+                  height: 1,
+                  indent: 8,
+                  endIndent: 8,
                 ),
-                Expanded(child: child),
-              ],
-            )
-          : Center(
-            child: IntrinsicHeight(
-              child: OutlinedCard(
-                margin: .all(8),
-                cardColor: colors.surface,
-                child: ShEmptyListItem(
-                  descriptionId: noDataLabelId,
-                  extraDescriptionId: noDataExtraLabelId,
-                  icon: noDataIcon,
-                  onAddTap: noDataTap,
-                ),
+              ),
+              Expanded(child: child),
+            ],
+          )
+        : Center(
+          child: IntrinsicHeight(
+            child: OutlinedCard(
+              margin: .all(8),
+              cardColor: colors.surface,
+              child: ShEmptyListItem(
+                descriptionId: noDataLabelId,
+                extraDescriptionId: noDataExtraLabelId,
+                icon: noDataIcon,
+                onAddTap: noDataTap,
               ),
             ),
           ),
-    );
+        );
   }
 }

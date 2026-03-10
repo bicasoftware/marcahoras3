@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:marcahoras3/resources.dart';
 import 'package:yaml/yaml.dart';
 
 import 'app_config.dart';
@@ -14,16 +13,8 @@ import 'utils/localiza/localiza.dart';
 import 'utils/vault/vault_manager.dart';
 
 void main() async {
-  SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      systemNavigationBarColor: ShAppTheme.lightScheme().primary,
-      statusBarColor: ShAppTheme.lightScheme().primary,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.dark,
-    ),
-  );
-
   final bindings = WidgetsFlutterBinding.ensureInitialized();
+
   FlutterNativeSplash.preserve(widgetsBinding: bindings);
   await VaultManager.buildVaultData();
   final database = AppDatabase();

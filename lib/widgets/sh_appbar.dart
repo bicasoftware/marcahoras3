@@ -40,7 +40,7 @@ class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
           : null,
       actions: actions,
       bottom: bottom,
-      systemOverlayStyle: SystemUiOverlayStyle(
+      systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
         statusBarColor: colors.primary,
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.light,

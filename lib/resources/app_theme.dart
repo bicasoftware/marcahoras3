@@ -37,7 +37,7 @@ class ShAppTheme {
       primaryFixed: Color(0xffe9ddff),
       onPrimaryFixed: Color(0xff201047),
       primaryFixedDim: Color(0xffcfbdfe),
-      onPrimaryFixedVariant: Color(0xff4d3d75),
+      onPrimaryFixedVariant: Color.fromARGB(80, 77, 61, 117),
       secondaryFixed: Color(0xffffdad6),
       onSecondaryFixed: Color(0xff3b0908),
       secondaryFixedDim: Color(0xffffb3ac),
@@ -349,8 +349,8 @@ class ShAppTheme {
 
   static const saveButtonColor = Color(0xFFB1281F); // Same as secondary color
   static const onSaveButtonColor = Color(0xFFFFFFFF); // Same as secondary color
-  static const addButtonColor = Color(0xffe9ddff); 
-  static const onAddButtonColor = Color(0xFF000000); 
+  static const addButtonColor = Color(0xffe9ddff);
+  static const onAddButtonColor = Color(0xFF000000);
 
   /// Custom Color 1
   static const customColor1 = ExtendedColor(
@@ -565,7 +565,7 @@ class ColorFamily {
 
 class ExtraColors {
   static const tabBarBgColor = Color(0xff65558f);
-  static const disabled = Color(0x60757575);  
+  static const disabled = Color(0x60757575);
 
   static const statusAtivo = Color(0xFF5FB800);
   static const statusInativo = Color(0xFFFF847D);
@@ -585,4 +585,6 @@ class ExtraColors {
 
   static const saveButtonColor = Color(0xFFB1281F); // Same as secondary color
   static const addButtonColor = Color(0xffe9ddff); // same as PrimaryFixed
+
+  static const systemNavBarColor = Color(0xFFE9E1F0);
 }

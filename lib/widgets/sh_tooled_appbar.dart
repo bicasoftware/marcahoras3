@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../utils.dart';
 
@@ -14,7 +13,6 @@ class ShTooledAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
     return AppBar(
       backgroundColor: context.colors.primary,
       foregroundColor: context.colors.onPrimary,
@@ -28,14 +26,9 @@ class ShTooledAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             )
           : null,
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: colors.primary,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.light,
-      ),
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight+8);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight + 8);
 }

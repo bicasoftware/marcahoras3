@@ -21,70 +21,66 @@ class RelatorioScreen extends StatelessWidget
 
     final String vigencia = formatPDFVigencia(bloc, context.locale);
 
-    return SafeArea(
-      top: false,
-      bottom: true,
-      child: Scaffold(
-        appBar: ShAppBar(
-          label: Localiza.find('relatorios'),
-          elevation: 0,
-          roundedCorner: true,
-          centerTitle: true,
+    return ShScaffold(
+      appBar: ShAppBar(
+        label: Localiza.find('relatorios'),
+        elevation: 0,
+        roundedCorner: true,
+        centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'FAB',
+        label: ShText('totais'),
+        icon: Icon(FontAwesomeIcons.tableList),
+        onPressed: () => showTotalsBts(
+          context: context,
+          report: reportModel,
+          vigencia: vigencia,
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          heroTag: 'FAB',
-          label: ShText('totais'),
-          icon: Icon(FontAwesomeIcons.tableList),
-          onPressed: () => showTotalsBts(
-            context: context,
-            report: reportModel,
-            vigencia: vigencia,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          ListTile(
+            contentPadding: .symmetric(horizontal: 16),
+            title: Text(vigencia),
+            subtitle: Text(
+              formatFechamento(
+                reportModel.fechamento!.inicio,
+                reportModel.fechamento!.termino,
+                context.locale,
+              ),
+            ),
+            leading: CircleAvatar(
+              child: Icon(FontAwesomeIcons.listUl),
+            ),
           ),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ListTile(
-              contentPadding: .symmetric(horizontal: 16),
-              title: Text(vigencia),
-              subtitle: Text(
-                formatFechamento(
-                  reportModel.fechamento!.inicio,
-                  reportModel.fechamento!.termino,
-                  context.locale,
-                ),
-              ),
-              leading: CircleAvatar(
-                child: Icon(FontAwesomeIcons.listUl),
-              ),
-            ),
-            Expanded(
-              child: Hero(
-                tag: Routes.relatorio,
-                child: Material(
-                  child: RelatorioHorasList(
-                    horas: reportModel.hours,
-                    bancoHoras: reportModel.bancoHoras,
-                    diferenciais: diferenciais,
-                    onEdit: (h) {
-                      showHorasBts(
-                        context: context,
-                        bloc: bloc,
-                        isEdit: true,
-                        selectedHora: h,
-                        data: h.data,
-                      );
-                    },
-                    onDelete: (h) {
-                      deleteHora(context, h, bloc);
-                    },
-                  ),
+          Expanded(
+            child: Hero(
+              tag: Routes.relatorio,
+              child: Material(
+                child: RelatorioHorasList(
+                  horas: reportModel.hours,
+                  bancoHoras: reportModel.bancoHoras,
+                  diferenciais: diferenciais,
+                  onEdit: (h) {
+                    showHorasBts(
+                      context: context,
+                      bloc: bloc,
+                      isEdit: true,
+                      selectedHora: h,
+                      data: h.data,
+                    );
+                  },
+                  onDelete: (h) {
+                    deleteHora(context, h, bloc);
+                  },
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

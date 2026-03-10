@@ -9,7 +9,7 @@ class CalendarHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Container(
-      color: colors.onPrimaryFixedVariant.withAlpha(80),
+      color: colors.onPrimaryFixedVariant,
       padding: .all(8),
       child: Row(
         children: Localiza.findList(
