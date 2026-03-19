@@ -28,33 +28,33 @@ class HorasList extends StatefulWidget {
 class _HorasListState extends State<HorasList> {
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: .symmetric(horizontal: 8),
-      itemCount: widget.horas.length,
-      separatorBuilder: (_, _) => Container(
-        height: 8,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          for (final h in widget.horas)
+            Padding(
+              padding: const .symmetric(horizontal: 8.0, vertical: 2,),
+              child: OvertimeListTile(
+                horaType: h.type,
+                horaStatus: h.hora.horaStatus,
+                bancoHoras: widget.bancoHoras,
+                date: h.date,
+                workedHours: h.workedHours,
+                amount: h.amount,
+                salary: h.salary,
+                from: h.from,
+                to: h.to,              
+                diferencial: widget.diferenciais.firstWhereOrNull(
+                  (d) => d.weekday == h.date.weekday,
+                ),
+                popupOptions: ShPopupMenuItemData.defaultOptions(
+                  onEdit: () => widget.onEdit(h.hora),
+                  onDelete: () => widget.onDelete(h.hora),
+                ),
+              ),
+            ),
+        ],
       ),
-      itemBuilder: (_, i) {
-        final h = widget.horas[i];
-        return OvertimeListTile(
-          horaType: h.type,
-          horaStatus: h.hora.horaStatus,
-          bancoHoras: widget.bancoHoras,
-          date: h.date,
-          workedHours: h.workedHours,
-          amount: h.amount,
-          salary: h.salary,
-          from: h.from,
-          to: h.to,
-          diferencial: widget.diferenciais.firstWhereOrNull(
-            (d) => d.weekday == h.date.weekday,
-          ),
-          popupOptions: ShPopupMenuItemData.defaultOptions(
-            onEdit: () => widget.onEdit(h.hora),
-            onDelete: () => widget.onDelete(h.hora),
-          ),
-        );
-      },      
     );
   }
 }

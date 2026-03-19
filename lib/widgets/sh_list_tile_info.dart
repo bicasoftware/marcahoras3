@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../utils.dart';
 import '../widgets.dart';
 
 class ShListItemInfo extends StatelessWidget {
@@ -11,7 +10,6 @@ class ShListItemInfo extends StatelessWidget {
     required this.value,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,8 +18,8 @@ class ShListItemInfo extends StatelessWidget {
         children: [
           ShFormLabel.subtitle(label),
           const Spacer(),
-          ShFormLabel.title(
-            value,            
+          ShFormLabel.content(
+            value,
           ),
         ],
       ),
