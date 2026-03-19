@@ -58,6 +58,9 @@ horaInicioIgualHoraFim:
 selecionarHorario:
   pt_BR: Selecione um horário
   en_US: Select a time
+selecionarData:
+  pt_BR: Selecione uma data
+  en_US: Select a date
 tentar:
   pt_BR: Tentar novamente
   en_US: Try again
@@ -367,6 +370,15 @@ compensada:
 dia:
   pt_BR: Dia
   en_US: Day
+mes:
+  pt_BR: Mês
+  en_US: Month
+ano:
+  pt_BR: Ano
+  en_US: Year
+invalido:
+  pt_BR: Inválido
+  en_US: Invalid
 diaFechamento:
   pt_BR: Dia Fechamento
   en_US: Closure Day

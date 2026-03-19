@@ -4,16 +4,14 @@ import '../../dialogs.dart';
 import '../../domain_layer/models.dart';
 import '../../presentation_layer/blocs.dart';
 import '../../utils.dart';
-import '../../widgets.dart';
 import 'empregos_screen.dart';
 import 'salarios/salarios_detail_bts.dart';
 
 mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
   Future<void> selectDate(BuildContext context, EmpregosBloc bloc) async {
-    final date = await DialogHelper.showDateTimeDialog(
+    final date = await DialogHelper.showDateDialog(
       context: context,
-      initDate: DateTime.now(),
-      allowFutureDates: true,
+      initDate: bloc.state.admissao ?? DateTime.now(),
     );
 
     if (date != null && date != bloc.state.admissao) {
@@ -27,11 +25,9 @@ mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
     required TimeOfDay time,
     required bool isEntrada,
   }) async {
-    final newTime = await showScrollableTimePickerDialog(
+    final newTime = await DialogHelper.showTimePickerDialog(
       context: context,
-      titleMsg: Localiza.find('selecionarHorario'),
-      descriptionText: '',
-      timeOfDay: time,
+      time: time,
     );
 
     if (newTime != null && newTime != time) {
@@ -138,7 +134,7 @@ mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
     /// Sempre retorna false se houve mudança de dados ao atualizar
     /// Assim, se for insert ou se o usuário tiver alterando algum dado
     /// e clicar em voltar, mostrar dialog confirmando alteração ou cancelar
-    if(bloc.state.isInsert) {
+    if (bloc.state.isInsert) {
       return false;
     } else {
       return !bloc.state.didChangeData(ogEmprego);

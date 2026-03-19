@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../utils.dart';
+
 class ShFormIcon extends StatelessWidget {
   final IconData icon;
   final Color themeColor;
@@ -11,14 +13,15 @@ class ShFormIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Material(
-      color: themeColor.withAlpha(80),
+      color: themeColor.withAlpha(180),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusGeometry.all(Radius.circular(8)),
       ),
       child: Padding(
         padding: const .all(8.0),
-        child: Icon(icon),
+        child: Icon(icon, color: colors.onSecondary),
       ),
     );
   }

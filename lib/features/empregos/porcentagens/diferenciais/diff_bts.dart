@@ -75,7 +75,7 @@ class _DiffBtsState extends State<DiffBts> {
                     child: ShFormSlider(
                       labelId: "porcentagem",
                       padding: .all(8),
-                      themeColor: context.colors.secondaryFixed,
+                      themeColor: context.colors.secondary,
                       value: _porc,
                       onChanged: _setPorc,
                       minValue: 50,

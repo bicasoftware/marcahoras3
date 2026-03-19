@@ -12,7 +12,7 @@ class ShAppTheme {
       surfaceTint: Color(0xff65558f),
       onPrimary: Color(0xffffffff),
       primaryContainer: Color(0xffe9ddff),
-      onPrimaryContainer: Color(0xff4d3d75),
+      onPrimaryContainer: Color(0xFF6C5A99),
       secondary: Color(0xFFB1281F),
       onSecondary: Color(0xffffffff),
       secondaryContainer: Color(0xffffdad6),

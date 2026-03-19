@@ -53,7 +53,7 @@ class _ShDetailedListTileState extends State<EmpregosListItem> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
-                spacing: 4,
+                spacing: 16,
                 children: [
                   ShFormIcon(icon: Icons.work, themeColor: colors.secondary),
                   ShFormLabel.title(widget.descricao),
