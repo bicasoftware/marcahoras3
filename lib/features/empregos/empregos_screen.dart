@@ -315,24 +315,14 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                         buildBadgeColor: (d) => d.color,
                         buildInfoList: (d) {
                           return [
-                            Container(
-                              padding: .all(4),
-                              child: Row(
-                                children: [
-                                  ShFormLabel.subtitle("${d.percentage}%"),
-                                  const Spacer(),
-                                  ShFormLabel.title(
-                                    CurrencyHelper.formatAmount(
-                                      CalcHelper.calcPorcentagemHora(
-                                        salario: state
-                                            .getCurrentSalario()
-                                            .valor,
-                                        cargaHoraria: state.cargaHoraria,
-                                        porcentagem: d.percentage,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                            ShListItemInfo(
+                              label: "${d.percentage}%",
+                              value: CurrencyHelper.formatAmount(
+                                CalcHelper.calcPorcentagemHora(
+                                  salario: state.getCurrentSalario().valor,
+                                  cargaHoraria: state.cargaHoraria,
+                                  porcentagem: d.percentage,
+                                ),
                               ),
                             ),
                           ];
@@ -349,3 +339,36 @@ class _EmpregosScreenState extends State<EmpregosScreen>
     );
   }
 }
+
+// class ShListItemInfo extends StatelessWidget {
+//   const ShListItemInfo({
+//     super.key,
+//     required this.state,
+//   });
+
+//   final EmpregosState state;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       padding: .all(4),
+//       child: Row(
+//         children: [
+//           ShFormLabel.subtitle("${d.percentage}%"),
+//           const Spacer(),
+//           ShFormLabel.title(
+//             CurrencyHelper.formatAmount(
+//               CalcHelper.calcPorcentagemHora(
+//                 salario: state
+//                     .getCurrentSalario()
+//                     .valor,
+//                 cargaHoraria: state.cargaHoraria,
+//                 porcentagem: d.percentage,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

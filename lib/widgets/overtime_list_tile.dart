@@ -75,30 +75,21 @@ class OvertimeListTile extends StatelessWidget {
       badgeLabel: getBadgeLabel(),
       badgeColor: _getBadgeColor(),
       contentList: [
-        IconLabelValue(
-          icon: Icons.timeline,
-          iconColor: context.colors.secondary,
+        ShListItemInfo(
           label: Localiza.find('horasTrabalhadas'),
           value: workedHours,
-          labelColor: context.colors.onSurface,
         ),
         if (!bancoHoras)
-          IconLabelValue(
-            icon: Icons.payments_outlined,
-            iconColor: Color(horaType.colorHex),
+          ShListItemInfo(
             label: Localiza.find('valorReceber'),
             value: amount,
-            labelColor: context.colors.onSurface,
           ),
-        IconLabelValue(
-          icon: Icons.timelapse,
-          iconColor: ExtraColors.porcFeriadosColor,
+        ShListItemInfo(
           label: Localiza.find('turno'),
           value: Localiza.find(
             'dasAte',
           ).replaceAll('{INI}', from).replaceAll('{END}', to),
-          labelColor: context.colors.onSurface,
-        ),
+        ),        
       ],
       onTap: onTap,
     );

@@ -33,6 +33,8 @@ class AddHoraBts extends StatefulWidget {
   State<AddHoraBts> createState() => _AddHoraBtsState();
 }
 
+/// TODO - refazer esse widget todo para bater com o mesmo design do popup number picker
+
 class _AddHoraBtsState extends State<AddHoraBts> {
   late DateTime _date;
   bool _compensada = false;
@@ -117,7 +119,7 @@ class _AddHoraBtsState extends State<AddHoraBts> {
               value: formatDateByLocale(_validDate(), locale),
               label: Localiza.find('data'),
               onTap: () async {
-                final date = await DialogHelper.showDateTimeDialog(
+                final date = await DialogHelper.showDateDialog(
                   context: context,
                   initDate: _validDate(),
                   endDate: getLastDayOfMonth(_date),
