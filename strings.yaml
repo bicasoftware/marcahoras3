@@ -76,6 +76,9 @@ saidaHora:
 relatorios:
   pt_BR: Relatórios
   en_US: Reports
+relatorio:
+  pt_BR: Relatório
+  en_US: Report
 horaNormal:
   pt_BR: Normal
   en_US: Regular

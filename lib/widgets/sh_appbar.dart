@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../utils.dart';
+import '../widgets.dart';
 
 class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String label;
@@ -28,7 +29,7 @@ class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: context.colors.primary,
       foregroundColor: context.colors.onPrimary,
       centerTitle: centerTitle,
-      title: Text(label),
+      title: ShText(label),
       elevation: elevation,
       shape: roundedCorner
           ? const RoundedRectangleBorder(

@@ -21,17 +21,17 @@ class ShFormLabel extends StatelessWidget {
     switch (_style) {
       case ShLabelStyle.title:
         style = context.textTheme.bodyLarge?.copyWith(
-          color: context.colors.onPrimaryFixed,
+          color: context.colors.onSurface,
           fontWeight: .bold,
           fontSize: 15,
         );
       case ShLabelStyle.subtitle:
         style = context.textTheme.labelLarge?.copyWith(
-          color: context.colors.onSurfaceVariant,
+          color: context.colors.primary,
         );
       case ShLabelStyle.content:
         style = context.textTheme.bodyLarge?.copyWith(
-          color: context.colors.onPrimaryContainer,
+          color: context.colors.onSurfaceVariant,
           fontWeight: .bold,
           fontSize: 14,
         );

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../widgets.dart';
 
-
 class ShLabeledListSection extends StatelessWidget {
   /// Use the string ID. Don't pass localized already strings
   final String label;
-  
+
+  final TextStyle? style;
+
   /// Localization is automatic, use only the String Id
-  const ShLabeledListSection(this.label);
+  const ShLabeledListSection(this.label, {this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class ShLabeledListSection extends StatelessWidget {
       child: ShText(
         label,
         textAlign: TextAlign.start,
-        style: theme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
+        style: style ?? theme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
       ),
     );
   }

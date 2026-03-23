@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../utils.dart';
-import 'calendar_header.dart';
 import 'widgets/calendar_date_navigator.dart';
 
 class CalendarioScreenHeader extends StatefulWidget {
@@ -43,7 +42,6 @@ class _CalendarioScreenHeaderState extends State<CalendarioScreenHeader> {
             onMonthAdd: widget.onMonthAdd,
             onMonthDec: widget.onMonthDec,
           ),
-          const CalendarHeader(),
         ],
       ),
     );

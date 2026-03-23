@@ -23,6 +23,7 @@ class _CalendarScreenState extends State<CalendarScreen>
     with CalendarScreenPresenterMixin {
   double dragStartPoint = 0.0;
   final int swipeDistance = 60;
+  bool _isNavigating = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +58,10 @@ class _CalendarScreenState extends State<CalendarScreen>
                       ),
                       label: ShText(
                         'Empregos',
-                        style: Theme.of(context).textTheme.bodyLarge
-                            ?.copyWith(
-                              color: colors.onPrimary,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: colors.onPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       onPressed: () {
                         Navigator.of(
@@ -103,74 +103,108 @@ class _CalendarScreenState extends State<CalendarScreen>
                     onYearChanged: bloc.setYear,
                     onMonthChanged: bloc.setMonth,
                   ),
-                  Container(
-                    padding: .symmetric(vertical: 8),
-                    decoration: BoxDecoration(
-                      color: colors.primary,
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(16),
-                        bottomRight: Radius.circular(16),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black38,
-                          offset: Offset(.2, 1.5),
-                          blurRadius: .5,
-                        ),
-                      ],
-                    ),
-                    child: CalendarPage(
-                      diferenciais: bloc.state.currentEmprego.diferenciaisList,
-                      page: bloc.state.getCalendarPage(),
-                      onCalendarItemTap: (h, d, f) async {
-                        showHorasBts(
-                          context: context,
-                          bloc: bloc,
-                          selectedHora: h,
-                          data: d,
-                          isEdit: h != null,
-                          feriado: f,
-                        );
-                      },
-                    ),
-                  ),
                   Expanded(
-                    child: ShFeatureCard(
-                      cardLabelId: "horasFeitas",
-                      seeMoreLabelId: "verTodas",
-                      hasData: bloc.state.hasReportData(),
-                      isOutlined: bloc.state.hasReportData(),
-                      noDataLabelId: 'horasMesVazia',
-                      noDataExtraLabelId: 'horasMesVaziaExtra',
-                      noDataIcon: FontAwesomeIcons.calendarPlus,
-                      onSeeMoreTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.relatorio,
-                        );
+                    child: NotificationListener<ScrollNotification>(
+                      onNotification: (notification) {
+                        if (notification is ScrollUpdateNotification) {
+                          if (bloc.state.reportPage.hours.length > 2) {
+                            final metrics = notification.metrics;
+                            final isScrollingDown = (notification.scrollDelta ?? 0) > 0;
+                            final isPastThreshold = metrics.pixels >= 250 ||
+                                metrics.pixels >
+                                    metrics.maxScrollExtent + swipeDistance;
+
+                            if (!_isNavigating && isScrollingDown && isPastThreshold) {
+                              _isNavigating = true;
+                              Navigator.pushNamed(
+                                context,
+                                Routes.relatorio,
+                              ).then((_) {
+                                _isNavigating = false;
+                              });
+                            }
+                          }
+                        }
+                        return false;
                       },
-                      noDataTap: () => showHorasBts(
-                        context: context,
-                        bloc: bloc,
-                      ),
-                      child: Hero(
-                        tag: Routes.relatorio,
-                        child: HorasList(
-                          diferenciais:
-                              bloc.state.currentEmprego.diferenciaisList,
-                          isList: true,
-                          bancoHoras: bloc.state.bancoHoras,
-                          horas: bloc.state.reportShortData(),
-                          onDelete: (h) => deleteHora(context, h, bloc),
-                          onEdit: (h) {
-                            showHorasBts(
-                              context: context,
-                              bloc: bloc,
-                              selectedHora: h,
-                              data: h.data,
-                              isEdit: true,
+                      child: NestedScrollView(
+                        headerSliverBuilder: (context, innerBoxIsScrolled) {
+                          return [
+                            SliverToBoxAdapter(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: colors.primary,
+                                  borderRadius: const BorderRadius.only(
+                                    bottomLeft: Radius.circular(16),
+                                    bottomRight: Radius.circular(16),
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black38,
+                                      offset: Offset(.2, 1.5),
+                                      blurRadius: .5,
+                                    ),
+                                  ],
+                                ),
+                                child: CalendarPage(
+                                  diferenciais: bloc
+                                      .state
+                                      .currentEmprego
+                                      .diferenciaisList,
+                                  page: bloc.state.getCalendarPage(),
+                                  onCalendarItemTap: (h, d, f) async {
+                                    showHorasBts(
+                                      context: context,
+                                      bloc: bloc,
+                                      selectedHora: h,
+                                      data: d,
+                                      isEdit: h != null,
+                                      feriado: f,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ];
+                        },
+                        body: ShFeatureCard(
+                          cardLabelId: "horasFeitas",
+                          seeMoreLabelId: "verTodas",
+                          hasData: bloc.state.hasReportData(),
+                          isOutlined: bloc.state.hasReportData(),
+                          noDataLabelId: 'horasMesVazia',
+                          noDataExtraLabelId: 'horasMesVaziaExtra',
+                          noDataIcon: FontAwesomeIcons.calendarPlus,
+                          onSeeMoreTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.relatorio,
                             );
                           },
+                          noDataTap: () => showHorasBts(
+                            context: context,
+                            bloc: bloc,
+                          ),
+                          child: Hero(
+                            tag: Routes.relatorio,
+                            child: HorasList(
+                              diferenciais:
+                                  bloc.state.currentEmprego.diferenciaisList,
+                              isList: true,
+                              bancoHoras: bloc.state.bancoHoras,
+                              horas: bloc.state.reportShortData(),
+                              onDelete: (h) => deleteHora(context, h, bloc),
+                              onEdit: (h) {
+                                showHorasBts(
+                                  context: context,
+                                  bloc: bloc,
+                                  selectedHora: h,
+                                  data: h.data,
+                                  isEdit: true,
+                                );
+                              },
+                            ),
+                          ),
                         ),
                       ),
                     ),
