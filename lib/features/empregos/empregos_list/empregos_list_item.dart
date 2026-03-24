@@ -34,63 +34,60 @@ class EmpregosListItem extends StatefulWidget {
 class _ShDetailedListTileState extends State<EmpregosListItem> {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = theme.colorScheme;
+    final colors = context.colors;
     final weekdays = Localiza.findList('fullWeekDays');
 
     return ShPopupListTile(
+      outlineColor: colors.primaryFixed,
       onTap: widget.onEdit,
       popupOptions: ShPopupMenuItemData.defaultOptions(
         onEdit: widget.onEdit,
         onDelete: widget.onDelete,
       ),
-      child: OutlinedCard(
-        cardColor: colors.surfaceContainer,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                spacing: 16,
-                children: [
-                  ShFormIcon(icon: Icons.work, themeColor: colors.secondary),
-                  ShFormLabel.title(widget.descricao),
-                ],
-              ),
-              const Divider(),
-              _EmpregoItem(
-                labelId: "salario",
-                value: CurrencyHelper.formatAmount(widget.salario),
-              ),
-              _EmpregoItem(
-                labelId: "cargaHoraria",
-                value: widget.cargaHoraria,
-              ),
-              _EmpregoItem(
-                labelId: "porcNormal",
-                value: "${widget.porcNormal} %",
-              ),
-              _EmpregoItem(
-                labelId: "porcFeriado",
-                value: "${widget.porcFeriado} %",
-              ),
-              if (widget.diferenciais.isNotEmpty) ...<Widget>[
-                const Divider(),
-                ShFormLabel.title("diferenciais"),
-                ...widget.diferenciais
-                    .map(
-                      (d) => _DiferenciaisItem(
-                        color: d.color,
-                        percent: d.percentage,
-                        weekday: weekdays[d.weekday],
-                      ),
-                    )
-                    .toList(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              spacing: 16,
+              children: [
+                ShFormIcon(icon: Icons.work, themeColor: colors.secondary),
+                ShFormLabel.title(widget.descricao),
               ],
+            ),
+            const Divider(),
+            _EmpregoItem(
+              labelId: "salario",
+              value: CurrencyHelper.formatAmount(widget.salario),
+            ),
+            _EmpregoItem(
+              labelId: "cargaHoraria",
+              value: widget.cargaHoraria,
+            ),
+            _EmpregoItem(
+              labelId: "porcNormal",
+              value: "${widget.porcNormal} %",
+            ),
+            _EmpregoItem(
+              labelId: "porcFeriado",
+              value: "${widget.porcFeriado} %",
+            ),
+            if (widget.diferenciais.isNotEmpty) ...<Widget>[
+              const Divider(),
+              ShFormLabel.title("diferenciais"),
+              ...widget.diferenciais
+                  .map(
+                    (d) => _DiferenciaisItem(
+                      color: d.color,
+                      percent: d.percentage,
+                      weekday: weekdays[d.weekday],
+                    ),
+                  )
+                  .toList(),
             ],
-          ),
+          ],
         ),
       ),
     );

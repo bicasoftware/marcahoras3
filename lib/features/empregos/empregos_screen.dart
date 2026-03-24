@@ -133,6 +133,7 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                   Navigator.of(context).pop();
                 },
                 child: Column(
+                  spacing: 4,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ShTextTile(
@@ -311,22 +312,14 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                         onEdit: (d) => onUpdateDiferencial(d, bloc),
                         onDelete: (d) => onDeleteDiferencial(d, bloc),
                         buildTitle: (d) => weekDays[d.weekday],
-                        buildBadgeLabel: (d) => Localiza.find('diferencial'),
-                        buildBadgeColor: (d) => d.color,
-                        buildInfoList: (d) {
-                          return [
-                            ShListItemInfo(
-                              label: "${d.percentage}%",
-                              value: CurrencyHelper.formatAmount(
-                                CalcHelper.calcPorcentagemHora(
-                                  salario: state.getCurrentSalario().valor,
-                                  cargaHoraria: state.cargaHoraria,
-                                  porcentagem: d.percentage,
-                                ),
-                              ),
-                            ),
-                          ];
-                        },
+                        buildSubTitle: (d) => CurrencyHelper.formatAmount(
+                          CalcHelper.calcPorcentagemHora(
+                            salario: state.getCurrentSalario().valor,
+                            cargaHoraria: state.cargaHoraria,
+                            porcentagem: d.percentage,
+                          ),
+                        ),
+                        buildThemeColor: (d) => d.color,
                       ),
                     ),
                   ],

@@ -17,9 +17,10 @@ class ShSwitchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedCard(
-      cardColor: context.colors.surfaceContainer,
+    final colors = context.colors;
+    return ShCard(
       padding: .symmetric(vertical: 8),
+      outlineColor: colors.primaryFixed,
       child: SwitchListTile(
         value: value,
         title: ShFormLabelValue(label),

@@ -58,44 +58,43 @@ class ShFormItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return ShCustomFormField(
-      validator: validator,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          spacing: 8,
-          children: [
-            OutlinedCard(
-              cardColor: context.colors.surfaceContainer,
-              padding: padding,
-              child: Column(
-                crossAxisAlignment: .stretch,
-                children: [
-                  Row(
-                    children: [
-                      if (labelId.isNotEmpty) ShFormLabel.title(labelId),
-                      if (trailing != null) ...[
-                        const Spacer(),
-                        trailing!,
-                      ],
+      validator: validator,      
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 8,
+        children: [
+          ShCard(
+            onTap: onTap,
+            padding: padding,
+            outlineColor: colors.primaryFixed,
+            child: Column(
+              crossAxisAlignment: .stretch,
+              children: [
+                Row(
+                  children: [
+                    if (labelId.isNotEmpty) ShFormLabel.listLabel(labelId),
+                    if (trailing != null) ...[
+                      const Spacer(),
+                      trailing!,
                     ],
-                  ),
-                  ListTile(
-                    contentPadding: .zero,
-                    title: child,
-                    leading: icon != null
-                        ? ShFormIcon(
-                            icon: icon!,
-                            themeColor: themeColor!,
-                          )
-                        : null,
-                  ),
-                ],
-              ),
+                  ],
+                ),
+                ListTile(
+                  contentPadding: .zero,
+                  title: child,
+                  leading: icon != null
+                      ? ShFormIcon(
+                          icon: icon!,
+                          themeColor: themeColor!,
+                        )
+                      : null,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),          
+        ],
       ),
     );
   }

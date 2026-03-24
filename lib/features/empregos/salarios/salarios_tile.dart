@@ -57,18 +57,8 @@ class SalariosTile extends StatelessWidget {
       onEdit: onEdit,
       onDelete: onDelete,
       buildTitle: (s) => formatVigenciaString(s.vigencia, locale),
-      buildBadgeLabel: (s) {
-        return Localiza.find(_isAtual(s) ? 'atual' : 'Aumento');
-      },
-      buildBadgeColor: (s) => _isAtual(s) ? colors.secondary : colors.primary,
-      buildInfoList: (s) {
-        return [
-          Container(
-            padding: .all(4),
-            child: ShFormLabel.subtitle(CurrencyHelper.formatAmount(s.valor)),
-          ),
-        ];
-      },
+      buildSubTitle: (s) => CurrencyHelper.formatAmount(s.valor),
+      buildThemeColor: (s) => _isAtual(s) ? colors.secondary : colors.primary,
     );
   }
 }

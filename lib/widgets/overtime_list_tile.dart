@@ -68,29 +68,18 @@ class OvertimeListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShDetailedListTile(
-      title: formatDateByLocale(date, context.locale),
-      padding: .all(16),
-      popupOptions: popupOptions,
-      badgeLabel: getBadgeLabel(),
+    return ShOvertimeCard(
+      date: formatDateByLocale(date, context.locale),
+      timeRange: Localiza.find(
+        'dasAte',
+      ).replaceAll('{INI}', from).replaceAll('{END}', to),
+      badgeText: getBadgeLabel(),
+      horasFeitasLabel: 'horasTrabalhadas',
+      horasFeitas: workedHours,
+      valorReceberText: 'valorReceber',
+      valorReceber: amount,
       badgeColor: _getBadgeColor(),
-      contentList: [
-        ShListItemInfo(
-          label: Localiza.find('horasTrabalhadas'),
-          value: workedHours,
-        ),
-        if (!bancoHoras)
-          ShListItemInfo(
-            label: Localiza.find('valorReceber'),
-            value: amount,
-          ),
-        ShListItemInfo(
-          label: Localiza.find('turno'),
-          value: Localiza.find(
-            'dasAte',
-          ).replaceAll('{INI}', from).replaceAll('{END}', to),
-        ),        
-      ],
+      popupOptions: popupOptions,
       onTap: onTap,
     );
   }

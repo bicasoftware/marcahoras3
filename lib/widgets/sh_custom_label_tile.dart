@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marcahoras3/widgets.dart';
+
+import '../widgets.dart';
 
 class ShCustomLabelTile extends StatelessWidget {
   final String label;
@@ -21,14 +22,10 @@ class ShCustomLabelTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
     return IndicatorTile(
       onTap: onTap,
       child: ListTile(
-        title: Text(
-          label,
-          style: theme.labelLarge,
-        ),
+        title: ShFormLabel.listLabel(label),
         leading: icon,
         contentPadding: padding,
         trailing: trailing,

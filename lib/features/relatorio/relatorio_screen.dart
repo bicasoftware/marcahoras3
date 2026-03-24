@@ -19,7 +19,7 @@ class RelatorioScreen extends StatefulWidget {
 class _RelatorioScreenState extends State<RelatorioScreen>
     with RelatorioScreenPresenter, CalendarScreenPresenterMixin {
   bool _isNavigating = false;
-  final double swipeDistance = 60.0;
+  final double swipeDistance = 120.0;
 
   @override
   Widget build(BuildContext context) {

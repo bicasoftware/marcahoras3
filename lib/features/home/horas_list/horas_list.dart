@@ -30,10 +30,11 @@ class _HorasListState extends State<HorasList> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        spacing: 8,
         children: [
           for (final h in widget.horas)
             Padding(
-              padding: const .symmetric(horizontal: 8.0, vertical: 2,),
+              padding: const .symmetric(horizontal: 8.0),
               child: OvertimeListTile(
                 horaType: h.type,
                 horaStatus: h.hora.horaStatus,
@@ -43,7 +44,7 @@ class _HorasListState extends State<HorasList> {
                 amount: h.amount,
                 salary: h.salary,
                 from: h.from,
-                to: h.to,              
+                to: h.to,
                 diferencial: widget.diferenciais.firstWhereOrNull(
                   (d) => d.weekday == h.date.weekday,
                 ),

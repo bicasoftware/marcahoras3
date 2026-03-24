@@ -7,19 +7,16 @@ import '../../utils.dart';
 class ShListViewContent<T> extends StatelessWidget {
   final List<T> dataList;
   final ValueChanged<T> onEdit, onDelete;
-  final String Function(T item) buildTitle;
-  final String Function(T item)? buildBadgeLabel;
-  final Color Function(T item)? buildBadgeColor;
-  final List<Widget> Function(T item) buildInfoList;
+  final String Function(T item) buildTitle, buildSubTitle;
+  final Color Function(T item) buildThemeColor;
 
   const ShListViewContent({
     required this.dataList,
     required this.onEdit,
     required this.onDelete,
     required this.buildTitle,
-    required this.buildInfoList,
-    this.buildBadgeLabel,
-    this.buildBadgeColor,
+    required this.buildSubTitle,
+    required this.buildThemeColor,
   });
 
   @override
@@ -29,26 +26,24 @@ class ShListViewContent<T> extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       spacing: 4,
       children: dataList.mapIndexed((i, item) {
-        return Container(
-          padding: .symmetric(vertical: 8, horizontal: 16),
-          decoration: BoxDecoration(
-            color: colors.surfaceContainer,
-            borderRadius: .all(.circular(16)),
-            border: .all(
-              color: colors.primaryFixedDim,
-              width: 1,
-            ),
+        return ShPopupListTile(
+          hideShadow: true,
+          outlineColor: colors.primaryFixed,
+          popupOptions: ShPopupMenuItemData.defaultOptions(
+            onEdit: () => onEdit(item),
+            onDelete: () => onDelete(item),
           ),
-          child: ShDetailedListTile(
-            title: buildTitle(item),
-            popupOptions: ShPopupMenuItemData.defaultOptions(
-              onEdit: () => onEdit(item),
-              onDelete: () => onDelete(item),
+          child: ListTile(
+            contentPadding: .zero,
+            dense: true,
+            visualDensity: VisualDensity.compact,
+            leading: ShFormIcon(
+              icon: Icons.calendar_month,
+              themeColor: buildThemeColor(item),
             ),
-            hideShadow: true,
-            badgeLabel: buildBadgeLabel?.call(item),
-            badgeColor: buildBadgeColor?.call(item),
-            contentList: buildInfoList(item),
+            title: ShFormLabel.primaryTitle(buildTitle(item)),
+            subtitle: ShFormLabel.content(buildSubTitle(item)),
+            trailing: Icon(Icons.arrow_right_rounded),
           ),
         );
       }).toList(),

@@ -25,7 +25,7 @@ class ShAppTheme {
       onError: Color(0xffffffff),
       errorContainer: Color(0xffffdad6),
       onErrorContainer: Color(0xff73332d),
-      surface: Color(0xFFE9E1F0),
+      surface: Color(0xFFfdf8ff),
       onSurface: Color(0xff1c1b20),
       onSurfaceVariant: Color(0xFF66616D),
       outline: Color(0xff7a757f),
@@ -50,7 +50,7 @@ class ShAppTheme {
       surfaceBright: Color(0xfffdf7ff),
       surfaceContainerLowest: Color(0xffffffff),
       surfaceContainerLow: Color(0xfff8f2fa),
-      surfaceContainer: Color(0xfff2ecf4),
+      surfaceContainer: Color(0xFFf7f2fa),
       surfaceContainerHigh: Color(0xffece6ee),
       surfaceContainerHighest: Color(0xffe6e1e9),
     );

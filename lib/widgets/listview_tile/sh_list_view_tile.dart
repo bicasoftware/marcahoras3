@@ -8,11 +8,8 @@ class ShListViewTile<T> extends StatelessWidget {
   final VoidCallback onAdd;
   final ValueChanged<T> onEdit, onDelete;
   final String Function(T item) buildTitle;
-  final String Function(T item)? buildBadgeLabel;
-  final Color Function(T item)? buildBadgeColor;
-  final List<Widget> Function(T item) buildInfoList;
-  final String? heroTag;
-  final bool showBadge;
+  final String Function(T item) buildSubTitle;
+  final Color Function(T item) buildThemeColor;
   final String? outerLabelId;
 
   const ShListViewTile({
@@ -21,12 +18,9 @@ class ShListViewTile<T> extends StatelessWidget {
     required this.onEdit,
     required this.onDelete,
     required this.buildTitle,
-    required this.buildInfoList,
-    this.showBadge = true,
+    required this.buildSubTitle,
+    required this.buildThemeColor,
     this.outerLabelId,
-    this.buildBadgeLabel,
-    this.buildBadgeColor,
-    this.heroTag,
   });
 
   @override
@@ -34,26 +28,22 @@ class ShListViewTile<T> extends StatelessWidget {
     final colors = context.colors;
 
     return ShFormItem.noIcon(
-      labelId: outerLabelId ?? '',      
+      labelId: outerLabelId ?? '',
       padding: .only(top: 16, left: 16, right: 16),
       trailing: OutlinedCard(
+        cardColor: colors.secondaryFixed,
         child: IconButton(
           icon: Icon(Icons.add, color: colors.onSurface),
           onPressed: onAdd,
         ),
       ),
-      child: ListTile(
-        contentPadding: .zero,
-        isThreeLine: true,
-        subtitle: ShListViewContent(
-          dataList: dataList,
-          onEdit: onEdit,
-          onDelete: onDelete,
-          buildTitle: buildTitle,
-          buildBadgeLabel: buildBadgeLabel,
-          buildBadgeColor: buildBadgeColor,
-          buildInfoList: buildInfoList,
-        ),
+      child: ShListViewContent(
+        dataList: dataList,
+        onEdit: onEdit,
+        onDelete: onDelete,
+        buildTitle: buildTitle,
+        buildThemeColor: buildThemeColor,
+        buildSubTitle: buildSubTitle,
       ),
     );
   }

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 
 import '../../../widgets.dart';
-import '../resources.dart';
 
 class ShPopupListTile extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
   final bool hideShadow;
+  final Color? outlineColor;
   final List<ShPopupMenuItemData>? popupOptions;
 
   const ShPopupListTile({
     required this.child,
-    required this.onTap,
     required this.popupOptions,
+    this.onTap,
     this.hideShadow = false,
+    this.outlineColor,
   });
 
   @override
@@ -55,22 +56,15 @@ class _ShDetailedListTileState extends State<ShPopupListTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.all(Radius.circular(8)),
-      shadowColor: Colors.black,
-      clipBehavior: .none,
-      elevation: 2,
-      child: Ink(
-        child: InkWell(
-          onTapDown: (details) {
-            _tapPosition = details.globalPosition;
-          },
-          onLongPress: _showCustomMenu,
-          onTap: widget.onTap,
-          splashColor: ExtraColors.splash,
-          child: widget.child,
-        ),
-      ),
-    );
+    return ShCard(
+      child: widget.child,
+      outlineColor: widget.outlineColor,
+      hideShadow: widget.hideShadow,
+      onTapDown: (details) {
+        _tapPosition = details.globalPosition;
+      },
+      onLongPress: _showCustomMenu,
+      onTap: widget.onTap,
+    );    
   }
 }

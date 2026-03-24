@@ -70,8 +70,11 @@ class _EmpregosListScreenState extends State<EmpregosListScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          children: empregos.map((e) {
+        child: ListView.separated(
+          itemCount: empregos.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 8),
+          itemBuilder: (_, i) {
+            final e = empregos[i];
             return EmpregosListItem(
               descricao: e.descricao,
               cargaHoraria: "${e.cargaHoraria}",
@@ -85,7 +88,7 @@ class _EmpregosListScreenState extends State<EmpregosListScreen> {
               porcNormal: e.porcNormal,
               salario: e.getCurrentSalario(),
             );
-          }).toList(),
+          },
         ),
       ),
     );

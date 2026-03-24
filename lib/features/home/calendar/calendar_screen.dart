@@ -107,14 +107,18 @@ class _CalendarScreenState extends State<CalendarScreen>
                     child: NotificationListener<ScrollNotification>(
                       onNotification: (notification) {
                         if (notification is ScrollUpdateNotification) {
-                          if (bloc.state.reportPage.hours.length > 2) {
+                          if (bloc.state.reportPage.hours.length > 0) {
                             final metrics = notification.metrics;
-                            final isScrollingDown = (notification.scrollDelta ?? 0) > 0;
-                            final isPastThreshold = metrics.pixels >= 250 ||
+                            final isScrollingDown =
+                                (notification.scrollDelta ?? 0) > 0;
+                            final isPastThreshold =
+                                metrics.pixels >= 250 ||
                                 metrics.pixels >
                                     metrics.maxScrollExtent + swipeDistance;
 
-                            if (!_isNavigating && isScrollingDown && isPastThreshold) {
+                            if (!_isNavigating &&
+                                isScrollingDown &&
+                                isPastThreshold) {
                               _isNavigating = true;
                               Navigator.pushNamed(
                                 context,

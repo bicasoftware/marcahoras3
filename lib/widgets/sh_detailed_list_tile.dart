@@ -5,8 +5,7 @@ import '../utils.dart';
 
 class ShDetailedListTile extends StatefulWidget {
   final String title;
-  final String? badgeLabel;
-  final Color? badgeColor;
+  final Color? themeColor;
   final List<Widget> contentList;
   final VoidCallback? onTap;
   final bool hideShadow;
@@ -17,8 +16,7 @@ class ShDetailedListTile extends StatefulWidget {
     required this.title,
     required this.contentList,
     this.hideShadow = false,
-    this.badgeLabel,
-    this.badgeColor,
+    this.themeColor,
     this.onTap,
     this.popupOptions,
     this.padding,
@@ -30,12 +28,12 @@ class ShDetailedListTile extends StatefulWidget {
 }
 
 class _ShDetailedListTileState extends State<ShDetailedListTile> {
-  bool get _showBadge => widget.badgeColor != null || widget.badgeLabel != null;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return ShPopupListTile(
-      hideShadow: false,
+      outlineColor: colors.primaryFixed,
       child: Padding(
         padding: widget.padding ?? .symmetric(vertical: 8),
         child: Column(
@@ -44,24 +42,17 @@ class _ShDetailedListTileState extends State<ShDetailedListTile> {
             Row(
               children: [
                 Expanded(
-                  child: 
-                  Row(
+                  child: Row(
                     spacing: 8,
                     children: [
-                      ShFormIcon(icon: Icons.date_range, themeColor: context.colors.primary),
+                      ShFormIcon(
+                        icon: Icons.date_range,
+                        themeColor: context.colors.primary,
+                      ),
                       ShFormLabel.title(widget.title),
                     ],
-                  )                  
-                ),
-                if (_showBadge)
-                  Badge(
-                    backgroundColor: widget.badgeColor,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    label: Text(widget.badgeLabel ?? ''),
                   ),
+                ),                
               ],
             ),
             const Divider(),
