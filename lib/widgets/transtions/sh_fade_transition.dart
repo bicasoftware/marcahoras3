@@ -6,8 +6,8 @@ class ShPageFadeTransition extends PageRouteBuilder {
   ShPageFadeTransition({required this.page, required RouteSettings settings})
     : super(
         pageBuilder: (context, animation, anotherAnimation) => page,
-        transitionDuration: Duration(milliseconds: 300),
-        reverseTransitionDuration: Duration(milliseconds: 300),
+        transitionDuration: Duration(milliseconds: 500),
+        reverseTransitionDuration: Duration(milliseconds: 500),
         settings: settings,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeThroughTransition(
@@ -24,8 +24,8 @@ class ShPageSlideTransition extends PageRouteBuilder {
   ShPageSlideTransition({required this.page, required RouteSettings settings})
     : super(
         pageBuilder: (context, animation, anotherAnimation) => page,
-        transitionDuration: Duration(milliseconds: 300),
-        reverseTransitionDuration: Duration(milliseconds: 300),
+        transitionDuration: Duration(milliseconds: 500),
+        reverseTransitionDuration: Duration(milliseconds: 500),
         settings: settings,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1.0, 0.0);

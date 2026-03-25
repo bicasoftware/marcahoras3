@@ -33,8 +33,9 @@ class HorasApp extends StatelessWidget {
         onGenerateRoute: (s) {
           switch (s.name) {
             case Routes.calendar:
-              return MaterialPageRoute(
-                builder: (_) => CalendarScreen(),
+              return ShPageFadeTransition(
+                page: CalendarScreen(),
+                settings: s,
               );
             case Routes.empregosDetail:
               return ShPageFadeTransition(

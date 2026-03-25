@@ -39,20 +39,13 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
     final hintedMonth = Localiza.findList('months')[today.month - 1];
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: .only(left: 8, right: 8, bottom: 8),
       color: colors.primary,
       child: Row(
         mainAxisSize: .max,
         mainAxisAlignment: .spaceEvenly,
         spacing: 8,
         children: [
-          Expanded(
-            flex: 2,
-            child: ShPanelButton.icon(
-              icon: Icons.keyboard_arrow_left_outlined,
-              onTap: widget.onMonthDec,
-            ),
-          ),
           Expanded(
             flex: 4,
             child: ShPanelButton.label(
@@ -85,6 +78,13 @@ class _CalendarDateNavigatorState extends State<CalendarDateNavigator> {
                   },
                 );
               },
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: ShPanelButton.icon(
+              icon: Icons.keyboard_arrow_left_outlined,
+              onTap: widget.onMonthDec,
             ),
           ),
           Expanded(
