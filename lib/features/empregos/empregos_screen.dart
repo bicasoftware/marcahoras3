@@ -81,7 +81,6 @@ class _EmpregosScreenState extends State<EmpregosScreen>
     final state = bloc.state;
     final textTheme = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
-    final locale = Localizations.localeOf(context);
     final empregoArgs =
         ModalRoute.of(context)?.settings.arguments as EmpregosArguments;
 
@@ -151,22 +150,9 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                         );
                       },
                     ),
-                    LabelFormField<String>(
-                      label: Localiza.find("admissao"),
-                      themeColor: colors.primary,
-                      initialValue: state.admissao != null
-                          ? formatDateByLocale(state.admissao, locale)
-                          : Localiza.find('preencherAdmissao'),
-                      valueFormatter: (s) => s,
-                      icon: Icons.calendar_month,
-                      onTap: () => selectDate(context, bloc),
-                      validator: (s) {
-                        return DateValidator.validate(
-                          state.admissao,
-                          "admissaoVazia",
-                          "dataInvalida",
-                        );
-                      },
+                    ShDatePickerContainer(
+                      initDate: state.admissao ?? DateTime.now(),
+                      onDateChanged: bloc.setAdmissao,
                     ),
                     state.isInsert
                         ? SalariosInputTile(
@@ -180,60 +166,11 @@ class _EmpregosScreenState extends State<EmpregosScreen>
                             onEdit: (s) => updateSalario(s, bloc),
                             onDelete: (s) => deleteSalario(s, bloc),
                           ),
-
-                    Row(
-                      spacing: 4,
-                      children: [
-                        Expanded(
-                          child: LabelFormField<TimeOfDay>(
-                            label: Localiza.find("entradaHora"),
-                            themeColor: colors.primary,
-                            initialValue: state.entrada,
-                            valueFormatter: (t) =>
-                                TimeOfDayHelper.formatTime(t),
-                            icon: Icons.timelapse_outlined,
-                            onTap: () async {
-                              showHorasBts(
-                                context: context,
-                                bloc: bloc,
-                                isEntrada: true,
-                                time: bloc.state.entrada,
-                              );
-                            },
-                            validator: (t) {
-                              return TimeRangeValidator.validate(
-                                initTime: bloc.state.entrada,
-                                endTime: bloc.state.saida,
-                              );
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          child: LabelFormField<TimeOfDay>(
-                            label: Localiza.find("saidaHora"),
-                            themeColor: Colors.red,
-                            initialValue: bloc.state.saida,
-                            valueFormatter: (t) {
-                              return TimeOfDayHelper.formatTime(t);
-                            },
-                            icon: Icons.timelapse_outlined,
-                            onTap: () {
-                              showHorasBts(
-                                context: context,
-                                bloc: bloc,
-                                isEntrada: false,
-                                time: state.saida,
-                              );
-                            },
-                            validator: (t) {
-                              return TimeRangeValidator.validate(
-                                initTime: state.entrada,
-                                endTime: state.saida,
-                              );
-                            },
-                          ),
-                        ),
-                      ],
+                    ShTimeRangeContainer(
+                      startTime: bloc.state.entrada,
+                      endTime: bloc.state.saida,
+                      onStartTimeSet: bloc.setEntrada,
+                      onEndTimeSet: bloc.setSaida,
                     ),
                     ShDropdownTile<int>(
                       labelId: 'diaFechamento',
@@ -332,36 +269,3 @@ class _EmpregosScreenState extends State<EmpregosScreen>
     );
   }
 }
-
-// class ShListItemInfo extends StatelessWidget {
-//   const ShListItemInfo({
-//     super.key,
-//     required this.state,
-//   });
-
-//   final EmpregosState state;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: .all(4),
-//       child: Row(
-//         children: [
-//           ShFormLabel.subtitle("${d.percentage}%"),
-//           const Spacer(),
-//           ShFormLabel.title(
-//             CurrencyHelper.formatAmount(
-//               CalcHelper.calcPorcentagemHora(
-//                 salario: state
-//                     .getCurrentSalario()
-//                     .valor,
-//                 cargaHoraria: state.cargaHoraria,
-//                 porcentagem: d.percentage,
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

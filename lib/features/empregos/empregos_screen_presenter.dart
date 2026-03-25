@@ -8,33 +8,6 @@ import 'empregos_screen.dart';
 import 'salarios/salarios_detail_bts.dart';
 
 mixin EmpregosScreenPresenterMixin on State<EmpregosScreen> {
-  Future<void> selectDate(BuildContext context, EmpregosBloc bloc) async {
-    final date = await DialogHelper.showDateDialog(
-      context: context,
-      initDate: bloc.state.admissao ?? DateTime.now(),
-    );
-
-    if (date != null && date != bloc.state.admissao) {
-      bloc.setAdmissao(date);
-    }
-  }
-
-  void showHorasBts({
-    required BuildContext context,
-    required EmpregosBloc bloc,
-    required TimeOfDay time,
-    required bool isEntrada,
-  }) async {
-    final newTime = await DialogHelper.showTimePickerDialog(
-      context: context,
-      time: time,
-    );
-
-    if (newTime != null && newTime != time) {
-      isEntrada ? bloc.setEntrada(newTime) : bloc.setSaida(newTime);
-    }
-  }
-
   void handleAumento(EmpregosBloc bloc) async {
     await BottomSheetHelper.showModalBts(
       context: context,

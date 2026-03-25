@@ -104,26 +104,34 @@ class _HoraTypeToggleButtonState extends State<HoraTypeToggleButton> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Row(
       children: List.generate(_labels.length, (index) {
         return Expanded(
-          child: GestureDetector(
-            onTap: () => _onTap(index),
-            child: Container(
+          child: Material(
+            elevation: .1,
+            borderRadius: _getBorderRadius(index),            
+            child: Ink(
               height: 40,
               decoration: BoxDecoration(
                 color: _getColor(index) ?? context.colors.surface,
-                border: Border.all(color: Colors.black26, width: 1),
+                border: Border.all(color: colors.primaryFixed, width: 1),
                 borderRadius: _getBorderRadius(index),
               ),
-              alignment: Alignment.center,
-              child: Text(
-                _labels[index],
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: index == _pos
-                      ? context.colors.onPrimary
-                      : context.colors.onSurface,
+              child: InkWell(
+                onTap: () => _onTap(index),
+                borderRadius: _getBorderRadius(index),
+
+                child: Center(
+                  child: Text(
+                    _labels[index],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: index == _pos
+                          ? context.colors.onPrimary
+                          : context.colors.onSurface,
+                    ),
+                  ),
                 ),
               ),
             ),

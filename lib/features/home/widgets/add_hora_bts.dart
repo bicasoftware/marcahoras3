@@ -33,8 +33,6 @@ class AddHoraBts extends StatefulWidget {
   State<AddHoraBts> createState() => _AddHoraBtsState();
 }
 
-/// TODO - refazer esse widget todo para bater com o mesmo design do popup number picker
-
 class _AddHoraBtsState extends State<AddHoraBts> {
   late DateTime _date;
   bool _compensada = false;
@@ -99,37 +97,20 @@ class _AddHoraBtsState extends State<AddHoraBts> {
     return HoraStatus.active;
   }
 
-  DateTime _validDate() {
-    return _date.isBefore(widget.admissao) ? widget.admissao : _date;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context);
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        spacing: 8,
+        spacing: 4,
         children: [
           if (!widget.hideDate)
-            ShLabeledTile(
-              value: formatDateByLocale(_validDate(), locale),
-              label: Localiza.find('data'),
-              onTap: () async {
-                final date = await DialogHelper.showDateDialog(
-                  context: context,
-                  initDate: _validDate(),
-                  endDate: getLastDayOfMonth(_date),
-                  admissao: widget.admissao,
-                  allowFutureDates: true,
-                );
-
-                setState(() => _date = date ?? _date);
-              },
-              icon: Icon(Icons.calendar_month),
+            ShDatePickerContainer(
+              initDate: _date,
+              onDateChanged: (d) => setState(() => _date = d),
             ),
           if (widget.feriado != null)
             ShLabeledTile(
@@ -137,18 +118,14 @@ class _AddHoraBtsState extends State<AddHoraBts> {
               value: widget.feriado!.nome,
               icon: Icon(Icons.info, color: ExtraColors.porcFeriadosColor),
             ),
-          ShTimeRangePicker(
-            initTime: _entrada,
+          ShTimeRangeContainer(
+            startTime: _entrada,
             endTime: _saida,
-            onEntradaChanged: (time) {
-              setState(() => _entrada = time);
-            },
-            onSaidaChanged: (time) {
-              setState(() => _saida = time);
-            },
+            onStartTimeSet: (time) => setState(() => _entrada = time),
+            onEndTimeSet: (time) => setState(() => _saida = time),
           ),
           widget.bancoHoras
-              ? ShCheckBoxTile(
+              ? ShSwitchTile(
                   value: _compensada,
                   label: Localiza.find('compensada'),
                   onTap: (_) {
@@ -162,8 +139,8 @@ class _AddHoraBtsState extends State<AddHoraBts> {
                     setState(() => _horaType = type);
                   },
                 ),
+
           ShFormButton.saveLight(_onSave),
-          const SizedBox(height: 8),
         ],
       ),
     );

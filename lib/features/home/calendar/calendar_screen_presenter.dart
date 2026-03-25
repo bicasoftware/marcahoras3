@@ -32,17 +32,17 @@ mixin CalendarScreenPresenterMixin {
           ? Localiza.find("novahora")
           : formatDateByLocale(data, locale),
       trailing: isEdit
-          ? OutlinedCard(
-              cardColor: colors.surface,
-              outlineColor: colors.outline,
+          ? ShCard(
+              padding: .zero,
+              hideShadow: true,
+              cardColor: colors.secondaryFixedDim,
+              outlineColor: colors.primaryFixed,
               child: IconButton(
                 icon: Icon(
                   Icons.delete_outline,
+                  color: colors.onSecondary,
                 ),
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the current bts
-                  onDeleteHora(context, bloc, selectedHora!);
-                },
+                onPressed: () => onDeleteHora(context, bloc, selectedHora!),
               ),
             )
           : null,
@@ -57,7 +57,7 @@ mixin CalendarScreenPresenterMixin {
         bancoHoras: bloc.state.currentEmprego.bancoHoras,
         diferencial: bloc.state.currentEmprego.diferenciaisList
             .firstWhereOrNull(
-              (d) {                
+              (d) {
                 final ok = isSameWeekday(d.weekday, data ?? now);
                 return ok;
               },
@@ -87,6 +87,7 @@ mixin CalendarScreenPresenterMixin {
 
     if (result == true) {
       bloc.deleteHora(selectedHora);
+      Navigator.of(context).pop();
     }
   }
 
