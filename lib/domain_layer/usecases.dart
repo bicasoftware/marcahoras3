@@ -15,6 +15,3 @@ export 'usecases/horas/horas_create_usecase.dart';
 export 'usecases/horas/horas_delete_usecase.dart';
 export 'usecases/horas/horas_load_by_range_usecase.dart';
 export 'usecases/horas/horas_update_usecase.dart';
-export 'usecases/salarios/salario_create_usecase.dart';
-export 'usecases/salarios/salario_delete_usecase.dart';
-export 'usecases/salarios/salario_update_usecase.dart';
